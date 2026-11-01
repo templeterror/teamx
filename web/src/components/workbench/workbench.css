@@ -1,0 +1,140 @@
+/* Workbench chrome. Kept quiet so the component on the canvas is what you look at. */
+
+.wb {
+  --wb-ink: oklch(0.295 0.016 262);
+  --wb-ink-2: oklch(0.445 0.022 262);
+  --wb-ink-3: oklch(0.52 0.02 262);
+  --wb-line: oklch(0.91 0.006 262);
+  --wb-muted: oklch(0.955 0.005 262);
+  --wb-canvas: oklch(0.985 0.002 262);
+
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  min-height: 100dvh;
+  color: var(--wb-ink);
+  font-size: 14px;
+}
+
+.wb-label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--wb-ink-3);
+}
+
+.wb-index {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100dvh;
+  padding: 28px 16px;
+  border-right: 1px solid var(--wb-line);
+  background: var(--wb-muted);
+}
+/* Collapsed: a narrow rail with just the toggle, so the canvas gets the width. */
+.wb[data-collapsed] { grid-template-columns: 56px minmax(0, 1fr); }
+.wb[data-collapsed] .wb-index { padding: 20px 10px; align-items: center; }
+
+.wb-index-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 32px; }
+.wb-index-content { display: flex; flex: 1; flex-direction: column; gap: 8px; min-height: 0; }
+.wb-toggle {
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-right: -6px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--wb-ink-3);
+  cursor: pointer;
+  transition: background-color 150ms ease-out, color 150ms ease-out;
+}
+.wb[data-collapsed] .wb-toggle { margin-right: 0; }
+.wb-toggle::after { content: ""; position: absolute; inset: -6px; }
+.wb-toggle:active { transform: scale(0.96); }
+@media (hover: hover) and (pointer: fine) {
+  .wb-toggle:hover { background: oklch(0.91 0.006 262 / 0.7); color: var(--wb-ink); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wb-toggle { transition: none; }
+  .wb-toggle:active { transform: none; }
+}
+
+.wb-index h1 { margin: 8px 0 16px; font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
+.wb-index nav { display: grid; gap: 2px; }
+.wb-index nav a {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 6px;
+  color: var(--wb-ink-2);
+  text-decoration: none;
+  line-height: 1.35;
+}
+.wb-index nav a[aria-current] {
+  background: white;
+  color: var(--wb-ink);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.05), 0 1px 3px rgb(0 0 0 / 0.05);
+}
+.wb-back { margin-top: auto; padding: 10px 12px; font-size: 13px; color: var(--wb-ink-2); text-decoration: none; }
+
+.wb-main { min-width: 0; padding: 40px 40px 80px; }
+
+.wb-component-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.wb-component-head h2 { margin: 8px 0 0; font-size: 24px; font-weight: 600; letter-spacing: -0.5px; }
+.wb-component-head p:not(.wb-label) { max-width: 60ch; margin: 8px 0 0; line-height: 1.55; color: var(--wb-ink-2); }
+
+.wb-widths { display: flex; flex: none; padding: 3px; border-radius: 8px; background: var(--wb-muted); }
+.wb-widths button {
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--wb-ink-2);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.wb-widths button span { margin-left: 4px; font-size: 11px; color: var(--wb-ink-3); font-variant-numeric: tabular-nums; }
+.wb-widths button[aria-pressed="true"] {
+  background: white;
+  color: var(--wb-ink);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.05), 0 1px 3px rgb(0 0 0 / 0.05);
+}
+
+.wb-frame { margin: 0 0 48px; }
+.wb-frame figcaption { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+.wb-frame figcaption strong { font-size: 14px; font-weight: 600; }
+.wb-frame figcaption span { font-size: 13px; color: var(--wb-ink-3); }
+
+.wb-stage {
+  overflow-x: auto;
+  padding: 8px 32px 32px;
+  border: 1px dashed var(--wb-line);
+  border-radius: 12px;
+  background: var(--wb-canvas);
+}
+.wb-canvas { max-width: none; }
+
+.wb :focus-visible { outline: 2px solid var(--wb-ink-2); outline-offset: 2px; }
+
+@media (max-width: 900px) {
+  .wb, .wb[data-collapsed] { grid-template-columns: 1fr; }
+  .wb[data-collapsed] .wb-index { align-items: stretch; }
+  .wb-index { position: static; height: auto; }
+  .wb-main { padding: 24px 16px 60px; }
+  .wb-component-head { flex-direction: column; align-items: flex-start; }
+}

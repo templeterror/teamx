@@ -1,0 +1,822 @@
+/*
+ * Weekly schedule + Your courses — workbench copy.
+ * Starts as the computed look of the pair on /plan. Every class is `sp-`
+ * prefixed so it never collides with plan.css.
+ * The pair responds to its own width (container queries), not the viewport,
+ * so the workbench can show it at several widths side by side.
+ */
+
+.sp {
+  --canvas: oklch(0.985 0.002 262);
+  --surface: oklch(1 0 0);
+  --muted: oklch(0.955 0.005 262);
+  --line: oklch(0.91 0.006 262);
+  --line-strong: oklch(0.82 0.008 262);
+  --ink: oklch(0.295 0.016 262);
+  --ink-secondary: oklch(0.445 0.022 262);
+  --ink-tertiary: oklch(0.52 0.02 262);
+  --accent: oklch(0.52 0.174 25);
+  --accent-hover: oklch(0.42 0.14 25);
+  --accent-wash: oklch(0.97 0.012 25);
+  --success: oklch(0.45 0.082 150);
+  --warning: oklch(0.465 0.064 75);
+  --hairline: 1px;
+  --elevation:
+    0 0 0 1px rgb(0 0 0 / 0.05),
+    0 1px 3px rgb(0 0 0 / 0.05),
+    0 4px 10px -4px rgb(0 0 0 / 0.05);
+
+  /*
+   * Course palette. Each category gets one hue, used three ways:
+   * --k (the accent bar and swatch), --k-ink (text on tint), --k-tint (fill).
+   * Core keeps Temple cherry. Elective moves off cherry to violet so the two
+   * are no longer told apart by lightness alone.
+   */
+  --course-core: oklch(0.52 0.17 25);
+  --course-core-ink: oklch(0.38 0.13 25);
+  --course-core-tint: oklch(0.955 0.022 25);
+  --course-elective: oklch(0.54 0.16 295);
+  --course-elective-ink: oklch(0.4 0.14 295);
+  --course-elective-tint: oklch(0.955 0.022 295);
+  --course-gened: oklch(0.56 0.13 245);
+  --course-gened-ink: oklch(0.4 0.11 245);
+  --course-gened-tint: oklch(0.955 0.022 245);
+  --course-free-elective: oklch(0.56 0.1 185);
+  --course-free-elective-ink: oklch(0.4 0.08 185);
+  --course-free-elective-tint: oklch(0.955 0.022 185);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --sp-hour: 68px;
+  --sp-head: 56px;
+  --sp-height: 628px;
+
+  container-type: inline-size;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+@media (min-resolution: 2dppx) {
+  .sp { --hairline: 0.5px; }
+}
+
+.sp :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Layout */
+.sp-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 24px;
+  align-items: start;
+}
+@container (max-width: 1100px) {
+  .sp-layout { grid-template-columns: minmax(0, 1fr) 350px; }
+}
+@container (max-width: 900px) {
+  .sp-layout { grid-template-columns: 1fr; }
+}
+
+.sp-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+}
+.sp-toolbar h2 { margin: 0; font-size: 14px; font-weight: 600; }
+.sp-toolbar > span { font-size: 12px; color: var(--ink-tertiary); font-variant-numeric: tabular-nums; }
+.sp-toolbar > .sp-toolbar-preview {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 8px;
+  border-radius: 999px;
+  background: var(--muted);
+  color: var(--ink);
+  font-weight: 500;
+  animation: sp-fade 200ms ease-out;
+}
+.sp-toolbar-preview i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+@keyframes sp-fade { from { opacity: 0; } }
+
+/* Weekly schedule */
+.sp-calendar {
+  height: var(--sp-height);
+  overflow: auto;
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: var(--elevation);
+  overscroll-behavior: contain;
+}
+
+.sp-week { min-width: 560px; }
+
+.sp-week-head,
+.sp-week-body {
+  display: grid;
+  grid-template-columns: 56px repeat(5, minmax(0, 1fr));
+}
+
+/* Sticky, translucent day header (iOS style) for when the week grows taller. */
+.sp-week-head {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  height: var(--sp-head);
+  border-bottom: 1px solid rgb(0 0 0 / 0.06);
+  background: color-mix(in oklch, var(--surface) 82%, transparent);
+  backdrop-filter: saturate(1.6) blur(14px);
+  -webkit-backdrop-filter: saturate(1.6) blur(14px);
+}
+
+.sp-day-head {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 0 10px;
+}
+.sp-day-name { font-size: 13px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
+.sp-day-meta { display: block; width: 100%; font-size: 11px; line-height: 14px; color: var(--ink-tertiary); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; }
+.sp-day-head[data-empty] .sp-day-name { color: var(--ink-tertiary); }
+
+/* Room above the first and below the last hour line so their labels are not clipped. */
+.sp-week-body { padding: 12px 0 16px; }
+
+.sp-hours,
+.sp-day { position: relative; height: calc(var(--sp-hour) * 8); }
+
+.sp-hour {
+  position: absolute;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--ink-tertiary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.sp-hour small { margin-left: 2px; font-size: 9px; font-weight: 500; letter-spacing: 0.02em; }
+
+/* Hour lines sit exactly on the hour; day columns are separated by a whisper. */
+.sp-day {
+  border-left: 1px solid rgb(0 0 0 / 0.04);
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgb(0 0 0 / 0.06) 0,
+      rgb(0 0 0 / 0.06) 1px,
+      transparent 1px,
+      transparent var(--sp-hour)
+    );
+}
+.sp-day:last-child { background-size: 100% calc(100% + 1px); }
+
+.sp-core { --k: var(--course-core); --k-ink: var(--course-core-ink); --k-tint: var(--course-core-tint); }
+.sp-elective { --k: var(--course-elective); --k-ink: var(--course-elective-ink); --k-tint: var(--course-elective-tint); }
+.sp-gened { --k: var(--course-gened); --k-ink: var(--course-gened-ink); --k-tint: var(--course-gened-tint); }
+.sp-free-elective { --k: var(--course-free-elective); --k-ink: var(--course-free-elective-ink); --k-tint: var(--course-free-elective-tint); }
+
+/*
+ * Event block. Confirmed: soft tint, solid accent bar, a hint of depth.
+ * Suggested: paper-white with faint diagonal hatching and a dashed edge —
+ * the calendar convention for "tentative".
+ */
+.sp-block {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 5px 8px 5px 11px;
+  margin: 0;
+  border: 0;
+  border-radius: 7px;
+  overflow: hidden;
+  color: var(--k-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    opacity 200ms ease-out,
+    top 360ms var(--ease-out),
+    height 360ms var(--ease-out),
+    left 360ms var(--ease-out),
+    width 360ms var(--ease-out),
+    background-color 200ms ease-out,
+    box-shadow 200ms ease-out,
+    transform 150ms ease-out;
+}
+.sp-block::before {
+  content: "";
+  position: absolute;
+  inset: 3px auto 3px 3px;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--k);
+}
+.sp-block-name, .sp-block-meta { display: block; }
+
+.sp-block[data-state="confirmed"] {
+  background: var(--k-tint);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklch, var(--k) 14%, transparent),
+    0 1px 2px color-mix(in oklch, var(--k) 10%, transparent);
+}
+.sp-block[data-state="suggested"] {
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      color-mix(in oklch, var(--k) 7%, transparent) 0 5px,
+      transparent 5px 10px
+    ),
+    var(--surface);
+  box-shadow: none;
+  outline: 1px dashed color-mix(in oklch, var(--k) 45%, transparent);
+  outline-offset: -1px;
+}
+.sp-block[data-state="suggested"]::before {
+  background: repeating-linear-gradient(to bottom, var(--k) 0 4px, transparent 4px 7px);
+}
+
+/*
+ * Block text is laid out by <BlockText> (fit-text.tsx): whole words only,
+ * a single "…" when shortened, and no line is ever clipped. The CSS here must
+ * keep the browser's default greedy wrap so it matches the measurement.
+ */
+.sp-block-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 0;
+  overflow: hidden;
+}
+.sp-block-body [hidden] { display: none; }
+.sp-block-name {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  white-space: normal;
+  text-wrap: wrap;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: manual;
+}
+.sp-block-meta {
+  display: block;
+  font-size: 11px;
+  line-height: 14px;
+  white-space: nowrap;
+  color: color-mix(in oklch, var(--k-ink) 75%, var(--surface));
+  font-variant-numeric: tabular-nums;
+}
+
+.sp-block[data-clash] { padding-right: 22px; }
+
+.sp-block[data-clash] {
+  outline: 1.5px solid var(--warning);
+  outline-offset: -1.5px;
+}
+.sp-block-flag {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--warning);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Selection: the picked class rings up, everything else steps back. */
+.sp-week[data-focusing]:not([data-previewing]) .sp-block:not([data-selected]):not([data-role="incoming"]):not([data-role="outgoing"]) { opacity: 0.42; }
+.sp-block[data-selected] {
+  z-index: 2;
+  box-shadow:
+    0 0 0 2px var(--surface),
+    0 0 0 3.5px var(--k),
+    0 10px 24px -10px color-mix(in oklch, var(--k) 45%, transparent);
+}
+.sp-block[data-selected][data-state="confirmed"] { background: color-mix(in oklch, var(--k-tint) 82%, var(--k) 10%); }
+
+/* Hovering a course in the list lights up its meetings in the week. */
+.sp-block[data-linked] {
+  z-index: 2;
+  opacity: 1 !important;
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklch, var(--k) 30%, transparent),
+    0 6px 16px -6px color-mix(in oklch, var(--k) 40%, transparent);
+}
+.sp-block[data-selected][data-linked] {
+  box-shadow:
+    0 0 0 2px var(--surface),
+    0 0 0 3.5px var(--k),
+    0 10px 24px -10px color-mix(in oklch, var(--k) 45%, transparent);
+}
+
+@media (hover: hover) {
+  .sp-block:hover {
+    z-index: 2;
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in oklch, var(--k) 22%, transparent),
+      0 6px 16px -6px color-mix(in oklch, var(--k) 35%, transparent),
+      0 2px 4px rgb(0 0 0 / 0.04);
+  }
+  .sp-block[data-state="confirmed"]:hover { background: color-mix(in oklch, var(--k-tint) 80%, var(--k) 8%); }
+}
+.sp-block:active { transform: scale(0.98); }
+
+/*
+ * Swap preview.
+ * Only the two courses in the swap keep their color; the rest of the week goes gray.
+ * Outgoing: the meeting that would go away. Its own color, dimmed, with a
+ * dashed edge and the title struck through.
+ * Incoming: the alternative. Solid category outline with a soft halo, so it
+ * reads as "this is what you are looking at", and it arrives with a short rise.
+ */
+/* Dimmed by mixing toward white, not opacity, so gridlines never show through. */
+.sp-block[data-role="outgoing"] {
+  z-index: 1;
+  background: color-mix(in oklch, var(--k-tint) 55%, var(--surface));
+  box-shadow: none;
+  outline: 1px dashed color-mix(in oklch, var(--k) 45%, var(--surface));
+  outline-offset: -1px;
+  color: color-mix(in oklch, var(--k-ink) 60%, var(--surface));
+  opacity: 1;
+}
+.sp-block[data-role="outgoing"]::before { background: color-mix(in oklch, var(--k) 50%, var(--surface)); }
+.sp-block[data-role="outgoing"] .sp-block-meta { color: inherit; }
+.sp-block[data-role="outgoing"] .sp-block-name {
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: currentColor;
+}
+
+.sp-block[data-role="incoming"] {
+  z-index: 3;
+  cursor: default;
+  pointer-events: none;
+  background: var(--k-tint);
+  outline: 1.5px solid var(--k);
+  outline-offset: -1.5px;
+  box-shadow:
+    0 0 0 4px color-mix(in oklch, var(--k) 14%, transparent),
+    0 10px 24px -10px color-mix(in oklch, var(--k) 45%, transparent);
+  animation: sp-incoming 260ms var(--ease-out);
+}
+.sp-block[data-role="incoming"][data-clash] { outline-color: var(--warning); }
+@keyframes sp-incoming {
+  from { opacity: 0; transform: translateY(4px) scale(0.97); }
+}
+
+/*
+ * While previewing, every other course goes neutral gray so the swap is the subject.
+ * A course the swap would collide with keeps its color and the amber edge.
+ */
+.sp-week[data-previewing] .sp-block[data-role="normal"]:not([data-clash]) {
+  background: var(--muted);
+  box-shadow: none;
+  outline: none;
+  color: var(--ink-tertiary);
+  opacity: 1;
+  transform: none;
+}
+.sp-week[data-previewing] .sp-block[data-role="normal"]:not([data-clash])::before { background: var(--line-strong); }
+.sp-week[data-previewing] .sp-block[data-role="normal"]:not([data-clash]) .sp-block-meta { color: var(--ink-tertiary); }
+
+/* Day headers mark the days a swap would change. */
+.sp-day-head[data-changed] .sp-day-name::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 6px;
+  border-radius: 50%;
+  vertical-align: 2px;
+  background: var(--accent);
+}
+.sp-block:focus-visible { z-index: 2; outline: 2px solid var(--k); outline-offset: 1px; }
+
+.sp-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  padding: 12px 0;
+  font-size: 11px;
+}
+.sp-legend-item { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; color: var(--ink-secondary); }
+.sp-swatch { display: inline-block; flex: none; width: 10px; height: 10px; border-radius: 3px; background: var(--k); }
+
+/* Your courses — Cards (from /proto/your-courses) + Drill-in course page (from /proto/course-details). See productthink.md.
+ * Every course is a card on a soft well: code and credits, title, why, meeting time,
+ * "Or" chips for alternatives, then Confirm and the quieter actions.
+ */
+.sp-card {
+  display: flex;
+  flex-direction: column;
+  height: var(--sp-height);
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 12px;
+  background: color-mix(in oklch, var(--muted) 55%, var(--surface));
+  box-shadow: var(--elevation);
+}
+
+.sp-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid rgb(0 0 0 / 0.06);
+  background: var(--surface);
+}
+.sp-card-head strong { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.sp-card-head > span { font-size: 13px; color: var(--ink-tertiary); font-variant-numeric: tabular-nums; }
+
+.sp-card-scroll {
+  position: relative;
+  display: grid;
+  flex: 1;
+  align-content: start;
+  gap: 10px;
+  min-height: 0;
+  padding: 12px;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+
+.sp-kind {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--k-ink, var(--ink-secondary));
+}
+
+/* Extend small controls to a 44px hit area without changing how they look. */
+.sp-hit { position: relative; }
+.sp-hit::after { content: ""; position: absolute; inset: -6px -4px; }
+
+/* Course card */
+.sp-ccard {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px 12px;
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.05),
+    0 1px 2px rgb(0 0 0 / 0.04),
+    0 4px 12px -6px rgb(0 0 0 / 0.08);
+  transition: box-shadow 200ms ease-out;
+}
+.sp-ccard[data-linked]:not([data-selected]) {
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--k) 35%, transparent),
+    0 4px 12px -6px color-mix(in oklch, var(--k) 25%, transparent);
+}
+.sp-ccard-top { display: flex; align-items: baseline; gap: 10px; }
+.sp-ccard-top > .sp-ccard-code { margin-right: auto; }
+.sp-ccard-top .sp-ccard-status { margin-left: 0; }
+.sp-ccard-open { display: inline-flex; color: var(--ink-tertiary); transition: color 150ms ease-out, transform 150ms ease-out; }
+.sp-ccard-code { font-size: 12px; font-weight: 600; letter-spacing: 0.02em; color: var(--k-ink); font-variant-numeric: tabular-nums; }
+
+.sp-ccard-main {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.sp-ccard-title { font-size: 16px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; text-wrap: pretty; }
+.sp-ccard-meta { display: block; font-size: 12px; line-height: 1.45; color: var(--ink-tertiary); font-variant-numeric: tabular-nums; }
+.sp-ccard-warn { margin: 0; font-size: 13px; line-height: 1.45; color: var(--warning); }
+
+.sp-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.sp-chips-label { font-size: 12px; color: var(--ink-tertiary); }
+.sp-chip {
+  min-height: 30px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--muted);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease-out, color 150ms ease-out, transform 150ms ease-out;
+}
+.sp-chip[data-peeking] { background: var(--line); }
+.sp-chip[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.sp-chip:active { transform: scale(0.96); }
+
+.sp-ccard-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgb(0 0 0 / 0.05);
+}
+
+/* Add / Drop: same element in both states, fixed width, so nothing moves. */
+.sp-adddrop {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 84px;
+  min-height: 32px;
+  padding: 0 12px 0 10px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.1), 0 1px 2px rgb(0 0 0 / 0.04);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease-out, box-shadow 150ms ease-out, color 150ms ease-out, transform 150ms ease-out;
+}
+.sp-adddrop svg { color: var(--ink-tertiary); transition: color 150ms ease-out; }
+.sp-adddrop[data-mode="add"] svg { color: var(--accent); }
+.sp-adddrop:active { transform: scale(0.96); }
+
+/* A dropped course keeps its place, quieter, until it is added back or the plan moves on. */
+.sp-ccard[data-dropped] { background: color-mix(in oklch, var(--surface) 60%, transparent); box-shadow: 0 0 0 1px rgb(0 0 0 / 0.05); }
+.sp-ccard[data-dropped] .sp-ccard-code,
+.sp-ccard[data-dropped] .sp-ccard-title,
+.sp-ccard[data-dropped] .sp-ccard-meta { color: var(--ink-tertiary); }
+.sp-ccard-status { margin-left: auto; font-size: 12px; color: var(--ink-tertiary); }
+
+.sp-text-btn {
+  min-height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.sp-text-btn.is-quiet { color: var(--ink-tertiary); font-weight: 400; }
+
+/* ---------- Drill-in: the panel slides to the course page ---------- */
+.sp-track {
+  display: grid;
+  flex: 1;
+  grid-template-columns: 100% 100%;
+  min-height: 0;
+  transition: transform 220ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+.sp-drill[data-open] .sp-track { transform: translateX(-100%); transition-duration: 300ms; }
+.sp-pane { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; }
+.sp-page-head { padding: 10px 12px; }
+.sp-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 32px;
+  padding: 0 8px 0 4px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.sp-page-scroll { flex: 1; min-height: 0; padding: 16px 20px 24px; overflow: auto; background: var(--surface); scrollbar-gutter: stable; }
+
+/* Course page */
+.sp-details { display: grid; gap: 20px; }
+.sp-details-head { display: grid; gap: 4px; }
+.sp-details-title { margin: 0; font-size: 20px; font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; text-wrap: balance; }
+.sp-details-head .sp-ccard-meta { font-size: 13px; color: var(--ink-secondary); }
+
+.sp-facts {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 4px 20px;
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--muted);
+}
+.sp-facts div { display: grid; gap: 2px; min-width: 0; }
+.sp-facts dt { font-size: 12px; color: var(--ink-tertiary); }
+.sp-facts dd { margin: 0; font-size: 13px; font-weight: 500; color: var(--ink); }
+
+.sp-dblock h4 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+}
+.sp-dblock > p { margin: 0; max-width: 65ch; font-size: 14px; line-height: 1.55; color: var(--ink-secondary); text-wrap: pretty; }
+.sp-courselist { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.sp-courselist li { display: grid; grid-template-columns: 72px 1fr; gap: 8px; font-size: 14px; line-height: 1.4; }
+.sp-courselist b { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sp-courselist span { color: var(--ink-secondary); text-wrap: pretty; }
+.sp-courselist small { display: block; margin-top: 1px; font-size: 12px; color: var(--ink-tertiary); }
+.sp-dblock .sp-fine { margin-top: 8px; font-size: 12px; color: var(--ink-tertiary); }
+.sp-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.sp-tag { padding: 4px 10px; border-radius: 999px; background: var(--muted); font-size: 12px; color: var(--ink-secondary); }
+
+.sp-alt-wrap + .sp-alt-wrap { margin-top: 6px; }
+.sp-alt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.08);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 150ms ease-out;
+}
+.sp-alt-title { display: block; font-size: 14px; font-weight: 500; line-height: 1.35; }
+.sp-alt-cue { flex: none; font-size: 12px; font-weight: 500; color: var(--ink-secondary); }
+.sp-alt[data-peeking] { background: var(--muted); }
+.sp-alt-wrap .sp-impact { margin-top: 6px; }
+
+.sp-details-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgb(0 0 0 / 0.06);
+}
+.sp-details-actions .sp-text-btn { margin-right: auto; }
+
+/* Swap preview inside the card */
+.sp-impact {
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1.5px var(--ink), 0 8px 20px -10px rgb(0 0 0 / 0.25);
+  animation: sp-fade 160ms ease-out;
+}
+.sp-impact-title { display: grid; gap: 2px; margin: 0 0 10px; font-size: 14px; font-weight: 500; line-height: 1.35; }
+.sp-impact-title small { font-size: 12px; font-weight: 400; color: var(--ink-secondary); }
+.sp-impact ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 10px 0 0;
+  border-top: 1px solid rgb(0 0 0 / 0.06);
+  list-style: none;
+}
+.sp-impact li {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  column-gap: 8px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.sp-impact li > span { grid-row: span 2; color: var(--ink-tertiary); }
+.sp-impact li > small { grid-column: 2; font-size: 11px; color: var(--ink-tertiary); }
+.sp-impact li[data-tone="ok"] { color: var(--success); }
+.sp-impact li[data-tone="warn"] { color: var(--warning); }
+.sp-impact-actions { display: flex; align-items: center; gap: 16px; margin-top: 12px; }
+
+/* Dark, not red: "Confirm plan" keeps the one red primary in this component. */
+.sp-swap {
+  flex: 1;
+  min-height: 40px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--surface);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease-out, transform 150ms ease-out;
+}
+.sp-swap:active { transform: scale(0.98); }
+
+/* Footer: one next step. */
+.sp-card-foot {
+  display: grid;
+  gap: 6px;
+  padding: 12px 16px 14px;
+  border-top: 1px solid rgb(0 0 0 / 0.06);
+  background: var(--surface);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink-tertiary);
+}
+.sp-card-foot p { margin: 0; text-align: center; text-wrap: pretty; }
+.sp-primary {
+  min-height: 40px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease-out, transform 150ms ease-out;
+}
+.sp-primary:active { transform: scale(0.98); }
+/* Confirmed: status on the left, Edit plan on the right, same 40px row as Confirm plan. */
+.sp-confirmed-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 40px; }
+.sp-confirmed-state { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--ink); }
+.sp-confirmed-badge {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--success);
+  color: white;
+  animation: sp-pop 240ms var(--ease-out);
+}
+@keyframes sp-pop { from { transform: scale(0.7); opacity: 0; } }
+.sp-edit {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.1), 0 1px 2px rgb(0 0 0 / 0.05);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease-out, box-shadow 150ms ease-out, transform 150ms ease-out;
+}
+.sp-edit:active { transform: scale(0.96); }
+
+.sp-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.sp .sp-card :focus-visible { outline: 2px solid var(--ink-secondary); outline-offset: 2px; border-radius: 8px; }
+.sp .sp-card .sp-ccard-main:focus-visible { outline-offset: 6px; }
+.sp .sp-card .sp-adddrop:focus-visible, .sp .sp-card .sp-chip:focus-visible { border-radius: 999px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .sp-ccard:not([data-dropped]):hover { box-shadow: 0 0 0 1px rgb(0 0 0 / 0.1), 0 6px 16px -8px rgb(0 0 0 / 0.16); }
+  .sp-ccard:hover .sp-ccard-open { color: var(--ink-secondary); transform: translateX(2px); }
+  .sp-alt:hover, .sp-back:hover { background: var(--muted); }
+  .sp-adddrop:hover { box-shadow: 0 0 0 1px rgb(0 0 0 / 0.18), 0 1px 2px rgb(0 0 0 / 0.06); }
+  .sp-adddrop[data-mode="drop"]:hover { background: var(--accent-wash); color: var(--accent); }
+  .sp-adddrop[data-mode="drop"]:hover svg { color: var(--accent); }
+  .sp-chip:not([aria-pressed="true"]):hover { background: var(--line); }
+  .sp-text-btn:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .sp-primary:hover { background: var(--accent-hover); }
+  .sp-edit:hover { background: var(--muted); box-shadow: 0 0 0 1px rgb(0 0 0 / 0.16), 0 1px 2px rgb(0 0 0 / 0.06); }
+  .sp-swap:hover { background: color-mix(in oklch, var(--ink) 85%, black); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-block[data-role="incoming"], .sp-impact, .sp-toolbar-preview, .sp-confirmed-badge { animation: none; }
+  .sp-edit { transition: none; }
+  .sp-edit:active { transform: none; }
+  .sp-track, .sp-drill[data-open] .sp-track, .sp-alt, .sp-ccard-open { transition: none; }
+  .sp-block[data-linked] { transform: none; }
+  .sp-block, .sp-block:hover, .sp-ccard, .sp-chip, .sp-adddrop, .sp-adddrop svg, .sp-primary, .sp-swap { transition: none; }
+  .sp-chip:active, .sp-adddrop:active, .sp-primary:active, .sp-swap:active, .sp-block:active, .sp-block:hover { transform: none; }
+}

@@ -1,0 +1,923 @@
+{
+  "bulletinYear": "2026-2027",
+  "bulletinUrl": "https://bulletin.temple.edu/undergraduate/science-technology/computer-science-bs/",
+  "program": {
+    "code": "ST-CSCI-BS",
+    "name": "Computer Science",
+    "degree": "Bachelor of Science",
+    "college": "College of Science and Technology",
+    "campuses": [
+      "Main",
+      "Japan"
+    ]
+  },
+  "creditBudget": {
+    "degreeCredits": 123,
+    "majorCredits": {
+      "min": 73,
+      "max": 74
+    },
+    "computerScienceElectivesInsideMajor": {
+      "min": 15,
+      "max": 16
+    },
+    "generalEducationInAdditionToMajor": {
+      "min": 25,
+      "max": 26,
+      "because": "GW 4, GY 3, GZ 3, GA 3 or 4, GB 3, GD 3, GG 3, and GU 3. GQ and both GS courses are waived by the major."
+    },
+    "collegeSeminar": 1,
+    "freeElectives": {
+      "min": 22,
+      "max": 24,
+      "because": "123 minus the major (73 or 74), the GenEd courses that are not already inside the major (25 or 26), and the 1-credit CST seminar. The suggested academic plan's Elective rows add up to the same 22-24 credits."
+    }
+  },
+  "requirements": [
+    {
+      "id": "university",
+      "title": "University requirements",
+      "kind": "all",
+      "children": [
+        {
+          "id": "university.credits",
+          "title": "Degree credits",
+          "kind": "creditMinimum",
+          "credits": 123
+        },
+        {
+          "id": "university.writing-intensive",
+          "title": "Writing-intensive courses in the major",
+          "kind": "all",
+          "credits": 7,
+          "note": "Two writing-intensive courses, at least six credits, taken at Temple. Both are already required in the major.",
+          "children": [
+            {
+              "kind": "course",
+              "code": "CIS 3296",
+              "credits": 4
+            },
+            {
+              "kind": "oneOf",
+              "credits": 3,
+              "courses": [
+                "CIS 4397",
+                "CIS 4398"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "university.gened",
+          "title": "General Education",
+          "kind": "all",
+          "note": "A GenEd course counts in one area only. Grade of C- or higher. No more than two GenEd courses from a single department; foundation and transfer courses are excluded. Course numbers are 0800-0899, or 0900-0999 for Honors.",
+          "children": [
+            {
+              "id": "gened.gw",
+              "title": "Analytical Reading and Writing",
+              "attribute": "GW",
+              "kind": "oneOf",
+              "credits": 4,
+              "courses": [
+                "ENG 0802",
+                "ENG 0812",
+                "ENG 0902"
+              ]
+            },
+            {
+              "id": "gened.gy",
+              "title": "Intellectual Heritage I",
+              "attribute": "GY",
+              "kind": "oneOf",
+              "credits": 3,
+              "courses": [
+                "IH 0851",
+                "IH 0951"
+              ]
+            },
+            {
+              "id": "gened.gz",
+              "title": "Intellectual Heritage II",
+              "attribute": "GZ",
+              "kind": "oneOf",
+              "credits": 3,
+              "courses": [
+                "IH 0852",
+                "IH 0952"
+              ],
+              "note": "IH I and IH II may be taken in either order, after Analytical Reading and Writing."
+            },
+            {
+              "id": "gened.gq",
+              "title": "Quantitative Literacy",
+              "attribute": "GQ",
+              "kind": "waivedBy",
+              "credits": 4,
+              "waivedBy": [
+                "MATH 1041",
+                "MATH 1941",
+                "MATH 1042",
+                "MATH 1942",
+                "MATH 2043"
+              ],
+              "otherwise": [
+                "EDUC 0865",
+                "CTRP 0821",
+                "GUS 0821",
+                "EES 0874",
+                "EES 0873",
+                "ECE 0822",
+                "FIN 0822",
+                "CIS 0823",
+                "MATH 0823",
+                "MATH 0824",
+                "ANTH 0825",
+                "POLS 0825",
+                "PSY 0825",
+                "SOC 0825",
+                "STAT 0827",
+                "STAT 0826",
+                "GUS 0921",
+                "EES 0973",
+                "FIN 0922",
+                "CIS 0923",
+                "MATH 0923",
+                "MATH 0924",
+                "POLS 0925",
+                "SOC 0925"
+              ],
+              "note": "CST majors waive one GQ course. Calculus I in this major is the waiver."
+            },
+            {
+              "id": "gened.ga",
+              "title": "Arts",
+              "attribute": "GA",
+              "kind": "attribute",
+              "count": 1,
+              "credits": {
+                "min": 3,
+                "max": 4
+              },
+              "courses": [
+                "ARTH 0808",
+                "ARTE 0838",
+                "ARTE 0846",
+                "ASST 0871",
+                "RUS 0871",
+                "ENG 0826",
+                "THTR 0805",
+                "MUST 0812",
+                "THTR 0813",
+                "GRC 0811",
+                "AMST 0801",
+                "MUST 0804",
+                "ENG 0822",
+                "DANC 0831",
+                "THTR 0825",
+                "MUST 0802",
+                "ARTH 0803",
+                "GRC 0803",
+                "THTR 0807",
+                "MSP 0821",
+                "ARTH 0813",
+                "TUJ 0879",
+                "DANC 0806",
+                "PHIL 0847",
+                "MUST 0809",
+                "THTR 0925",
+                "GRC 0903",
+                "ENG 0926",
+                "GRC 0911",
+                "AMST 0901",
+                "ENG 0922",
+                "DANC 0931",
+                "MUST 0902",
+                "THTR 0907",
+                "PHIL 0947",
+                "MUST 0909"
+              ]
+            },
+            {
+              "id": "gened.gb",
+              "title": "Human Behavior",
+              "attribute": "GB",
+              "kind": "attribute",
+              "count": 1,
+              "credits": 3,
+              "courses": [
+                "GRC 0829",
+                "ASST 0811",
+                "REL 0811",
+                "SPAN 0826",
+                "SGM 0827",
+                "CJ 0812",
+                "PSY 0846",
+                "SOC 0845",
+                "RCTH 0813",
+                "ENG 0837",
+                "SPAN 0837",
+                "ARCH 0835",
+                "ART 0822",
+                "GAD 0822",
+                "SSWU 0822",
+                "ANTH 0814",
+                "PSY 0818",
+                "SOC 0818",
+                "AOD 0836",
+                "COMC 0836",
+                "CSI 0836",
+                "ANTH 0815",
+                "CSCD 0815",
+                "EDUC 0815",
+                "ENG 0815",
+                "ITAL 0815",
+                "RUS 0815",
+                "SPAN 0815",
+                "LAWU 0833",
+                "KLN 0873",
+                "PHIL 0839",
+                "LGLS 0805",
+                "CSCD 0841",
+                "SPSY 0828",
+                "ENG 0824",
+                "EDUC 0819",
+                "LAWU 0834",
+                "PSY 0816",
+                "ANTH 0817",
+                "EDUC 0817",
+                "SOC 0817",
+                "GRC 0929",
+                "REL 0911",
+                "SPAN 0926",
+                "CJ 0912",
+                "SOC 0945",
+                "SPAN 0937",
+                "ARCH 0935",
+                "PSY 0918",
+                "SOC 0918",
+                "ANTH 0915",
+                "EDUC 0915",
+                "SPSY 0928",
+                "PHIL 0939",
+                "ENG 0924",
+                "EDUC 0919",
+                "PSY 0916",
+                "EDUC 0917"
+              ]
+            },
+            {
+              "id": "gened.gd",
+              "title": "Race and Diversity",
+              "attribute": "GD",
+              "kind": "attribute",
+              "count": 1,
+              "credits": 3,
+              "courses": [
+                "LGLS 0803",
+                "PHIL 0878",
+                "POLS 0878",
+                "THTR 0841",
+                "PHIL 0877",
+                "STHM 0827",
+                "DANC 0828",
+                "SOC 0835",
+                "EES 0827",
+                "GBST 0866",
+                "ANTH 0831",
+                "HIST 0831",
+                "ITAL 0831",
+                "RUS 0831",
+                "SOC 0831",
+                "SPAN 0831",
+                "EDUC 0806",
+                "EDUC 0823",
+                "POLS 0832",
+                "SOC 0832",
+                "EDUC 0809",
+                "FMA 0843",
+                "JST 0802",
+                "REL 0802",
+                "ANTH 0833",
+                "LAS 0833",
+                "REL 0833",
+                "SOC 0833",
+                "TYLE 0805",
+                "GRC 0804",
+                "THTR 0842",
+                "AAAS 0834",
+                "ANTH 0834",
+                "ENG 0834",
+                "AAAS 0829",
+                "HIST 0829",
+                "POLS 0829",
+                "SOC 0829",
+                "MUST 0808",
+                "POLS 0978",
+                "PHIL 0977",
+                "SOC 0935",
+                "EES 0927",
+                "ITAL 0931",
+                "SPAN 0931",
+                "POLS 0932",
+                "FMA 0943",
+                "JST 0902",
+                "REL 0902",
+                "REL 0933",
+                "TYLE 0905",
+                "GRC 0904",
+                "ANTH 0934",
+                "ENG 0934",
+                "HIST 0929",
+                "POLS 0929",
+                "SOC 0929"
+              ]
+            },
+            {
+              "id": "gened.gg",
+              "title": "World Society",
+              "attribute": "GG",
+              "kind": "attribute",
+              "count": 1,
+              "credits": 3,
+              "courses": [
+                "ADV 0853",
+                "GSWS 0801",
+                "HIST 0874",
+                "GUS 0862",
+                "HIST 0862",
+                "POLS 0862",
+                "SOC 0862",
+                "URBE 0855",
+                "ANTH 0856",
+                "GSWS 0824",
+                "HIST 0824",
+                "GUS 0831",
+                "HIST 0861",
+                "MSP 0823",
+                "LAS 0854",
+                "SPAN 0854",
+                "LAWU 0875",
+                "DANC 0827",
+                "ASST 0863",
+                "REL 0863",
+                "ISE 0818",
+                "FMA 0869",
+                "ASST 0857",
+                "ENG 0857",
+                "HIST 0865",
+                "CSCD 0816",
+                "HIST 0872",
+                "THE 0877",
+                "THM 0877",
+                "HIST 0864",
+                "POLS 0864",
+                "POLS 0866",
+                "THTR 0852",
+                "ANTH 0867",
+                "GUS 0867",
+                "ARBC 0868",
+                "ASST 0868",
+                "CHI 0868",
+                "ENG 0868",
+                "FREN 0868",
+                "GER 0868",
+                "ITAL 0868",
+                "JPNS 0868",
+                "JST 0868",
+                "LAS 0868",
+                "POLS 0868",
+                "RUS 0868",
+                "SPAN 0868",
+                "ADV 0953",
+                "POLS 0962",
+                "SOC 0962",
+                "HIST 0961",
+                "REL 0963",
+                "FMA 0969",
+                "CSCD 0916",
+                "HIST 0964",
+                "POLS 0966",
+                "THTR 0952",
+                "ARBC 0968",
+                "ENG 0968",
+                "GER 0968",
+                "ITAL 0968",
+                "LAS 0968",
+                "RUS 0968",
+                "SPAN 0968"
+              ]
+            },
+            {
+              "id": "gened.gu",
+              "title": "U.S. Society",
+              "attribute": "GU",
+              "kind": "attribute",
+              "count": 1,
+              "credits": 3,
+              "courses": [
+                "AMST 0847",
+                "HIST 0847",
+                "AMST 0848",
+                "HIST 0848",
+                "ARCH 0875",
+                "COMC 0801",
+                "CSI 0801",
+                "ENG 0849",
+                "HIST 0849",
+                "CJ 0853",
+                "LAWU 0854",
+                "AMST 0862",
+                "HIST 0867",
+                "GSWS 0851",
+                "SOC 0851",
+                "CJ 0852",
+                "PHIL 0824",
+                "LGLS 0856",
+                "GSWS 0863",
+                "CTRP 0807",
+                "REL 0876",
+                "STHM 0857",
+                "ECON 0858",
+                "AMST 0859",
+                "HIST 0859",
+                "POLS 0859",
+                "LAWU 0825",
+                "GUS 0861",
+                "SOC 0861",
+                "AMST 0855",
+                "EDAD 0855",
+                "ENG 0855",
+                "ARCH 0975",
+                "COMC 0901",
+                "CSI 0901",
+                "ENG 0949",
+                "HIST 0949",
+                "CJ 0953",
+                "AMST 0962",
+                "CJ 0952",
+                "LGLS 0956",
+                "GSWS 0963",
+                "REL 0976",
+                "HIST 0959",
+                "EDAD 0955"
+              ]
+            },
+            {
+              "id": "gened.gs",
+              "title": "Science and Technology",
+              "attribute": "GS",
+              "kind": "waivedBy",
+              "credits": 6,
+              "count": 2,
+              "waivedByRequirement": "major.lab-science",
+              "otherwise": [
+                "BIOL 0813",
+                "NSCI 0817",
+                "PSY 0817",
+                "CHEM 0821",
+                "CIS 0835",
+                "MIS 0855",
+                "ECE 0832",
+                "EES 0836",
+                "BIOL 0848",
+                "BIOE 0856",
+                "EES 0837",
+                "PHYS 0834",
+                "EES 0854",
+                "LARC 0852",
+                "PHYS 0847",
+                "CHEM 0838",
+                "PHYS 0839",
+                "LARC 0841",
+                "EES 0842",
+                "ENST 0842",
+                "GUS 0842",
+                "CIS 0822",
+                "MEE 0843",
+                "BIOE 0844",
+                "CHEM 0877",
+                "CEE 0845",
+                "ENVT 0845",
+                "PHYS 0872",
+                "BIOE 0944",
+                "BIOL 0913",
+                "BIOL 0948",
+                "CIS 0935",
+                "MIS 0955",
+                "BIOE 0956",
+                "EES 0954",
+                "ENST 0942",
+                "GUS 0942",
+                "CEE 0945",
+                "ENVT 0945",
+                "PHYS 0939"
+              ],
+              "note": "CST majors waive both GS courses by completing one sequenced laboratory science."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "college",
+      "title": "College of Science and Technology",
+      "kind": "all",
+      "children": [
+        {
+          "id": "college.credits",
+          "title": "Credits in CST, CLA, or Engineering",
+          "kind": "creditMinimum",
+          "credits": 90
+        },
+        {
+          "id": "college.upper-level",
+          "title": "Upper-level credits in CST, CLA, or Engineering",
+          "kind": "creditMinimum",
+          "credits": 45,
+          "note": "Courses numbered 2000 and above."
+        },
+        {
+          "id": "college.seminar",
+          "title": "First-year or transfer seminar",
+          "kind": "oneOf",
+          "credits": 1,
+          "courses": [
+            "SCTC 1001",
+            "SCTC 2001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "major",
+      "title": "Computer Science BS major",
+      "kind": "all",
+      "credits": {
+        "min": 73,
+        "max": 74
+      },
+      "note": "At least 9 courses required for the major, and at least 7 CIS courses, must be completed at Temple. Major courses need a grade of C- or higher.",
+      "children": [
+        {
+          "kind": "course",
+          "code": "CIS 1001",
+          "credits": 1
+        },
+        {
+          "id": "major.programming",
+          "title": "Introduction to programming",
+          "kind": "oneOf",
+          "credits": 4,
+          "courses": [
+            "CIS 1051",
+            "CIS 1951",
+            "CIS 1057"
+          ]
+        },
+        {
+          "kind": "oneOf",
+          "credits": 4,
+          "courses": [
+            "CIS 1068",
+            "CIS 1968"
+          ]
+        },
+        {
+          "kind": "oneOf",
+          "credits": 4,
+          "courses": [
+            "CIS 1166",
+            "CIS 1966"
+          ]
+        },
+        {
+          "kind": "course",
+          "code": "CIS 2033",
+          "credits": 3
+        },
+        {
+          "kind": "course",
+          "code": "CIS 2107",
+          "credits": 4
+        },
+        {
+          "kind": "course",
+          "code": "CIS 2166",
+          "credits": 4
+        },
+        {
+          "kind": "course",
+          "code": "CIS 2168",
+          "credits": 4
+        },
+        {
+          "kind": "course",
+          "code": "CIS 3207",
+          "credits": 4
+        },
+        {
+          "kind": "course",
+          "code": "CIS 3223",
+          "credits": 3
+        },
+        {
+          "kind": "course",
+          "code": "CIS 3296",
+          "credits": 4
+        },
+        {
+          "id": "major.capstone",
+          "title": "Capstone",
+          "kind": "oneOf",
+          "credits": 3,
+          "courses": [
+            "CIS 4398",
+            "CIS 4397"
+          ],
+          "note": "CIS 4397 also requires a 3.0 overall GPA and a 3.3 major GPA, stated on its course card."
+        },
+        {
+          "id": "major.electives",
+          "title": "Computer Science electives",
+          "kind": "creditsFrom",
+          "credits": {
+            "min": 15,
+            "max": 16
+          },
+          "courses": [
+            "CIS 3100",
+            "CIS 3203",
+            "CIS 3211",
+            "CIS 3217",
+            "CIS 3308",
+            "CIS 3319",
+            "CIS 3374",
+            "CIS 3381",
+            "CIS 3441",
+            "CIS 3515",
+            "CIS 3523",
+            "CIS 3603",
+            "CIS 3605",
+            "CIS 3655",
+            "CIS 3715",
+            "CIS 3755",
+            "CIS 4203",
+            "CIS 4282",
+            "CIS 4307",
+            "CIS 4319",
+            "CIS 4324",
+            "CIS 4331",
+            "CIS 4345",
+            "CIS 4350",
+            "CIS 4360",
+            "CIS 4419",
+            "CIS 4429",
+            "CIS 4515",
+            "CIS 4517",
+            "CIS 4523",
+            "CIS 4524",
+            "CIS 4526",
+            "CIS 4626",
+            "CIS 4696",
+            "MATH 2043",
+            "MATH 2101",
+            "MATH 2103"
+          ],
+          "limits": [
+            "At most 8 credits from CIS 3381 and CIS 4282 combined.",
+            "At most 4 credits from CIS 3381.",
+            "At most one of MATH 2101, MATH 2103, and MATH 2043.",
+            "CIS 4397 or CIS 4398 counts here only when it is not the capstone.",
+            "Bulletin footnote on CIS 3381: prerequisite is CIS 4203 or CIS 4526. That line is not on the CIS 3381 course card."
+          ]
+        },
+        {
+          "id": "major.calculus",
+          "title": "Calculus",
+          "kind": "all",
+          "credits": 8,
+          "children": [
+            {
+              "kind": "oneOf",
+              "credits": 4,
+              "courses": [
+                "MATH 1041",
+                "MATH 1941"
+              ]
+            },
+            {
+              "kind": "oneOf",
+              "credits": 4,
+              "courses": [
+                "MATH 1042",
+                "MATH 1942"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "major.lab-science",
+          "title": "Laboratory science sequence",
+          "kind": "oneSequence",
+          "credits": 8,
+          "note": "Sequence A and sequence B come from the same department. Completing this sequence waives both GS GenEds.",
+          "options": [
+            {
+              "id": "biology",
+              "a": [
+                "BIOL 1011",
+                "BIOL 1111",
+                "BIOL 1911"
+              ],
+              "b": [
+                "BIOL 1012",
+                "BIOL 1112",
+                "BIOL 1912",
+                "BIOL 2112",
+                "BIOL 2912"
+              ]
+            },
+            {
+              "id": "chemistry",
+              "note": "Each chemistry choice is a 3-credit lecture plus a 1-credit lab. A and B may come from different chemistry tracks.",
+              "a": [
+                [
+                  "CHEM 1021",
+                  "CHEM 1023"
+                ],
+                [
+                  "CHEM 1031",
+                  "CHEM 1033"
+                ],
+                [
+                  "CHEM 1951",
+                  "CHEM 1953"
+                ]
+              ],
+              "b": [
+                [
+                  "CHEM 1022",
+                  "CHEM 1024"
+                ],
+                [
+                  "CHEM 1032",
+                  "CHEM 1034"
+                ],
+                [
+                  "CHEM 1952",
+                  "CHEM 1954"
+                ]
+              ]
+            },
+            {
+              "id": "earth-environmental",
+              "a": [
+                "EES 2001"
+              ],
+              "b": [
+                "EES 2011",
+                "EES 2021",
+                "EES 2061",
+                "EES 3051"
+              ],
+              "note": "EES 2011 and EES 2061 require CHEM 1031. EES 2021 and EES 3051 do not."
+            },
+            {
+              "id": "physics",
+              "note": "A and B may come from different physics tracks.",
+              "a": [
+                "PHYS 1021",
+                "PHYS 1061",
+                "PHYS 1961",
+                "PHYS 2021",
+                "PHYS 2921"
+              ],
+              "b": [
+                "PHYS 1022",
+                "PHYS 1062",
+                "PHYS 1962",
+                "PHYS 2022",
+                "PHYS 2922"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "free-electives",
+      "title": "Free electives",
+      "kind": "creditRange",
+      "credits": {
+        "min": 22,
+        "max": 24
+      },
+      "note": "Any course not already used for General Education, the college seminar, or the major. This is separate from the 15-16 credit Computer Science elective block, which sits inside the 73-74 credit major."
+    }
+  ],
+  "coursesUsed": [
+    "BIOL 1011",
+    "BIOL 1012",
+    "BIOL 1111",
+    "BIOL 1112",
+    "BIOL 1911",
+    "BIOL 1912",
+    "BIOL 2112",
+    "BIOL 2912",
+    "CHEM 1021",
+    "CHEM 1022",
+    "CHEM 1023",
+    "CHEM 1024",
+    "CHEM 1031",
+    "CHEM 1032",
+    "CHEM 1033",
+    "CHEM 1034",
+    "CHEM 1951",
+    "CHEM 1952",
+    "CHEM 1953",
+    "CHEM 1954",
+    "CIS 1001",
+    "CIS 1051",
+    "CIS 1057",
+    "CIS 1068",
+    "CIS 1166",
+    "CIS 1951",
+    "CIS 1966",
+    "CIS 1968",
+    "CIS 2033",
+    "CIS 2107",
+    "CIS 2166",
+    "CIS 2168",
+    "CIS 3100",
+    "CIS 3203",
+    "CIS 3207",
+    "CIS 3211",
+    "CIS 3217",
+    "CIS 3223",
+    "CIS 3296",
+    "CIS 3308",
+    "CIS 3319",
+    "CIS 3374",
+    "CIS 3381",
+    "CIS 3441",
+    "CIS 3515",
+    "CIS 3523",
+    "CIS 3603",
+    "CIS 3605",
+    "CIS 3655",
+    "CIS 3715",
+    "CIS 3755",
+    "CIS 4203",
+    "CIS 4282",
+    "CIS 4307",
+    "CIS 4319",
+    "CIS 4324",
+    "CIS 4331",
+    "CIS 4345",
+    "CIS 4350",
+    "CIS 4360",
+    "CIS 4397",
+    "CIS 4398",
+    "CIS 4419",
+    "CIS 4429",
+    "CIS 4515",
+    "CIS 4517",
+    "CIS 4523",
+    "CIS 4524",
+    "CIS 4526",
+    "CIS 4626",
+    "CIS 4696",
+    "EES 2001",
+    "EES 2011",
+    "EES 2021",
+    "EES 2061",
+    "EES 3051",
+    "ENG 0802",
+    "ENG 0812",
+    "ENG 0902",
+    "IH 0851",
+    "IH 0852",
+    "IH 0951",
+    "IH 0952",
+    "MATH 1041",
+    "MATH 1042",
+    "MATH 1941",
+    "MATH 1942",
+    "MATH 2043",
+    "MATH 2101",
+    "MATH 2103",
+    "PHYS 1021",
+    "PHYS 1022",
+    "PHYS 1061",
+    "PHYS 1062",
+    "PHYS 1961",
+    "PHYS 1962",
+    "PHYS 2021",
+    "PHYS 2022",
+    "PHYS 2921",
+    "PHYS 2922",
+    "SCTC 1001",
+    "SCTC 2001"
+  ]
+}
