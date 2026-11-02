@@ -1,0 +1,139 @@
+/*
+ * The Drill-in course page on the Find page. Every class is `course-page-` prefixed.
+ * Kind colours are the --kind-* tokens in globals.css.
+ */
+
+.course-page-head { flex: none; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+.course-page-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 44px;
+  padding: 0 10px 0 6px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease-out, transform 150ms ease-out;
+}
+.course-page-back:active { transform: scale(0.96); }
+
+.course-page-scroll {
+  flex: 1;
+  min-height: 0;
+  padding: 18px 20px 24px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.course-page { display: grid; gap: 22px; }
+.course-page-title { display: grid; gap: 4px; }
+.course-page-title h3 {
+  margin: 2px 0 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+.course-page-eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 5px;
+  font-size: 12px;
+  color: var(--ink-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.course-page-code { font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.course-page-dot { color: var(--ink-tertiary); }
+.course-page-counts { font-weight: 500; color: var(--k-ink, var(--ink-secondary)); }
+.course-page-counts[data-kind="core"] { --k-ink: var(--kind-core-ink); }
+.course-page-counts[data-kind="elective"] { --k-ink: var(--kind-elective-ink); }
+.course-page-counts[data-kind="gened"] { --k-ink: var(--kind-gened-ink); }
+.course-page-when { font-size: 13px; color: var(--ink-secondary); font-variant-numeric: tabular-nums; }
+.course-page-status { font-size: 13px; line-height: 1.45; color: var(--ink-tertiary); }
+.course-page-status[data-tone="ok"] { color: var(--success); }
+.course-page-status[data-tone="warn"] { color: var(--warning); }
+
+.course-page-facts {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 4px 18px;
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--muted);
+}
+.course-page-facts div { display: grid; gap: 2px; min-width: 0; }
+.course-page-facts dt { font-size: 12px; color: var(--ink-tertiary); }
+.course-page-facts dd { margin: 0; font-size: 13px; font-weight: 500; overflow-wrap: break-word; }
+
+.course-page-sec h4 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+}
+.course-page-sec > p { margin: 0; max-width: 65ch; font-size: 14px; line-height: 1.55; color: var(--ink-secondary); text-wrap: pretty; }
+.course-page-sec > p + p { margin-top: 8px; }
+.course-page-courselist { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.course-page-courselist li { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 8px; font-size: 14px; line-height: 1.4; }
+.course-page-courselist b { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.course-page-courselist span { color: var(--ink-secondary); text-wrap: pretty; }
+.course-page-courselist small { display: block; margin-top: 1px; font-size: 12px; color: var(--ink-tertiary); }
+.course-page-courselist small[data-tone="need"] { color: var(--ink); font-weight: 500; }
+.course-page-sec > .course-page-need { margin-top: 10px; font-size: 13px; font-weight: 500; color: var(--ink); }
+.course-page-sec > .course-page-fine { margin-top: 8px; font-size: 12px; line-height: 1.5; color: var(--ink-tertiary); }
+.course-page-sec > .course-page-restriction { margin-top: 10px; font-size: 13px; line-height: 1.5; overflow-wrap: break-word; }
+.course-page-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.course-page-tag { padding: 4px 10px; border-radius: 999px; background: var(--muted); font-size: 12px; color: var(--ink-secondary); }
+
+.course-page-foot {
+  display: grid;
+  flex: none;
+  gap: 8px;
+  padding: 12px 16px 14px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+.course-page-note { margin: 0; font-size: 12px; line-height: 1.45; color: var(--ink-tertiary); text-align: center; }
+/* A note in place of the Shortlist button keeps the button's 44px, so the page above does not resize. */
+.course-page-note:only-child { display: grid; align-content: center; min-height: 44px; }
+
+/* Shortlist is secondary here: the page's red primary is "Back to plan". */
+.course-page-btn {
+  min-height: 44px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow-control);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease-out, box-shadow 150ms ease-out, transform 150ms ease-out;
+}
+.course-page-btn[data-on] { background: transparent; box-shadow: none; color: var(--ink-secondary); }
+.course-page-btn[aria-disabled] { background: var(--muted); box-shadow: none; color: var(--ink-tertiary); cursor: not-allowed; }
+.course-page-btn:not([aria-disabled]):active { transform: scale(0.96); }
+
+@media (hover: hover) and (pointer: fine) {
+  .course-page-back:hover,
+  .course-page-btn:not([aria-disabled]):hover { background: var(--muted); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .course-page-back,
+  .course-page-btn { transition: none; }
+  .course-page-back:active,
+  .course-page-btn:not([aria-disabled]):active { transform: none; }
+}

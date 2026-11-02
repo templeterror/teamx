@@ -1,0 +1,229 @@
+/*
+ * The Find page layout: the finder on the left, a column on the right with the
+ * mini week, the shortlist and "Back to plan". Classes are `finder-` prefixed.
+ */
+
+/*
+ * Fills the viewport under the 56px top bar and never scrolls; the finder's table
+ * and the shortlist scroll inside themselves. The other workspace routes stay
+ * mounted (hidden) after a visit, so the page cannot reach up with :has(); it
+ * cancels workspace-main's padding (0 40px 60px) itself.
+ */
+.finder-page {
+  --finder-ease: cubic-bezier(0.32, 0.72, 0, 1);
+
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 24px;
+  height: calc(100dvh - 56px);
+  margin: 0 -40px -60px;
+  padding: 24px;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.finder-page :where(a, button):focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* ---------- Right column ---------- */
+
+.finder-side { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+
+.finder-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: var(--elevation);
+}
+
+/* Drill-in: the course page slides over the week and the shortlist. In 300ms, back 220ms. */
+.finder-track {
+  display: grid;
+  flex: 1;
+  grid-template-columns: 100% 100%;
+  min-height: 0;
+  transition: transform 220ms var(--finder-ease);
+}
+.finder-panel[data-open] .finder-track { transform: translateX(-100%); transition-duration: 300ms; }
+.finder-pane { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; }
+.finder-pagepane { background: var(--surface); }
+
+.finder-sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.finder-sec-head h2 { margin: 0; font-size: 14px; font-weight: 600; }
+.finder-sec-head h2:focus:not(:focus-visible) { outline: none; }
+.finder-sec-head h2:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 4px; }
+.finder-sec-head > span { font-size: 12px; color: var(--ink-tertiary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.finder-sec-head > span[data-tone="full"] { color: var(--ink); }
+
+.finder-week { position: relative; flex: none; padding: 14px 16px 12px; border-bottom: var(--hairline) solid var(--line); }
+/* Laid over the empty grid, so the first shortlisted course does not move the shortlist below. */
+.finder-week-empty {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  left: 38px;
+  margin: 0;
+  font-size: 12px;
+  color: var(--ink-tertiary);
+  text-align: center;
+  pointer-events: none;
+}
+
+/* Shortlist */
+.finder-list { display: flex; flex: 1; flex-direction: column; min-height: 0; padding-top: 14px; }
+.finder-list .finder-sec-head { margin-bottom: 4px; padding: 0 16px; }
+.finder-sl-empty { display: grid; justify-items: start; gap: 4px; margin: 4px 16px 16px; font-size: 13px; line-height: 1.5; color: var(--ink-tertiary); text-wrap: pretty; }
+.finder-sl-empty p { margin: 0; }
+.finder-sl-empty strong { font-weight: 500; color: var(--ink); }
+.finder-sl-empty button {
+  min-height: 44px;
+  margin-top: 4px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow-control);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: box-shadow 150ms ease-out, transform 150ms ease-out;
+}
+.finder-sl-empty button:active { transform: scale(0.96); }
+/*
+ * Until the shortlist is read from this tab's storage (after hydration), everything that
+ * depends on it is held blank at its real size, so a reload never shows an empty shortlist first.
+ */
+.finder-page[data-pending] :is(.finder-sec-head > span, .finder-week-empty, .finder-list > :not(.finder-sec-head), .finder-side-foot > *, .finder-shortlist) { visibility: hidden; }
+.finder-sl {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0 6px 8px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+}
+.finder-sl-row { display: flex; align-items: center; border-radius: 8px; transition: background-color 150ms ease-out; }
+.finder-sl-row[data-kind="core"] { --k: var(--kind-core); --k-tint: var(--kind-core-tint); }
+.finder-sl-row[data-kind="elective"] { --k: var(--kind-elective); --k-tint: var(--kind-elective-tint); }
+.finder-sl-row[data-kind="gened"] { --k: var(--kind-gened); --k-tint: var(--kind-gened-tint); }
+.finder-sl-row[data-kind="free-elective"] { --k: var(--kind-free-elective); --k-tint: var(--kind-free-elective-tint); }
+.finder-sl-row[data-hot] { background: var(--muted); }
+.finder-sl-open {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 4px 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.finder-sl-open i {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: color-mix(in oklch, var(--k-tint) 70%, var(--surface));
+  outline: 1.25px dashed var(--k);
+  outline-offset: -1.25px;
+}
+.finder-sl-open b { flex: none; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.finder-sl-title { flex: 1; min-width: 0; overflow: hidden; font-size: 13px; color: var(--ink-secondary); white-space: nowrap; text-overflow: ellipsis; }
+.finder-sl-cr { flex: none; font-size: 12px; color: var(--ink-tertiary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.finder-sl-remove {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-tertiary);
+  cursor: pointer;
+  transition: background-color 150ms ease-out, color 150ms ease-out, transform 150ms ease-out;
+}
+.finder-sl-remove:active { transform: scale(0.96); }
+.finder-sl :focus-visible { outline-offset: -2px; }
+
+.finder-side-foot { display: grid; flex: none; padding: 12px 16px 14px; border-top: var(--hairline) solid var(--line); }
+/* The page's one red primary. */
+.finder-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 150ms ease-out, transform 150ms ease-out;
+}
+.finder-primary { font-variant-numeric: tabular-nums; }
+.finder-primary:active,
+.finder-quiet-link:active { transform: scale(0.96); }
+.finder-quiet-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border-radius: 8px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 150ms ease-out, transform 150ms ease-out;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .finder-sl-row:hover { background: var(--muted); }
+  .finder-sl-remove:hover { background: var(--line); color: var(--ink); }
+  .finder-primary:hover { background: var(--accent-hover); }
+  .finder-sl-empty button:hover { box-shadow: var(--shadow-control-hover); }
+  .finder-quiet-link:hover { background: var(--muted); }
+}
+
+/* ---------- Narrow: the right column goes under the finder, and the page scrolls ---------- */
+
+@media (max-width: 1100px) {
+  .finder-page { grid-template-columns: minmax(0, 1fr); height: auto; margin: 0; padding: 24px 0 0; }
+  .finder-page .finder-body > .finder-scroll { height: 60dvh; flex: none; }
+  .finder-panel { flex: none; height: min(640px, 90dvh); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .finder-track,
+  .finder-panel[data-open] .finder-track,
+  .finder-sl-row,
+  .finder-sl-remove,
+  .finder-primary,
+  .finder-quiet-link,
+  .finder-sl-empty button { transition: none; }
+  .finder-primary:active,
+  .finder-quiet-link:active,
+  .finder-sl-remove:active,
+  .finder-sl-empty button:active { transform: none; }
+}

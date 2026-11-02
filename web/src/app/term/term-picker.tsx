@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import "../../components/plan/plan.css";
-
-const oldTerms = ["Fall 2026", "Spring 2026", "Fall 2025"];
+import { closedTerms } from "../../components/plan/terms";
 
 export function TermPicker() {
   const [open, setOpen] = useState(false);
@@ -34,10 +33,10 @@ export function TermPicker() {
         </button>
         {open ? (
           <div className="old-terms">
-            {oldTerms.map((term) => (
-              <Link key={term} href={`/plan?term=${encodeURIComponent(term)}`}>
-                {term}
-                <span className="meta"> Closed</span>
+            {closedTerms.map((term) => (
+              <Link key={term.slug} href={`/term/${term.slug}`}>
+                {term.name}
+                <span className="meta"> Completed · view only</span>
               </Link>
             ))}
           </div>

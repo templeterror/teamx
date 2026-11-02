@@ -44,3 +44,7 @@ Import `web/src/data`. Do not copy course lists into components. Source is the 2
 - `academic-plan.json` — eight-semester plan
 - `sections.json` — placeholder meetings, Monday/Wednesday/Friday or Tuesday/Thursday
 - `web/scripts/build_mock_data.py` — rebuilds the JSON
+
+## Design exploration
+
+For redesigning a component, use the `rafiat-design-exploration` skill.

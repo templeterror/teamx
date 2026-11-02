@@ -5,6 +5,8 @@
  *
  * Rendered on /plan, and on /components in fixed states for design work.
  * Every class is `sp-` prefixed so it never collides with plan.css.
+ * Courses shortlisted on /find arrive as suggestions with the reason line
+ * "You shortlisted this"; Confirm plan removes every course that was dropped.
  *
  * Decision model: every course arrives as a suggestion. The student confirms
  * one at a time or all at once with "Confirm plan". Anything the student does
@@ -12,7 +14,8 @@
  * that course. Confirmed courses can still be changed.
  */
 
-import { useEffect, useId, useRef, useState, type RefObject } from "react";
+import NextLink from "next/link";
+import { useEffect, useId, useRef, useState, type ReactNode, type RefObject } from "react";
 import { CREDIT_MAX, DAY_END, DAY_START, type Day, type Offering } from "@/components/plan/data";
 import { formatMeetings, type Placement, type usePlan } from "@/components/plan/use-plan";
 import { courses, sections } from "@/data";
@@ -22,7 +25,9 @@ import "./schedule-pair.css";
 export type PairPlan = Pick<
   ReturnType<typeof usePlan>,
   "placements" | "credits" | "conflictsFor" | "toggleCourse"
->;
+> &
+  /* The live plan owns confirmation so review can read it; fixtures fall back to local state. */
+  Partial<Pick<ReturnType<typeof usePlan>, "confirmed" | "setConfirmed" | "confirmPlan" | "fromShortlist">>;
 
 const DAYS: Day[] = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 
@@ -46,6 +51,10 @@ export type Previewing = {
   credits: number;
 };
 
+type KindOf = (item: Placement) => Placement["kind"];
+const ownKind: KindOf = (item) => item.kind;
+const NONE: ReadonlySet<string> = new Set();
+
 function overlaps(a: Offering, b: Offering) {
   return a.days.some((d) => b.days.includes(d)) && a.start < b.end && b.start < a.end;
 }
@@ -55,23 +64,32 @@ export function SchedulePair({
   defaultExpanded = null,
   initialConfirmed = [],
   initialPreview = null,
+  kindFor = ownKind,
+  findHref,
+  coursesAction,
 }: {
   plan: PairPlan;
   defaultExpanded?: string | null;
   initialConfirmed?: readonly string[] | "all";
   initialPreview?: PreviewTarget | null;
+  /* The colour category for a placement, when the host knows better than `item.kind`. */
+  kindFor?: KindOf;
+  /* Where an open slot's "Find more →" goes (a card with options); null leaves it out. */
+  findHref?: (item: Placement) => string | null;
+  /* Rendered in the Your courses toolbar, e.g. "Find courses →". */
+  coursesAction?: ReactNode;
 }) {
   const id = useId();
-  const [confirmed, setConfirmed] = useState<Confirmed>(() =>
+  const [localConfirmed, setLocalConfirmed] = useState<Confirmed>(() =>
     Object.fromEntries(
       plan.placements
         .filter((p) => initialConfirmed === "all" || initialConfirmed.includes(p.id))
         .map((p) => [p.id, true]),
     ),
   );
+  const confirmed = plan.confirmed ?? localConfirmed;
+  const setConfirmed = plan.setConfirmed ?? setLocalConfirmed;
   const [announcement, setAnnouncement] = useState("");
-  /* Why a course is off this term, for the "Not this term" group. */
-  const [offReason, setOffReason] = useState<Record<string, "later" | "removed">>({});
   /* One selection shared by the week and the list: click either side, both respond. */
   const [selected, setSelected] = useState<string | null>(defaultExpanded);
   const [hovered, setHovered] = useState<string | null>(null);
@@ -136,14 +154,20 @@ export function SchedulePair({
   };
 
   const decide = {
+    /* Everything the student dropped leaves the plan; a course moved to a later term stays. */
     confirmAll() {
-      setConfirmed((c) => ({ ...c, ...Object.fromEntries(active.map((p) => [p.id, true])) }));
-      setAnnouncement("Plan confirmed.");
+      const dropped = plan.placements.filter((p) => p.dropped);
+      if (plan.confirmPlan) plan.confirmPlan();
+      else setConfirmed((c) => ({ ...c, ...Object.fromEntries(active.map((p) => [p.id, true])) }));
+      if (plan.confirmPlan && dropped.length) {
+        setSelected((s) => (dropped.some((p) => p.id === s) ? null : s));
+        setAnnouncement(`Plan confirmed. Removed ${dropped.length} dropped ${dropped.length === 1 ? "course" : "courses"}.`);
+      } else setAnnouncement("Plan confirmed.");
     },
     /* Reopen a confirmed plan: everything goes back to being a suggestion. */
     editPlan() {
       setConfirmed({});
-      setAnnouncement("Plan reopened. Confirm it again when you're done.");
+      setAnnouncement("Plan reopened. Confirm it again when you’re done.");
     },
     swap(item: Placement, code: string) {
       setPinned(null);
@@ -153,7 +177,6 @@ export function SchedulePair({
       setAnnouncement(`Changed ${item.course.code} to ${code}. Confirmed.`);
     },
     remove(item: Placement) {
-      setOffReason((r) => ({ ...r, [item.id]: "removed" }));
       plan.toggleCourse(item);
       setAnnouncement(`${item.course.code} dropped from your plan.`);
     },
@@ -163,7 +186,6 @@ export function SchedulePair({
       setAnnouncement(`${item.course.code} added back. Confirmed.`);
     },
     later(item: Placement) {
-      setOffReason((r) => ({ ...r, [item.id]: "later" }));
       item.defer?.();
       setAnnouncement(`${item.course.code} moved to a later term.`);
     },
@@ -192,21 +214,31 @@ export function SchedulePair({
               </span>
             ) : (
               <span>
-                {plan.credits} credits
+                <span data-tone={plan.credits > CREDIT_MAX ? "warn" : undefined}>
+                  {plan.credits} credits
+                  {plan.credits > CREDIT_MAX && <> · over {CREDIT_MAX}</>}
+                </span>
                 {suggested.length > 0 && <> · {suggested.length} suggested</>}
               </span>
             )}
           </div>
           <div className="sp-calendar">
-            <Week plan={plan} confirmed={confirmed} link={link} previewing={previewing} />
+            <Week
+              plan={plan}
+              confirmed={confirmed}
+              link={link}
+              previewing={previewing}
+              kindOf={kindFor}
+            />
           </div>
-          <Legend />
+          <Legend free={active.some((p) => kindFor(p) === "free-elective")} />
         </section>
         <section aria-labelledby={`${id}-courses`}>
           <div className="sp-toolbar">
             <h2 id={`${id}-courses`}>Your courses</h2>
-            <span>
+            <span className="sp-courses-meta">
               {suggested.length === 0 && active.length > 0 ? "Plan confirmed" : "Suggested plan"}
+              {coursesAction}
             </span>
           </div>
           <CourseList
@@ -219,7 +251,9 @@ export function SchedulePair({
             link={link}
             previewing={previewing}
             preview={preview}
-            offReason={offReason}
+            kindOf={kindFor}
+            fromShortlist={plan.fromShortlist ?? NONE}
+            findHref={findHref}
           />
         </section>
       </div>
@@ -265,15 +299,24 @@ function Week({
   confirmed,
   link,
   previewing,
+  kindOf,
 }: {
   plan: PairPlan;
   confirmed: Confirmed;
   link: Link;
   previewing: Previewing | null;
+  kindOf: KindOf;
 }) {
-  const lines: number[] = [];
-  for (let minute = DAY_START; minute <= DAY_END; minute += 60) lines.push(minute);
   const active = plan.placements.filter((item) => !item.deferred);
+  /*
+   * The day starts at 8 AM when a course does (sample sections run 8:00–5:40), otherwise
+   * at 9, and ends at 6 PM when a course runs past 5, so no class draws outside the grid.
+   */
+  const met = active.filter((item) => item.course.days.length);
+  const dayStart = met.some((item) => item.course.start < DAY_START) ? DAY_START - 60 : DAY_START;
+  const dayEnd = met.some((item) => item.course.end > DAY_END) ? DAY_END + 60 : DAY_END;
+  const lines: number[] = [];
+  for (let minute = dayStart; minute <= dayEnd; minute += 60) lines.push(minute);
 
   const entries: Entry[] = active.flatMap((item): Entry[] =>
     previewing && previewing.item.id === item.id
@@ -289,15 +332,17 @@ function Week({
   return (
     <div
       className="sp-week"
+      role="group"
       aria-label="Week of classes"
       data-focusing={link.selected !== null && active.some((p) => p.id === link.selected) ? true : undefined}
       data-previewing={previewing ? true : undefined}
+      style={{ ["--sp-hours" as string]: (dayEnd - dayStart) / 60 }}
     >
       <div className="sp-week-head">
         <div />
         {DAYS.map((day) => {
-          const today = after.filter((e) => e.course.days.includes(day));
-          const minutes = today.reduce((sum, e) => sum + e.course.end - e.course.start, 0);
+          const today = after.filter((e) => e.course.days.includes(day)).map((e) => e.course);
+          const minutes = today.reduce((sum, c) => sum + c.end - c.start, 0);
           const changed =
             previewing !== null &&
             previewing.item.course.days.includes(day) !== previewing.alt.days.includes(day);
@@ -337,7 +382,7 @@ function Week({
           {lines.map((minute) => {
             const { n, suffix } = hourLabel(minute);
             return (
-              <span key={minute} className="sp-hour" style={{ top: `calc(var(--sp-hour) * ${(minute - DAY_START) / 60})` }}>
+              <span key={minute} className="sp-hour" style={{ top: `calc(var(--sp-hour) * ${(minute - dayStart) / 60})` }}>
                 {n}
                 <small>{suffix}</small>
               </span>
@@ -357,7 +402,7 @@ function Week({
                 const lane = todayAfter
                   .filter((o) => o === e || clashes.includes(o))
                   .indexOf(e);
-                const top = `calc(var(--sp-hour) * ${(e.course.start - DAY_START) / 60})`;
+                const top = `calc(var(--sp-hour) * ${(e.course.start - dayStart) / 60})`;
                 const height = `calc(var(--sp-hour) * ${(e.course.end - e.course.start) / 60} - 2px)`;
                 const width = clashes.length ? "calc(50% - 5px)" : "calc(100% - 6px)";
                 const left = clashes.length && lane > 0 ? "calc(50% + 2px)" : "3px";
@@ -378,7 +423,7 @@ function Week({
                   return (
                     <div
                       key={e.key}
-                      className={`sp-block sp-${e.item.kind}`}
+                      className={`sp-block sp-${kindOf(e.item)}`}
                       data-role="incoming"
                       data-clash={clashes.length > 0 || undefined}
                       style={{ top, height, width, left }}
@@ -395,7 +440,7 @@ function Week({
                   <button
                     type="button"
                     key={e.key}
-                    className={`sp-block sp-${e.item.kind}`}
+                    className={`sp-block sp-${kindOf(e.item)}`}
                     data-role={e.role}
                     data-state={state}
                     aria-pressed={link.selected === e.item.id}
@@ -421,10 +466,11 @@ function Week({
   );
 }
 
-function Legend() {
+function Legend({ free }: { free: boolean }) {
+  const kinds: Placement["kind"][] = ["core", "elective", "gened", ...(free ? (["free-elective"] as const) : [])];
   return (
     <div className="sp-legend">
-      {(["core", "elective", "gened"] as const).map((kind) => (
+      {kinds.map((kind) => (
         <span key={kind} className="sp-legend-item">
           <i className={`sp-swatch sp-${kind}`} aria-hidden="true" />
           {kind === "core" ? "Core" : KIND_LABEL[kind]}
@@ -471,8 +517,8 @@ export type Decide = {
 };
 
 /*
- * Your courses — Cards (chosen from /proto/your-courses) with a Drill-in course
- * page (chosen from /proto/course-details). See productthink.md.
+ * Your courses — Cards with a Drill-in course page. See productthink.md,
+ * "Your courses" and "Course details".
  * Every course is a card: code and credits, title, days and time, Or chips.
  * Tapping a card (or its class in the week) slides the panel to the course page.
  */
@@ -500,7 +546,9 @@ type ListProps = {
   link: Link;
   previewing: Previewing | null;
   preview: PreviewControls;
-  offReason: Record<string, "later" | "removed">;
+  kindOf: KindOf;
+  fromShortlist: ReadonlySet<string>;
+  findHref?: (item: Placement) => string | null;
 };
 
 const calm = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -529,11 +577,16 @@ function usePinnedInView(ref: RefObject<HTMLElement | null>, previewing: Preview
 }
 
 function CourseList(props: ListProps) {
-  const { plan, link, previewing } = props;
-  /* Choices first, then major core. Dropped courses keep their place, dimmed. */
+  const { plan, link, previewing, kindOf, fromShortlist } = props;
+  /*
+   * Choices first, then major core. Shortlisted courses go with the choices, after the
+   * planner's own. Dropped courses keep their place, dimmed, until Confirm plan removes them.
+   */
+  const mine = (p: Placement) => fromShortlist.has(p.course.code);
   const cards = [
-    ...plan.placements.filter((p) => CHOICE_KINDS.includes(p.kind)),
-    ...plan.placements.filter((p) => !CHOICE_KINDS.includes(p.kind)),
+    ...plan.placements.filter((p) => !mine(p) && CHOICE_KINDS.includes(kindOf(p))),
+    ...plan.placements.filter(mine),
+    ...plan.placements.filter((p) => !mine(p) && !CHOICE_KINDS.includes(kindOf(p))),
   ];
 
   /* The course page is open whenever a course is selected, from the list or the week. */
@@ -572,7 +625,7 @@ function CourseList(props: ListProps) {
         <div className="sp-pane" inert={Boolean(openItem)}>
           <header className="sp-card-head">
             <strong>Your semester</strong>
-            <span>
+            <span data-tone={plan.credits > CREDIT_MAX ? "warn" : undefined}>
               {plan.credits} of {CREDIT_MAX} credits
             </span>
           </header>
@@ -623,14 +676,15 @@ function CourseCard({
   const alts = dropped ? [] : item.options.filter((o) => o.code !== item.course.code);
   const clashes = dropped ? [] : props.plan.conflictsFor(item.id);
   const pinnedAlt = alts.find((o) => previewHandlers(props, item, o).pinned);
-  const offNote =
-    (props.offReason[item.id] ?? (item.defer ? "later" : "removed")) === "later"
-      ? "Later term"
-      : "Dropped";
+  const offNote = item.dropped ? "Dropped" : "Later term";
+  /* An open slot (a card with options) links to the Find page, scoped to it. */
+  const findMore = !dropped && item.options.length > 0 ? props.findHref?.(item) : null;
+  /* Where the planner's cards would say why, a shortlisted course says who picked it. */
+  const reason = props.fromShortlist.has(item.course.code) ? item.course.why : null;
 
   return (
     <article
-      className={`sp-ccard sp-${item.kind}`}
+      className={`sp-ccard sp-${props.kindOf(item)}`}
       data-item={item.id}
       data-linked={link.hovered === item.id || undefined}
       data-confirmed={confirmed[item.id] || undefined}
@@ -641,7 +695,7 @@ function CourseCard({
       <button
         ref={mainRef}
         className="sp-ccard-main"
-        aria-label={`${item.course.code} ${item.course.title}, ${formatMeetings(item.course)}. Open course details`}
+        aria-label={`${item.course.code} ${item.course.title}, ${formatMeetings(item.course)}${reason ? `. ${reason}` : ""}. Open course details`}
         onClick={() => link.select(item.id, "list")}
       >
         <span className="sp-ccard-top">
@@ -656,6 +710,11 @@ function CourseCard({
         </span>
         <span className="sp-ccard-title">{item.course.title}</span>
         <MeetingTime course={item.course} />
+        {reason && (
+          <span className="sp-ccard-meta sp-reason" aria-hidden="true">
+            {reason}
+          </span>
+        )}
       </button>
 
       {clashes.length > 0 && (
@@ -680,10 +739,22 @@ function CourseCard({
                 title={`${option.code} · ${option.title} · ${formatMeetings(option)}`}
                 {...handlers}
               >
-                {shortTitle(option.title)}
+                <span className="sp-chip-label">{shortTitle(option.title)}</span>
               </button>
             );
           })}
+          {findMore && (
+            <NextLink href={findMore} className="sp-findlink sp-findmore">
+              Find more →
+            </NextLink>
+          )}
+        </div>
+      )}
+      {alts.length === 0 && findMore && (
+        <div className="sp-chips">
+          <NextLink href={findMore} className="sp-findlink sp-findmore">
+            Find more →
+          </NextLink>
         </div>
       )}
 
@@ -697,6 +768,7 @@ function CourseCard({
 type PrereqNode = { op?: "all" | "any"; of?: PrereqNode[]; kind?: string; code?: string };
 type CourseRecord = {
   title: string;
+  credits?: { value?: number; options?: number[]; min?: number; max?: number };
   description?: string;
   attributes?: string[];
   typicallyOffered?: string | null;
@@ -759,7 +831,7 @@ function CourseDetails({ item, props }: { item: Placement; props: ListProps }) {
 
   return (
     <div className="sp-details">
-      <header className={`sp-details-head sp-${item.kind}`}>
+      <header className={`sp-details-head sp-${props.kindOf(item)}`}>
         <span className="sp-ccard-code">
           {item.course.code} · {item.course.credits} {item.course.credits === 1 ? "credit" : "credits"}
         </span>
@@ -1045,7 +1117,10 @@ function Footer({ suggestedCount, activeCount, decide, announcement }: ListProps
           Confirm plan
         </button>
       ) : (
-        <p>Add a course to start your plan.</p>
+        <p className="sp-foot-empty">
+          <strong>Nothing in your plan</strong>
+          Add a course back, or find new ones.
+        </p>
       )}
       <p className="sp-sr" aria-live="polite">
         {announcement}

@@ -112,6 +112,8 @@ export function useFixture(seeds: readonly Seed[]): PairPlan {
   const [off, setOff] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(seeds.map((s) => [s.id, Boolean(s.deferred)])),
   );
+  /* Off because of Drop, as opposed to moved to a later term. */
+  const [dropped, setDropped] = useState<Record<string, boolean>>({});
 
   const placements: Placement[] = seeds.map((s) => ({
     id: s.id,
@@ -120,6 +122,7 @@ export function useFixture(seeds: readonly Seed[]): PairPlan {
     dotted: s.dotted,
     options: s.options,
     deferred: off[s.id],
+    dropped: off[s.id] && dropped[s.id],
     pick: (code) => {
       const next = s.options.find((o) => o.code === code);
       if (next) setChosen((c) => ({ ...c, [s.id]: next }));
@@ -138,6 +141,9 @@ export function useFixture(seeds: readonly Seed[]): PairPlan {
       const me = active.find((p) => p.id === id);
       return me ? active.filter((p) => p.id !== id && overlaps(p.course, me.course)) : [];
     },
-    toggleCourse: (item) => setOff((o) => ({ ...o, [item.id]: !o[item.id] })),
+    toggleCourse: (item) => {
+      setOff((o) => ({ ...o, [item.id]: !o[item.id] }));
+      setDropped((d) => ({ ...d, [item.id]: !item.deferred }));
+    },
   };
 }

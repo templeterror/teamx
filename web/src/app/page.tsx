@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import "./../components/plan/plan.css";
+
+export const metadata: Metadata = {
+  title: "Sign in · Course Planner",
+};
 
 export default function LoginPage() {
   return (

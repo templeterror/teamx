@@ -11,3 +11,5 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 # Team X web app
 
 Repo rules are in the root `AGENTS.md`. Catalog JSON is in `src/data`.
+
+Routes: `/term` (pick a term) → `/find` (Find page, shortlist) · `/plan` (week and Your courses) · `/plan/review`, which share one `PlanShell` through `src/app/(workspace)/layout.tsx`. `/components` is the design workbench, unlinked.

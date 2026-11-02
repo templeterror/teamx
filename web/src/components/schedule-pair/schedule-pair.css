@@ -59,7 +59,7 @@
   .sp { --hairline: 0.5px; }
 }
 
-.sp :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.sp :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* Layout */
 .sp-layout {
@@ -72,7 +72,8 @@
   .sp-layout { grid-template-columns: minmax(0, 1fr) 350px; }
 }
 @container (max-width: 900px) {
-  .sp-layout { grid-template-columns: 1fr; }
+  /* minmax(0, …): the 560px week scrolls inside its card instead of widening the page. */
+  .sp-layout { grid-template-columns: minmax(0, 1fr); }
 }
 
 .sp-toolbar {
@@ -92,9 +93,32 @@
   background: var(--muted);
   color: var(--ink);
   font-weight: 500;
+  /* The pill is 3px taller than the heading; the negative margin keeps the toolbar, and the week, still. */
+  margin-block: -3px;
   animation: sp-fade 200ms ease-out;
 }
-.sp-toolbar-preview i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.sp-toolbar-preview i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); pointer-events: none; }
+/* Over the 18-credit limit: the credits line and "N of 18 credits" turn amber. */
+.sp-toolbar [data-tone="warn"],
+.sp-card-head > span[data-tone="warn"] { color: var(--warning); }
+
+/* "Find courses →" beside the Your courses status, and "Find more →" on an open slot's card. */
+.sp-toolbar > .sp-courses-meta { display: inline-flex; align-items: baseline; gap: 12px; }
+.sp-findlink {
+  position: relative;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.sp-findlink::after { content: ""; position: absolute; inset: -14px -6px; }
+/* Same 30px row as the Or chips, so its hit area lines up with theirs. */
+.sp-findmore { display: inline-flex; align-items: center; min-height: 30px; margin-left: auto; color: var(--ink-secondary); font-size: 12px; }
+/* A shortlisted course's reason line, under its meeting time. */
+.sp-reason { color: var(--ink-secondary); }
+/* Press feedback, now that the tap highlight is off (globals.css). */
+.sp-findlink:active { text-decoration: underline; text-underline-offset: 3px; }
 @keyframes sp-fade { from { opacity: 0; } }
 
 /* Weekly schedule */
@@ -119,7 +143,7 @@
 .sp-week-head {
   position: sticky;
   top: 0;
-  z-index: 3;
+  z-index: var(--z-sticky);
   height: var(--sp-head);
   border-bottom: 1px solid rgb(0 0 0 / 0.06);
   background: color-mix(in oklch, var(--surface) 82%, transparent);
@@ -141,8 +165,9 @@
 /* Room above the first and below the last hour line so their labels are not clipped. */
 .sp-week-body { padding: 12px 0 16px; }
 
+.sp-hours { user-select: none; }
 .sp-hours,
-.sp-day { position: relative; height: calc(var(--sp-hour) * 8); }
+.sp-day { position: relative; height: calc(var(--sp-hour) * var(--sp-hours, 8)); }
 
 .sp-hour {
   position: absolute;
@@ -196,12 +221,9 @@
   text-align: left;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  /* Position comes from the hour math (top/height/left/width) and snaps; only state changes ease. */
   transition:
     opacity 200ms ease-out,
-    top 360ms var(--ease-out),
-    height 360ms var(--ease-out),
-    left 360ms var(--ease-out),
-    width 360ms var(--ease-out),
     background-color 200ms ease-out,
     box-shadow 200ms ease-out,
     transform 150ms ease-out;
@@ -269,7 +291,8 @@
   font-size: 11px;
   line-height: 14px;
   white-space: nowrap;
-  color: color-mix(in oklch, var(--k-ink) 75%, var(--surface));
+  /* 85%, not 75%: the meeting time stays at 4.5:1 on every kind's tint. */
+  color: color-mix(in oklch, var(--k-ink) 85%, var(--surface));
   font-variant-numeric: tabular-nums;
 }
 
@@ -291,14 +314,14 @@
   background: var(--warning);
   color: white;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
 }
 
 /* Selection: the picked class rings up, everything else steps back. */
 .sp-week[data-focusing]:not([data-previewing]) .sp-block:not([data-selected]):not([data-role="incoming"]):not([data-role="outgoing"]) { opacity: 0.42; }
 .sp-block[data-selected] {
-  z-index: 2;
+  z-index: var(--z-active);
   box-shadow:
     0 0 0 2px var(--surface),
     0 0 0 3.5px var(--k),
@@ -308,7 +331,7 @@
 
 /* Hovering a course in the list lights up its meetings in the week. */
 .sp-block[data-linked] {
-  z-index: 2;
+  z-index: var(--z-active);
   opacity: 1 !important;
   transform: translateY(-1px);
   box-shadow:
@@ -322,9 +345,9 @@
     0 10px 24px -10px color-mix(in oklch, var(--k) 45%, transparent);
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
   .sp-block:hover {
-    z-index: 2;
+    z-index: var(--z-active);
     transform: translateY(-1px);
     box-shadow:
       inset 0 0 0 1px color-mix(in oklch, var(--k) 22%, transparent),
@@ -333,7 +356,7 @@
   }
   .sp-block[data-state="confirmed"]:hover { background: color-mix(in oklch, var(--k-tint) 80%, var(--k) 8%); }
 }
-.sp-block:active { transform: scale(0.98); }
+.sp-block:active { transform: scale(0.96); }
 
 /*
  * Swap preview.
@@ -345,7 +368,7 @@
  */
 /* Dimmed by mixing toward white, not opacity, so gridlines never show through. */
 .sp-block[data-role="outgoing"] {
-  z-index: 1;
+  z-index: var(--z-raised);
   background: color-mix(in oklch, var(--k-tint) 55%, var(--surface));
   box-shadow: none;
   outline: 1px dashed color-mix(in oklch, var(--k) 45%, var(--surface));
@@ -362,7 +385,7 @@
 }
 
 .sp-block[data-role="incoming"] {
-  z-index: 3;
+  z-index: var(--z-preview);
   cursor: default;
   pointer-events: none;
   background: var(--k-tint);
@@ -385,11 +408,12 @@
 .sp-week[data-previewing] .sp-block[data-role="normal"]:not([data-clash]) {
   background: var(--muted);
   box-shadow: none;
-  outline: none;
   color: var(--ink-tertiary);
   opacity: 1;
   transform: none;
 }
+/* Drops the dashed edge, but never the focus ring. */
+.sp-week[data-previewing] .sp-block[data-role="normal"]:not([data-clash]):not(:focus-visible) { outline: none; }
 .sp-week[data-previewing] .sp-block[data-role="normal"]:not([data-clash])::before { background: var(--line-strong); }
 .sp-week[data-previewing] .sp-block[data-role="normal"]:not([data-clash]) .sp-block-meta { color: var(--ink-tertiary); }
 
@@ -404,9 +428,10 @@
   vertical-align: 2px;
   background: var(--accent);
 }
-.sp-block:focus-visible { z-index: 2; outline: 2px solid var(--k); outline-offset: 1px; }
+.sp-block:focus-visible { z-index: var(--z-active); outline: 2px solid var(--ink); outline-offset: 2px; }
 
 .sp-legend {
+  user-select: none;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -415,9 +440,9 @@
   font-size: 11px;
 }
 .sp-legend-item { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; color: var(--ink-secondary); }
-.sp-swatch { display: inline-block; flex: none; width: 10px; height: 10px; border-radius: 3px; background: var(--k); }
+.sp-swatch { pointer-events: none; display: inline-block; flex: none; width: 10px; height: 10px; border-radius: 3px; background: var(--k); }
 
-/* Your courses — Cards (from /proto/your-courses) + Drill-in course page (from /proto/course-details). See productthink.md.
+/* Your courses — Cards + Drill-in course page. See productthink.md.
  * Every course is a card on a soft well: code and credits, title, why, meeting time,
  * "Or" chips for alternatives, then Confirm and the quieter actions.
  */
@@ -453,6 +478,7 @@
   min-height: 0;
   padding: 12px;
   overflow: auto;
+  overscroll-behavior: contain;
   scrollbar-gutter: stable;
 }
 
@@ -467,7 +493,7 @@
 
 /* Extend small controls to a 44px hit area without changing how they look. */
 .sp-hit { position: relative; }
-.sp-hit::after { content: ""; position: absolute; inset: -6px -4px; }
+.sp-hit::after { content: ""; position: absolute; inset: -8px -4px; }
 
 /* Course card */
 .sp-ccard {
@@ -509,7 +535,15 @@
 .sp-ccard-meta { display: block; font-size: 12px; line-height: 1.45; color: var(--ink-tertiary); font-variant-numeric: tabular-nums; }
 .sp-ccard-warn { margin: 0; font-size: 13px; line-height: 1.45; color: var(--warning); }
 
-.sp-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+/* Rows sit 10px apart so the chips' 40px hit areas (44px on touch) never overlap. */
+.sp-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 6px; }
+.sp-chips .sp-hit::after,
+.sp-chips .sp-findlink::after { inset: -5px -3px; }
+@media (pointer: coarse) {
+  .sp-chips { row-gap: 14px; }
+  .sp-chips .sp-hit::after,
+  .sp-chips .sp-findlink::after { inset: -7px -3px; }
+}
 .sp-chips-label { font-size: 12px; color: var(--ink-tertiary); }
 .sp-chip {
   min-height: 30px;
@@ -521,9 +555,14 @@
   font: inherit;
   font-size: 13px;
   font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
   cursor: pointer;
   transition: background-color 150ms ease-out, color 150ms ease-out, transform 150ms ease-out;
 }
+/* A long title ends in an ellipsis; the chip's title attribute carries all of it. */
+.sp-chip-label { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .sp-chip[data-peeking] { background: var(--line); }
 .sp-chip[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
 .sp-chip:active { transform: scale(0.96); }
@@ -595,6 +634,7 @@
 .sp-page-head { padding: 10px 12px; }
 .sp-back {
   display: inline-flex;
+  transition: background-color 150ms ease-out, transform 150ms ease-out;
   align-items: center;
   gap: 2px;
   min-height: 32px;
@@ -608,7 +648,8 @@
   font-weight: 500;
   cursor: pointer;
 }
-.sp-page-scroll { flex: 1; min-height: 0; padding: 16px 20px 24px; overflow: auto; background: var(--surface); scrollbar-gutter: stable; }
+.sp-back:active { transform: scale(0.96); }
+.sp-page-scroll { flex: 1; min-height: 0; padding: 16px 20px 24px; overflow: auto; overscroll-behavior: contain; background: var(--surface); scrollbar-gutter: stable; }
 
 /* Course page */
 .sp-details { display: grid; gap: 20px; }
@@ -665,8 +706,9 @@
   cursor: pointer;
   transition: background-color 150ms ease-out;
 }
-.sp-alt-title { display: block; font-size: 14px; font-weight: 500; line-height: 1.35; }
-.sp-alt-cue { flex: none; font-size: 12px; font-weight: 500; color: var(--ink-secondary); }
+.sp-alt-title { display: block; font-size: 14px; font-weight: 500; line-height: 1.35; text-wrap: pretty; }
+/* Wide enough for "Previewing", so the title beside it never rewraps when the cue changes. */
+.sp-alt-cue { flex: none; min-width: 6em; font-size: 12px; font-weight: 500; color: var(--ink-secondary); text-align: right; }
 .sp-alt[data-peeking] { background: var(--muted); }
 .sp-alt-wrap .sp-impact { margin-top: 6px; }
 
@@ -727,7 +769,7 @@
   cursor: pointer;
   transition: background-color 150ms ease-out, transform 150ms ease-out;
 }
-.sp-swap:active { transform: scale(0.98); }
+.sp-swap:active { transform: scale(0.96); }
 
 /* Footer: one next step. */
 .sp-card-foot {
@@ -741,6 +783,9 @@
   color: var(--ink-tertiary);
 }
 .sp-card-foot p { margin: 0; text-align: center; text-wrap: pretty; }
+/* Everything dropped: the same 40px as Confirm plan, so the list above does not grow. */
+.sp-card-foot .sp-foot-empty { display: grid; align-content: center; min-height: 40px; }
+.sp-foot-empty strong { font-size: 13px; font-weight: 500; color: var(--ink); }
 .sp-primary {
   min-height: 40px;
   border: 0;
@@ -753,7 +798,11 @@
   cursor: pointer;
   transition: background-color 150ms ease-out, transform 150ms ease-out;
 }
-.sp-primary:active { transform: scale(0.98); }
+.sp-primary:active { transform: scale(0.96); }
+/* 40px buttons reach 44px on touch without growing. */
+.sp-primary, .sp-swap, .sp-edit { position: relative; }
+.sp-primary::after, .sp-swap::after { content: ""; position: absolute; inset: -2px 0; }
+.sp-edit::after { content: ""; position: absolute; inset: -4px; }
 /* Confirmed: status on the left, Edit plan on the right, same 40px row as Confirm plan. */
 .sp-confirmed-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 40px; }
 .sp-confirmed-state { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--ink); }
@@ -793,7 +842,7 @@
   white-space: nowrap;
 }
 
-.sp .sp-card :focus-visible { outline: 2px solid var(--ink-secondary); outline-offset: 2px; border-radius: 8px; }
+.sp .sp-card :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 8px; }
 .sp .sp-card .sp-ccard-main:focus-visible { outline-offset: 6px; }
 .sp .sp-card .sp-adddrop:focus-visible, .sp .sp-card .sp-chip:focus-visible { border-radius: 999px; }
 
@@ -809,14 +858,15 @@
   .sp-primary:hover { background: var(--accent-hover); }
   .sp-edit:hover { background: var(--muted); box-shadow: 0 0 0 1px rgb(0 0 0 / 0.16), 0 1px 2px rgb(0 0 0 / 0.06); }
   .sp-swap:hover { background: color-mix(in oklch, var(--ink) 85%, black); }
+  .sp-findlink:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .sp-block[data-role="incoming"], .sp-impact, .sp-toolbar-preview, .sp-confirmed-badge { animation: none; }
   .sp-edit { transition: none; }
   .sp-edit:active { transform: none; }
-  .sp-track, .sp-drill[data-open] .sp-track, .sp-alt, .sp-ccard-open { transition: none; }
+  .sp-track, .sp-drill[data-open] .sp-track, .sp-alt, .sp-ccard-open, .sp-back { transition: none; }
   .sp-block[data-linked] { transform: none; }
   .sp-block, .sp-block:hover, .sp-ccard, .sp-chip, .sp-adddrop, .sp-adddrop svg, .sp-primary, .sp-swap { transition: none; }
-  .sp-chip:active, .sp-adddrop:active, .sp-primary:active, .sp-swap:active, .sp-block:active, .sp-block:hover { transform: none; }
+  .sp-chip:active, .sp-adddrop:active, .sp-primary:active, .sp-swap:active, .sp-block:active, .sp-block:hover, .sp-back:active { transform: none; }
 }

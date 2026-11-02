@@ -1,0 +1,83 @@
+/*
+ * The mini week on the Find page. Every class is `mini-week-` prefixed.
+ * Kind colours are the --kind-* tokens in globals.css, so blocks match the plan's week.
+ */
+
+.mini-week {
+  --mini-week-gutter: 22px;
+  --mini-week-rule: color-mix(in oklch, var(--ink) 7%, transparent);
+  padding-bottom: 6px;
+}
+
+.mini-week-block[data-kind="core"] { --k: var(--kind-core); --k-tint: var(--kind-core-tint); }
+.mini-week-block[data-kind="elective"] { --k: var(--kind-elective); --k-tint: var(--kind-elective-tint); }
+.mini-week-block[data-kind="gened"] { --k: var(--kind-gened); --k-tint: var(--kind-gened-tint); }
+.mini-week-block[data-kind="free-elective"] { --k: var(--kind-free-elective); --k-tint: var(--kind-free-elective-tint); }
+.mini-week-block[data-kind="neutral"] { --k: var(--ink-tertiary); --k-tint: var(--muted); }
+
+/* A 24px day header, then the hours at --mini-week-hour each. No text in the blocks. */
+.mini-week-head,
+.mini-week-body { display: grid; grid-template-columns: var(--mini-week-gutter) repeat(5, minmax(0, 1fr)); }
+.mini-week-head { user-select: none; height: 24px; align-items: center; font-size: 11px; font-weight: 500; color: var(--ink-tertiary); text-align: center; }
+.mini-week-body { height: var(--mini-week-grid); }
+.mini-week-hours { position: relative; user-select: none; }
+.mini-week-hours span {
+  position: absolute;
+  right: 6px;
+  transform: translateY(-50%);
+  font-size: 10px;
+  line-height: 1;
+  color: var(--ink-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+.mini-week-day {
+  position: relative;
+  border-left: 1px solid var(--mini-week-rule);
+  box-shadow: inset 0 -1px 0 var(--mini-week-rule);
+  background: repeating-linear-gradient(to bottom, var(--mini-week-rule) 0 1px, transparent 1px var(--mini-week-hour));
+}
+.mini-week-day:last-child { border-right: 1px solid var(--mini-week-rule); }
+
+.mini-week-block {
+  box-sizing: border-box;
+  position: absolute;
+  border-radius: 3px;
+  background: var(--k);
+  transition: background-color 150ms ease-out, box-shadow 150ms ease-out, opacity 150ms ease-out;
+}
+/*
+ * Confirmed plan courses are solid. Shortlisted are candidates, not plan: a solid
+ * 2px left edge on a 40% fill (a dotted outline read as a 1px dash at this size).
+ */
+.mini-week-block[data-role="shortlist"] {
+  background: color-mix(in oklch, var(--k) 40%, var(--surface));
+  border-left: 2px solid var(--k);
+}
+/* Pointing at something already drawn: it brightens, nothing is added. */
+.mini-week-block:is([data-role="plan"], [data-role="shortlist"])[data-hot] {
+  z-index: var(--z-active);
+  box-shadow: 0 0 0 1.5px var(--surface), 0 0 0 3px var(--k);
+}
+/* The ghost: dashed at 60%, with an amber ring on what it would collide with. */
+.mini-week-block[data-role="ghost"] {
+  z-index: var(--z-preview);
+  pointer-events: none;
+  user-select: none;
+  background: color-mix(in oklch, var(--k-tint) 70%, var(--surface));
+  outline: 1.5px dashed var(--k);
+  outline-offset: -1.5px;
+  opacity: 0.6;
+  animation: mini-week-ghost-in 150ms ease-out;
+}
+.mini-week-block[data-ghost-clash] { z-index: var(--z-active); box-shadow: 0 0 0 1.5px var(--surface), 0 0 0 3px var(--warning); }
+@keyframes mini-week-ghost-in { from { opacity: 0; } to { opacity: 0.6; } }
+
+.mini-week-legend { pointer-events: none; user-select: none; display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 11px; color: var(--ink-secondary); }
+.mini-week-legend span { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+/* Swatches are blocks in the neutral kind, held still. */
+.mini-week-legend .mini-week-block { position: static; width: 12px; height: 9px; border-radius: 2px; transition: none; animation: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mini-week-block { transition: none; }
+  .mini-week-block[data-role="ghost"] { animation: none; }
+}
