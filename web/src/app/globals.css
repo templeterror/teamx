@@ -1,26 +1,121 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --canvas: oklch(0.97 0.004 262);
+  --surface: oklch(1 0 0);
+  --muted: oklch(0.955 0.005 262);
+  --line: oklch(0.91 0.006 262);
+  --line-strong: oklch(0.82 0.008 262);
+  --ink: oklch(0.295 0.016 262);
+  --ink-secondary: oklch(0.445 0.022 262);
+  --ink-tertiary: oklch(0.52 0.02 262);
+  --well: oklch(0.895 0.006 262);
+  --accent: oklch(0.52 0.174 25);
+  --accent-hover: oklch(0.42 0.14 25);
+  --accent-wash: oklch(0.895 0.015 25);
+  --on-accent: oklch(1 0 0);
+  --success: oklch(0.45 0.082 150);
+  --warning: oklch(0.465 0.064 75);
+  --hairline: 1px;
+  --radius: 16px;
+  --elevation:
+    0 0 0 1px rgb(0 0 0 / 0.05),
+    0 1px 3px rgb(0 0 0 / 0.05),
+    0 4px 10px -4px rgb(0 0 0 / 0.05);
+
+  /*
+   * Course kinds, one hue each: --kind-x for bars and swatches, -ink for text on
+   * a tint, -tint for fills. Same values as schedule-pair.css (.sp --course-*),
+   * which keeps its own copy so the workbench can restyle it.
+   */
+  --kind-core: oklch(0.52 0.17 25);
+  --kind-core-ink: oklch(0.38 0.13 25);
+  --kind-core-tint: oklch(0.955 0.022 25);
+  --kind-elective: oklch(0.54 0.16 295);
+  --kind-elective-ink: oklch(0.4 0.14 295);
+  --kind-elective-tint: oklch(0.955 0.022 295);
+  --kind-gened: oklch(0.56 0.13 245);
+  --kind-gened-ink: oklch(0.4 0.11 245);
+  --kind-gened-tint: oklch(0.955 0.022 245);
+  --kind-free-elective: oklch(0.56 0.1 185);
+  --kind-free-elective-ink: oklch(0.4 0.08 185);
+  --kind-free-elective-tint: oklch(0.955 0.022 185);
+
+  /* A secondary button on white: a hairline ring and a hint of depth. */
+  --shadow-control:
+    0 0 0 1px color-mix(in oklch, var(--ink) 12%, transparent),
+    0 1px 2px color-mix(in oklch, var(--ink) 5%, transparent);
+  --shadow-control-hover:
+    0 0 0 1px color-mix(in oklch, var(--ink) 20%, transparent),
+    0 1px 2px color-mix(in oklch, var(--ink) 7%, transparent);
+
+  /* Stacking steps. Every z-index in the product uses one of these. */
+  --z-raised: 1;
+  --z-active: 2;
+  --z-preview: 3;
+  --z-sticky: 4;
+  --z-tooltip: 5;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@media (min-resolution: 2dppx) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --hairline: 0.5px;
   }
 }
 
+/* Tailwind's preflight already sets text-size-adjust and a transparent tap highlight on html. */
+html {
+  font-synthesis: none;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--canvas);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* iOS zooms into any input under 16px and never zooms back. */
+input,
+textarea,
+select {
+  font-size: 16px;
+}
+
+button,
+a,
+input,
+select,
+textarea,
+[role="button"] {
+  touch-action: manipulation;
+}
+
+button,
+[role="button"] {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--accent-wash);
+  color: var(--ink);
 }

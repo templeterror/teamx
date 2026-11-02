@@ -6,6 +6,12 @@
 
 Postgres and auth belong in Supabase.
 
+## Deploy the frontend to Vercel
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftempleterror%2Fteamx%2Ftree%2Fmain%2Fweb&project-name=course-planner&repository-name=course-planner)
+
+Import `templeterror/teamx` in Vercel and set Root Directory to `web`; framework preset Next.js; no environment variables.
+
 ## Run
 
 ```bash

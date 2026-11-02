@@ -1,0 +1,683 @@
+/*
+ * Find courses, the Bar finder on the Find page. Every class is `finder-` prefixed.
+ * Colours are globals.css tokens; the kind colours (--kind-*) match the plan's week legend.
+ * It fills its grid cell: the table takes whatever height is left and scrolls inside itself.
+ */
+
+.finder {
+  --finder-radius: 12px;
+  --finder-pad: 6px;
+
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  color: var(--ink);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Zero-specificity resets, so each component's own font-size and weight win. */
+:where(.finder) :where(button, input, select, textarea) {
+  font: inherit;
+  color: inherit;
+  touch-action: manipulation;
+}
+
+:where(.finder) :where(button) { cursor: pointer; }
+
+.finder :focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.finder-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Head: the visible label, same weight as "Weekly schedule" below ---------- */
+
+.finder-head {
+  display: flex;
+  flex: none;
+  align-items: baseline;
+  gap: 12px;
+  padding: 0 0 10px;
+}
+.finder-title { margin: 0; font-size: 14px; font-weight: 600; white-space: nowrap; }
+.finder-title label { cursor: pointer; }
+/* "For: Major electives · 2 to choose" when an open slot on the plan sent the student here. */
+.finder-context {
+  margin: 0;
+  overflow: hidden;
+  font-size: 13px;
+  color: var(--ink-secondary);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.finder-note { margin-left: auto; font-size: 12px; color: var(--ink-tertiary); white-space: nowrap; }
+
+/* ---------- Card ---------- */
+
+.finder-card {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  border-radius: var(--finder-radius);
+  background: var(--surface);
+  box-shadow: var(--elevation);
+}
+
+/* Collapsed: one 56px row (6 + 44 + 6). */
+.finder-row {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: var(--finder-pad);
+  padding-right: 8px;
+}
+
+.finder-form {
+  position: relative;
+  flex: 1 1 280px;
+  min-width: 220px;
+  margin: 0;
+}
+
+/* Decoration overlays the field and never takes a click. */
+.finder-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  display: flex;
+  color: var(--ink-tertiary);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.finder-input {
+  display: block;
+  width: 100%;
+  height: 44px;
+  padding: 0 40px 0 38px;
+  border: 0;
+  /* Nested in the card: 12 outer − 6 padding. */
+  border-radius: calc(var(--finder-radius) - var(--finder-pad));
+  background: var(--muted);
+  font-size: 16px;
+  transition: background-color 150ms ease-out, box-shadow 150ms ease-out;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.finder-input::placeholder { color: var(--ink-tertiary); }
+.finder-input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+.finder-input:focus { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-strong); }
+
+.finder-clear {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-tertiary);
+  transform: translateY(-50%);
+  transition: background-color 150ms ease-out, color 150ms ease-out, transform 150ms ease-out;
+}
+.finder-clear:active { transform: translateY(-50%) scale(0.96); }
+.finder-clear::after { content: ""; position: absolute; inset: -4px; }
+
+/* Scope chips: same shape as the "Or" chips in Your courses. */
+.finder-chips {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  /* Room for the 44px hit areas inside the scroller's clip. */
+  padding: 6px 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.finder-chips::-webkit-scrollbar { display: none; }
+.finder-chips[data-fade-end] { mask-image: linear-gradient(to right, black calc(100% - 32px), transparent); }
+.finder-chips[data-fade-start] { mask-image: linear-gradient(to right, transparent, black 32px); }
+.finder-chips[data-fade-start][data-fade-end] {
+  mask-image: linear-gradient(to right, transparent, black 32px, black calc(100% - 32px), transparent);
+}
+
+.finder-chip {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 150ms ease-out, color 150ms ease-out, transform 150ms ease-out;
+}
+.finder-chip::after { content: ""; position: absolute; inset: -6px -3px; }
+.finder-chip[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.finder-chip:active { transform: scale(0.96); }
+
+.finder-chip-count {
+  color: var(--ink-tertiary);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.finder-chip[aria-pressed="true"] .finder-chip-count { color: color-mix(in oklch, var(--surface) 70%, transparent); }
+
+.finder-swatch {
+  display: inline-block;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--finder-k, var(--ink-tertiary));
+  pointer-events: none;
+}
+.finder [data-kind="major-elective"] { --finder-k: var(--kind-elective); --finder-k-ink: var(--kind-elective-ink); }
+.finder [data-kind="gened"] { --finder-k: var(--kind-gened); --finder-k-ink: var(--kind-gened-ink); }
+.finder [data-kind="core"] { --finder-k: var(--kind-core); --finder-k-ink: var(--kind-core-ink); }
+.finder [data-kind="free"] { --finder-k-ink: var(--ink-secondary); }
+.finder-chip[aria-pressed="true"] .finder-swatch { box-shadow: 0 0 0 1.5px var(--surface); }
+
+/* Ask AI: a quiet text button, subordinate to the field. */
+.finder-quiet {
+  flex: none;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  transition: background-color 150ms ease-out, color 150ms ease-out, transform 150ms ease-out;
+}
+.finder-quiet[aria-expanded="true"] { color: var(--ink); }
+
+.finder-ai {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 4px 14px 12px;
+  animation: finder-fade 150ms ease-out;
+}
+.finder-ai label { font-size: 12px; font-weight: 500; color: var(--ink-secondary); }
+.finder-ai textarea {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  min-height: 52px;
+  padding: 8px 12px;
+  border: var(--hairline) solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: 16px;
+  line-height: 1.4;
+  resize: vertical;
+}
+.finder-ai textarea::placeholder { color: var(--ink-tertiary); }
+.finder-ai small { font-size: 12px; color: var(--ink-tertiary); }
+
+@keyframes finder-fade { from { opacity: 0; } }
+
+/* ---------- Body: applied filters, More filters, the table, the footer ---------- */
+
+.finder-body { display: flex; flex: 1; flex-direction: column; min-height: 0; }
+.finder-body > * { flex: none; }
+
+/* Applied filters + count + More filters */
+.finder-applied {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  min-height: 52px;
+  padding: 4px 8px 4px 14px;
+  border-top: var(--hairline) solid var(--line);
+}
+.finder-applied-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  /* 14px between wrapped rows, so the chips' 44px hit areas never overlap. */
+  gap: 14px 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.finder-applied-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 0 8px 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 150ms ease-out, transform 150ms ease-out;
+}
+.finder-applied-chip svg { color: var(--ink-tertiary); }
+.finder-applied-chip::after { content: ""; position: absolute; inset: -7px -3px; }
+.finder-applied-chip:active { transform: scale(0.96); }
+
+.finder-count {
+  margin: 0 0 0 auto;
+  font-size: 13px;
+  color: var(--ink-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.finder-text-btn {
+  position: relative;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 150ms ease-out, transform 150ms ease-out;
+}
+
+/* More filters */
+.finder-more { padding: 0; }
+.finder-more-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  transition: background-color 150ms ease-out, color 150ms ease-out, transform 150ms ease-out;
+}
+.finder-quiet:active,
+.finder-text-btn:active,
+.finder-more-toggle:active { transform: scale(0.96); }
+.finder-more-toggle svg { color: var(--ink-tertiary); transition: transform 150ms ease-out; }
+.finder-more-toggle[aria-expanded="true"] { color: var(--ink); }
+.finder-more-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+.finder-more-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 16px;
+  padding: 4px 14px 12px;
+  border-top: var(--hairline) solid var(--line);
+  animation: finder-fade 150ms ease-out;
+}
+.finder-field {
+  display: grid;
+  gap: 6px;
+  flex: 0 1 180px;
+  min-width: 140px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-secondary);
+}
+.finder-field select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: var(--hairline) solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 16px;
+}
+.finder-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 4px;
+  font-size: 14px;
+  color: var(--ink);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.finder-check input { width: 16px; height: 16px; margin: 0; accent-color: var(--ink); cursor: pointer; }
+
+/* ---------- Table ---------- */
+
+.finder-body > .finder-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border-top: var(--hairline) solid var(--line);
+}
+.finder-scroll:focus { outline: none; }
+
+.finder-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.finder-table th {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  padding: 10px 12px;
+  background: var(--surface);
+  /* A box-shadow rule sticks with the header; a collapsed border would not. */
+  box-shadow: inset 0 calc(-1 * var(--hairline)) 0 var(--line);
+  color: var(--ink-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  white-space: nowrap;
+}
+.finder-table th:first-child,
+.finder-table td:first-child { padding-left: 16px; }
+.finder-table th:last-child,
+.finder-table td:last-child { padding-right: 16px; }
+
+.finder-table td {
+  padding: 12px;
+  border-bottom: var(--hairline) solid var(--line);
+  vertical-align: top;
+}
+/* The row the mini week is previewing reads as hovered, also when it got there by keyboard. */
+.finder-tr[data-previewing] > td { background: color-mix(in oklch, var(--canvas) 70%, var(--surface)); }
+
+.finder-num { text-align: right; font-variant-numeric: tabular-nums; }
+.finder-table th.finder-num { text-align: right; }
+.finder-table td.finder-num { color: var(--ink-secondary); padding-top: 13px; width: 64px; }
+.finder-td-meta { padding-top: 13px; }
+/* Fixed meta columns, so the course title gets the room. */
+.finder-table td:nth-child(3) { width: 150px; }
+.finder-table td:nth-child(4) { width: 150px; }
+.finder-table td:nth-child(5) { width: 200px; max-width: 200px; }
+.finder-td-action { width: 124px; text-align: right; vertical-align: top; }
+
+.finder-course {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 8px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  text-align: left;
+}
+/* Fill the cell's padding so the whole course cell is the target. */
+.finder-course::after { content: ""; position: absolute; inset: -12px -12px -12px -16px; }
+.finder-code {
+  grid-column: 1;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.finder-ctitle {
+  grid-column: 1;
+  max-width: 52ch;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--ink);
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+}
+.finder-chev {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: start;
+  display: flex;
+  padding-top: 1px;
+  color: var(--ink-tertiary);
+  transition: transform 150ms ease-out, color 150ms ease-out;
+}
+/* A shortlisted row: a small dashed square after the code, like its block in the mini week. */
+.finder-tr[data-shortlisted] .finder-code::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 6px;
+  border-radius: 1.5px;
+  outline: 1.25px dashed var(--ink-tertiary);
+  outline-offset: -1.25px;
+  vertical-align: 1px;
+}
+
+.finder-tr[data-completed] .finder-code,
+.finder-tr[data-completed] .finder-ctitle { color: var(--ink-tertiary); }
+
+.finder-kind {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-weight: 500;
+  color: var(--finder-k-ink, var(--ink-secondary));
+}
+.finder-kind .finder-swatch { align-self: center; }
+
+.finder-elig { display: inline-grid; gap: 2px; }
+.finder-elig small { font-size: 12px; color: var(--ink-tertiary); }
+.finder [data-tone="ok"] { color: var(--success); }
+.finder [data-tone="plan"] { color: var(--ink); font-weight: 500; }
+.finder [data-tone="needs"] { color: var(--ink); }
+.finder [data-tone="muted"] { color: var(--ink-tertiary); }
+
+.finder-fit {
+  display: block;
+  overflow: hidden;
+  color: var(--ink-tertiary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.finder-fit b { font-weight: 500; }
+/* 243 of 461 placeholder times collide, so a conflict is amber text, never a fill. */
+.finder-fit[data-tone="conflict"] { color: var(--warning); }
+
+/* Shortlist, the page's one verb: secondary in the row; once on, quiet, with × on hover or focus. */
+.finder-shortlist {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 96px;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--shadow-control);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 150ms ease-out, box-shadow 150ms ease-out, color 150ms ease-out, transform 150ms ease-out;
+}
+.finder-shortlist::after { content: ""; position: absolute; inset: -6px -2px; }
+.finder-shortlist:not([aria-disabled]):active { transform: scale(0.96); }
+.finder-shortlist[data-on] { padding-right: 8px; background: transparent; box-shadow: none; color: var(--ink-secondary); }
+.finder-shortlist[aria-disabled] { background: var(--muted); box-shadow: none; color: var(--ink-tertiary); cursor: not-allowed; }
+.finder-shortlist-icon { display: inline-grid; width: 14px; height: 14px; }
+.finder-shortlist-check,
+.finder-shortlist-x { grid-area: 1 / 1; display: flex; align-items: center; justify-content: center; transition: opacity 120ms ease-out; }
+.finder-shortlist-check { color: var(--success); }
+.finder-shortlist-x { opacity: 0; }
+.finder-shortlist[data-on]:focus-visible { background: var(--muted); color: var(--ink); }
+.finder-shortlist[data-on]:focus-visible .finder-shortlist-check { opacity: 0; }
+.finder-shortlist[data-on]:focus-visible .finder-shortlist-x { opacity: 1; }
+.finder-row-note { display: inline-block; padding-top: 7px; font-size: 12px; color: var(--ink-tertiary); white-space: nowrap; }
+
+/* Phone-width summary line; hidden while the columns have room. */
+.finder-mobile-meta { display: none; }
+
+/* ---------- Empty + footer ---------- */
+
+.finder-empty {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 48px 24px 52px;
+  text-align: center;
+}
+.finder-empty h3 { margin: 0; font-size: 15px; font-weight: 600; text-wrap: balance; overflow-wrap: anywhere; }
+.finder-empty p { margin: 0; font-size: 13px; color: var(--ink-secondary); }
+.finder-btn {
+  min-height: 44px;
+  margin-top: 8px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 0 0 var(--hairline) var(--line-strong);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 150ms ease-out, transform 150ms ease-out;
+}
+.finder-btn:active { transform: scale(0.96); }
+
+.finder-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 40px;
+  padding: 8px 16px;
+  border-top: var(--hairline) solid var(--line);
+  font-size: 12px;
+  color: var(--ink-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+.finder-status { margin: 0; color: var(--ink-secondary); text-align: right; }
+
+/* ---------- Hover (real pointers only) ---------- */
+
+@media (hover: hover) and (pointer: fine) {
+  .finder-input:hover:not(:focus) { background: color-mix(in oklch, var(--muted) 70%, var(--line)); }
+  .finder-clear:hover { background: var(--line); color: var(--ink); }
+  .finder-chip:not([aria-pressed="true"]):hover { background: var(--line); }
+  .finder-quiet:hover,
+  .finder-text-btn:hover,
+  .finder-more-toggle:hover { background: var(--muted); color: var(--ink); }
+  .finder-applied-chip:hover { background: var(--line); }
+  .finder-tr:hover > td { background: color-mix(in oklch, var(--canvas) 70%, var(--surface)); }
+  .finder-course:hover .finder-chev { color: var(--ink-secondary); }
+  .finder-shortlist:not([aria-disabled]):not([data-on]):hover { box-shadow: var(--shadow-control-hover); }
+  .finder-shortlist[data-on]:hover { background: var(--muted); color: var(--ink); }
+  .finder-shortlist[data-on]:hover .finder-shortlist-check { opacity: 0; }
+  .finder-shortlist[data-on]:hover .finder-shortlist-x { opacity: 1; }
+  .finder-btn:hover { background: var(--muted); }
+}
+
+/* ---------- Medium: the scope chips drop under a full-width field ---------- */
+
+/* The one-row bar needs about 1120px: field, 625 of chips, Ask AI. */
+@container (max-width: 1119px) {
+  .finder-row { flex-wrap: wrap; gap: 4px 8px; }
+  .finder-form { flex-basis: 100%; min-width: 0; }
+  .finder-chips { flex: 1 1 0; }
+}
+
+/* ---------- Narrow: rows become two-line cards ---------- */
+
+@container (max-width: 719px) {
+  .finder-note { display: none; }
+
+  .finder-applied { padding-left: 12px; }
+  .finder-count { flex: 1 1 180px; margin: 0; }
+
+  .finder-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .finder-table,
+  .finder-table tbody { display: block; }
+  .finder-tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 12px 12px 12px 16px;
+    border-bottom: var(--hairline) solid var(--line);
+  }
+  .finder-tr > td { display: block; padding: 0; border: 0; width: auto; }
+  .finder-tr > td.finder-td-meta { display: none; }
+  .finder-table td:first-child { padding-left: 0; }
+  .finder-table td:last-child { padding-right: 0; }
+  .finder-course::after { inset: -12px -8px -12px -16px; }
+  .finder-mobile-meta {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--ink-tertiary);
+    font-variant-numeric: tabular-nums;
+  }
+  .finder-mobile-meta .finder-elig { display: inline; }
+  .finder-mobile-meta .finder-elig small { display: inline; }
+  .finder-mobile-meta .finder-elig small::before { content: " · "; }
+  .finder-mobile-fit { display: block; min-width: 0; }
+  .finder-foot { flex-wrap: wrap; }
+}
+
+/* ---------- Reduced motion: no movement, no fades ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .finder-input,
+  .finder-clear,
+  .finder-chip,
+  .finder-quiet,
+  .finder-applied-chip,
+  .finder-text-btn,
+  .finder-more-toggle,
+  .finder-more-toggle svg,
+  .finder-chev,
+  .finder-shortlist,
+  .finder-shortlist-check,
+  .finder-shortlist-x,
+  .finder-btn { transition: none; }
+  .finder-ai,
+  .finder-more-panel { animation: none; }
+  .finder-chip:active,
+  .finder-quiet:active,
+  .finder-text-btn:active,
+  .finder-more-toggle:active,
+  .finder-applied-chip:active,
+  .finder-shortlist:not([aria-disabled]):active,
+  .finder-btn:active { transform: none; }
+  .finder-clear:active { transform: translateY(-50%); }
+}

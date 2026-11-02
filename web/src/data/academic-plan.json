@@ -1,0 +1,378 @@
+{
+  "bulletinYear": "2026-2027",
+  "title": "Suggested academic plan for new students starting in 2026-2027",
+  "program": "ST-CSCI-BS",
+  "totalCredits": 123,
+  "years": [
+    {
+      "year": 1,
+      "terms": [
+        {
+          "term": "Fall",
+          "credits": 15,
+          "rows": [
+            {
+              "kind": "course",
+              "label": "CIS 1001",
+              "credits": 1,
+              "code": "CIS 1001"
+            },
+            {
+              "kind": "oneOf",
+              "label": "Introduction to programming",
+              "credits": 4,
+              "courses": [
+                "CIS 1051",
+                "CIS 1951",
+                "CIS 1057"
+              ]
+            },
+            {
+              "kind": "oneOf",
+              "label": "Calculus I",
+              "credits": 4,
+              "courses": [
+                "MATH 1041",
+                "MATH 1941"
+              ]
+            },
+            {
+              "kind": "course",
+              "label": "CST First-Year Seminar",
+              "credits": 1,
+              "code": "SCTC 1001"
+            },
+            {
+              "kind": "oneOf",
+              "label": "Analytical Reading and Writing",
+              "credits": 4,
+              "courses": [
+                "ENG 0802",
+                "ENG 0812",
+                "ENG 0902"
+              ],
+              "genEd": "GW"
+            },
+            {
+              "kind": "freeElective",
+              "label": "Free elective",
+              "credits": 1
+            }
+          ]
+        },
+        {
+          "term": "Spring",
+          "credits": 15,
+          "rows": [
+            {
+              "kind": "oneOf",
+              "label": "Mathematical Concepts in Computing I",
+              "credits": 4,
+              "courses": [
+                "CIS 1166",
+                "CIS 1966"
+              ]
+            },
+            {
+              "kind": "oneOf",
+              "label": "Program Design and Abstraction",
+              "credits": 4,
+              "courses": [
+                "CIS 1068",
+                "CIS 1968"
+              ]
+            },
+            {
+              "kind": "oneOf",
+              "label": "Calculus II",
+              "credits": 4,
+              "courses": [
+                "MATH 1042",
+                "MATH 1942"
+              ]
+            },
+            {
+              "kind": "oneOf",
+              "label": "Intellectual Heritage I",
+              "credits": 3,
+              "courses": [
+                "IH 0851",
+                "IH 0951"
+              ],
+              "genEd": "GY"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2,
+      "terms": [
+        {
+          "term": "Fall",
+          "credits": 16,
+          "rows": [
+            {
+              "kind": "course",
+              "label": "Data Structures",
+              "credits": 4,
+              "code": "CIS 2168"
+            },
+            {
+              "kind": "oneOf",
+              "label": "Intellectual Heritage II",
+              "credits": 3,
+              "courses": [
+                "IH 0852",
+                "IH 0952"
+              ],
+              "genEd": "GZ"
+            },
+            {
+              "kind": "genEd",
+              "label": "GenEd breadth",
+              "credits": 3,
+              "areas": [
+                "GA",
+                "GB",
+                "GD",
+                "GG",
+                "GU"
+              ]
+            },
+            {
+              "kind": "freeElective",
+              "label": "Free elective",
+              "credits": 3
+            },
+            {
+              "kind": "freeElective",
+              "label": "Free elective",
+              "credits": 3
+            }
+          ]
+        },
+        {
+          "term": "Spring",
+          "credits": 16,
+          "rows": [
+            {
+              "kind": "course",
+              "label": "Computational Probability and Statistics",
+              "credits": 3,
+              "code": "CIS 2033"
+            },
+            {
+              "kind": "course",
+              "label": "Computer Systems and Low-Level Programming",
+              "credits": 4,
+              "code": "CIS 2107"
+            },
+            {
+              "kind": "genEd",
+              "label": "GenEd breadth",
+              "credits": 3,
+              "areas": [
+                "GA",
+                "GB",
+                "GD",
+                "GG",
+                "GU"
+              ]
+            },
+            {
+              "kind": "genEd",
+              "label": "GenEd breadth",
+              "credits": 3,
+              "areas": [
+                "GA",
+                "GB",
+                "GD",
+                "GG",
+                "GU"
+              ]
+            },
+            {
+              "kind": "freeElective",
+              "label": "Free elective",
+              "credits": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "terms": [
+        {
+          "term": "Fall",
+          "credits": 16,
+          "rows": [
+            {
+              "kind": "course",
+              "label": "Mathematical Concepts in Computing II",
+              "credits": 4,
+              "code": "CIS 2166"
+            },
+            {
+              "kind": "course",
+              "label": "Introduction to Systems Programming and Operating Systems",
+              "credits": 4,
+              "code": "CIS 3207"
+            },
+            {
+              "kind": "labScience",
+              "label": "Laboratory science A",
+              "credits": 4,
+              "requirement": "major.lab-science",
+              "half": "a"
+            },
+            {
+              "kind": "genEd",
+              "label": "GenEd breadth",
+              "credits": {
+                "min": 3,
+                "max": 4
+              },
+              "areas": [
+                "GA",
+                "GB",
+                "GD",
+                "GG",
+                "GU"
+              ]
+            },
+            {
+              "kind": "freeElective",
+              "label": "Free elective",
+              "credits": {
+                "min": 0,
+                "max": 1
+              },
+              "note": "1 credit when the GenEd breadth course is 3 credits, and 0 when it is 4."
+            }
+          ]
+        },
+        {
+          "term": "Spring",
+          "credits": 15,
+          "rows": [
+            {
+              "kind": "course",
+              "label": "Data Structures and Algorithms",
+              "credits": 3,
+              "code": "CIS 3223"
+            },
+            {
+              "kind": "csElective",
+              "label": "Computer Science elective",
+              "credits": 4,
+              "requirement": "major.electives"
+            },
+            {
+              "kind": "labScience",
+              "label": "Laboratory science B",
+              "credits": 4,
+              "requirement": "major.lab-science",
+              "half": "b"
+            },
+            {
+              "kind": "genEd",
+              "label": "GenEd breadth",
+              "credits": 3,
+              "areas": [
+                "GA",
+                "GB",
+                "GD",
+                "GG",
+                "GU"
+              ]
+            },
+            {
+              "kind": "freeElective",
+              "label": "Free elective",
+              "credits": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 4,
+      "terms": [
+        {
+          "term": "Fall",
+          "credits": 15,
+          "rows": [
+            {
+              "kind": "course",
+              "label": "Software Design",
+              "credits": 4,
+              "code": "CIS 3296"
+            },
+            {
+              "kind": "csElective",
+              "label": "Computer Science elective",
+              "credits": 4,
+              "requirement": "major.electives"
+            },
+            {
+              "kind": "csElective",
+              "label": "Computer Science elective",
+              "credits": 4,
+              "requirement": "major.electives"
+            },
+            {
+              "kind": "freeElective",
+              "label": "Free elective",
+              "credits": 3
+            }
+          ]
+        },
+        {
+          "term": "Spring",
+          "credits": 15,
+          "rows": [
+            {
+              "kind": "oneOf",
+              "label": "Capstone",
+              "credits": 3,
+              "courses": [
+                "CIS 4397",
+                "CIS 4398"
+              ]
+            },
+            {
+              "kind": "csElective",
+              "label": "Computer Science elective",
+              "credits": {
+                "min": 3,
+                "max": 4
+              },
+              "requirement": "major.electives"
+            },
+            {
+              "kind": "freeElective",
+              "label": "Free elective",
+              "credits": 3
+            },
+            {
+              "kind": "freeElective",
+              "label": "Free elective",
+              "credits": 3
+            },
+            {
+              "kind": "freeElective",
+              "label": "Free elective",
+              "credits": {
+                "min": 2,
+                "max": 3
+              },
+              "note": "3 credits when the Computer Science elective is 3 credits, and 2 when it is 4."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

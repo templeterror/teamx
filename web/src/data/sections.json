@@ -1,0 +1,6826 @@
+{
+  "source": "placeholder",
+  "note": "Days, times, and instructors are made up. Each course meets Monday/Wednesday/Friday or Tuesday/Thursday. These are not Temple schedule data.",
+  "sections": [
+    {
+      "id": "AAAS0829-001",
+      "course": "AAAS 0829",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "AAAS0834-001",
+      "course": "AAAS 0834",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ADV0853-001",
+      "course": "ADV 0853",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ADV0953-001",
+      "course": "ADV 0953",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "AMST0801-001",
+      "course": "AMST 0801",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "09:05",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "AMST0847-001",
+      "course": "AMST 0847",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "09:50",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "AMST0848-001",
+      "course": "AMST 0848",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:15",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "AMST0855-001",
+      "course": "AMST 0855",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "AMST0859-001",
+      "course": "AMST 0859",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "AMST0862-001",
+      "course": "AMST 0862",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "AMST0901-001",
+      "course": "AMST 0901",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:40",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "AMST0962-001",
+      "course": "AMST 0962",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Rowan Blake",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ANTH0814-001",
+      "course": "ANTH 0814",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Sasha Petrov",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ANTH0815-001",
+      "course": "ANTH 0815",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ANTH0817-001",
+      "course": "ANTH 0817",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Jamie Costa",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ANTH0825-001",
+      "course": "ANTH 0825",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "15:05",
+      "instructor": "Alex Moreau",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ANTH0831-001",
+      "course": "ANTH 0831",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Robin Hale",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ANTH0833-001",
+      "course": "ANTH 0833",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Taylor Nguyen",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ANTH0834-001",
+      "course": "ANTH 0834",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Casey Ibrahim",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ANTH0856-001",
+      "course": "ANTH 0856",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "09:50",
+      "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ANTH0867-001",
+      "course": "ANTH 0867",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ANTH0915-001",
+      "course": "ANTH 0915",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ANTH0934-001",
+      "course": "ANTH 0934",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "AOD0836-001",
+      "course": "AOD 0836",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ARBC0868-001",
+      "course": "ARBC 0868",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ARBC0968-001",
+      "course": "ARBC 0968",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ARCH0835-001",
+      "course": "ARCH 0835",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ARCH0875-001",
+      "course": "ARCH 0875",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ARCH0935-001",
+      "course": "ARCH 0935",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ARCH0975-001",
+      "course": "ARCH 0975",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ART0822-001",
+      "course": "ART 0822",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ARTE0838-001",
+      "course": "ARTE 0838",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ARTE0846-001",
+      "course": "ARTE 0846",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ARTH0803-001",
+      "course": "ARTH 0803",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ARTH0808-001",
+      "course": "ARTH 0808",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:40",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ARTH0813-001",
+      "course": "ARTH 0813",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:40",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ASST0811-001",
+      "course": "ASST 0811",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ASST0857-001",
+      "course": "ASST 0857",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:15",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ASST0863-001",
+      "course": "ASST 0863",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ASST0868-001",
+      "course": "ASST 0868",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ASST0871-001",
+      "course": "ASST 0871",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:40",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOE0844-001",
+      "course": "BIOE 0844",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Rowan Blake",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOE0856-001",
+      "course": "BIOE 0856",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "09:50",
+      "instructor": "Sasha Petrov",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOE0944-001",
+      "course": "BIOE 0944",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOE0956-001",
+      "course": "BIOE 0956",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:15",
+      "instructor": "Jamie Costa",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOL0813-001",
+      "course": "BIOL 0813",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Alex Moreau",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOL0848-001",
+      "course": "BIOL 0848",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Robin Hale",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOL0913-001",
+      "course": "BIOL 0913",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Taylor Nguyen",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOL0948-001",
+      "course": "BIOL 0948",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Casey Ibrahim",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOL1011-001",
+      "course": "BIOL 1011",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:40",
+      "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOL1012-001",
+      "course": "BIOL 1012",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "13:05",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOL1111-001",
+      "course": "BIOL 1111",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder",
+      "laboratory": {
+        "section": "002",
+        "days": [
+          "Tuesday",
+          "Thursday"
+        ],
+        "start": "18:00",
+        "end": "20:00",
+        "instructor": "Kendall Frost",
+        "credits": 0,
+        "source": "placeholder"
+      }
+    },
+    {
+      "id": "BIOL1112-001",
+      "course": "BIOL 1112",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:40",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOL1911-001",
+      "course": "BIOL 1911",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "12:05",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOL1912-001",
+      "course": "BIOL 1912",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:40",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOL2112-001",
+      "course": "BIOL 2112",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "15:05",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOL2912-001",
+      "course": "BIOL 2912",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "14:05",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BIOL3312-001",
+      "course": "BIOL 3312",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CEE0845-001",
+      "course": "CEE 0845",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CEE0945-001",
+      "course": "CEE 0945",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM0821-001",
+      "course": "CHEM 0821",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM0838-001",
+      "course": "CHEM 0838",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "09:50",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM0877-001",
+      "course": "CHEM 0877",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1021-001",
+      "course": "CHEM 1021",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1022-001",
+      "course": "CHEM 1022",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1023-001",
+      "course": "CHEM 1023",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1024-001",
+      "course": "CHEM 1024",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1031-001",
+      "course": "CHEM 1031",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1032-001",
+      "course": "CHEM 1032",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1033-001",
+      "course": "CHEM 1033",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1034-001",
+      "course": "CHEM 1034",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1035-001",
+      "course": "CHEM 1035",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Rowan Blake",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1041-001",
+      "course": "CHEM 1041",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Sasha Petrov",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1042-001",
+      "course": "CHEM 1042",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1043-001",
+      "course": "CHEM 1043",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Jamie Costa",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1951-001",
+      "course": "CHEM 1951",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Alex Moreau",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1952-001",
+      "course": "CHEM 1952",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Robin Hale",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1953-001",
+      "course": "CHEM 1953",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Taylor Nguyen",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHEM1954-001",
+      "course": "CHEM 1954",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "09:50",
+      "instructor": "Casey Ibrahim",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CHI0868-001",
+      "course": "CHI 0868",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS0822-001",
+      "course": "CIS 0822",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS0823-001",
+      "course": "CIS 0823",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "13:05",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS0835-001",
+      "course": "CIS 0835",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS0923-001",
+      "course": "CIS 0923",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:40",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS0935-001",
+      "course": "CIS 0935",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS1001-001",
+      "course": "CIS 1001",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:15",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS1051-001",
+      "course": "CIS 1051",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "16:05",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS1057-001",
+      "course": "CIS 1057",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "13:05",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS1068-001",
+      "course": "CIS 1068",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "15:05",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS1073-001",
+      "course": "CIS 1073",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS1166-001",
+      "course": "CIS 1166",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:40",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS1951-001",
+      "course": "CIS 1951",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:40",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS1966-001",
+      "course": "CIS 1966",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:40",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS1968-001",
+      "course": "CIS 1968",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:40",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS2033-001",
+      "course": "CIS 2033",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS2107-001",
+      "course": "CIS 2107",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:40",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS2166-001",
+      "course": "CIS 2166",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "15:05",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS2168-001",
+      "course": "CIS 2168",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "17:05",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS2173-001",
+      "course": "CIS 2173",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS2229-001",
+      "course": "CIS 2229",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "15:05",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3100-001",
+      "course": "CIS 3100",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3203-001",
+      "course": "CIS 3203",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:40",
+      "instructor": "Rowan Blake",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3207-001",
+      "course": "CIS 3207",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:40",
+      "instructor": "Sasha Petrov",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3211-001",
+      "course": "CIS 3211",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3217-001",
+      "course": "CIS 3217",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Jamie Costa",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3223-001",
+      "course": "CIS 3223",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Alex Moreau",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3238-001",
+      "course": "CIS 3238",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:40",
+      "instructor": "Robin Hale",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3287-001",
+      "course": "CIS 3287",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:40",
+      "instructor": "Taylor Nguyen",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3296-001",
+      "course": "CIS 3296",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:40",
+      "instructor": "Casey Ibrahim",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3308-001",
+      "course": "CIS 3308",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:40",
+      "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3319-001",
+      "course": "CIS 3319",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:40",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3329-001",
+      "course": "CIS 3329",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "17:05",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3374-001",
+      "course": "CIS 3374",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "17:05",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3381-001",
+      "course": "CIS 3381",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "15:05",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3441-001",
+      "course": "CIS 3441",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3515-001",
+      "course": "CIS 3515",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:40",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3523-001",
+      "course": "CIS 3523",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3603-001",
+      "course": "CIS 3603",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3605-001",
+      "course": "CIS 3605",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3655-001",
+      "course": "CIS 3655",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "09:50",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3715-001",
+      "course": "CIS 3715",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:40",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS3755-001",
+      "course": "CIS 3755",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:15",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4203-001",
+      "course": "CIS 4203",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4282-001",
+      "course": "CIS 4282",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4307-001",
+      "course": "CIS 4307",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:40",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4319-001",
+      "course": "CIS 4319",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "17:05",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4324-001",
+      "course": "CIS 4324",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "13:05",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4331-001",
+      "course": "CIS 4331",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "11:05",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4345-001",
+      "course": "CIS 4345",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4350-001",
+      "course": "CIS 4350",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:40",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4360-001",
+      "course": "CIS 4360",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4378-001",
+      "course": "CIS 4378",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:40",
+      "instructor": "Rowan Blake",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4397-001",
+      "course": "CIS 4397",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Sasha Petrov",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4398-001",
+      "course": "CIS 4398",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4419-001",
+      "course": "CIS 4419",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Jamie Costa",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4429-001",
+      "course": "CIS 4429",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "09:50",
+      "instructor": "Alex Moreau",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4515-001",
+      "course": "CIS 4515",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "15:05",
+      "instructor": "Robin Hale",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4517-001",
+      "course": "CIS 4517",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Taylor Nguyen",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4523-001",
+      "course": "CIS 4523",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Casey Ibrahim",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4524-001",
+      "course": "CIS 4524",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4526-001",
+      "course": "CIS 4526",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4626-001",
+      "course": "CIS 4626",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CIS4696-001",
+      "course": "CIS 4696",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CJ0812-001",
+      "course": "CJ 0812",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CJ0852-001",
+      "course": "CJ 0852",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CJ0853-001",
+      "course": "CJ 0853",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CJ0912-001",
+      "course": "CJ 0912",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CJ0952-001",
+      "course": "CJ 0952",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CJ0953-001",
+      "course": "CJ 0953",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "COMC0801-001",
+      "course": "COMC 0801",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "COMC0836-001",
+      "course": "COMC 0836",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "COMC0901-001",
+      "course": "COMC 0901",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "09:50",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CSCD0815-001",
+      "course": "CSCD 0815",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CSCD0816-001",
+      "course": "CSCD 0816",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CSCD0841-001",
+      "course": "CSCD 0841",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CSCD0916-001",
+      "course": "CSCD 0916",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CSI0801-001",
+      "course": "CSI 0801",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CSI0836-001",
+      "course": "CSI 0836",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CSI0901-001",
+      "course": "CSI 0901",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CTRP0807-001",
+      "course": "CTRP 0807",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "CTRP0821-001",
+      "course": "CTRP 0821",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "11:05",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "DANC0806-001",
+      "course": "DANC 0806",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Rowan Blake",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "DANC0827-001",
+      "course": "DANC 0827",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Sasha Petrov",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "DANC0828-001",
+      "course": "DANC 0828",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "DANC0831-001",
+      "course": "DANC 0831",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Jamie Costa",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "DANC0931-001",
+      "course": "DANC 0931",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Alex Moreau",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ECE0822-001",
+      "course": "ECE 0822",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:40",
+      "instructor": "Robin Hale",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ECE0832-001",
+      "course": "ECE 0832",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Taylor Nguyen",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ECE3522-001",
+      "course": "ECE 3522",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Casey Ibrahim",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ECON0858-001",
+      "course": "ECON 0858",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EDAD0855-001",
+      "course": "EDAD 0855",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EDAD0955-001",
+      "course": "EDAD 0955",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EDUC0806-001",
+      "course": "EDUC 0806",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EDUC0809-001",
+      "course": "EDUC 0809",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EDUC0815-001",
+      "course": "EDUC 0815",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EDUC0817-001",
+      "course": "EDUC 0817",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EDUC0819-001",
+      "course": "EDUC 0819",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EDUC0823-001",
+      "course": "EDUC 0823",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EDUC0865-001",
+      "course": "EDUC 0865",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "10:05",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EDUC0915-001",
+      "course": "EDUC 0915",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EDUC0917-001",
+      "course": "EDUC 0917",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EDUC0919-001",
+      "course": "EDUC 0919",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "09:50",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EES0827-001",
+      "course": "EES 0827",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EES0836-001",
+      "course": "EES 0836",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EES0837-001",
+      "course": "EES 0837",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EES0842-001",
+      "course": "EES 0842",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EES0854-001",
+      "course": "EES 0854",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EES0873-001",
+      "course": "EES 0873",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:40",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EES0874-001",
+      "course": "EES 0874",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "10:05",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EES0927-001",
+      "course": "EES 0927",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EES0954-001",
+      "course": "EES 0954",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EES0973-001",
+      "course": "EES 0973",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "10:05",
+      "instructor": "Rowan Blake",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EES2001-001",
+      "course": "EES 2001",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "12:05",
+      "instructor": "Sasha Petrov",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EES2011-001",
+      "course": "EES 2011",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:40",
+      "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EES2021-001",
+      "course": "EES 2021",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "14:05",
+      "instructor": "Jamie Costa",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EES2061-001",
+      "course": "EES 2061",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "09:05",
+      "instructor": "Alex Moreau",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "EES3051-001",
+      "course": "EES 3051",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "09:05",
+      "instructor": "Robin Hale",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0802-001",
+      "course": "ENG 0802",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "10:05",
+      "instructor": "Taylor Nguyen",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0812-001",
+      "course": "ENG 0812",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:40",
+      "instructor": "Casey Ibrahim",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0815-001",
+      "course": "ENG 0815",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0822-001",
+      "course": "ENG 0822",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0824-001",
+      "course": "ENG 0824",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0826-001",
+      "course": "ENG 0826",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "16:05",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0834-001",
+      "course": "ENG 0834",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0837-001",
+      "course": "ENG 0837",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0849-001",
+      "course": "ENG 0849",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0855-001",
+      "course": "ENG 0855",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0857-001",
+      "course": "ENG 0857",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0868-001",
+      "course": "ENG 0868",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0902-001",
+      "course": "ENG 0902",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:40",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0922-001",
+      "course": "ENG 0922",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0924-001",
+      "course": "ENG 0924",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0926-001",
+      "course": "ENG 0926",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:40",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0934-001",
+      "course": "ENG 0934",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0949-001",
+      "course": "ENG 0949",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENG0968-001",
+      "course": "ENG 0968",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENGR2011-001",
+      "course": "ENGR 2011",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENST0842-001",
+      "course": "ENST 0842",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENST0942-001",
+      "course": "ENST 0942",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENVT0845-001",
+      "course": "ENVT 0845",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ENVT0945-001",
+      "course": "ENVT 0945",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "FIN0822-001",
+      "course": "FIN 0822",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:40",
+      "instructor": "Rowan Blake",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "FIN0922-001",
+      "course": "FIN 0922",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "13:05",
+      "instructor": "Sasha Petrov",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "FMA0843-001",
+      "course": "FMA 0843",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "FMA0869-001",
+      "course": "FMA 0869",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Jamie Costa",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "FMA0943-001",
+      "course": "FMA 0943",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Alex Moreau",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "FMA0969-001",
+      "course": "FMA 0969",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Robin Hale",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "FREN0868-001",
+      "course": "FREN 0868",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Taylor Nguyen",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GAD0822-001",
+      "course": "GAD 0822",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Casey Ibrahim",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GBST0866-001",
+      "course": "GBST 0866",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GER0868-001",
+      "course": "GER 0868",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GER0968-001",
+      "course": "GER 0968",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GRC0803-001",
+      "course": "GRC 0803",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:15",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GRC0804-001",
+      "course": "GRC 0804",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GRC0811-001",
+      "course": "GRC 0811",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "09:50",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GRC0829-001",
+      "course": "GRC 0829",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GRC0903-001",
+      "course": "GRC 0903",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GRC0904-001",
+      "course": "GRC 0904",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GRC0911-001",
+      "course": "GRC 0911",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:15",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GRC0929-001",
+      "course": "GRC 0929",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GSWS0801-001",
+      "course": "GSWS 0801",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GSWS0824-001",
+      "course": "GSWS 0824",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GSWS0851-001",
+      "course": "GSWS 0851",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GSWS0863-001",
+      "course": "GSWS 0863",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GSWS0963-001",
+      "course": "GSWS 0963",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GUS0821-001",
+      "course": "GUS 0821",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "11:05",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GUS0831-001",
+      "course": "GUS 0831",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GUS0842-001",
+      "course": "GUS 0842",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GUS0861-001",
+      "course": "GUS 0861",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GUS0862-001",
+      "course": "GUS 0862",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GUS0867-001",
+      "course": "GUS 0867",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GUS0921-001",
+      "course": "GUS 0921",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:40",
+      "instructor": "Rowan Blake",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GUS0942-001",
+      "course": "GUS 0942",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Sasha Petrov",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "GUS3161-001",
+      "course": "GUS 3161",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0824-001",
+      "course": "HIST 0824",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Jamie Costa",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0829-001",
+      "course": "HIST 0829",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Alex Moreau",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0831-001",
+      "course": "HIST 0831",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Robin Hale",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0847-001",
+      "course": "HIST 0847",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Taylor Nguyen",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0848-001",
+      "course": "HIST 0848",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Casey Ibrahim",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0849-001",
+      "course": "HIST 0849",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0859-001",
+      "course": "HIST 0859",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0861-001",
+      "course": "HIST 0861",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0862-001",
+      "course": "HIST 0862",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0864-001",
+      "course": "HIST 0864",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0865-001",
+      "course": "HIST 0865",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0867-001",
+      "course": "HIST 0867",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0872-001",
+      "course": "HIST 0872",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0874-001",
+      "course": "HIST 0874",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0929-001",
+      "course": "HIST 0929",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0949-001",
+      "course": "HIST 0949",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0959-001",
+      "course": "HIST 0959",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0961-001",
+      "course": "HIST 0961",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "HIST0964-001",
+      "course": "HIST 0964",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "IH0851-001",
+      "course": "IH 0851",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "IH0852-001",
+      "course": "IH 0852",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "IH0951-001",
+      "course": "IH 0951",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "IH0952-001",
+      "course": "IH 0952",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ISE0818-001",
+      "course": "ISE 0818",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ITAL0815-001",
+      "course": "ITAL 0815",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ITAL0831-001",
+      "course": "ITAL 0831",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ITAL0868-001",
+      "course": "ITAL 0868",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ITAL0931-001",
+      "course": "ITAL 0931",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Rowan Blake",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ITAL0968-001",
+      "course": "ITAL 0968",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Sasha Petrov",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "JPNS0868-001",
+      "course": "JPNS 0868",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "JST0802-001",
+      "course": "JST 0802",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Jamie Costa",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "JST0868-001",
+      "course": "JST 0868",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Alex Moreau",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "JST0902-001",
+      "course": "JST 0902",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Robin Hale",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "KLN0873-001",
+      "course": "KLN 0873",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Taylor Nguyen",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "LARC0841-001",
+      "course": "LARC 0841",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Casey Ibrahim",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "LARC0852-001",
+      "course": "LARC 0852",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "LAS0833-001",
+      "course": "LAS 0833",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "LAS0854-001",
+      "course": "LAS 0854",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "LAS0868-001",
+      "course": "LAS 0868",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "LAS0968-001",
+      "course": "LAS 0968",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "LAWU0825-001",
+      "course": "LAWU 0825",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "LAWU0833-001",
+      "course": "LAWU 0833",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "LAWU0834-001",
+      "course": "LAWU 0834",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "LAWU0854-001",
+      "course": "LAWU 0854",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "LAWU0875-001",
+      "course": "LAWU 0875",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:15",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "LGLS0803-001",
+      "course": "LGLS 0803",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:15",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "LGLS0805-001",
+      "course": "LGLS 0805",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "LGLS0856-001",
+      "course": "LGLS 0856",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "LGLS0956-001",
+      "course": "LGLS 0956",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH0701-001",
+      "course": "MATH 0701",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "17:05",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH0702-001",
+      "course": "MATH 0702",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:40",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH0823-001",
+      "course": "MATH 0823",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:40",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH0824-001",
+      "course": "MATH 0824",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "14:05",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH0923-001",
+      "course": "MATH 0923",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "14:05",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH0924-001",
+      "course": "MATH 0924",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:40",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH1021-001",
+      "course": "MATH 1021",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "13:05",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH1022-001",
+      "course": "MATH 1022",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:40",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH1031-001",
+      "course": "MATH 1031",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:40",
+      "instructor": "Rowan Blake",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH1033-001",
+      "course": "MATH 1033",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:40",
+      "instructor": "Sasha Petrov",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH1038-001",
+      "course": "MATH 1038",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH1039-001",
+      "course": "MATH 1039",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Jamie Costa",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH1041-001",
+      "course": "MATH 1041",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "15:05",
+      "instructor": "Alex Moreau",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH1042-001",
+      "course": "MATH 1042",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:40",
+      "instructor": "Robin Hale",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH1044-001",
+      "course": "MATH 1044",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:40",
+      "instructor": "Taylor Nguyen",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH1941-001",
+      "course": "MATH 1941",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:40",
+      "instructor": "Casey Ibrahim",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH1942-001",
+      "course": "MATH 1942",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "16:05",
+      "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH1951-001",
+      "course": "MATH 1951",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "16:05",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH2043-001",
+      "course": "MATH 2043",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:40",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH2045-001",
+      "course": "MATH 2045",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:40",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH2101-001",
+      "course": "MATH 2101",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH2103-001",
+      "course": "MATH 2103",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "15:05",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH2111-001",
+      "course": "MATH 2111",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:40",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH3031-001",
+      "course": "MATH 3031",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MATH3045-001",
+      "course": "MATH 3045",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "12:05",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MEE0843-001",
+      "course": "MEE 0843",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MIS0855-001",
+      "course": "MIS 0855",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MIS0955-001",
+      "course": "MIS 0955",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "09:50",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MSP0821-001",
+      "course": "MSP 0821",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:15",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MSP0823-001",
+      "course": "MSP 0823",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MUST0802-001",
+      "course": "MUST 0802",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:40",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MUST0804-001",
+      "course": "MUST 0804",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MUST0808-001",
+      "course": "MUST 0808",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MUST0809-001",
+      "course": "MUST 0809",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MUST0812-001",
+      "course": "MUST 0812",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MUST0902-001",
+      "course": "MUST 0902",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "11:05",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MUST0909-001",
+      "course": "MUST 0909",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "NSCI0817-001",
+      "course": "NSCI 0817",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PHIL0824-001",
+      "course": "PHIL 0824",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Rowan Blake",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PHIL0839-001",
+      "course": "PHIL 0839",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:15",
+      "instructor": "Sasha Petrov",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PHIL0847-001",
+      "course": "PHIL 0847",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "09:50",
+      "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PHIL0877-001",
+      "course": "PHIL 0877",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Jamie Costa",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PHIL0878-001",
+      "course": "PHIL 0878",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Alex Moreau",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PHIL0939-001",
+      "course": "PHIL 0939",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Robin Hale",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PHIL0947-001",
+      "course": "PHIL 0947",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:15",
+      "instructor": "Taylor Nguyen",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PHIL0977-001",
+      "course": "PHIL 0977",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Casey Ibrahim",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PHYS0834-001",
+      "course": "PHYS 0834",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PHYS0839-001",
+      "course": "PHYS 0839",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PHYS0847-001",
+      "course": "PHYS 0847",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PHYS0872-001",
+      "course": "PHYS 0872",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PHYS0939-001",
+      "course": "PHYS 0939",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PHYS1011-001",
+      "course": "PHYS 1011",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PHYS1021-001",
+      "course": "PHYS 1021",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder",
+      "laboratory": {
+        "section": "002",
+        "days": [
+          "Tuesday",
+          "Thursday"
+        ],
+        "start": "18:00",
+        "end": "20:00",
+        "instructor": "Riley Okonkwo",
+        "credits": 0,
+        "source": "placeholder"
+      }
+    },
+    {
+      "id": "PHYS1022-001",
+      "course": "PHYS 1022",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder",
+      "laboratory": {
+        "section": "002",
+        "days": [
+          "Monday",
+          "Wednesday",
+          "Friday"
+        ],
+        "start": "18:00",
+        "end": "18:50",
+        "instructor": "Samir Shah",
+        "credits": 0,
+        "source": "placeholder"
+      }
+    },
+    {
+      "id": "PHYS1061-001",
+      "course": "PHYS 1061",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder",
+      "laboratory": {
+        "section": "002",
+        "days": [
+          "Tuesday",
+          "Thursday"
+        ],
+        "start": "18:00",
+        "end": "20:00",
+        "instructor": "Noah Brooks",
+        "credits": 0,
+        "source": "placeholder"
+      }
+    },
+    {
+      "id": "PHYS1062-001",
+      "course": "PHYS 1062",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder",
+      "laboratory": {
+        "section": "002",
+        "days": [
+          "Monday",
+          "Wednesday",
+          "Friday"
+        ],
+        "start": "18:00",
+        "end": "18:50",
+        "instructor": "Maya Rahman",
+        "credits": 0,
+        "source": "placeholder"
+      }
+    },
+    {
+      "id": "PHYS1961-001",
+      "course": "PHYS 1961",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder",
+      "laboratory": {
+        "section": "002",
+        "days": [
+          "Monday",
+          "Wednesday",
+          "Friday"
+        ],
+        "start": "18:00",
+        "end": "18:50",
+        "instructor": "Chris Dalton",
+        "credits": 0,
+        "source": "placeholder"
+      }
+    },
+    {
+      "id": "PHYS1962-001",
+      "course": "PHYS 1962",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder",
+      "laboratory": {
+        "section": "002",
+        "days": [
+          "Tuesday",
+          "Thursday"
+        ],
+        "start": "18:00",
+        "end": "20:00",
+        "instructor": "Elena Vasquez",
+        "credits": 0,
+        "source": "placeholder"
+      }
+    },
+    {
+      "id": "PHYS2021-001",
+      "course": "PHYS 2021",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder",
+      "laboratory": {
+        "section": "002",
+        "days": [
+          "Monday",
+          "Wednesday",
+          "Friday"
+        ],
+        "start": "18:00",
+        "end": "18:50",
+        "instructor": "Parker Singh",
+        "credits": 0,
+        "source": "placeholder"
+      }
+    },
+    {
+      "id": "PHYS2022-001",
+      "course": "PHYS 2022",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder",
+      "laboratory": {
+        "section": "002",
+        "days": [
+          "Tuesday",
+          "Thursday"
+        ],
+        "start": "18:00",
+        "end": "20:00",
+        "instructor": "Quinn Adler",
+        "credits": 0,
+        "source": "placeholder"
+      }
+    },
+    {
+      "id": "PHYS2921-001",
+      "course": "PHYS 2921",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder",
+      "laboratory": {
+        "section": "002",
+        "days": [
+          "Tuesday",
+          "Thursday"
+        ],
+        "start": "18:00",
+        "end": "20:00",
+        "instructor": "Harper Diaz",
+        "credits": 0,
+        "source": "placeholder"
+      }
+    },
+    {
+      "id": "PHYS2922-001",
+      "course": "PHYS 2922",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder",
+      "laboratory": {
+        "section": "002",
+        "days": [
+          "Monday",
+          "Wednesday",
+          "Friday"
+        ],
+        "start": "18:00",
+        "end": "18:50",
+        "instructor": "Rowan Blake",
+        "credits": 0,
+        "source": "placeholder"
+      }
+    },
+    {
+      "id": "POLS0825-001",
+      "course": "POLS 0825",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:40",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "POLS0829-001",
+      "course": "POLS 0829",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "POLS0832-001",
+      "course": "POLS 0832",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "POLS0859-001",
+      "course": "POLS 0859",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "POLS0862-001",
+      "course": "POLS 0862",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "POLS0864-001",
+      "course": "POLS 0864",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "POLS0866-001",
+      "course": "POLS 0866",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Rowan Blake",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "POLS0868-001",
+      "course": "POLS 0868",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Sasha Petrov",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "POLS0878-001",
+      "course": "POLS 0878",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "POLS0925-001",
+      "course": "POLS 0925",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "16:05",
+      "instructor": "Jamie Costa",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "POLS0929-001",
+      "course": "POLS 0929",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Alex Moreau",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "POLS0932-001",
+      "course": "POLS 0932",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Robin Hale",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "POLS0962-001",
+      "course": "POLS 0962",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Taylor Nguyen",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "POLS0966-001",
+      "course": "POLS 0966",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Casey Ibrahim",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "POLS0978-001",
+      "course": "POLS 0978",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PSY0816-001",
+      "course": "PSY 0816",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PSY0817-001",
+      "course": "PSY 0817",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PSY0818-001",
+      "course": "PSY 0818",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PSY0825-001",
+      "course": "PSY 0825",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:40",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PSY0846-001",
+      "course": "PSY 0846",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PSY0916-001",
+      "course": "PSY 0916",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PSY0918-001",
+      "course": "PSY 0918",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "RCTH0813-001",
+      "course": "RCTH 0813",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "REL0802-001",
+      "course": "REL 0802",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "REL0811-001",
+      "course": "REL 0811",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "REL0833-001",
+      "course": "REL 0833",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "REL0863-001",
+      "course": "REL 0863",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "REL0876-001",
+      "course": "REL 0876",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "REL0902-001",
+      "course": "REL 0902",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "REL0911-001",
+      "course": "REL 0911",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "REL0933-001",
+      "course": "REL 0933",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "REL0963-001",
+      "course": "REL 0963",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "REL0976-001",
+      "course": "REL 0976",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "RUS0815-001",
+      "course": "RUS 0815",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "RUS0831-001",
+      "course": "RUS 0831",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "RUS0868-001",
+      "course": "RUS 0868",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "RUS0871-001",
+      "course": "RUS 0871",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "16:05",
+      "instructor": "Rowan Blake",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "RUS0968-001",
+      "course": "RUS 0968",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Sasha Petrov",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SCTC1001-001",
+      "course": "SCTC 1001",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:15",
+      "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SCTC2001-001",
+      "course": "SCTC 2001",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Jamie Costa",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SGM0827-001",
+      "course": "SGM 0827",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Alex Moreau",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0817-001",
+      "course": "SOC 0817",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Robin Hale",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0818-001",
+      "course": "SOC 0818",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Taylor Nguyen",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0825-001",
+      "course": "SOC 0825",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "15:05",
+      "instructor": "Casey Ibrahim",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0829-001",
+      "course": "SOC 0829",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "09:50",
+      "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0831-001",
+      "course": "SOC 0831",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0832-001",
+      "course": "SOC 0832",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0833-001",
+      "course": "SOC 0833",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0835-001",
+      "course": "SOC 0835",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0845-001",
+      "course": "SOC 0845",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0851-001",
+      "course": "SOC 0851",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0861-001",
+      "course": "SOC 0861",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0862-001",
+      "course": "SOC 0862",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0918-001",
+      "course": "SOC 0918",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0925-001",
+      "course": "SOC 0925",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:40",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0929-001",
+      "course": "SOC 0929",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:15",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0935-001",
+      "course": "SOC 0935",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0945-001",
+      "course": "SOC 0945",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SOC0962-001",
+      "course": "SOC 0962",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SPAN0815-001",
+      "course": "SPAN 0815",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SPAN0826-001",
+      "course": "SPAN 0826",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SPAN0831-001",
+      "course": "SPAN 0831",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SPAN0837-001",
+      "course": "SPAN 0837",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SPAN0854-001",
+      "course": "SPAN 0854",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SPAN0868-001",
+      "course": "SPAN 0868",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SPAN0926-001",
+      "course": "SPAN 0926",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SPAN0931-001",
+      "course": "SPAN 0931",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Rowan Blake",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SPAN0937-001",
+      "course": "SPAN 0937",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Sasha Petrov",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SPAN0968-001",
+      "course": "SPAN 0968",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SPSY0828-001",
+      "course": "SPSY 0828",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "08:00",
+      "end": "09:15",
+      "instructor": "Jamie Costa",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SPSY0928-001",
+      "course": "SPSY 0928",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "09:00",
+      "end": "09:50",
+      "instructor": "Alex Moreau",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "SSWU0822-001",
+      "course": "SSWU 0822",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Robin Hale",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "STAT0826-001",
+      "course": "STAT 0826",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "16:05",
+      "instructor": "Taylor Nguyen",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "STAT0827-001",
+      "course": "STAT 0827",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:40",
+      "instructor": "Casey Ibrahim",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "STAT1001-001",
+      "course": "STAT 1001",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "STAT1102-001",
+      "course": "STAT 1102",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "13:05",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "STAT1902-001",
+      "course": "STAT 1902",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "12:05",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "STAT2103-001",
+      "course": "STAT 2103",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "15:05",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "STHM0827-001",
+      "course": "STHM 0827",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "STHM0857-001",
+      "course": "STHM 0857",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "THE0877-001",
+      "course": "THE 0877",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "THM0877-001",
+      "course": "THM 0877",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "THTR0805-001",
+      "course": "THTR 0805",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "THTR0807-001",
+      "course": "THTR 0807",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:40",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "THTR0813-001",
+      "course": "THTR 0813",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "11:00",
+      "end": "11:50",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "THTR0825-001",
+      "course": "THTR 0825",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "THTR0841-001",
+      "course": "THTR 0841",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Jordan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "THTR0842-001",
+      "course": "THTR 0842",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "THTR0852-001",
+      "course": "THTR 0852",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "THTR0907-001",
+      "course": "THTR 0907",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "16:05",
+      "instructor": "Noah Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "THTR0925-001",
+      "course": "THTR 0925",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Maya Rahman",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "THTR0952-001",
+      "course": "THTR 0952",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "15:00",
+      "end": "15:50",
+      "instructor": "Chris Dalton",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "TUJ0879-001",
+      "course": "TUJ 0879",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "14:00",
+      "end": "15:15",
+      "instructor": "Elena Vasquez",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "TYLE0805-001",
+      "course": "TYLE 0805",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "12:00",
+      "end": "13:15",
+      "instructor": "Parker Singh",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "TYLE0905-001",
+      "course": "TYLE 0905",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Quinn Adler",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "URBE0855-001",
+      "course": "URBE 0855",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Harper Diaz",
+      "campus": "Main",
+      "source": "placeholder"
+    }
+  ]
+}
