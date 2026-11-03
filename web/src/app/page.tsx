@@ -10,9 +10,11 @@ export default function LoginPage() {
   return (
     <div className="plan">
       <main className="gate">
-        <p className="kicker">Course Planner</p>
+        <p className="plan-topbar-brand">
+          <b aria-hidden="true">T</b>
+          <span>Course Planner</span>
+        </p>
         <h1>Sign in</h1>
-        <p className="meta">A static sign-in. Nothing here is checked.</p>
         <label className="field">
           <span>Email</span>
           <input

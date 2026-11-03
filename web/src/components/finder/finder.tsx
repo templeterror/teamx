@@ -208,12 +208,8 @@ export function Finder({
     fitsOnly && { key: "fits", label: "Fits my week", clear: () => setFitsOnly(false) },
   ].filter((x): x is { key: string; label: string; clear: () => void } => !!x);
 
-  const applied = [
-    ...(scope !== "all"
-      ? [{ key: "scope", label: SCOPES.find((s) => s.id === scope)?.label ?? "", clear: () => setScope("all") }]
-      : []),
-    ...secondary,
-  ];
+  /* One scope chip makes every row's "Counts for" the same, so the column only shows for All courses. */
+  const showCountsFor = scope === "all";
 
   function previewFocus(code: string) {
     return {
@@ -232,6 +228,16 @@ export function Finder({
   function clearAll() {
     setQuery("");
     setScope("all");
+    setSubject("");
+    setLevel("");
+    setAttribute("");
+    setDays("");
+    setEligibleOnly(false);
+    setFitsOnly(false);
+    focusInput();
+  }
+
+  function clearFilters() {
     setSubject("");
     setLevel("");
     setAttribute("");
@@ -344,21 +350,21 @@ export function Finder({
       );
     if (row.inPlan)
       return (
-        <span className="finder-fit" title={`In your week · ${when}`}>
-          <b data-tone="plan">In your week</b> · {when}
+        <span className="finder-fit">
+          <b data-tone="plan">In your week</b> · <span className="finder-when">{when}</span>
         </span>
       );
     if (row.fit.status === "conflict") {
-      const text = conflictText(row.fit.with.map((w) => w.title));
+      const names = row.fit.with.map((w) => w.title);
       return (
-        <span className="finder-fit" data-tone="conflict" title={text}>
-          {text}
+        <span className="finder-fit" data-tone="conflict" title={names.length > 2 ? names.join(", ") : undefined}>
+          {conflictText(names)}
         </span>
       );
     }
     return (
-      <span className="finder-fit" title={`Fits · ${when}`}>
-        <b data-tone="ok">Fits</b> · {when}
+      <span className="finder-fit">
+        <b data-tone="ok">Fits</b> · <span className="finder-when">{when}</span>
       </span>
     );
   }
@@ -377,9 +383,9 @@ export function Finder({
   return (
     <section className="finder" aria-labelledby={`${uid}-title`} onKeyDown={onRootKeyDown}>
       <div className="finder-head">
-        <h2 id={`${uid}-title`} className="finder-title">
+        <h1 id={`${uid}-title`} className="finder-title">
           <label htmlFor={inputId}>Find courses</label>
-        </h2>
+        </h1>
         {context && (
           <p className="finder-context" title={context(scope)}>
             {context(scope)}
@@ -476,9 +482,9 @@ export function Finder({
 
         <div className="finder-body">
           <div className="finder-applied">
-            {applied.length > 0 && (
+            {secondary.length > 0 && (
               <ul className="finder-applied-list" aria-label="Applied filters">
-                {applied.map((a) => (
+                {secondary.map((a) => (
                   <li key={a.key}>
                     <button
                       type="button"
@@ -495,7 +501,7 @@ export function Finder({
                   </li>
                 ))}
                 <li>
-                  <button type="button" className="finder-text-btn" onClick={clearAll}>
+                  <button type="button" className="finder-text-btn" onClick={clearFilters}>
                     Clear all
                   </button>
                 </li>
@@ -584,14 +590,14 @@ export function Finder({
 
           <div ref={tableRef} id={tableId} className="finder-scroll" tabIndex={-1}>
             {visible.length ? (
-              <table className="finder-table">
+              <table className="finder-table" data-scoped={showCountsFor ? undefined : ""}>
                 <thead>
                   <tr>
                     <th scope="col">Course</th>
                     <th scope="col" className="finder-num">
                       Credits
                     </th>
-                    <th scope="col">Counts for</th>
+                    {showCountsFor && <th scope="col">Counts for</th>}
                     <th scope="col">Eligibility</th>
                     <th scope="col">Fit</th>
                     <th scope="col">
@@ -625,14 +631,15 @@ export function Finder({
                           </span>
                         </button>
                         <span className="finder-mobile-meta">
-                          {formatCredits(row.credits)} · {countsFor(row)} · {eligibility(row)}
+                          {formatCredits(row.credits)}
+                          {showCountsFor && <> · {countsFor(row)}</>} · {eligibility(row)}
                           <span className="finder-mobile-fit">{fit(row)}</span>
                         </span>
                       </td>
                       <td className="finder-num finder-td-meta">{row.credits === null ? "Variable" : row.credits}</td>
-                      <td className="finder-td-meta">{countsFor(row)}</td>
-                      <td className="finder-td-meta">{eligibility(row)}</td>
-                      <td className="finder-td-meta">{fit(row)}</td>
+                      {showCountsFor && <td className="finder-td-meta finder-td-counts">{countsFor(row)}</td>}
+                      <td className="finder-td-meta finder-td-elig">{eligibility(row)}</td>
+                      <td className="finder-td-meta finder-td-fit">{fit(row)}</td>
                       <td className="finder-td-action">{action(row)}</td>
                     </tr>
                   ))}

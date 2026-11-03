@@ -42,25 +42,16 @@
 
 .plan h1 {
   margin: 0;
-  font-size: 24px;
+  font-size: var(--text-title);
   font-weight: 600;
   letter-spacing: -0.012em;
   line-height: 1.15;
   text-wrap: balance;
 }
 
-.plan .kicker {
-  margin: 0 0 4px;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
 .plan .meta {
   margin: 6px 0 0;
-  font-size: 13px;
+  font-size: var(--text-caption);
   line-height: 1.45;
   color: var(--ink-tertiary);
   font-variant-numeric: tabular-nums;
@@ -410,6 +401,26 @@
   max-width: 560px;
 }
 
+.plan .gate > .plan-topbar-brand {
+  margin: 0 0 40px;
+  font-size: var(--text-ui);
+}
+
+/* Serif only here and on page titles: 600, optical sizing, tight at title size. */
+.plan .gate h1,
+.plan .workspace-heading h1 {
+  font-family: var(--font-serif);
+  font-size: var(--text-title);
+  font-weight: 600;
+  font-optical-sizing: auto;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+.plan .gate h1 + .field {
+  margin-top: 24px;
+}
+
 .plan .field {
   display: flex;
   flex-direction: column;
@@ -418,7 +429,7 @@
 }
 
 .plan .field span {
-  font-size: 13px;
+  font-size: var(--text-caption);
   color: var(--ink-secondary);
 }
 
@@ -458,6 +469,16 @@
   margin-top: 28px;
 }
 
+.plan .term-card .btn.primary {
+  margin-top: 0;
+}
+
+.plan .term-card .title {
+  margin: 0;
+  font-size: var(--text-body);
+  font-weight: 600;
+}
+
 .plan .old-terms {
   display: flex;
   flex-direction: column;
@@ -495,10 +516,10 @@
 }
 
 /* Student registration workspace */
-.plan.workspace{--canvas:oklch(.985 .002 262);--accent-wash:oklch(.97 .012 25);font-size:14px}.workspace-main{padding:0 40px 60px}.workspace-heading{padding:40px 0 32px;display:flex;align-items:center;justify-content:space-between;gap:24px}.eyebrow{font-size:12px;color:var(--ink-tertiary);margin:0 0 12px}.plan .workspace-heading h1{font-size:30px;letter-spacing:-1px;line-height:1.2}.intro{color:var(--ink-tertiary);margin:12px 0 0;line-height:1.6}.workspace .week-layout{grid-template-columns:minmax(0,1fr) 280px;gap:24px}.surface-toolbar{display:flex;justify-content:space-between;align-items:center;padding:16px 0}.surface-toolbar h2,.semester-summary h2{font-size:14px;font-weight:600;margin:0}.surface-toolbar>span{font-size:12px;color:var(--ink-tertiary)}.calendar-scroll{overflow:auto;border-radius:8px;box-shadow:var(--elevation);background:var(--surface)}.workspace .week.panel{box-shadow:none;border-radius:0;padding:20px 12px 0;min-width:560px}.workspace .day{background:repeating-linear-gradient(to bottom,transparent 0,transparent 71px,var(--line) 71px,var(--line) 72px)}.workspace .day-name{height:32px;text-align:center;font-size:11px}.workspace .block{border-left:2px solid var(--ink-tertiary);border-radius:4px}.workspace .block.open{border:1px dashed color-mix(in oklch,var(--accent) 45%,white);background:var(--accent-wash)}.workspace .block .code{font-size:10px;letter-spacing:0}.workspace .block .name{font-size:11px;line-height:1.4;margin-top:3px}.calendar-legend{display:flex;align-items:center;gap:16px;padding:12px 0;font-size:11px;color:var(--ink-tertiary)}.calendar-legend .btn{margin-left:auto;font-size:12px}.workspace .row.open{background:var(--surface);border:0;border-bottom:1px solid var(--line);border-radius:0}.workspace .row.core{box-shadow:none;background:transparent;border-bottom:1px solid var(--line);border-radius:0}.workspace .row{padding:16px 0}.workspace .aside{gap:0}.workspace .alt{box-shadow:none;background:var(--muted);border-radius:5px}.workspace .credits{font-size:11px}.workspace .row-head{gap:8px}.search-layout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:32px}.catalog-panel,.review-panel{background:var(--surface);box-shadow:var(--elevation);border-radius:8px;overflow:hidden}.search-controls{padding:24px;display:grid;grid-template-columns:1fr 140px;gap:14px}.search-controls label{display:grid;gap:8px;font-size:12px;color:var(--ink-secondary)}.search-controls input,.search-controls select{width:100%;min-width:0;height:44px;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface);padding:0 12px;color:var(--ink);font:inherit;font-size:16px}.results-count{padding:0 24px 16px;margin:0;color:var(--ink-tertiary);font-size:12px}.catalog-course{border-top:1px solid rgb(0 0 0 / .07)}.catalog-course summary{list-style:none;display:flex;align-items:center;gap:20px;padding:20px 24px;cursor:pointer}.catalog-course summary::-webkit-details-marker{display:none}.catalog-course summary>span:first-child{font-size:11px;width:72px;flex:none;color:var(--ink-secondary)}.catalog-course summary>div{flex:1;font-weight:500;line-height:1.5}.catalog-course small{display:block;font-size:12px;font-weight:400;color:var(--ink-tertiary);margin-top:4px}.course-description{padding:0 24px 24px}.course-description>p,.review-panel>p{font-size:14px;line-height:1.7;color:var(--ink-secondary);max-width:65ch}.section-option{background:var(--canvas);padding:16px;border-radius:6px;margin-bottom:12px;font-size:12px}.semester-summary>div{padding:18px 0;border-bottom:1px solid var(--line);font-size:13px}.semester-summary p{line-height:1.6}.semester-summary small,.semester-summary>p{color:var(--ink-tertiary);font-size:12px}.review-panel{padding:24px;max-width:900px}.review-row{display:flex;justify-content:space-between;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);font-size:13px}.review-row p{margin:6px 0}.review-row small{color:var(--ink-tertiary)}.review-row>span{white-space:nowrap}.workspace :focus-visible{outline:2px solid var(--ink);outline-offset:2px}.warn{color:var(--warning)}
+.plan.workspace{--canvas:oklch(.985 .002 262);--accent-wash:oklch(.97 .012 25);font-size:14px}.workspace-main{padding:0 40px 60px}.workspace-heading{padding:40px 0 32px;display:flex;align-items:center;justify-content:space-between;gap:24px}.eyebrow{font-size:12px;color:var(--ink-tertiary);margin:0 0 12px}.intro{color:var(--ink-tertiary);margin:12px 0 0;line-height:1.6}.workspace .week-layout{grid-template-columns:minmax(0,1fr) 280px;gap:24px}.surface-toolbar{display:flex;justify-content:space-between;align-items:center;padding:16px 0}.surface-toolbar h2,.semester-summary h2{font-size:14px;font-weight:600;margin:0}.surface-toolbar>span{font-size:12px;color:var(--ink-tertiary)}.calendar-scroll{overflow:auto;border-radius:8px;box-shadow:var(--elevation);background:var(--surface)}.workspace .week.panel{box-shadow:none;border-radius:0;padding:20px 12px 0;min-width:560px}.workspace .day{background:repeating-linear-gradient(to bottom,transparent 0,transparent 71px,var(--line) 71px,var(--line) 72px)}.workspace .day-name{height:32px;text-align:center;font-size:11px}.workspace .block{border-left:2px solid var(--ink-tertiary);border-radius:4px}.workspace .block.open{border:1px dashed color-mix(in oklch,var(--accent) 45%,white);background:var(--accent-wash)}.workspace .block .code{font-size:10px;letter-spacing:0}.workspace .block .name{font-size:11px;line-height:1.4;margin-top:3px}.calendar-legend{display:flex;align-items:center;gap:16px;padding:12px 0;font-size:11px;color:var(--ink-tertiary)}.calendar-legend .btn{margin-left:auto;font-size:12px}.workspace .row.open{background:var(--surface);border:0;border-bottom:1px solid var(--line);border-radius:0}.workspace .row.core{box-shadow:none;background:transparent;border-bottom:1px solid var(--line);border-radius:0}.workspace .row{padding:16px 0}.workspace .aside{gap:0}.workspace .alt{box-shadow:none;background:var(--muted);border-radius:5px}.workspace .credits{font-size:11px}.workspace .row-head{gap:8px}.search-layout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:32px}.catalog-panel,.review-panel{background:var(--surface);box-shadow:var(--elevation);border-radius:8px;overflow:hidden}.search-controls{padding:24px;display:grid;grid-template-columns:1fr 140px;gap:14px}.search-controls label{display:grid;gap:8px;font-size:12px;color:var(--ink-secondary)}.search-controls input,.search-controls select{width:100%;min-width:0;height:44px;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface);padding:0 12px;color:var(--ink);font:inherit;font-size:16px}.results-count{padding:0 24px 16px;margin:0;color:var(--ink-tertiary);font-size:12px}.catalog-course{border-top:1px solid rgb(0 0 0 / .07)}.catalog-course summary{list-style:none;display:flex;align-items:center;gap:20px;padding:20px 24px;cursor:pointer}.catalog-course summary::-webkit-details-marker{display:none}.catalog-course summary>span:first-child{font-size:11px;width:72px;flex:none;color:var(--ink-secondary)}.catalog-course summary>div{flex:1;font-weight:500;line-height:1.5}.catalog-course small{display:block;font-size:12px;font-weight:400;color:var(--ink-tertiary);margin-top:4px}.course-description{padding:0 24px 24px}.course-description>p,.review-panel>p{font-size:14px;line-height:1.7;color:var(--ink-secondary);max-width:65ch}.section-option{background:var(--canvas);padding:16px;border-radius:6px;margin-bottom:12px;font-size:12px}.semester-summary>div{padding:18px 0;border-bottom:1px solid var(--line);font-size:13px}.semester-summary p{line-height:1.6}.semester-summary small,.semester-summary>p{color:var(--ink-tertiary);font-size:12px}.review-panel{padding:24px;max-width:900px}.review-row{display:flex;justify-content:space-between;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);font-size:13px}.review-row p{margin:6px 0}.review-row small{color:var(--ink-tertiary)}.review-row>span{white-space:nowrap}.workspace :focus-visible{outline:2px solid var(--ink);outline-offset:2px}.warn{color:var(--warning)}
 @media(hover:hover){.catalog-course summary:hover{background:var(--muted)}}
 @media(max-width:1100px){.workspace-main{padding-inline:24px}.workspace .week-layout,.search-layout{grid-template-columns:1fr}.workspace-heading{align-items:flex-start;flex-direction:column}}
-@media(max-width:700px){.workspace-main{padding-inline:16px}.workspace-heading{padding:28px 0}.plan .workspace-heading h1{font-size:26px}.search-controls{grid-template-columns:1fr}.catalog-course summary{gap:12px;padding:18px 16px}.calendar-legend{flex-wrap:wrap;gap:8px}.intro{font-size:13px}}
+@media(max-width:700px){.workspace-main{padding-inline:16px}.workspace-heading{padding:28px 0}.search-controls{grid-template-columns:1fr}.catalog-course summary{gap:12px;padding:18px 16px}.calendar-legend{flex-wrap:wrap;gap:8px}.intro{font-size:13px}}
 @media print{.plan-topbar,.workspace-heading .btn{display:none}.workspace-main{padding:0}.review-panel{box-shadow:none}}
 
 .workspace .week-layout{grid-template-columns:minmax(0,1fr) 400px;align-items:start}
@@ -562,7 +583,7 @@
 @media(min-width:1000px) and (max-width:1200px){.workspace .week-layout{grid-template-columns:minmax(0,1fr) 350px}}
 
 
-/* Top bar: brand, term, workspace steps, the student. Review says when it is waiting on Confirm plan. */
+/* Top bar: brand, term, workspace steps, the student. Review is dimmed while it waits on Confirm plan. */
 .plan-topbar {
   display: flex;
   align-items: center;
@@ -571,14 +592,14 @@
   padding-inline: 40px;
   background: var(--surface);
   border-bottom: var(--hairline) solid var(--line);
-  font-size: 13px;
+  font-size: var(--text-caption);
   white-space: nowrap;
 }
 .plan-topbar a { color: inherit; text-decoration: none; }
 .plan-topbar a:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
 /* Press feedback, now that the tap highlight is off (globals.css). */
 .plan-topbar a:active { color: var(--ink); }
-.plan-topbar small { display: block; margin-top: 2px; font-size: 11px; font-weight: 400; color: var(--ink-tertiary); }
+.plan-topbar small { display: block; margin-top: 2px; font-size: var(--text-label); font-weight: 400; color: var(--ink-tertiary); }
 
 .plan-topbar-brand { display: flex; flex: none; align-items: center; gap: 10px; min-height: 44px; font-weight: 600; color: var(--ink); }
 .plan-topbar-brand > b {
@@ -589,7 +610,7 @@
   border-radius: 5px;
   background: var(--accent);
   color: var(--on-accent);
-  font: 700 22px Georgia, serif;
+  font: 600 22px var(--font-serif);
 }
 
 .plan-topbar-term {
@@ -606,7 +627,7 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  font-size: 12px;
+  font-size: var(--text-label);
   font-weight: 400;
   color: var(--ink-tertiary);
   transition: color 150ms ease-out;
@@ -624,13 +645,12 @@
   transition: color 150ms ease-out, box-shadow 150ms ease-out;
 }
 .plan-topbar-steps a[aria-current] { color: var(--ink); box-shadow: inset 0 -2px 0 var(--ink); }
+.plan-topbar-steps a[data-locked]:not([aria-current]) { color: var(--ink-tertiary); }
 .plan-topbar-steps a:focus-visible { outline-offset: -4px; }
-.plan-topbar-step-n { font-size: 11px; color: var(--ink-tertiary); font-variant-numeric: tabular-nums; }
 .plan-topbar-step { display: block; font-weight: 500; }
 .plan-topbar-steps a[data-ready] .plan-topbar-step { color: var(--accent); }
 
-.plan-topbar-demo { margin: 0 0 0 auto; font-size: 11px; color: var(--ink-tertiary); }
-.plan-topbar-student { margin: 0; padding-left: 24px; border-left: var(--hairline) solid var(--line); font-weight: 500; color: var(--ink); }
+.plan-topbar-student { margin: 0 0 0 auto; padding-left: 24px; border-left: var(--hairline) solid var(--line); font-weight: 500; color: var(--ink); }
 
 @media (hover: hover) and (pointer: fine) {
   .plan-topbar-term a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
@@ -640,11 +660,8 @@
 @media (prefers-reduced-motion: reduce) {
   .plan-topbar-term a, .plan-topbar-steps a { transition: none; }
 }
-/* The student moves right when the demo note has no room. */
 @media (max-width: 1100px) {
   .plan-topbar { padding-inline: 24px; }
-  .plan-topbar-demo { display: none; }
-  .plan-topbar-student { margin-left: auto; }
 }
 /* Below this the bar would outgrow the viewport; the student goes first. */
 @media (max-width: 900px) {
@@ -654,7 +671,13 @@
   .plan-topbar { gap: 16px; padding-inline: 16px; }
   .plan-topbar small, .plan-topbar-term, .plan-topbar-student { display: none; }
   .plan-topbar-steps { flex: 1; min-width: 0; margin-left: 0; overflow-x: auto; scrollbar-width: none; }
-  .plan-topbar-steps a { flex: none; font-size: 12px; }
+  .plan-topbar-steps a { flex: none; font-size: var(--text-label); }
+}
+/* Phone width: "Review & register" shortens to "Review" and the steps close up, so all three fit. */
+@media (max-width: 479px) {
+  .plan-topbar-steps { gap: 0; }
+  .plan-topbar-steps a { padding: 0 8px; }
+  .plan-topbar-step-tail { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
 .workspace-heading .btn { flex: none; }
 
@@ -662,15 +685,14 @@
 .plan-week { padding-top: 24px; }
 
 /* Review & register */
-.review-panel .review-title { margin: 0; font-size: 15px; font-weight: 600; }
+.review-panel .review-title { margin: 0; font-size: var(--text-body); font-weight: 600; }
 .review-summary { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-.review-summary > span { font-size: 13px; color: var(--ink-secondary); font-variant-numeric: tabular-nums; }
+.review-summary > span { font-size: var(--text-caption); color: var(--ink-secondary); font-variant-numeric: tabular-nums; }
 .review-list { list-style: none; margin: 8px 0 0; padding: 0; }
 .review-row:last-child { border-bottom: 0; }
 .review-row > span { font-variant-numeric: tabular-nums; color: var(--ink-secondary); }
 .review-row[data-conflict] { box-shadow: inset 2px 0 0 var(--warning); padding-left: 14px; }
 .review-row .warn { margin: 6px 0 0; font-weight: 500; }
-.review-tag { font-size: 12px; color: var(--ink-tertiary); }
 .review-actions { display: flex; gap: 12px; padding-top: 20px; border-top: 1px solid var(--line); }
 /* "← Back to your plan": 2px less on the arrow side. */
 .review-actions .btn.text { padding-left: 6px; }
@@ -683,14 +705,14 @@
 @media print { .review-actions, .review-blockers { display: none; } }
 
 /* Closed term record: read only, nothing that looks editable. */
-.plan .back-link { position: relative; display: inline-block; margin-bottom: 24px; font-size: 14px; color: var(--ink-secondary); text-decoration: none; }
+.plan .back-link { position: relative; display: inline-block; margin-bottom: 24px; font-size: var(--text-ui); color: var(--ink-secondary); text-decoration: none; }
 .plan .back-link::before { content: ""; position: absolute; inset: -14px -8px; }
 @media (hover: hover) and (pointer: fine) { .plan .back-link:hover { color: var(--ink); } }
 .plan .back-link:active { color: var(--ink); }
 .plan .back-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 4px; }
 .plan .record { margin: 28px 0 24px; border-radius: 12px; background: var(--surface); box-shadow: var(--elevation); }
 .plan .record ul { list-style: none; margin: 0; padding: 0 20px; }
-.plan .record li, .plan .record footer { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 14px 0; font-size: 14px; }
+.plan .record li, .plan .record footer { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 14px 0; font-size: var(--text-ui); }
 .plan .record li + li { border-top: 1px solid var(--line); }
 .plan .record li div { display: flex; flex-wrap: wrap; gap: 4px 10px; }
 .plan .record li strong { font-weight: 600; min-width: 72px; }

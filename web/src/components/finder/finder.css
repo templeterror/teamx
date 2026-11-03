@@ -41,7 +41,7 @@
   white-space: nowrap;
 }
 
-/* ---------- Head: the visible label, same weight as "Weekly schedule" below ---------- */
+/* ---------- Head: the page heading, in the serif; the field's visible label ---------- */
 
 .finder-head {
   display: flex;
@@ -50,18 +50,26 @@
   gap: 12px;
   padding: 0 0 10px;
 }
-.finder-title { margin: 0; font-size: 14px; font-weight: 600; white-space: nowrap; }
+.finder-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-heading);
+  font-weight: 600;
+  font-optical-sizing: auto;
+  line-height: 1.25;
+  white-space: nowrap;
+}
 .finder-title label { cursor: pointer; }
 /* "For: Major electives · 2 to choose" when an open slot on the plan sent the student here. */
 .finder-context {
   margin: 0;
   overflow: hidden;
-  font-size: 13px;
+  font-size: var(--text-caption);
   color: var(--ink-secondary);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.finder-note { margin-left: auto; font-size: 12px; color: var(--ink-tertiary); white-space: nowrap; }
+.finder-note { margin-left: auto; font-size: var(--text-label); color: var(--ink-tertiary); white-space: nowrap; }
 
 /* ---------- Card ---------- */
 
@@ -294,6 +302,8 @@
   color: var(--ink-secondary);
   font-variant-numeric: tabular-nums;
 }
+/* No applied filters: the count leads the row and More filters keeps the right edge. */
+.finder-count:first-child { margin: 0 auto 0 0; }
 
 .finder-text-btn {
   position: relative;
@@ -421,10 +431,11 @@
 .finder-table th.finder-num { text-align: right; }
 .finder-table td.finder-num { color: var(--ink-secondary); padding-top: 13px; width: 64px; }
 .finder-td-meta { padding-top: 13px; }
-/* Fixed meta columns, so the course title gets the room. */
-.finder-table td:nth-child(3) { width: 150px; }
-.finder-table td:nth-child(4) { width: 150px; }
-.finder-table td:nth-child(5) { width: 200px; max-width: 200px; }
+/* Fixed meta columns, so the course title gets the room. Without Counts for, Fit takes its width. */
+.finder-td-counts,
+.finder-td-elig { width: 150px; }
+.finder-td-fit { width: 200px; }
+.finder-table[data-scoped] .finder-td-fit { width: 350px; }
 .finder-td-action { width: 124px; text-align: right; vertical-align: top; }
 
 .finder-course {
@@ -500,15 +511,16 @@
 .finder [data-tone="needs"] { color: var(--ink); }
 .finder [data-tone="muted"] { color: var(--ink-tertiary); }
 
+/* Wraps rather than truncates: the conflict's name is the point of the line. */
 .finder-fit {
   display: block;
-  overflow: hidden;
+  line-height: 1.4;
   color: var(--ink-tertiary);
   font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  text-wrap: pretty;
 }
 .finder-fit b { font-weight: 500; }
+.finder-when { white-space: nowrap; }
 /* 243 of 461 placeholder times collide, so a conflict is amber text, never a fill. */
 .finder-fit[data-tone="conflict"] { color: var(--warning); }
 
@@ -558,7 +570,7 @@
   padding: 48px 24px 52px;
   text-align: center;
 }
-.finder-empty h3 { margin: 0; font-size: 15px; font-weight: 600; text-wrap: balance; overflow-wrap: anywhere; }
+.finder-empty h3 { margin: 0; font-size: var(--text-body); font-weight: 600; text-wrap: balance; overflow-wrap: anywhere; }
 .finder-empty p { margin: 0; font-size: 13px; color: var(--ink-secondary); }
 .finder-btn {
   min-height: 44px;

@@ -25,14 +25,17 @@ export default async function ClosedTermPage({ params }: PageProps<"/term/[slug]
   return (
     <div className="plan">
       <main className="gate wide">
+        <p className="plan-topbar-brand">
+          <b aria-hidden="true">T</b>
+          <span>Course Planner</span>
+        </p>
         <Link className="back-link" href="/term">
           ← All terms
         </Link>
-        <p className="kicker">Completed · view only</p>
         <h1>{term.name}</h1>
         <p className="meta">
-          This term is closed, so nothing here can change. Sample record from the bulletin&rsquo;s
-          suggested plan, not your transcript.
+          Completed · view only. A sample record from the bulletin&rsquo;s suggested plan, not your
+          transcript.
         </p>
         <section className="record" aria-label={`${term.name} courses`}>
           <ul>
