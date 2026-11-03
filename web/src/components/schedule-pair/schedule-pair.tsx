@@ -74,9 +74,9 @@ export function SchedulePair({
   initialPreview?: PreviewTarget | null;
   /* The colour category for a placement, when the host knows better than `item.kind`. */
   kindFor?: KindOf;
-  /* Where an open slot's "Find more →" goes (a card with options); null leaves it out. */
+  /* Where an open slot's "Find more" goes (a card with options); null leaves it out. */
   findHref?: (item: Placement) => string | null;
-  /* Rendered in the Your courses toolbar, e.g. "Find courses →". */
+  /* Rendered in the Your courses toolbar, e.g. "Find courses". */
   coursesAction?: ReactNode;
 }) {
   const id = useId();
@@ -213,12 +213,9 @@ export function SchedulePair({
                   : `${plan.credits} → ${previewing.credits} credits`}
               </span>
             ) : (
-              <span>
-                <span data-tone={plan.credits > CREDIT_MAX ? "warn" : undefined}>
-                  {plan.credits} credits
-                  {plan.credits > CREDIT_MAX && <> · over {CREDIT_MAX}</>}
-                </span>
-                {suggested.length > 0 && <> · {suggested.length} suggested</>}
+              <span data-tone={plan.credits > CREDIT_MAX ? "warn" : undefined}>
+                {plan.credits} credits
+                {plan.credits > CREDIT_MAX && <> · over {CREDIT_MAX}</>}
               </span>
             )}
           </div>
@@ -236,10 +233,7 @@ export function SchedulePair({
         <section aria-labelledby={`${id}-courses`}>
           <div className="sp-toolbar">
             <h2 id={`${id}-courses`}>Your courses</h2>
-            <span className="sp-courses-meta">
-              {suggested.length === 0 && active.length > 0 ? "Plan confirmed" : "Suggested plan"}
-              {coursesAction}
-            </span>
+            {coursesAction}
           </div>
           <CourseList
             plan={plan}
@@ -480,7 +474,7 @@ function Legend({ free }: { free: boolean }) {
   );
 }
 
-type IconName = "add" | "drop" | "chevron" | "check";
+type IconName = "add" | "drop" | "check";
 function Icon({ name, size = 16 }: { name: IconName; size?: number }) {
   return (
     <svg
@@ -494,9 +488,7 @@ function Icon({ name, size = 16 }: { name: IconName; size?: number }) {
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      {name === "chevron" ? (
-        <path d="m6 4 4 4-4 4" />
-      ) : name === "check" ? (
+      {name === "check" ? (
         <path d="m3 8 3 3 7-7" />
       ) : name === "drop" ? (
         <path d="M4 8h8" />
@@ -520,7 +512,7 @@ export type Decide = {
  * Your courses — Cards with a Drill-in course page. See productthink.md,
  * "Your courses" and "Course details".
  * Every course is a card: code and credits, title, days and time, Or chips.
- * Tapping a card (or its class in the week) slides the panel to the course page.
+ * The whole card opens the course page, as does its class in the week.
  */
 
 const CHOICE_KINDS: Placement["kind"][] = ["elective", "gened", "free-elective"];
@@ -623,12 +615,6 @@ function CourseList(props: ListProps) {
     <div className="sp-card sp-drill" data-open={openItem ? true : undefined}>
       <div className="sp-track">
         <div className="sp-pane" inert={Boolean(openItem)}>
-          <header className="sp-card-head">
-            <strong>Your semester</strong>
-            <span data-tone={plan.credits > CREDIT_MAX ? "warn" : undefined}>
-              {plan.credits} of {CREDIT_MAX} credits
-            </span>
-          </header>
           <div className="sp-card-scroll">
             {cards.map((item) => (
               <CourseCard
@@ -650,7 +636,7 @@ function CourseList(props: ListProps) {
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="m10 4-4 4 4 4" />
               </svg>
-              Your semester
+              Your courses
             </button>
           </header>
           <div className="sp-page-scroll" ref={pageScroll}>
@@ -704,9 +690,6 @@ function CourseCard({
             {item.course.code} · {item.course.credits} {item.course.credits === 1 ? "credit" : "credits"}
           </span>
           {dropped && <span className="sp-ccard-status">{offNote}</span>}
-          <span className="sp-ccard-open" aria-hidden="true">
-            <Icon name="chevron" size={14} />
-          </span>
         </span>
         <span className="sp-ccard-title">{item.course.title}</span>
         <MeetingTime course={item.course} />
@@ -745,7 +728,7 @@ function CourseCard({
           })}
           {findMore && (
             <NextLink href={findMore} className="sp-findlink sp-findmore">
-              Find more →
+              Find more
             </NextLink>
           )}
         </div>
@@ -753,7 +736,7 @@ function CourseCard({
       {alts.length === 0 && findMore && (
         <div className="sp-chips">
           <NextLink href={findMore} className="sp-findlink sp-findmore">
-            Find more →
+            Find more
           </NextLink>
         </div>
       )}

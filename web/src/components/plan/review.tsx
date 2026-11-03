@@ -40,11 +40,11 @@ export function Review() {
         <header className="workspace-heading">
           <div>
             <p className="eyebrow">{CURRENT_TERM} / Review &amp; register</p>
-            <h1>Confirm your plan first.</h1>
+            <h1>Confirm your plan first</h1>
             <p className="intro">
               {active.length === 0
-                ? "Your plan has no courses yet. Add courses, then confirm the semester."
-                : `Review opens once the whole semester is confirmed. ${suggested.length} of ${active.length} courses are still suggestions.`}
+                ? "Your plan has no courses to confirm yet."
+                : `${suggested.length} of ${active.length} courses ${suggested.length === 1 ? "is still a suggestion" : "are still suggestions"}, so review stays closed.`}
             </p>
           </div>
           <Link className="btn primary" href="/plan">
@@ -64,7 +64,6 @@ export function Review() {
                     <p>{p.course.title}</p>
                     <small>{KIND[p.kind]}</small>
                   </div>
-                  <span className="review-tag">Suggested</span>
                 </li>
               ))}
             </ul>
@@ -99,10 +98,10 @@ export function Review() {
           <p className="eyebrow">{CURRENT_TERM} / Review &amp; register</p>
           <h1>
             {blockers.length === 0
-              ? "Ready for Banner."
+              ? "Ready for Banner"
               : blockers.length === 1
-                ? "One thing to fix before Banner."
-                : `${blockers.length} things to fix before Banner.`}
+                ? "One thing to fix before Banner"
+                : `${blockers.length} things to fix before Banner`}
           </h1>
           <p className="intro">
             {blockers.length === 0

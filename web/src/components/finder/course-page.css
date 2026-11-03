@@ -34,10 +34,11 @@
 .course-page-title { display: grid; gap: 4px; }
 .course-page-title h3 {
   margin: 2px 0 0;
-  font-size: 20px;
+  font-family: var(--font-serif);
+  font-size: var(--text-heading);
   font-weight: 600;
+  font-optical-sizing: auto;
   line-height: 1.25;
-  letter-spacing: -0.015em;
   text-wrap: balance;
   overflow-wrap: break-word;
 }

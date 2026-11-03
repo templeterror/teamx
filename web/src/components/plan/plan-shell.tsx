@@ -22,7 +22,8 @@ export function usePlanContext() {
 const STEPS = [
   { href: "/find", label: "Find" },
   { href: "/plan", label: "Your plan" },
-  { href: "/plan/review", label: "Review & register" },
+  /* The tail hides at phone width so all three steps fit; it stays in the accessible name. */
+  { href: "/plan/review", label: "Review", tail: " & register" },
 ] as const;
 
 export function PlanShell({ children }: { children: ReactNode }) {
@@ -46,8 +47,8 @@ export function PlanShell({ children }: { children: ReactNode }) {
             <Link href="/term">Change term</Link>
           </div>
           <nav className="plan-topbar-steps" aria-label="Planning workspace">
-            {STEPS.map((step, i) => {
-              /* Review is reachable, but it says up front that it waits on Confirm plan. */
+            {STEPS.map((step) => {
+              /* Review is reachable, but dimmed until Confirm plan; the page says why. */
               const locked = step.href === "/plan/review" && !plan.planConfirmed;
               /*
                * After Confirm plan this step is the screen's one red primary, except on /find
@@ -66,18 +67,14 @@ export function PlanShell({ children }: { children: ReactNode }) {
                   data-locked={locked || undefined}
                   data-ready={ready || undefined}
                 >
-                  <span className="plan-topbar-step-n">0{i + 1}</span>
                   <span className="plan-topbar-step">
                     {step.label}
-                    {step.href === "/plan/review" && (
-                      <small>{locked ? "After you confirm" : "Ready"}</small>
-                    )}
+                    {"tail" in step && <span className="plan-topbar-step-tail">{step.tail}</span>}
                   </span>
                 </Link>
               );
             })}
           </nav>
-          <p className="plan-topbar-demo">Demo · sample meeting times</p>
           <p className="plan-topbar-student">
             Rafiat Amir<small>Computer Science · BS</small>
           </p>

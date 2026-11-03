@@ -18,7 +18,10 @@ export default function ErrorPage({
   return (
     <div className="plan">
       <main className="gate">
-        <p className="kicker">Course Planner</p>
+        <p className="plan-topbar-brand">
+          <b aria-hidden="true">T</b>
+          <span>Course Planner</span>
+        </p>
         <h1>Something went wrong on this page</h1>
         <p className="meta">Your plan is still here. Try again, or go back to it.</p>
         <button type="button" className="btn primary" onClick={reset}>

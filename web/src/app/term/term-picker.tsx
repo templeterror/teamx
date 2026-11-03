@@ -11,14 +11,14 @@ export function TermPicker() {
   return (
     <div className="plan">
       <main className="gate wide">
-        <p className="kicker">Rafiat Amir</p>
+        <p className="plan-topbar-brand">
+          <b aria-hidden="true">T</b>
+          <span>Course Planner</span>
+        </p>
         <h1>Select a term</h1>
         <p className="meta">Spring 2027 is open for planning.</p>
         <article className="row core term-card">
-          <div>
-            <p className="code">Open</p>
-            <h2 className="title">Spring 2027</h2>
-          </div>
+          <h2 className="title">Spring 2027</h2>
           <Link className="btn primary" href="/plan">
             Open plan
           </Link>

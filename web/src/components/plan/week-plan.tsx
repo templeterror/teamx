@@ -58,7 +58,7 @@ export function WeekPlan() {
         findHref={(item) => `/find?scope=${SLOT_SCOPE[kindFor(item)]}`}
         coursesAction={
           <Link href="/find" className="sp-findlink">
-            Find courses →
+            Find courses
           </Link>
         }
       />

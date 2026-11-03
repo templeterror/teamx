@@ -66,47 +66,17 @@
 .finder-sec-head > span { font-size: 12px; color: var(--ink-tertiary); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .finder-sec-head > span[data-tone="full"] { color: var(--ink); }
 
-.finder-week { position: relative; flex: none; padding: 14px 16px 12px; border-bottom: var(--hairline) solid var(--line); }
-/* Laid over the empty grid, so the first shortlisted course does not move the shortlist below. */
-.finder-week-empty {
-  position: absolute;
-  top: 50%;
-  right: 16px;
-  left: 38px;
-  margin: 0;
-  font-size: 12px;
-  color: var(--ink-tertiary);
-  text-align: center;
-  pointer-events: none;
-}
+.finder-week { flex: none; padding: 14px 16px 12px; border-bottom: var(--hairline) solid var(--line); }
 
 /* Shortlist */
 .finder-list { display: flex; flex: 1; flex-direction: column; min-height: 0; padding-top: 14px; }
 .finder-list .finder-sec-head { margin-bottom: 4px; padding: 0 16px; }
-.finder-sl-empty { display: grid; justify-items: start; gap: 4px; margin: 4px 16px 16px; font-size: 13px; line-height: 1.5; color: var(--ink-tertiary); text-wrap: pretty; }
-.finder-sl-empty p { margin: 0; }
-.finder-sl-empty strong { font-weight: 500; color: var(--ink); }
-.finder-sl-empty button {
-  min-height: 44px;
-  margin-top: 4px;
-  padding: 0 14px;
-  border: 0;
-  border-radius: 8px;
-  background: var(--surface);
-  box-shadow: var(--shadow-control);
-  color: var(--ink);
-  font: inherit;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: box-shadow 150ms ease-out, transform 150ms ease-out;
-}
-.finder-sl-empty button:active { transform: scale(0.96); }
+.finder-sl-empty { margin: 4px 16px 16px; font-size: var(--text-caption); line-height: 1.5; color: var(--ink-tertiary); text-wrap: pretty; }
 /*
  * Until the shortlist is read from this tab's storage (after hydration), everything that
  * depends on it is held blank at its real size, so a reload never shows an empty shortlist first.
  */
-.finder-page[data-pending] :is(.finder-sec-head > span, .finder-week-empty, .finder-list > :not(.finder-sec-head), .finder-side-foot > *, .finder-shortlist) { visibility: hidden; }
+.finder-page[data-pending] :is(.finder-sec-head > span, .finder-list > :not(.finder-sec-head), .finder-side-foot > *, .finder-shortlist) { visibility: hidden; }
 .finder-sl {
   flex: 1;
   min-height: 0;
@@ -202,7 +172,6 @@
   .finder-sl-row:hover { background: var(--muted); }
   .finder-sl-remove:hover { background: var(--line); color: var(--ink); }
   .finder-primary:hover { background: var(--accent-hover); }
-  .finder-sl-empty button:hover { box-shadow: var(--shadow-control-hover); }
   .finder-quiet-link:hover { background: var(--muted); }
 }
 
@@ -220,10 +189,8 @@
   .finder-sl-row,
   .finder-sl-remove,
   .finder-primary,
-  .finder-quiet-link,
-  .finder-sl-empty button { transition: none; }
+  .finder-quiet-link { transition: none; }
   .finder-primary:active,
   .finder-quiet-link:active,
-  .finder-sl-remove:active,
-  .finder-sl-empty button:active { transform: none; }
+  .finder-sl-remove:active { transform: none; }
 }

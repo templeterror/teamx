@@ -55,6 +55,16 @@
   --z-preview: 3;
   --z-sticky: 4;
   --z-tooltip: 5;
+
+  /* Type roles (productthink.md). Inter for everything; serif only for page headings and course titles at 17px and up. */
+  --text-display: 32px;
+  --text-title: 24px;
+  --text-heading: 20px;
+  --text-body: 16px;
+  --text-ui: 14px;
+  --text-caption: 13px;
+  --text-label: 12px;
+  --font-serif: var(--font-display), Georgia, serif;
   color-scheme: light;
 }
 

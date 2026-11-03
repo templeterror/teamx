@@ -72,7 +72,7 @@ The neutrals are a cool gray, the temperature of Linear’s light UI. The accent
 
 Text colors are the steps that pass WCAG AA on white: primary, secondary, and tertiary. The lighter gray step is not a text color.
 
-One typeface, Inter. Ten roles: Display, Title, Heading, Body, Body strong, UI, UI strong, Caption, Label, Number. Body and inputs are 16px. UI rows are 14px. Captions are 13px. Labels are 12px, uppercase, with open tracking. Display and title tracking is slightly tight. Numbers should use tabular figures on the layer. Figma text styles cannot store that feature.
+Two typefaces, changed 3 November 2026 in the pre-judging design pass. Source Serif 4 sets page headings and course titles at 17px and up, the voice of the bulletin the courses come from. Inter sets everything else: tables, calendar blocks, chips, buttons, labels. The serif never goes below 17px. Ten roles: Display, Title, Heading, Body, Body strong, UI, UI strong, Caption, Label, Number. Body and inputs are 16px. UI rows are 14px. Captions are 13px. Labels are 12px, uppercase, with open tracking. Display and title tracking is slightly tight. Numbers should use tabular figures on the layer. Figma text styles cannot store that feature.
 
 ## Layout
 

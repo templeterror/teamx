@@ -180,7 +180,6 @@ export function FindPage({ scope, scoped }: { scope: Scope; scoped: boolean }) {
         }
       }}
     >
-      <h1 className="sr-only">Find courses</h1>
       <Finder
         rows={rows}
         initialScope={scope}
@@ -202,7 +201,6 @@ export function FindPage({ scope, scoped }: { scope: Scope; scoped: boolean }) {
                   <span>{weekLine}</span>
                 </header>
                 <MiniWeek items={items} ghost={ghost} hotCode={drawn ? previewCode : null} />
-                {items.length === 0 && <p className="finder-week-empty">Shortlist courses to see them here</p>}
               </section>
 
               <section className="finder-list" aria-labelledby={`${uid}-sl`}>
@@ -216,18 +214,7 @@ export function FindPage({ scope, scoped }: { scope: Scope; scoped: boolean }) {
                   </span>
                 </header>
                 {n === 0 ? (
-                  <div className="finder-sl-empty">
-                    <p>
-                      <strong>Nothing shortlisted yet</strong>
-                    </p>
-                    <p>Shortlist up to {SHORTLIST_MAX} courses to compare them on your week.</p>
-                    <button
-                      type="button"
-                      onClick={() => document.querySelector<HTMLInputElement>(".finder-input")?.focus()}
-                    >
-                      Search courses
-                    </button>
-                  </div>
+                  <p className="finder-sl-empty">Courses you shortlist show up here and on your week.</p>
                 ) : (
                   <ul ref={listRef} className="finder-sl" onPointerLeave={() => setHover(null)}>
                     {shortlist.codes.map((code, i) => {
