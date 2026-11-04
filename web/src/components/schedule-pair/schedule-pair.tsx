@@ -14,7 +14,6 @@
  * that course. Confirmed courses can still be changed.
  */
 
-import NextLink from "next/link";
 import { useEffect, useId, useRef, useState, type ReactNode, type RefObject } from "react";
 import { CREDIT_MAX, DAY_END, DAY_START, type Day, type Offering } from "@/components/plan/data";
 import { formatMeetings, type Placement, type usePlan } from "@/components/plan/use-plan";
@@ -27,7 +26,9 @@ export type PairPlan = Pick<
   "placements" | "credits" | "conflictsFor" | "toggleCourse"
 > &
   /* The live plan owns confirmation so review can read it; fixtures fall back to local state. */
-  Partial<Pick<ReturnType<typeof usePlan>, "confirmed" | "setConfirmed" | "confirmPlan" | "fromShortlist">>;
+  Partial<
+    Pick<ReturnType<typeof usePlan>, "confirmed" | "setConfirmed" | "confirmPlan" | "planConfirmed" | "fromShortlist">
+  >;
 
 const DAYS: Day[] = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 
@@ -59,13 +60,19 @@ function overlaps(a: Offering, b: Offering) {
   return a.days.some((d) => b.days.includes(d)) && a.start < b.end && b.start < a.end;
 }
 
+/* Why a plan of this many credits cannot be confirmed, or null within the limit. */
+function overLimitAt(credits: number) {
+  return credits > CREDIT_MAX
+    ? `${credits} credits is over the ${CREDIT_MAX}-credit limit. Drop a course, or get approval from your department to take more.`
+    : null;
+}
+
 export function SchedulePair({
   plan,
   defaultExpanded = null,
   initialConfirmed = [],
   initialPreview = null,
   kindFor = ownKind,
-  findHref,
   coursesAction,
 }: {
   plan: PairPlan;
@@ -74,8 +81,6 @@ export function SchedulePair({
   initialPreview?: PreviewTarget | null;
   /* The colour category for a placement, when the host knows better than `item.kind`. */
   kindFor?: KindOf;
-  /* Where an open slot's "Find more" goes (a card with options); null leaves it out. */
-  findHref?: (item: Placement) => string | null;
   /* Rendered in the Your courses toolbar, e.g. "Find courses". */
   coursesAction?: ReactNode;
 }) {
@@ -116,6 +121,10 @@ export function SchedulePair({
 
   const active = plan.placements.filter((item) => !item.deferred);
   const suggested = active.filter((item) => !confirmed[item.id]);
+  /* Real credits, not a preview's: only what is in the plan can block Confirm plan. */
+  const overLimit = overLimitAt(plan.credits);
+  /* The live plan's answer also counts drops waiting on Confirm plan; fixtures never remove a drop. */
+  const planConfirmed = plan.planConfirmed ?? (active.length > 0 && suggested.length === 0 && !overLimit);
 
   const target = pinned ?? peek;
   const targetItem = target ? active.find((p) => p.id === target.itemId) : undefined;
@@ -156,6 +165,10 @@ export function SchedulePair({
   const decide = {
     /* Everything the student dropped leaves the plan; a course moved to a later term stays. */
     confirmAll() {
+      if (overLimit) {
+        setAnnouncement(overLimit);
+        return;
+      }
       const dropped = plan.placements.filter((p) => p.dropped);
       if (plan.confirmPlan) plan.confirmPlan();
       else setConfirmed((c) => ({ ...c, ...Object.fromEntries(active.map((p) => [p.id, true])) }));
@@ -174,16 +187,27 @@ export function SchedulePair({
       setPeek(null);
       item.pick(code);
       setConfirmed((c) => ({ ...c, [item.id]: true }));
-      setAnnouncement(`Changed ${item.course.code} to ${code}. Confirmed.`);
+      const next = item.options.find((o) => o.code === code) ?? item.course;
+      const overAfter = overLimitAt(plan.credits - item.course.credits + next.credits);
+      setAnnouncement(`Changed ${item.course.code} to ${code}. ${overAfter ?? "Confirmed."}`);
     },
+    /* Dropping from a confirmed plan reopens it; the card stays until Confirm plan. */
     remove(item: Placement) {
       plan.toggleCourse(item);
-      setAnnouncement(`${item.course.code} dropped from your plan.`);
+      setAnnouncement(
+        planConfirmed
+          ? `${item.course.code} dropped. Confirm your plan again to remove it.`
+          : `${item.course.code} dropped from your plan.`,
+      );
     },
     addBack(item: Placement) {
       plan.toggleCourse(item);
       setConfirmed((c) => ({ ...c, [item.id]: true }));
-      setAnnouncement(`${item.course.code} added back. Confirmed.`);
+      /* Undoing the last drop, with nothing left suggested, puts back the plan that was confirmed. */
+      const overAfter = item.dropped ? overLimitAt(plan.credits + item.course.credits) : null;
+      const settled =
+        !overAfter && suggested.length === 0 && !plan.placements.some((p) => p.dropped && p.id !== item.id);
+      setAnnouncement(`${item.course.code} added back. ${overAfter ?? (settled ? "Plan confirmed." : "Confirmed.")}`);
     },
     later(item: Placement) {
       item.defer?.();
@@ -238,7 +262,8 @@ export function SchedulePair({
           <CourseList
             plan={plan}
             confirmed={confirmed}
-            suggestedCount={suggested.length}
+            planConfirmed={planConfirmed}
+            overLimit={overLimit}
             activeCount={active.length}
             decide={decide}
             announcement={announcement}
@@ -247,7 +272,6 @@ export function SchedulePair({
             preview={preview}
             kindOf={kindFor}
             fromShortlist={plan.fromShortlist ?? NONE}
-            findHref={findHref}
           />
         </section>
       </div>
@@ -531,7 +555,9 @@ type PreviewControls = {
 type ListProps = {
   plan: PairPlan;
   confirmed: Confirmed;
-  suggestedCount: number;
+  planConfirmed: boolean;
+  /* Why Confirm plan is blocked, or null when the plan is within the credit limit. */
+  overLimit: string | null;
   activeCount: number;
   decide: Decide;
   announcement: string;
@@ -540,7 +566,6 @@ type ListProps = {
   preview: PreviewControls;
   kindOf: KindOf;
   fromShortlist: ReadonlySet<string>;
-  findHref?: (item: Placement) => string | null;
 };
 
 const calm = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -663,8 +688,6 @@ function CourseCard({
   const clashes = dropped ? [] : props.plan.conflictsFor(item.id);
   const pinnedAlt = alts.find((o) => previewHandlers(props, item, o).pinned);
   const offNote = item.dropped ? "Dropped" : "Later term";
-  /* An open slot (a card with options) links to the Find page, scoped to it. */
-  const findMore = !dropped && item.options.length > 0 ? props.findHref?.(item) : null;
   /* Where the planner's cards would say why, a shortlisted course says who picked it. */
   const reason = props.fromShortlist.has(item.course.code) ? item.course.why : null;
 
@@ -707,39 +730,26 @@ function CourseCard({
         </p>
       )}
 
-      {alts.length > 0 && (
-        <div className="sp-chips">
-          <span className="sp-chips-label">Or</span>
-          {alts.map((option) => {
-            const { pinned, peeking, handlers } = previewHandlers(props, item, option);
-            return (
-              <button
-                key={option.code}
-                className="sp-chip sp-hit"
-                aria-pressed={pinned}
-                aria-label={`Preview ${option.code} ${option.title}, ${formatMeetings(option)}`}
-                data-peeking={peeking || undefined}
-                title={`${option.code} · ${option.title} · ${formatMeetings(option)}`}
-                {...handlers}
-              >
-                <span className="sp-chip-label">{shortTitle(option.title)}</span>
-              </button>
-            );
-          })}
-          {findMore && (
-            <NextLink href={findMore} className="sp-findlink sp-findmore">
-              Find more
-            </NextLink>
-          )}
-        </div>
-      )}
-      {alts.length === 0 && findMore && (
-        <div className="sp-chips">
-          <NextLink href={findMore} className="sp-findlink sp-findmore">
-            Find more
-          </NextLink>
-        </div>
-      )}
+      <div className="sp-chips">
+        {alts.length > 0 && <span className="sp-chips-label">Or</span>}
+        {alts.map((option) => {
+          const { pinned, peeking, handlers } = previewHandlers(props, item, option);
+          return (
+            <button
+              key={option.code}
+              className="sp-chip sp-hit"
+              aria-pressed={pinned}
+              aria-label={`Preview ${option.code} ${option.title}, ${formatMeetings(option)}`}
+              data-peeking={peeking || undefined}
+              title={`${option.code} · ${option.title} · ${formatMeetings(option)}`}
+              {...handlers}
+            >
+              <span className="sp-chip-label">{shortTitle(option.title)}</span>
+            </button>
+          );
+        })}
+        <AddDropButton item={item} props={props} />
+      </div>
 
       {pinnedAlt && <PreviewPanel item={item} option={pinnedAlt} props={props} />}
     </article>
@@ -1056,10 +1066,11 @@ function AddDropButton({ item, props }: { item: Placement; props: ListProps }) {
 /*
  * One next step. Before: the red Confirm plan. After: a quiet confirmed state with
  * Edit plan. Both rows are the same height so the panel never jumps, and focus
- * moves to whichever button replaced the one just pressed.
+ * moves to whichever button replaced the one just pressed. Over the credit limit,
+ * the reason sits above Confirm plan and the plan cannot be confirmed.
  */
-function Footer({ suggestedCount, activeCount, decide, announcement }: ListProps) {
-  const confirmed = activeCount > 0 && suggestedCount === 0;
+function Footer({ planConfirmed: confirmed, overLimit, activeCount, decide, announcement }: ListProps) {
+  const warnId = useId();
   const actionRef = useRef<HTMLButtonElement>(null);
   const pressed = useRef(false);
   useEffect(() => {
@@ -1089,16 +1100,26 @@ function Footer({ suggestedCount, activeCount, decide, announcement }: ListProps
           </button>
         </div>
       ) : activeCount > 0 ? (
-        <button
-          ref={actionRef}
-          className="sp-primary"
-          onClick={() => {
-            pressed.current = true;
-            decide.confirmAll();
-          }}
-        >
-          Confirm plan
-        </button>
+        <>
+          {/* Over the limit Confirm plan stays focusable, so the reason is read with it. */}
+          {overLimit && (
+            <p className="sp-foot-warn" id={warnId}>
+              {overLimit}
+            </p>
+          )}
+          <button
+            ref={actionRef}
+            className="sp-primary"
+            aria-disabled={overLimit ? true : undefined}
+            aria-describedby={overLimit ? warnId : undefined}
+            onClick={() => {
+              pressed.current = !overLimit;
+              decide.confirmAll();
+            }}
+          >
+            Confirm plan
+          </button>
+        </>
       ) : (
         <p className="sp-foot-empty">
           <strong>Nothing in your plan</strong>
