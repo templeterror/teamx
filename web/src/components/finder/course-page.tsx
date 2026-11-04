@@ -11,14 +11,13 @@
 import type { RefObject } from "react";
 import { courses, degree } from "@/data";
 import { SHORTLIST_MAX, type Shortlist } from "@/components/plan/use-shortlist";
-import { COMPLETED, formatCredits, formatMeeting, rowKind, type FinderRow, type Plan } from "./catalog";
+import { COMPLETED, formatCreditRange, formatCredits, formatMeeting, rowKind, type FinderRow, type Plan } from "./catalog";
 import "./course-page.css";
 
 type RawExpr = { op?: "all" | "any"; of?: RawExpr[]; kind?: string; code?: string };
 type RawCourse = {
   code: string;
   title: string;
-  credits: { value?: number; options?: number[]; min?: number; max?: number };
   prerequisites: { raw: string; expression: RawExpr | null } | null;
 };
 const RAW = courses as unknown as Record<string, RawCourse>;
@@ -76,19 +75,10 @@ function unlocksFor(code: string): Unlock[] {
 
 const COURSE_CODE = /[A-Z]{2,4} \d{4}[A-Z]?/g;
 
-function creditRange(code: string): string | null {
-  const cr = RAW[code]?.credits;
-  const vals = cr?.options?.length ? cr.options : [cr?.min, cr?.max].filter((v): v is number => typeof v === "number");
-  if (!vals.length) return null;
-  const lo = Math.min(...vals);
-  const hi = Math.max(...vals);
-  return lo === hi ? `${lo}` : `${lo}–${hi}`;
-}
-
 function creditsLong(row: FinderRow) {
-  if (row.credits !== null) return `${row.credits} ${row.credits === 1 ? "credit" : "credits"}`;
-  const range = creditRange(row.code);
-  return range ? `${range} credits` : formatCredits(null);
+  const r = row.creditRange;
+  if (!r) return formatCredits(null);
+  return `${formatCreditRange(r)} ${r.max === 1 ? "credit" : "credits"}`;
 }
 
 function shortTitle(title: string) {

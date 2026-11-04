@@ -209,10 +209,9 @@
   background: var(--finder-k, var(--ink-tertiary));
   pointer-events: none;
 }
-.finder [data-kind="major-elective"] { --finder-k: var(--kind-elective); --finder-k-ink: var(--kind-elective-ink); }
-.finder [data-kind="gened"] { --finder-k: var(--kind-gened); --finder-k-ink: var(--kind-gened-ink); }
-.finder [data-kind="core"] { --finder-k: var(--kind-core); --finder-k-ink: var(--kind-core-ink); }
-.finder [data-kind="free"] { --finder-k-ink: var(--ink-secondary); }
+.finder [data-kind="major-elective"] { --finder-k: var(--kind-elective); }
+.finder [data-kind="gened"] { --finder-k: var(--kind-gened); }
+.finder [data-kind="core"] { --finder-k: var(--kind-core); }
 .finder-chip[aria-pressed="true"] .finder-swatch { box-shadow: 0 0 0 1.5px var(--surface); }
 
 /* Ask AI: a quiet text button, subordinate to the field. */
@@ -398,90 +397,81 @@
 }
 .finder-scroll:focus { outline: none; }
 
+/*
+ * One baseline: every body cell is `vertical-align: baseline`, and the course code is
+ * floated out of the line flow above the title, so the cell's first line box (the one
+ * the table aligns on) is the title's first line. Credits, Eligibility, Fit and the
+ * Shortlist label all sit on it, whatever the fonts' metrics.
+ */
 .finder-table {
+  --finder-hover: color-mix(in oklch, var(--canvas) 70%, var(--surface));
+
   width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 .finder-table th {
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
-  padding: 10px 12px;
+  padding: 10px;
   background: var(--surface);
-  /* A box-shadow rule sticks with the header; a collapsed border would not. */
+  /* A box-shadow rule sticks with the header; a border would scroll away. */
   box-shadow: inset 0 calc(-1 * var(--hairline)) 0 var(--line);
   color: var(--ink-secondary);
   font-size: 12px;
   font-weight: 500;
-  text-align: left;
+  text-align: start;
   white-space: nowrap;
 }
-.finder-table th:first-child,
-.finder-table td:first-child { padding-left: 16px; }
-.finder-table th:last-child,
-.finder-table td:last-child { padding-right: 16px; }
+.finder-table th.finder-num { text-align: end; }
 
 .finder-table td {
-  padding: 12px;
+  padding: 14px 10px;
   border-bottom: var(--hairline) solid var(--line);
-  vertical-align: top;
+  vertical-align: baseline;
 }
-/* The row the mini week is previewing reads as hovered, also when it got there by keyboard. */
-.finder-tr[data-previewing] > td { background: color-mix(in oklch, var(--canvas) 70%, var(--surface)); }
+.finder-table th:first-child,
+.finder-table td:first-child { padding-inline-start: 16px; }
+.finder-table th:last-child,
+.finder-table td:last-child { padding-inline-end: 16px; }
 
-.finder-num { text-align: right; font-variant-numeric: tabular-nums; }
-.finder-table th.finder-num { text-align: right; }
-.finder-table td.finder-num { color: var(--ink-secondary); padding-top: 13px; width: 64px; }
-.finder-td-meta { padding-top: 13px; }
-/* Fixed meta columns, so the course title gets the room. Without Counts for, Fit takes its width. */
-.finder-td-counts,
-.finder-td-elig { width: 150px; }
-.finder-td-fit { width: 200px; }
-.finder-table[data-scoped] .finder-td-fit { width: 350px; }
-.finder-td-action { width: 124px; text-align: right; vertical-align: top; }
+/* The row the mini week is previewing reads as hovered, also when it got there by keyboard. */
+.finder-tr[data-previewing] > td { background: var(--finder-hover); }
+
+/* Meta columns shrink to their content; the course column takes the rest. */
+.finder-td-meta,
+.finder-td-action { width: 1%; white-space: nowrap; }
+
+/* Course: the whole cell opens the Drill-in. */
+.finder-td-course { position: relative; }
 
 .finder-course {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 2px 8px;
+  display: block;
   width: 100%;
   padding: 0;
   border: 0;
   border-radius: 4px;
   background: transparent;
-  text-align: left;
+  text-align: start;
 }
-/* Fill the cell's padding so the whole course cell is the target. */
-.finder-course::after { content: ""; position: absolute; inset: -12px -12px -12px -16px; }
+/* The cell, padding included, is the target. Positioned on the cell, not the button. */
+.finder-course::after { content: ""; position: absolute; inset: 0; }
+
 .finder-code {
-  grid-column: 1;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
-}
-.finder-ctitle {
-  grid-column: 1;
-  max-width: 52ch;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.4;
-  color: var(--ink);
-  text-wrap: pretty;
-  overflow-wrap: break-word;
-}
-.finder-chev {
-  grid-column: 2;
-  grid-row: 1 / span 2;
-  align-self: start;
-  display: flex;
-  padding-top: 1px;
+  /* Out of the line flow, so the title's first line is the cell's baseline. */
+  float: inline-start;
+  width: 100%;
+  margin-bottom: 1px;
   color: var(--ink-tertiary);
-  transition: transform 150ms ease-out, color 150ms ease-out;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 15px;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
 }
 /* A shortlisted row: a small dashed square after the code, like its block in the mini week. */
 .finder-tr[data-shortlisted] .finder-code::after {
@@ -496,41 +486,130 @@
   vertical-align: 1px;
 }
 
-.finder-tr[data-completed] .finder-code,
+.finder-ctitle {
+  display: block;
+  clear: both;
+  max-width: 52ch;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.35;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+  /* Drawn all the time in transparent, so hover only fades its colour in. */
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 150ms ease-out;
+}
 .finder-tr[data-completed] .finder-ctitle { color: var(--ink-tertiary); }
 
+/* Phone-width summary line; hidden while the columns have room. */
+.finder-mobile-meta { display: none; }
+
+/* Meta cells */
+
+td.finder-num { color: var(--ink-secondary); }
+.finder-nowrap { white-space: nowrap; }
+
+.finder-td-counts { color: var(--ink-secondary); }
+/* Hanging indent: a wrapped "U.S. Society" lines up with "Gen ed", not with the swatch. */
 .finder-kind {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
-  font-weight: 500;
-  color: var(--finder-k-ink, var(--ink-secondary));
-}
-.finder-kind .finder-swatch { align-self: center; }
-
-.finder-elig { display: inline-grid; gap: 2px; }
-.finder-elig small { font-size: 12px; color: var(--ink-tertiary); }
-.finder [data-tone="ok"] { color: var(--success); }
-.finder [data-tone="plan"] { color: var(--ink); font-weight: 500; }
-.finder [data-tone="needs"] { color: var(--ink); }
-.finder [data-tone="muted"] { color: var(--ink-tertiary); }
-
-/* Wraps rather than truncates: the conflict's name is the point of the line. */
-.finder-fit {
   display: block;
-  line-height: 1.4;
-  color: var(--ink-tertiary);
-  font-variant-numeric: tabular-nums;
+  width: max-content;
+  max-width: 8em;
+  padding-inline-start: 14px;
+  text-indent: -14px;
+  white-space: normal;
+}
+.finder-kind .finder-swatch { margin-inline-end: 6px; }
+/* Free electives have no kind colour; the slot stays so the labels keep one edge. */
+.finder-kind .finder-swatch[data-kind="free"] { visibility: hidden; }
+
+/*
+ * Fit wraps instead of widening its column: as wide as its content up to a cap.
+ * Never truncated; the conflict's names are the point of the line.
+ * 18em: measured best rows-per-screen once the Eligibility chips (nowrap) set their column.
+ */
+.finder-td-fit { font-variant-numeric: tabular-nums; }
+.finder-td-fit > [data-tone] {
+  display: block;
+  width: max-content;
+  max-width: 18em;
+  white-space: normal;
   text-wrap: pretty;
 }
-.finder-fit b { font-weight: 500; }
-.finder-when { white-space: nowrap; }
-/* 243 of 461 placeholder times collide, so a conflict is amber text, never a fill. */
-.finder-fit[data-tone="conflict"] { color: var(--warning); }
+/* All courses adds Counts for; Fit gives some back so titles keep their room. */
+.finder-table[data-counts] .finder-td-fit > [data-tone] { max-width: 15em; }
+/* With no Eligibility column, Fit takes its width: a single conflict stays on one line. */
+.finder-table:not([data-elig]) .finder-td-fit > [data-tone] { max-width: 34em; }
 
-/* Shortlist, the page's one verb: secondary in the row; once on, quiet, with × on hover or focus. */
+/*
+ * Eligibility chips: status, not controls (no hover, no pointer). The pill family of
+ * .finder-chip / .sp-chip at 24px. One chip per requirement group, stacked 4px apart.
+ * The stack gives back the chip's 4px top and bottom padding, so the first chip's text
+ * sits on the title's baseline and a single chip is no taller than a line of text.
+ */
+.finder-elig {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-block: -4px;
+}
+/*
+ * Positioned so the plan chip's check sits outside the flex flow: the label stays the
+ * chip's only item and its baseline is the chip's (an icon-first chip would take the icon's edge).
+ */
+.finder-elig-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--muted);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  cursor: default;
+}
+.finder-elig-chip[data-chip="completed"] { color: var(--ink-tertiary); }
+/* A restriction is a rule, not a status: outline, no fill. */
+.finder-elig-chip[data-chip="rule"] {
+  background: transparent;
+  box-shadow: inset 0 0 0 var(--hairline) var(--line-strong);
+  color: var(--ink-secondary);
+}
+.finder-elig-chip[data-chip="plan"] { padding-inline-start: 22px; }
+.finder-elig-chip-icon {
+  position: absolute;
+  inset-inline-start: 6px;
+  top: 50%;
+  display: flex;
+  color: var(--success);
+  translate: 0 -50%;
+}
+
+.finder-table [data-tone="state"] { color: var(--ink); }
+.finder-table [data-tone="fits"] { color: var(--ink-secondary); }
+.finder-table [data-tone="muted"] { color: var(--ink-tertiary); }
+/* 243 of 461 placeholder times collide, so a conflict is amber text, never a fill. */
+.finder-table [data-tone="conflict"] { color: var(--warning); }
+
+/* Shortlist, the page's one verb: quiet text at rest, the pill on row hover or focus. */
+
+/* Sized for "Shortlisted ✓" (107px) plus the cell's padding (border-box), so the first shortlist never widens the column. */
+.finder-table .finder-td-action { width: calc(108px + 10px + 16px); text-align: end; }
+
 .finder-shortlist {
   position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -540,30 +619,54 @@
   padding: 0 12px;
   border: 0;
   border-radius: 999px;
-  background: var(--surface);
-  box-shadow: var(--shadow-control);
-  color: var(--ink);
+  background: transparent;
+  color: var(--ink-secondary);
   font-size: 13px;
   font-weight: 500;
+  line-height: 1.4;
   white-space: nowrap;
-  transition: background-color 150ms ease-out, box-shadow 150ms ease-out, color 150ms ease-out, transform 150ms ease-out;
+  transition: color 150ms ease-out, transform 150ms ease-out;
 }
+/* The 32px pill overhangs the title's line box into the row padding instead of growing the row; the label keeps its baseline. */
+.finder-td-action .finder-shortlist { margin-block: -7px; }
+/* The pill itself, faded in on its own layer so nothing reflows. */
+.finder-shortlist::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--surface);
+  box-shadow: var(--shadow-control);
+  opacity: 0;
+  transition: opacity 150ms ease-out, box-shadow 150ms ease-out, background-color 150ms ease-out;
+}
+/* 44px tall target; stays inside the action cell, so it never meets the course cell's. */
 .finder-shortlist::after { content: ""; position: absolute; inset: -6px -2px; }
+
+.finder-tr:focus-within .finder-shortlist:not([data-on]) { color: var(--ink); }
+.finder-tr:focus-within .finder-shortlist:not([data-on])::before { opacity: 1; }
 .finder-shortlist:not([aria-disabled]):active { transform: scale(0.96); }
-.finder-shortlist[data-on] { padding-right: 8px; background: transparent; box-shadow: none; color: var(--ink-secondary); }
-.finder-shortlist[aria-disabled] { background: var(--muted); box-shadow: none; color: var(--ink-tertiary); cursor: not-allowed; }
-.finder-shortlist-icon { display: inline-grid; width: 14px; height: 14px; }
+
+/* Shortlisted: the state shows at all times, no ring; × on hover or focus. */
+.finder-shortlist[data-on] { padding-right: 8px; }
+.finder-shortlist[data-on]::before { background: var(--muted); box-shadow: none; }
+.finder-shortlist-icon { display: inline-grid; width: 14px; height: 14px; color: var(--ink); }
 .finder-shortlist-check,
 .finder-shortlist-x { grid-area: 1 / 1; display: flex; align-items: center; justify-content: center; transition: opacity 120ms ease-out; }
-.finder-shortlist-check { color: var(--success); }
 .finder-shortlist-x { opacity: 0; }
-.finder-shortlist[data-on]:focus-visible { background: var(--muted); color: var(--ink); }
+.finder-shortlist[data-on]:focus-visible { color: var(--ink); }
+.finder-shortlist[data-on]:focus-visible::before { opacity: 1; }
 .finder-shortlist[data-on]:focus-visible .finder-shortlist-check { opacity: 0; }
 .finder-shortlist[data-on]:focus-visible .finder-shortlist-x { opacity: 1; }
-.finder-row-note { display: inline-block; padding-top: 7px; font-size: 12px; color: var(--ink-tertiary); white-space: nowrap; }
 
-/* Phone-width summary line; hidden while the columns have room. */
-.finder-mobile-meta { display: none; }
+/* Full (10 of 10): a muted fill without a ring. */
+.finder-shortlist[aria-disabled] { color: var(--ink-tertiary); cursor: not-allowed; }
+.finder-shortlist[aria-disabled]::before { background: var(--muted); box-shadow: none; }
+.finder-tr:focus-within .finder-shortlist[aria-disabled] { color: var(--ink-tertiary); }
+
+/* In your plan / Completed, when Eligibility has no column to say it in. */
+.finder-row-note { font-size: 13px; white-space: nowrap; }
 
 /* ---------- Empty + footer ---------- */
 
@@ -583,10 +686,10 @@
   border: 0;
   border-radius: 8px;
   background: var(--surface);
-  box-shadow: 0 0 0 var(--hairline) var(--line-strong);
+  box-shadow: var(--shadow-control);
   font-size: 14px;
   font-weight: 500;
-  transition: background-color 150ms ease-out, transform 150ms ease-out;
+  transition: background-color 150ms ease-out, box-shadow 150ms ease-out, transform 150ms ease-out;
 }
 .finder-btn:active { transform: scale(0.96); }
 
@@ -614,13 +717,16 @@
   .finder-text-btn:hover,
   .finder-more-toggle:hover { background: var(--muted); color: var(--ink); }
   .finder-applied-chip:hover { background: var(--line); }
-  .finder-tr:hover > td { background: color-mix(in oklch, var(--canvas) 70%, var(--surface)); }
-  .finder-course:hover .finder-chev { color: var(--ink-secondary); }
-  .finder-shortlist:not([aria-disabled]):not([data-on]):hover { box-shadow: var(--shadow-control-hover); }
-  .finder-shortlist[data-on]:hover { background: var(--muted); color: var(--ink); }
+  .finder-tr:hover > td { background: var(--finder-hover); }
+  .finder-course:hover .finder-ctitle { text-decoration-color: color-mix(in oklch, currentColor 50%, transparent); }
+  .finder-tr:hover .finder-shortlist:not([data-on]):not([aria-disabled]) { color: var(--ink); }
+  .finder-tr:hover .finder-shortlist:not([data-on])::before { opacity: 1; }
+  .finder-shortlist:not([data-on]):not([aria-disabled]):hover::before { box-shadow: var(--shadow-control-hover); }
+  .finder-shortlist[data-on]:hover { color: var(--ink); }
+  .finder-shortlist[data-on]:hover::before { opacity: 1; }
   .finder-shortlist[data-on]:hover .finder-shortlist-check { opacity: 0; }
   .finder-shortlist[data-on]:hover .finder-shortlist-x { opacity: 1; }
-  .finder-btn:hover { background: var(--muted); }
+  .finder-btn:hover { background: var(--muted); box-shadow: var(--shadow-control-hover); }
 }
 
 /* ---------- Medium: the scope chips drop under a full-width field ---------- */
@@ -638,34 +744,45 @@
   .finder-applied { padding-left: 12px; }
   .finder-count { flex: 1 1 180px; margin: 0; }
 
+  /* The course cell stacks code, title and one meta line. */
   .finder-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .finder-table,
   .finder-table tbody { display: block; }
   .finder-tr {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    gap: 8px;
-    padding: 12px 12px 12px 16px;
+    align-items: baseline; /* the title's first line and the Shortlist label */
+    column-gap: 8px;
+    padding: 14px 16px;
     border-bottom: var(--hairline) solid var(--line);
   }
-  .finder-tr > td { display: block; padding: 0; border: 0; width: auto; }
+  .finder-table .finder-tr > td { display: block; width: auto; padding: 0; border: 0; background: none; }
   .finder-tr > td.finder-td-meta { display: none; }
-  .finder-table td:first-child { padding-left: 0; }
-  .finder-table td:last-child { padding-right: 0; }
-  .finder-course::after { inset: -12px -8px -12px -16px; }
+  .finder-tr[data-previewing] { background: var(--finder-hover); }
+  /* Reach the row's padding on the left, top and bottom; stop at the column gap. */
+  .finder-course::after { inset: -14px -4px -14px -16px; }
+  .finder-ctitle { max-width: none; }
+  /* The meta line already says it. */
+  .finder-row-note { display: none; }
   .finder-mobile-meta {
     display: block;
-    margin-top: 6px;
-    font-size: 12px;
-    line-height: 1.5;
-    color: var(--ink-tertiary);
+    margin-top: 4px;
+    color: var(--ink-secondary);
+    font-size: 13px;
+    line-height: 1.45;
     font-variant-numeric: tabular-nums;
+    text-wrap: pretty;
   }
-  .finder-mobile-meta .finder-elig { display: inline; }
-  .finder-mobile-meta .finder-elig small { display: inline; }
-  .finder-mobile-meta .finder-elig small::before { content: " · "; }
-  .finder-mobile-fit { display: block; min-width: 0; }
+  /* Chips inline in the meta line: the line makes room for the 24px pill. */
+  .finder-mobile-meta:has(.finder-elig-chip) { line-height: 24px; }
+  .finder-mobile-meta .finder-elig-chip { margin-block: -4px; }
   .finder-foot { flex-wrap: wrap; }
+}
+
+@container (max-width: 719px) {
+  @media (hover: hover) and (pointer: fine) {
+    .finder-tr:hover { background: var(--finder-hover); }
+  }
 }
 
 /* ---------- Reduced motion: no movement, no fades ---------- */
@@ -679,8 +796,9 @@
   .finder-text-btn,
   .finder-more-toggle,
   .finder-more-toggle svg,
-  .finder-chev,
+  .finder-ctitle,
   .finder-shortlist,
+  .finder-shortlist::before,
   .finder-shortlist-check,
   .finder-shortlist-x,
   .finder-btn { transition: none; }

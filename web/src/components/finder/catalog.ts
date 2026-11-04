@@ -27,7 +27,16 @@ export type Scope = "major-elective" | "gened" | "free" | "all";
 
 export type Eligibility =
   | { status: "met" }
-  | { status: "missing"; needs: { code: string; title: string }[]; raw: string }
+  | {
+      status: "missing";
+      needs: { code: string; title: string }[];
+      /*
+       * `needs` as the tree reads, one phrase per top-level AND group: CHEM 1034 is
+       * ["CHEM 1033 or CHEM 1043", "CHEM 1032 or CHEM 1042"]. Codes keep a no-break space.
+       */
+      groups: string[];
+      raw: string;
+    }
   | { status: "unknown"; raw: string };
 
 export type Fit =
@@ -47,6 +56,8 @@ export type FinderRow = {
   title: string;
   /* null = variable credits (options or a range in the bulletin). */
   credits: number | null;
+  /* The bulletin's credits as a range (min === max when fixed), or null when none is listed. */
+  creditRange: { min: number; max: number } | null;
   description: string;
   attributes: string[];
   /* Upper case, e.g. ["GU"]. */
@@ -266,6 +277,25 @@ function needs(e: Expr, plan: ReadonlySet<string>): { code: string; title: strin
   return [];
 }
 
+/*
+ * The same branches as needs(), phrased. A flat "or" would misread an `all` (CHEM 1954
+ * needs all three), so an `all` reads "and", and ", and" once its parts hold an "or".
+ */
+function needsPhrase(e: Expr, plan: ReadonlySet<string>): string | null {
+  if (evaluate(e, plan) !== false) return null;
+  if ("op" in e) {
+    const parts = (e.op === "all" ? e.of : e.of.slice(0, 2))
+      .map((x) => needsPhrase(x, plan))
+      .filter((x): x is string => !!x);
+    if (parts.length <= 1) return parts[0] ?? null;
+    if (e.op === "any") return series(parts, "or");
+    return parts.some((x) => x.includes(" or ")) ? parts.join(", and ") : series(parts, "and");
+  }
+  if (e.kind === "placement") return null;
+  const code = e.kind === "course" ? e.code : `${e.subject} ${e.from}–${e.to}`;
+  return code.replace(" ", "\u00a0");
+}
+
 function eligibility(c: RawCourse, plan: ReadonlySet<string>): Eligibility {
   const p = c.prerequisites;
   if (!p?.expression) return { status: "met" };
@@ -274,7 +304,20 @@ function eligibility(c: RawCourse, plan: ReadonlySet<string>): Eligibility {
   if (result === null) return { status: "unknown", raw: p.raw };
   const seen = new Set<string>();
   const list = needs(p.expression, plan).filter((n) => !seen.has(n.code) && seen.add(n.code));
-  return { status: "missing", needs: list, raw: p.raw };
+  const e = p.expression;
+  const groups = ("op" in e && e.op === "all" ? e.of : [e])
+    .map((x) => needsPhrase(x, plan))
+    .filter((x): x is string => !!x);
+  return { status: "missing", needs: list, groups, raw: p.raw };
+}
+
+/* ---------- Credits ---------- */
+
+function creditRange({ credits: c }: RawCourse): FinderRow["creditRange"] {
+  if (typeof c.value === "number") return { min: c.value, max: c.value };
+  const min = c.min ?? (c.options?.length ? Math.min(...c.options) : undefined);
+  const max = c.max ?? (c.options?.length ? Math.max(...c.options) : undefined);
+  return min === undefined || max === undefined ? null : { min, max };
 }
 
 /* ---------- Offering and fit ---------- */
@@ -336,6 +379,7 @@ export function buildRows(plan: PlanLike): FinderRow[] {
       number: c.number,
       title: c.title,
       credits: typeof c.credits.value === "number" ? c.credits.value : null,
+      creditRange: creditRange(c),
       description: c.description,
       attributes: c.attributes,
       genEdAreas: c.genEdAreas.map((a) => a.toUpperCase()),
@@ -407,6 +451,17 @@ export const SUBJECTS: string[] = [...new Set(CATALOG.map((c) => c.subject))].so
 
 export function formatCredits(credits: number | null): string {
   return credits === null ? "Variable" : `${credits} cr`;
+}
+
+/* "4", "1–6" */
+export function formatCreditRange(r: { min: number; max: number }): string {
+  return r.min === r.max ? String(r.min) : `${r.min}–${r.max}`;
+}
+
+/* "Software Design", "A and B", "A, B and C". Every name, never truncated. */
+export function series(items: string[], last: "and" | "or"): string {
+  if (items.length <= 1) return items.join("");
+  return `${items.slice(0, -1).join(", ")} ${last} ${items[items.length - 1]}`;
 }
 
 const clock = (m: number) =>

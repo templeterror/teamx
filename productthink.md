@@ -137,3 +137,20 @@ Rejected: Ledger, a list with no week. A collision was only a sentence. Rejected
 - **Amended 2 November:** shortlisted courses return to the plan as **suggested courses**, the same as the planner's own suggestions: a card each in Your courses ("You shortlisted this" as the reason line) and a dashed block in the week, counted in credits and conflicts until dropped. Each card has Add / Drop as before; there is no separate remove-from-shortlist. **Confirm plan removes everything that was dropped.** Ten shortlisted courses make a crowded week and an over-18 warning on arrival; that is the point, the student drops down to a plan. Chosen over "undecided until added" (lighter cards, not counted, Add moves them in) to avoid a fourth card state.
 - Find page layout: the Bar finder at full height on the left; a sticky right column with the mini week, the shortlist with credits tallied, and one primary, "Back to plan with N shortlisted". Course details open in that column as the Drill-in from Rail.
 - Still to test: the return trip. How shortlisted courses appear on the plan and how a student drops one.
+
+## Find result row — selected from /proto/finder-rows (3 November 2026)
+
+- Chosen: **Tidy**, with Eligibility as chips. The table stays, but the title leads at 15px and the code sits small above it. Every cell sits on the title's first line. Credits read as a number or a range ("1–6"). Shortlist rests as quiet text and gets its ring on row hover or focus.
+- Eligibility shows only exceptions, as chips:
+  - "Needs CIS 3207", one chip per AND-group from the prerequisite tree
+  - "In your plan", with a green check
+  - "Completed", dimmed
+  - restrictions as an outline chip
+  - Met prerequisites leave the cell empty. The column hides when no visible row has anything to say.
+- Colour in rows is neutral except conflicts (amber text) and the in-plan check. No red.
+- Cost accepted: chips don't wrap, so long "X or Y" chips widen the column. Rows average about 76px in Major elective, against the old table's 75.
+- Rejected:
+  - **Line**, a two-line list with no columns. It was the densest at about 8.4 rows per screen, but had no column scanning and Shortlist read as plain text on touch.
+  - **Entry**, a bulletin-style serif title with a description excerpt and tags. It fit about 4.3 rows per screen.
+  - **Current**: the code outweighed the title, four status colours competed, and the chevron and a pill sat on every row.
+- Audit: `finder-row-audit.md`.
