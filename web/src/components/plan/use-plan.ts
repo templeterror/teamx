@@ -3,6 +3,7 @@
 import { useState } from "react";
 import {
   CREDIT_MAX,
+  CREDIT_MIN,
   agi,
   college,
   dataScience,
@@ -44,6 +45,66 @@ function clock(minutes: number) {
 export function formatMeetings(course: Offering) {
   const names = course.days.join(" ");
   return `${names} ${clock(course.start)}–${clock(course.end)}`;
+}
+
+/* "Tue Thu 11:00–11:50 am", or "11:00 am–12:15 pm" across noon: the days and minutes two courses share. */
+function sharedTime(a: Offering, b: Offering) {
+  const days = a.days.filter((day) => b.days.includes(day)).join(" ");
+  const start = Math.max(a.start, b.start);
+  const end = Math.min(a.end, b.end);
+  const period = (minutes: number) => (minutes < 720 ? "am" : "pm");
+  return period(start) === period(end)
+    ? `${days} ${clock(start)}–${clock(end)} ${period(end)}`
+    : `${days} ${clock(start)} ${period(start)}–${clock(end)} ${period(end)}`;
+}
+
+/* Long titles would push a two-course sentence past two lines; the code says it shorter. */
+function nameOf(course: Offering) {
+  return course.title.length > 32 ? course.code : course.title;
+}
+
+export type PlanProblem = { key: string; kind: "under" | "over" | "conflict"; text: string };
+
+/*
+ * What keeps a plan from being confirmed: fewer than 12 credits is not a full-time term,
+ * more than 18 needs the department's approval, and Banner will not register two classes
+ * that meet at once. Reads only the courses in the plan, never a preview.
+ */
+export function planProblems(active: Placement[]): PlanProblem[] {
+  const credits = active.reduce((sum, item) => sum + item.course.credits, 0);
+  const problems: PlanProblem[] = [];
+  if (active.length && credits < CREDIT_MIN) {
+    problems.push({
+      key: "under",
+      kind: "under",
+      text: `${credits} credits is under the ${CREDIT_MIN}-credit minimum for a full-time term. Add a course to reach ${CREDIT_MIN}.`,
+    });
+  }
+  if (credits > CREDIT_MAX) {
+    problems.push({
+      key: "over",
+      kind: "over",
+      text: `${credits} credits is over the ${CREDIT_MAX}-credit limit. Drop a course, or get approval from your department to take more.`,
+    });
+  }
+  for (const [a, b] of conflictPairs(active)) {
+    problems.push({
+      key: `${a.id}-${b.id}`,
+      kind: "conflict",
+      text: `${nameOf(a.course)} and ${nameOf(b.course)} overlap on ${sharedTime(a.course, b.course)}. Swap or drop one.`,
+    });
+  }
+  return problems;
+}
+
+function conflictPairs(active: Placement[]) {
+  const pairs: Array<[Placement, Placement]> = [];
+  for (let i = 0; i < active.length; i += 1) {
+    for (let j = i + 1; j < active.length; j += 1) {
+      if (overlaps(active[i].course, active[j].course)) pairs.push([active[i], active[j]]);
+    }
+  }
+  return pairs;
 }
 
 /* The reason line on the card of a course the student shortlisted on /find. */
@@ -162,28 +223,20 @@ export function usePlan() {
   const visible = placements.filter((item) => !cleared.includes(item.id));
   const active = visible.filter((item) => !item.deferred);
   const credits = active.reduce((sum, item) => sum + item.course.credits, 0);
-  const over = Math.max(0, credits - CREDIT_MAX);
   /* Dropped, still on screen: Confirm plan removes them. */
   const pendingDrops = visible.filter((item) => item.dropped);
+  const conflicts = conflictPairs(active);
+  const problems = planProblems(active);
   /*
    * The semester is confirmed only when every course in it is. A new course reopens it,
    * and so does a drop, until Confirm plan removes the course or Add undoes it.
-   * Over the credit limit it is never confirmed: that takes the department's approval.
+   * With a problem (under 12 credits, over 18, two classes at once) it is never confirmed.
    */
   const planConfirmed =
     active.length > 0 &&
     active.every((item) => confirmed[item.id]) &&
     pendingDrops.length === 0 &&
-    over === 0;
-
-  const conflicts: Array<[Placement, Placement]> = [];
-  for (let i = 0; i < active.length; i += 1) {
-    for (let j = i + 1; j < active.length; j += 1) {
-      if (overlaps(active[i].course, active[j].course)) {
-        conflicts.push([active[i], active[j]]);
-      }
-    }
-  }
+    problems.length === 0;
 
   function conflictsFor(id: string) {
     return conflicts
@@ -216,9 +269,9 @@ export function usePlan() {
       setConfirmed(current => ({ ...current, ...Object.fromEntries(ids.map(id => [id, false])) }));
     },
     fromShortlist,
-    /* Confirm plan: every course in the plan is confirmed and every dropped one leaves it. Refused over the limit. */
+    /* Confirm plan: every course in the plan is confirmed and every dropped one leaves it. Refused while a problem stands. */
     confirmPlan: () => {
-      if (over) return;
+      if (problems.length) return;
       const gone = pendingDrops.map(item => item.id);
       /* A removed course loses its confirmation, so adding it again later reopens the plan. */
       setConfirmed(current => ({
@@ -238,7 +291,7 @@ export function usePlan() {
       setKept(false);
     },
     credits,
-    over,
+    problems,
     kept,
     keep: () => setKept(true),
     conflictsFor,

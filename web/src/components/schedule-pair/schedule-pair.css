@@ -795,8 +795,9 @@
   transition: background-color 150ms ease-out, transform 150ms ease-out;
 }
 .sp-primary:active { transform: scale(0.96); }
-/* Over the credit limit: the warning tone the week's "over 18" uses, and a button that explains instead of acting. */
+/* Blocked: the warning tone the week's "over 18" uses, and a button that explains instead of acting. */
 .sp-card-foot .sp-foot-warn { color: var(--warning); }
+ul.sp-foot-warn { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; text-align: center; text-wrap: pretty; }
 .sp-primary[aria-disabled] { background: var(--muted); color: var(--ink-tertiary); cursor: not-allowed; }
 .sp-primary[aria-disabled]:active { transform: none; }
 /* 40px buttons reach 44px on touch without growing. */

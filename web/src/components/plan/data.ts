@@ -92,4 +92,5 @@ export const society: Offering = {
 
 export const DAY_START = 9 * 60;
 export const DAY_END = 17 * 60;
+export const CREDIT_MIN = 12;
 export const CREDIT_MAX = 18;

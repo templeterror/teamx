@@ -15,8 +15,8 @@
  */
 
 import { useEffect, useId, useRef, useState, type ReactNode, type RefObject } from "react";
-import { CREDIT_MAX, DAY_END, DAY_START, type Day, type Offering } from "@/components/plan/data";
-import { formatMeetings, type Placement, type usePlan } from "@/components/plan/use-plan";
+import { CREDIT_MAX, CREDIT_MIN, DAY_END, DAY_START, type Day, type Offering } from "@/components/plan/data";
+import { formatMeetings, planProblems, type PlanProblem, type Placement, type usePlan } from "@/components/plan/use-plan";
 import { courses, sections } from "@/data";
 import { BlockText, FitLine } from "./fit-text";
 import "./schedule-pair.css";
@@ -27,7 +27,10 @@ export type PairPlan = Pick<
 > &
   /* The live plan owns confirmation so review can read it; fixtures fall back to local state. */
   Partial<
-    Pick<ReturnType<typeof usePlan>, "confirmed" | "setConfirmed" | "confirmPlan" | "planConfirmed" | "fromShortlist">
+    Pick<
+      ReturnType<typeof usePlan>,
+      "confirmed" | "setConfirmed" | "confirmPlan" | "planConfirmed" | "fromShortlist" | "problems"
+    >
   >;
 
 const DAYS: Day[] = ["Mon", "Tue", "Wed", "Thu", "Fri"];
@@ -60,11 +63,9 @@ function overlaps(a: Offering, b: Offering) {
   return a.days.some((d) => b.days.includes(d)) && a.start < b.end && b.start < a.end;
 }
 
-/* Why a plan of this many credits cannot be confirmed, or null within the limit. */
-function overLimitAt(credits: number) {
-  return credits > CREDIT_MAX
-    ? `${credits} credits is over the ${CREDIT_MAX}-credit limit. Drop a course, or get approval from your department to take more.`
-    : null;
+/* What a change would leave blocking Confirm plan, said as one announcement. */
+function problemsAfter(active: Placement[]) {
+  return planProblems(active).map((p) => p.text).join(" ");
 }
 
 export function SchedulePair({
@@ -121,10 +122,10 @@ export function SchedulePair({
 
   const active = plan.placements.filter((item) => !item.deferred);
   const suggested = active.filter((item) => !confirmed[item.id]);
-  /* Real credits, not a preview's: only what is in the plan can block Confirm plan. */
-  const overLimit = overLimitAt(plan.credits);
+  /* The real plan, not a preview's: only what is in the plan can block Confirm plan. */
+  const problems = plan.problems ?? planProblems(active);
   /* The live plan's answer also counts drops waiting on Confirm plan; fixtures never remove a drop. */
-  const planConfirmed = plan.planConfirmed ?? (active.length > 0 && suggested.length === 0 && !overLimit);
+  const planConfirmed = plan.planConfirmed ?? (active.length > 0 && suggested.length === 0 && problems.length === 0);
 
   const target = pinned ?? peek;
   const targetItem = target ? active.find((p) => p.id === target.itemId) : undefined;
@@ -165,8 +166,8 @@ export function SchedulePair({
   const decide = {
     /* Everything the student dropped leaves the plan; a course moved to a later term stays. */
     confirmAll() {
-      if (overLimit) {
-        setAnnouncement(overLimit);
+      if (problems.length) {
+        setAnnouncement(problems.map((p) => p.text).join(" "));
         return;
       }
       const dropped = plan.placements.filter((p) => p.dropped);
@@ -188,26 +189,29 @@ export function SchedulePair({
       item.pick(code);
       setConfirmed((c) => ({ ...c, [item.id]: true }));
       const next = item.options.find((o) => o.code === code) ?? item.course;
-      const overAfter = overLimitAt(plan.credits - item.course.credits + next.credits);
-      setAnnouncement(`Changed ${item.course.code} to ${code}. ${overAfter ?? "Confirmed."}`);
+      const after = problemsAfter(active.map((p) => (p.id === item.id ? { ...p, course: next } : p)));
+      setAnnouncement(`Changed ${item.course.code} to ${code}. ${after || "Confirmed."}`);
     },
     /* Dropping from a confirmed plan reopens it; the card stays until Confirm plan. */
     remove(item: Placement) {
       plan.toggleCourse(item);
+      const after = problemsAfter(active.filter((p) => p.id !== item.id));
       setAnnouncement(
-        planConfirmed
-          ? `${item.course.code} dropped. Confirm your plan again to remove it.`
-          : `${item.course.code} dropped from your plan.`,
+        after
+          ? `${item.course.code} dropped. ${after}`
+          : planConfirmed
+            ? `${item.course.code} dropped. Confirm your plan again to remove it.`
+            : `${item.course.code} dropped from your plan.`,
       );
     },
     addBack(item: Placement) {
       plan.toggleCourse(item);
       setConfirmed((c) => ({ ...c, [item.id]: true }));
       /* Undoing the last drop, with nothing left suggested, puts back the plan that was confirmed. */
-      const overAfter = item.dropped ? overLimitAt(plan.credits + item.course.credits) : null;
+      const after = problemsAfter([...active, item]);
       const settled =
-        !overAfter && suggested.length === 0 && !plan.placements.some((p) => p.dropped && p.id !== item.id);
-      setAnnouncement(`${item.course.code} added back. ${overAfter ?? (settled ? "Plan confirmed." : "Confirmed.")}`);
+        !after && suggested.length === 0 && !plan.placements.some((p) => p.dropped && p.id !== item.id);
+      setAnnouncement(`${item.course.code} added back. ${after || (settled ? "Plan confirmed." : "Confirmed.")}`);
     },
     later(item: Placement) {
       item.defer?.();
@@ -237,9 +241,10 @@ export function SchedulePair({
                   : `${plan.credits} → ${previewing.credits} credits`}
               </span>
             ) : (
-              <span data-tone={plan.credits > CREDIT_MAX ? "warn" : undefined}>
+              <span data-tone={problems.some((p) => p.kind !== "conflict") ? "warn" : undefined}>
                 {plan.credits} credits
                 {plan.credits > CREDIT_MAX && <> · over {CREDIT_MAX}</>}
+                {problems.some((p) => p.kind === "under") && <> · under {CREDIT_MIN}</>}
               </span>
             )}
           </div>
@@ -263,7 +268,7 @@ export function SchedulePair({
             plan={plan}
             confirmed={confirmed}
             planConfirmed={planConfirmed}
-            overLimit={overLimit}
+            problems={problems}
             activeCount={active.length}
             decide={decide}
             announcement={announcement}
@@ -556,8 +561,8 @@ type ListProps = {
   plan: PairPlan;
   confirmed: Confirmed;
   planConfirmed: boolean;
-  /* Why Confirm plan is blocked, or null when the plan is within the credit limit. */
-  overLimit: string | null;
+  /* Why Confirm plan is blocked; empty when the plan can be confirmed. */
+  problems: PlanProblem[];
   activeCount: number;
   decide: Decide;
   announcement: string;
@@ -1017,12 +1022,13 @@ function PreviewPanel({ item, option, props }: { item: Placement; option: Offeri
           {formatMeetings(option)}
           <small>instead of {formatMeetings(item.course)}</small>
         </li>
-        <li data-tone={previewing.credits > CREDIT_MAX ? "warn" : undefined}>
+        <li data-tone={previewing.credits > CREDIT_MAX || previewing.credits < CREDIT_MIN ? "warn" : undefined}>
           <span>Credits</span>
           {previewing.credits === plan.credits
             ? `${plan.credits}, no change`
             : `${plan.credits} → ${previewing.credits}`}
           {previewing.credits > CREDIT_MAX && <small>Over the {CREDIT_MAX} credit limit</small>}
+          {previewing.credits < CREDIT_MIN && <small>Under the {CREDIT_MIN} credit minimum</small>}
         </li>
         <li data-tone={previewing.clashes.length ? "warn" : "ok"}>
           <span>Conflicts</span>
@@ -1066,10 +1072,10 @@ function AddDropButton({ item, props }: { item: Placement; props: ListProps }) {
 /*
  * One next step. Before: the red Confirm plan. After: a quiet confirmed state with
  * Edit plan. Both rows are the same height so the panel never jumps, and focus
- * moves to whichever button replaced the one just pressed. Over the credit limit,
- * the reason sits above Confirm plan and the plan cannot be confirmed.
+ * moves to whichever button replaced the one just pressed. While a problem stands
+ * (credits, overlaps), what is wrong sits above Confirm plan and the plan cannot be confirmed.
  */
-function Footer({ planConfirmed: confirmed, overLimit, activeCount, decide, announcement }: ListProps) {
+function Footer({ planConfirmed: confirmed, problems, activeCount, decide, announcement }: ListProps) {
   const warnId = useId();
   const actionRef = useRef<HTMLButtonElement>(null);
   const pressed = useRef(false);
@@ -1101,19 +1107,15 @@ function Footer({ planConfirmed: confirmed, overLimit, activeCount, decide, anno
         </div>
       ) : activeCount > 0 ? (
         <>
-          {/* Over the limit Confirm plan stays focusable, so the reason is read with it. */}
-          {overLimit && (
-            <p className="sp-foot-warn" id={warnId}>
-              {overLimit}
-            </p>
-          )}
+          {/* Blocked, Confirm plan stays focusable, so the reasons are read with it. */}
+          {problems.length > 0 && <FootProblems id={warnId} problems={problems} />}
           <button
             ref={actionRef}
             className="sp-primary"
-            aria-disabled={overLimit ? true : undefined}
-            aria-describedby={overLimit ? warnId : undefined}
+            aria-disabled={problems.length ? true : undefined}
+            aria-describedby={problems.length ? warnId : undefined}
             onClick={() => {
-              pressed.current = !overLimit;
+              pressed.current = !problems.length;
               decide.confirmAll();
             }}
           >
@@ -1130,5 +1132,33 @@ function Footer({ planConfirmed: confirmed, overLimit, activeCount, decide, anno
         {announcement}
       </p>
     </footer>
+  );
+}
+
+/*
+ * One line per problem, up to two. From three on, one summary line instead, so the
+ * footer never takes the course list's room: each overlap is still flagged on its cards
+ * and its classes in the week, and pressing Confirm plan reads every problem in full.
+ */
+function FootProblems({ id, problems }: { id: string; problems: PlanProblem[] }) {
+  if (problems.length < 3) {
+    return (
+      <ul className="sp-foot-warn" id={id}>
+        {problems.map((p) => (
+          <li key={p.key}>{p.text}</li>
+        ))}
+      </ul>
+    );
+  }
+  const credit = problems.find((p) => p.kind !== "conflict");
+  const overlaps = problems.filter((p) => p.kind === "conflict").length;
+  const parts = [
+    credit?.text.split(". ")[0],
+    `${overlaps} pairs of classes overlap, marked on their courses`,
+  ].filter(Boolean);
+  return (
+    <p className="sp-foot-warn" id={id}>
+      {problems.length} problems: {parts.join("; ")}.
+    </p>
   );
 }

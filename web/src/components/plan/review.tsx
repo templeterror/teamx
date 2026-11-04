@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CREDIT_MAX, type Offering } from "./data";
+import type { Offering } from "./data";
 import { usePlanContext } from "./plan-shell";
 import { CURRENT_TERM } from "./terms";
 import type { Placement } from "./use-plan";
@@ -25,9 +25,9 @@ function meets(course: Offering) {
 
 /*
  * The last step before Banner, so it holds the line:
- *   locked  — not confirmed: suggestions, drops waiting on Confirm plan, or over the credit limit.
- *   blocked — confirmed, but the week cannot work (overlaps).
- *   ready   — the course list, and the handoff.
+ *   locked — not confirmed: a problem (under 12 credits, over 18, overlapping classes),
+ *            suggestions, or drops waiting on Confirm plan.
+ *   ready  — the course list, and the handoff. A confirmed plan has no problems.
  */
 export function Review() {
   const plan = usePlanContext();
@@ -44,8 +44,8 @@ export function Review() {
             <p className="intro">
               {active.length === 0
                 ? "Your plan has no courses to confirm yet."
-                : plan.over
-                  ? `${plan.credits} credits is over the ${CREDIT_MAX}-credit limit, so review stays closed. Drop a course, or get approval from your department to take more.`
+                : plan.problems.length > 0
+                  ? `Your plan can’t be confirmed until ${plan.problems.length === 1 ? "this is fixed" : "these are fixed"}, so review stays closed.`
                   : suggested.length > 0
                     ? `${suggested.length} of ${active.length} courses ${suggested.length === 1 ? "is still a suggestion" : "are still suggestions"}, so review stays closed.`
                     : `You dropped ${plan.pendingDrops.map((p) => p.course.code).join(", ")}. Confirm your plan to remove ${plan.pendingDrops.length === 1 ? "it" : "them"}, and review opens.`}
@@ -55,6 +55,23 @@ export function Review() {
             Back to your plan
           </Link>
         </header>
+        {plan.problems.length > 0 && (
+          <section className="review-blockers" aria-labelledby="review-blockers">
+            <h2 id="review-blockers" className="sr-only">
+              Fix before confirming
+            </h2>
+            <ul>
+              {plan.problems.map((p) => (
+                <li key={p.key}>
+                  <span className="review-blocker-icon" aria-hidden="true">
+                    !
+                  </span>
+                  <p>{p.text}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
         {suggested.length > 0 && (
           <section className="review-panel" aria-labelledby="review-pending">
             <h2 id="review-pending" className="review-title">
@@ -77,62 +94,18 @@ export function Review() {
     );
   }
 
-  /* Over the credit limit never gets here: a plan over it cannot be confirmed. */
-  const blockers = plan.conflicts.map(([a, b]) => ({
-    key: `${a.id}-${b.id}`,
-    title: `${a.course.code} and ${b.course.code} overlap`,
-    detail: `${meets(a.course)} and ${meets(b.course)}. Banner will not register both. Swap one, or move one to a later term.`,
-  }));
-  const conflicted = new Set(plan.conflicts.flat().map((p) => p.id));
-
   return (
     <>
       <header className="workspace-heading">
         <div>
           <p className="eyebrow">{CURRENT_TERM} / Review &amp; register</p>
-          <h1>
-            {blockers.length === 0
-              ? "Ready for Banner"
-              : blockers.length === 1
-                ? "One thing to fix before Banner"
-                : `${blockers.length} things to fix before Banner`}
-          </h1>
-          <p className="intro">
-            {blockers.length === 0
-              ? "Planning does not register you. Use this list to register in Banner."
-              : "Your plan is confirmed, but this week cannot be registered as it is."}
-          </p>
+          <h1>Ready for Banner</h1>
+          <p className="intro">Planning does not register you. Use this list to register in Banner.</p>
         </div>
-        {blockers.length === 0 && (
-          <button className="btn primary" onClick={() => window.print()}>
-            Print course list
-          </button>
-        )}
+        <button className="btn primary" onClick={() => window.print()}>
+          Print course list
+        </button>
       </header>
-
-      {blockers.length > 0 && (
-        <section className="review-blockers" aria-labelledby="review-blockers">
-          <h2 id="review-blockers" className="sr-only">
-            Fix before registering
-          </h2>
-          <ul>
-            {blockers.map((b) => (
-              <li key={b.key}>
-                <span className="review-blocker-icon" aria-hidden="true">
-                  !
-                </span>
-                <div>
-                  <strong>{b.title}</strong>
-                  <p>{b.detail}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <Link className="btn primary" href="/plan">
-            Fix in your plan
-          </Link>
-        </section>
-      )}
 
       <section className="review-panel" aria-labelledby="review-list">
         <div className="review-summary">
@@ -140,22 +113,18 @@ export function Review() {
             Your course list
           </h2>
           <span>
-            {active.length} courses · {plan.credits} credits ·{" "}
-            {plan.conflicts.length === 0
-              ? "No time conflicts"
-              : `${plan.conflicts.length} time ${plan.conflicts.length === 1 ? "conflict" : "conflicts"}`}
+            {active.length} courses · {plan.credits} credits · No time conflicts
           </span>
         </div>
         <ul className="review-list">
           {active.map((p) => (
-            <li className="review-row" key={p.id} data-conflict={conflicted.has(p.id) || undefined}>
+            <li className="review-row" key={p.id}>
               <div>
                 <strong>{p.course.code}</strong>
                 <p>{p.course.title}</p>
                 <small>
                   {meets(p.course)} · {KIND[p.kind]}
                 </small>
-                {conflicted.has(p.id) && <p className="warn">Time conflict</p>}
               </div>
               <span>{p.course.credits} credits</span>
             </li>
