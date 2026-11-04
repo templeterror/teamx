@@ -1,0 +1,181 @@
+/*
+ * Select: a label above a 36px trigger (44px on touch) and a listbox popover that
+ * scales from the trigger. Colours are globals.css tokens; the highlight is a
+ * neutral fill, never the accent.
+ */
+
+.ui-select {
+  --ui-select-ease: cubic-bezier(0.32, 0.72, 0, 1);
+
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.ui-select-label {
+  justify-self: start;
+  font-size: var(--text-label);
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--ink-secondary);
+}
+
+.ui-select-anchor {
+  position: relative;
+  min-width: 0;
+}
+
+/* ---------- Trigger: filled like the search field, value then chevron ---------- */
+
+.ui-select-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 8px 0 10px;
+  border-radius: 8px;
+  background: var(--muted);
+  color: var(--ink);
+  font-size: var(--text-ui);
+  line-height: 20px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  transition: background-color 150ms ease-out, transform 150ms ease-out;
+}
+/* 40px target on a 36px control; the label above keeps its 6px. */
+.ui-select-trigger::after {
+  content: "";
+  position: absolute;
+  inset: -2px 0;
+}
+.ui-select-trigger:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.ui-select-trigger[aria-expanded="true"] { background: color-mix(in oklab, var(--muted) 55%, var(--line)); }
+.ui-select-trigger:active { transform: scale(0.98); }
+
+.ui-select-value {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  text-align: start;
+}
+.ui-select-value > span {
+  grid-area: 1 / 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ui-select-value > [aria-hidden] { visibility: hidden; }
+/* "Any level": the unset choice reads like the search field's placeholder. */
+.ui-select-trigger[data-empty] .ui-select-value { color: var(--ink-tertiary); }
+
+.ui-select-chevron {
+  flex: none;
+  color: var(--ink-tertiary);
+  transition: rotate 150ms ease-out;
+}
+.ui-select-trigger[aria-expanded="true"] .ui-select-chevron { rotate: 180deg; }
+
+/* ---------- Menu ---------- */
+
+/*
+ * Always mounted. Closed it is hidden (out of the accessibility tree and the tab
+ * order) after a 120ms fade; open it scales in from the trigger edge in 180ms.
+ */
+.ui-select-menu {
+  --ui-select-ox: left;
+  --ui-select-oy: top;
+
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: var(--z-popover);
+  box-sizing: border-box;
+  min-width: 100%;
+  width: max-content;
+  max-width: calc(100vw - 16px);
+  max-height: var(--ui-select-max-height, 296px);
+  margin: 0;
+  padding: 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow-popover);
+  transform-origin: var(--ui-select-ox) var(--ui-select-oy);
+  opacity: 0;
+  transform: scale(0.97);
+  visibility: hidden;
+  transition:
+    opacity 120ms ease-in,
+    transform 120ms ease-in,
+    visibility 0s linear 120ms;
+}
+.ui-select-menu[data-side="top"] {
+  --ui-select-oy: bottom;
+  top: auto;
+  bottom: calc(100% + 4px);
+}
+.ui-select-menu[data-align="end"] {
+  --ui-select-ox: right;
+  left: auto;
+  right: 0;
+}
+.ui-select-menu[data-open] {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition:
+    opacity 180ms var(--ui-select-ease),
+    transform 180ms var(--ui-select-ease),
+    visibility 0s;
+}
+
+.ui-select-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 32px;
+  padding: 0 8px 0 10px;
+  border-radius: 6px;
+  color: var(--ink);
+  font-size: var(--text-ui);
+  line-height: 20px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.ui-select-option[data-active] { background: var(--muted); }
+.ui-select-option-label { flex: 1; white-space: nowrap; }
+.ui-select-check { flex: none; color: var(--ink); opacity: 0; }
+.ui-select-option[aria-selected="true"] .ui-select-check { opacity: 1; }
+
+/* ---------- Pointer and touch ---------- */
+
+@media (hover: hover) and (pointer: fine) {
+  .ui-select-trigger:hover:not([aria-expanded="true"]) { background: color-mix(in oklab, var(--muted) 70%, var(--line)); }
+}
+
+@media (pointer: coarse) {
+  .ui-select-trigger { height: 44px; }
+  .ui-select-trigger::after { inset: 0; }
+  .ui-select-option { min-height: 44px; }
+}
+
+/* ---------- Reduced motion: the menu only fades ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-select-trigger,
+  .ui-select-chevron { transition: none; }
+  .ui-select-trigger:active { transform: none; }
+  .ui-select-menu,
+  .ui-select-menu[data-open] { transform: none; }
+  .ui-select-menu { transition: opacity 120ms ease-out, visibility 0s linear 120ms; }
+  .ui-select-menu[data-open] { transition: opacity 120ms ease-out, visibility 0s; }
+}

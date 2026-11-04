@@ -16,7 +16,21 @@ Design work uses the Figma file [Course Planner](https://www.figma.com/design/ei
 
 ## Who the demo is for
 
-The student in the seat is Rafiat, on pace to graduate on time, with three electives left, about nine credits.
+The student in the seat is Rafiat, and since 3 November 2026 the app runs on Rafiat's real record (`web/src/data/student-record.json`, taken from a Temple DARS audit dated 31 October 2026). The file has courses, terms and credits only. The student ID, grades and GPA stay out of it because this repository is public.
+
+- **Done:** 56 credits, Fall 2024 through Spring 2026.
+- **Now:** Fall 2026 is in progress (17 credits).
+- **Planning:** Spring 2027 is registered (16 credits). That registration is the plan the app opens with.
+- **Left after spring:** 34 credits:
+  - Data Structures and Algorithms (CIS 3223)
+  - the capstone (CIS 4397 or 4398)
+  - one more CIS elective credit
+  - a lab science sequence
+  - Intellectual Heritage I (IH 0951 for Honors)
+  - free electives
+  - three upper-level Honors courses
+  - the UX/UI design minor (15 credits)
+- **Catalog year:** the audit is on Fall 2025, while the app reads the 2026–2027 bulletin. Accept that gap for the demo.
 
 Other students came up and are not the demo:
 

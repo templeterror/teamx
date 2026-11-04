@@ -264,13 +264,16 @@
 .finder-applied {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  /* The first line of chips, the count and More filters share a baseline when the chips wrap. */
+  align-items: baseline;
   gap: 8px 16px;
   min-height: 52px;
   padding: 4px 8px 4px 14px;
   border-top: var(--hairline) solid var(--line);
 }
 .finder-applied-list {
+  /* Takes the free width and wraps inside it, so the count and More filters stay together on the right. */
+  flex: 1 1 0;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -345,46 +348,34 @@
 .finder-more-toggle[aria-expanded="true"] { color: var(--ink); }
 .finder-more-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
 
+/*
+ * One row: four selects (label above, trigger below), then the two checkboxes on the
+ * triggers' line. Each select starts as wide as its longest option, so picking never
+ * moves the row, and grows to 168px. The row needs about 840px; the card is 848 at a
+ * 1280 window. Narrower cards fall to two columns, then one (end of the file).
+ */
 .finder-more-panel {
   display: flex;
-  flex-wrap: wrap;
   align-items: flex-end;
-  gap: 12px 16px;
-  padding: 4px 14px 12px;
+  gap: 12px 20px;
+  padding: 10px 14px 14px;
   border-top: var(--hairline) solid var(--line);
   animation: finder-fade 150ms ease-out;
 }
-.finder-field {
-  display: grid;
-  gap: 6px;
-  flex: 0 1 180px;
-  min-width: 140px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--ink-secondary);
-}
-.finder-field select {
-  width: 100%;
-  min-height: 44px;
-  padding: 0 12px;
-  border: var(--hairline) solid var(--line-strong);
-  border-radius: 8px;
-  background: var(--surface);
-  color: var(--ink);
-  font-size: 16px;
-}
-.finder-check {
-  display: inline-flex;
-  align-items: center;
+.finder-more-selects {
+  display: flex;
+  flex: 1 1 auto;
   gap: 8px;
-  min-height: 44px;
-  padding: 0 4px;
-  font-size: 14px;
-  color: var(--ink);
-  white-space: nowrap;
-  cursor: pointer;
+  min-width: 0;
+  max-width: calc(4 * 168px + 3 * 8px);
 }
-.finder-check input { width: 16px; height: 16px; margin: 0; accent-color: var(--ink); cursor: pointer; }
+.finder-more-selects > .ui-select { flex: 1 1 auto; min-width: 88px; max-width: 168px; }
+.finder-more-flags {
+  display: flex;
+  flex-wrap: wrap;
+  flex: none;
+  gap: 0 16px;
+}
 
 /* ---------- Table ---------- */
 
@@ -742,6 +733,7 @@ td.finder-num { color: var(--ink-secondary); }
 
 @container (max-width: 719px) {
   .finder-applied { padding-left: 12px; }
+  .finder-applied-list { flex-basis: 100%; }
   .finder-count { flex: 1 1 180px; margin: 0; }
 
   /* The course cell stacks code, title and one meta line. */
@@ -777,6 +769,17 @@ td.finder-num { color: var(--ink-secondary); }
   .finder-mobile-meta:has(.finder-elig-chip) { line-height: 24px; }
   .finder-mobile-meta .finder-elig-chip { margin-block: -4px; }
   .finder-foot { flex-wrap: wrap; }
+}
+
+/* ---------- More filters: two columns, then one ---------- */
+
+@container (max-width: 819px) {
+  .finder-more-panel { flex-direction: column; align-items: stretch; gap: 8px; }
+  .finder-more-selects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: none; }
+  .finder-more-selects > .ui-select { max-width: none; }
+}
+@container (max-width: 459px) {
+  .finder-more-selects { grid-template-columns: minmax(0, 1fr); }
 }
 
 @container (max-width: 719px) {

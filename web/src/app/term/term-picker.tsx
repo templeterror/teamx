@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import "../../components/plan/plan.css";
-import { closedTerms } from "../../components/plan/terms";
+import { closedTerms, termStatusLabel } from "../../components/plan/terms";
 
 export function TermPicker() {
   const [open, setOpen] = useState(false);
@@ -36,7 +36,7 @@ export function TermPicker() {
             {closedTerms.map((term) => (
               <Link key={term.slug} href={`/term/${term.slug}`}>
                 {term.name}
-                <span className="meta"> Completed · view only</span>
+                <span className="meta"> {termStatusLabel(term)} · view only</span>
               </Link>
             ))}
           </div>

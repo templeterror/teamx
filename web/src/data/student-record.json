@@ -1,0 +1,91 @@
+{
+  "source": "Temple DARS degree audit, prepared 31 October 2026. Course codes, titles, credits and terms only. The student ID, grades and GPA are left out on purpose because this repository is public. Every completed course meets the C- minimum, so grade-gated prerequisites are treated as met. Withdrawn attempts (W) are left out.",
+  "student": "Rafiat",
+  "program": "ST-CSCI-BS",
+  "catalogYear": "Fall 2025",
+  "minor": "User Experience and User Interface Design",
+  "terms": [
+    {
+      "term": "Fall 2024",
+      "status": "completed",
+      "courses": [
+        { "code": "ANTH 0915", "title": "Honors Language in Society", "credits": 3 },
+        { "code": "CIS 1966", "title": "Honors Mathematical Concepts in Computing I", "credits": 4 },
+        { "code": "HNRS 1901", "title": "Honors First Year Seminar I", "credits": 1 },
+        { "code": "MATH 1041", "title": "Calculus I", "credits": 4 }
+      ]
+    },
+    {
+      "term": "Spring 2025",
+      "status": "completed",
+      "courses": [
+        { "code": "BA 3980", "title": "Honors Special Topics", "credits": 3 },
+        { "code": "CIS 1068", "title": "Program Design and Abstraction", "credits": 4 },
+        { "code": "ECON 1902", "title": "Honors Microeconomic Principles", "credits": 3 },
+        { "code": "FMA 1141", "title": "Film and Video Foundations I", "credits": 4 }
+      ]
+    },
+    {
+      "term": "Fall 2025",
+      "status": "completed",
+      "courses": [
+        { "code": "CIS 2107", "title": "Computer Systems and Low-Level Programming", "credits": 4 },
+        { "code": "CIS 2168", "title": "Data Structures", "credits": 4 },
+        { "code": "ENG 0902", "title": "Honors Analytical Reading and Writing", "credits": 4 }
+      ]
+    },
+    {
+      "term": "Spring 2026",
+      "status": "completed",
+      "courses": [
+        { "code": "ART 1012", "title": "Introduction to Visual Language: Design", "credits": 3 },
+        { "code": "CIS 1001", "title": "Introduction to Academics in Computer Science", "credits": 1 },
+        { "code": "CIS 3207", "title": "Introduction to Systems Programming and Operating Systems", "credits": 4 },
+        { "code": "CIS 3603", "title": "User Experience Design", "credits": 3 },
+        { "code": "IH 0952", "title": "Honors Intellectual Heritage II: The Common Good", "credits": 3 },
+        { "code": "MATH 1042", "title": "Calculus II", "credits": 4 }
+      ]
+    },
+    {
+      "term": "Fall 2026",
+      "status": "in-progress",
+      "courses": [
+        { "code": "AAAS 0829", "title": "The History and Significance of Race in America", "credits": 3 },
+        { "code": "ACTV 1042", "title": "Beginning Tennis", "credits": 2 },
+        { "code": "CIS 2033", "title": "Computational Probability and Statistics", "credits": 3 },
+        { "code": "CIS 2166", "title": "Mathematical Concepts in Computing II", "credits": 4 },
+        { "code": "CIS 3100", "title": "Special Topics in CIS", "credits": 2 },
+        { "code": "CIS 4345", "title": "Introduction to Cloud Computing", "credits": 3 }
+      ]
+    },
+    {
+      "term": "Spring 2027",
+      "status": "registered",
+      "courses": [
+        { "code": "AMST 0855", "title": "Why care about College: Higher Education in American Life", "credits": 3 },
+        { "code": "CIS 3296", "title": "Software Design", "credits": 4 },
+        { "code": "CIS 4360", "title": "Seminar on Topics in Computer Science", "credits": 3 },
+        { "code": "CIS 4526", "title": "Foundations of Machine Learning", "credits": 3 },
+        { "code": "PHIL 0847", "title": "The Meaning of the Arts", "credits": 3 }
+      ]
+    }
+  ],
+  "satisfiedByException": [
+    { "requirement": "major.programming", "note": "Introduction to programming (CIS 1051/1057) is marked complete on the audit (CISS.TBS-2)." },
+    { "requirement": "gened.gg", "note": "World Society is marked complete on the audit (GENED-GG-1)." }
+  ],
+  "audit": {
+    "credits": { "required": 123, "earned": 56, "inProgress": 33, "needed": 34 },
+    "open": [
+      { "requirement": "gened.gy", "label": "Intellectual Heritage I", "needs": "1 course", "from": ["IH 0951", "IH 0851"], "note": "Honors requires IH 0951." },
+      { "requirement": "major.labScience", "label": "Two sequenced lab science courses", "needs": "1 sequence (2 courses)", "note": "Also waives the GS gen ed areas." },
+      { "requirement": "major.algorithms", "label": "Data Structures and Algorithms", "needs": "1 course", "from": ["CIS 3223"] },
+      { "requirement": "major.capstone", "label": "Capstone (writing intensive)", "needs": "1 course", "from": ["CIS 4397", "CIS 4398"] },
+      { "requirement": "major.electives", "label": "CIS electives", "needs": "1 credit after Fall 2026 and Spring 2027", "note": "15-16 credits required: 3 earned, 11 in progress or registered." },
+      { "requirement": "college.upperLevel", "label": "Upper-level credits (2000+ in CLA, CST or ENGR)", "needs": "8 credits after Fall 2026 and Spring 2027" },
+      { "requirement": "free-electives", "label": "Free electives", "needs": "9 credits" },
+      { "requirement": "honors", "label": "University Honors", "needs": "IH 0951 and 3 more Honors courses at 2000 or above" },
+      { "requirement": "minor.uxui", "label": "UX/UI Design minor", "needs": "DES 2002, DES 2522, DES 3301 and 6 elective credits", "note": "15 credits left; 6 must be taken at Temple." }
+    ]
+  }
+}

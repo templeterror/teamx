@@ -1,0 +1,81 @@
+/*
+ * Checkbox: a 16px box on a hairline-strong border, an ink check when on. The label
+ * is 36px tall (44px on touch) and its ::after reaches a 44px target either way.
+ */
+
+.ui-checkbox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  color: var(--ink);
+  font-size: var(--text-ui);
+  line-height: 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.ui-checkbox::after {
+  content: "";
+  position: absolute;
+  inset: -4px -4px;
+}
+
+.ui-checkbox-control {
+  display: grid;
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+.ui-checkbox-input {
+  grid-area: 1 / 1;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  border-radius: 4px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: box-shadow 150ms ease-out, background-color 150ms ease-out;
+}
+.ui-checkbox-input:checked { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.ui-checkbox-input:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.ui-checkbox:active .ui-checkbox-input { background: var(--muted); }
+
+.ui-checkbox-check {
+  grid-area: 1 / 1;
+  place-self: center;
+  color: var(--ink);
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+  transition: opacity 120ms ease-out, transform 120ms ease-out;
+}
+.ui-checkbox-input:checked + .ui-checkbox-check {
+  opacity: 1;
+  transform: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ui-checkbox:hover .ui-checkbox-input:not(:checked) { box-shadow: inset 0 0 0 1px var(--ink-tertiary); }
+}
+
+@media (pointer: coarse) {
+  .ui-checkbox { min-height: 44px; }
+  .ui-checkbox::after { inset: 0 -4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-checkbox-input,
+  .ui-checkbox-check { transition: none; }
+  .ui-checkbox-check { transform: none; }
+}

@@ -11,15 +11,21 @@
 import type { RefObject } from "react";
 import { courses, degree } from "@/data";
 import { SHORTLIST_MAX, type Shortlist } from "@/components/plan/use-shortlist";
-import { COMPLETED, formatCreditRange, formatCredits, formatMeeting, rowKind, type FinderRow, type Plan } from "./catalog";
+import {
+  formatCreditRange,
+  formatCredits,
+  formatMeeting,
+  prerequisiteFor,
+  prerequisiteGroups,
+  recordLabel,
+  rowKind,
+  type FinderRow,
+  type Plan,
+} from "./catalog";
+import { PrerequisiteList, UnlockList } from "./prerequisites";
 import "./course-page.css";
 
-type RawExpr = { op?: "all" | "any"; of?: RawExpr[]; kind?: string; code?: string };
-type RawCourse = {
-  code: string;
-  title: string;
-  prerequisites: { raw: string; expression: RawExpr | null } | null;
-};
+type RawCourse = { prerequisites: { raw: string } | null };
 const RAW = courses as unknown as Record<string, RawCourse>;
 
 const ATTRIBUTE_NAMES: Record<string, string> = (() => {
@@ -36,45 +42,6 @@ const ATTRIBUTE_NAMES: Record<string, string> = (() => {
   return out;
 })();
 
-function roleIn(e: RawExpr | null | undefined, code: string, inAny = false): "required" | "option" | null {
-  if (!e) return null;
-  if (e.kind === "course") return e.code === code ? (inAny ? "option" : "required") : null;
-  let found: "required" | "option" | null = null;
-  for (const child of e.of ?? []) {
-    const r = roleIn(child, code, inAny || e.op === "any");
-    if (r === "required") return r;
-    found ??= r;
-  }
-  return found;
-}
-
-function courseLeaves(e: RawExpr | null | undefined, out: Set<string>) {
-  if (!e) return out;
-  if (e.kind === "course" && e.code) out.add(e.code);
-  for (const child of e.of ?? []) courseLeaves(child, out);
-  return out;
-}
-
-type Unlock = { code: string; title: string; role: "required" | "option" };
-let UNLOCKS: Map<string, Unlock[]> | null = null;
-function unlocksFor(code: string): Unlock[] {
-  if (!UNLOCKS) {
-    UNLOCKS = new Map();
-    for (const c of Object.values(RAW)) {
-      const expr = c.prerequisites?.expression;
-      for (const leaf of courseLeaves(expr, new Set())) {
-        const list = UNLOCKS.get(leaf) ?? [];
-        list.push({ code: c.code, title: c.title, role: roleIn(expr, leaf) ?? "required" });
-        UNLOCKS.set(leaf, list);
-      }
-    }
-    for (const list of UNLOCKS.values()) list.sort((a, b) => a.code.localeCompare(b.code));
-  }
-  return UNLOCKS.get(code) ?? [];
-}
-
-const COURSE_CODE = /[A-Z]{2,4} \d{4}[A-Z]?/g;
-
 function creditsLong(row: FinderRow) {
   const r = row.creditRange;
   if (!r) return formatCredits(null);
@@ -83,19 +50,6 @@ function creditsLong(row: FinderRow) {
 
 function shortTitle(title: string) {
   return title.replace(/^(Principles of|Introduction to)\s+/i, "").split(":")[0];
-}
-
-function needsText(row: FinderRow): string | null {
-  if (row.eligibility.status !== "missing") return null;
-  const needs = row.eligibility.needs;
-  if (!needs.length) return "Prereqs not met";
-  const root = RAW[row.code]?.prerequisites?.expression;
-  const codes = new Set(needs.map((n) => n.code));
-  const siblings =
-    root?.op === "all" ? (root.of ?? []).filter((c) => c.kind === "course" && c.code && codes.has(c.code)).length : 0;
-  const joiner = siblings >= 2 ? "and" : "or";
-  const shown = needs.slice(0, 2).map((n) => n.code).join(` ${joiner} `);
-  return `Needs ${shown}${needs.length > 2 ? ` +${needs.length - 2}` : ""}`;
 }
 
 function conflictText(withList: { title: string }[]) {
@@ -177,16 +131,13 @@ function Page({
   const planCodes = new Set(plan.placements.filter((p) => !p.deferred).map((p) => p.course.code));
   const clashes = placement ? plan.conflictsFor(placement.id) : [];
   const fit = fitText(row);
-  const unlocks = unlocksFor(row.code);
+  const unlocks = prerequisiteFor(row.code);
   const raw = RAW[row.code]?.prerequisites?.raw ?? "";
-  const prereqCodes = [...new Set(raw.match(COURSE_CODE) ?? [])];
-  const needs = row.eligibility.status === "missing" ? row.eligibility.needs : [];
-  const needCodes = new Set(needs.map((n) => n.code));
+  const groups = prerequisiteGroups(row.code, planCodes);
   const named = row.attributes.filter((a) => ATTRIBUTE_NAMES[a]).map((a) => ATTRIBUTE_NAMES[a]);
   const otherAttrs = row.attributes.filter((a) => !ATTRIBUTE_NAMES[a]);
   const restriction = restrictionLines(row.restriction);
   const kind = row.countsFor.kind === "free" ? "free" : rowKind(row);
-  const needsLine = needsText(row);
   const on = shortlist.has(row.code);
   const blocked = !on && shortlist.full;
 
@@ -212,8 +163,8 @@ function Page({
               ) : (
                 <span className="course-page-status" data-tone="ok">In your plan</span>
               )
-            ) : row.completed ? (
-              <span className="course-page-status">Completed</span>
+            ) : row.recordStatus ? (
+              <span className="course-page-status">{recordLabel(row.recordStatus)}</span>
             ) : (
               fit && (
                 <span className="course-page-status" data-tone={fit.tone === "warn" ? "warn" : undefined}>
@@ -252,23 +203,7 @@ function Page({
             <h4>Prerequisite for</h4>
             {unlocks.length ? (
               <>
-                <ul className="course-page-courselist">
-                  {unlocks.slice(0, 6).map((u) => (
-                    <li key={u.code}>
-                      <b>{u.code}</b>
-                      <span>
-                        {u.title}
-                        {(u.role === "option" || planCodes.has(u.code)) && (
-                          <small>
-                            {[u.role === "option" ? "One of several accepted courses" : null, planCodes.has(u.code) ? "In your plan" : null]
-                              .filter(Boolean)
-                              .join(" · ")}
-                          </small>
-                        )}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+                <UnlockList unlocks={unlocks.slice(0, 6)} planned={planCodes} />
                 {unlocks.length > 6 && <p className="course-page-fine">And {unlocks.length - 6} more in the bulletin.</p>}
               </>
             ) : (
@@ -280,34 +215,7 @@ function Page({
             <h4>Prerequisites</h4>
             {raw ? (
               <>
-                {prereqCodes.length > 0 && (
-                  <ul className="course-page-courselist">
-                    {prereqCodes.slice(0, 6).map((code) => {
-                      const state = COMPLETED.has(code)
-                        ? "Completed"
-                        : planCodes.has(code)
-                          ? "In your plan"
-                          : needCodes.has(code)
-                            ? "Still needed"
-                            : null;
-                      return (
-                        <li key={code}>
-                          <b>{code}</b>
-                          <span>
-                            {RAW[code]?.title ?? "Not in this bulletin"}
-                            {state && <small data-tone={state === "Still needed" ? "need" : undefined}>{state}</small>}
-                          </span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-                {prereqCodes.length > 6 && (
-                  <p className="course-page-fine">And {prereqCodes.length - 6} more, in the bulletin wording below.</p>
-                )}
-                {row.eligibility.status === "missing" && needsLine && (
-                  <p className="course-page-need">You still need {needsLine.replace(/^Needs /, "")}.</p>
-                )}
+                {groups.length > 0 && <PrerequisiteList groups={groups} />}
                 {row.eligibility.status === "unknown" && (
                   <p className="course-page-need">
                     Part of this can be met by a placement score, which your plan can’t see. Check with your advisor.
@@ -346,8 +254,8 @@ function Page({
         </article>
       </div>
       <footer className="course-page-foot">
-        {row.completed ? (
-          <p className="course-page-note">Completed. Taking it again won’t count.</p>
+        {row.recordStatus ? (
+          <p className="course-page-note">{recordLabel(row.recordStatus)}. Taking it again won’t count.</p>
         ) : placement ? (
           <p className="course-page-note">In your plan. Add and drop on your plan.</p>
         ) : (

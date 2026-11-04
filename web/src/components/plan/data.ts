@@ -1,3 +1,5 @@
+import { courses, sections } from "@/data";
+
 export type Day = "Mon" | "Tue" | "Wed" | "Thu" | "Fri";
 
 export type Offering = {
@@ -10,85 +12,86 @@ export type Offering = {
   why: string;
 };
 
-export const os: Offering = {
-  code: "CIS 3207",
-  title: "Introduction to Systems Programming and Operating Systems",
-  credits: 4,
-  days: ["Mon", "Wed", "Fri"],
-  start: 10 * 60,
-  end: 10 * 60 + 50,
-  why: "Required. Closes the systems course.",
+type CourseLike = { code: string; title: string; credits: { value?: number } };
+type SectionLike = { course: string; days: string[]; start: string; end: string };
+
+const minutes = (t: string) => {
+  const [h, m] = t.split(":").map(Number);
+  return h * 60 + m;
 };
 
-export const writing: Offering = {
-  code: "CIS 3296",
-  title: "Software Design",
-  credits: 4,
-  days: ["Tue", "Thu"],
-  start: 11 * 60,
-  end: 12 * 60 + 20,
-  why: "Writing intensive. Required, and you can move it to a later term.",
-};
+/* A course at the meeting time of one of its sections. The finder builds its rows the same way. */
+export function sectionOffering(course: CourseLike, section: SectionLike, why: string): Offering {
+  return {
+    code: course.code,
+    title: course.title,
+    credits: course.credits.value ?? 0,
+    days: section.days.map((d) => d.slice(0, 3) as Day),
+    start: minutes(section.start),
+    end: minutes(section.end),
+    why,
+  };
+}
 
-export const databases: Offering = {
-  code: "CIS 4331",
-  title: "Principles of Database Systems",
-  credits: 4,
-  days: ["Tue", "Thu"],
-  start: 14 * 60,
-  end: 15 * 60 + 20,
-  why: "Suggested major elective. Prerequisite met.",
-};
+/* The placeholder section in sections.json for a course in courses.json. */
+export function offeringFor(code: string, why: string): Offering {
+  const course = (courses as Record<string, CourseLike | undefined>)[code];
+  const section = (sections as SectionLike[]).find((s) => s.course === code);
+  if (!course || !section) throw new Error(`${code} needs a course and a section`);
+  return sectionOffering(course, section, why);
+}
 
-export const dataScience: Offering = {
-  code: "CIS 3715",
-  title: "Principles of Data Science",
-  credits: 4,
-  days: ["Mon", "Wed", "Fri"],
-  start: 13 * 60,
-  end: 13 * 60 + 50,
-  why: "Major elective. Prerequisite met.",
-};
+/*
+ * Spring 2027. The first five are what the student registered for; the rest are the
+ * "Or" options beside them. Each option is open to this student (prerequisites met
+ * by completed or in-progress courses) and meets at a time none of the five does.
+ */
 
-export const agi: Offering = {
-  code: "CIS 4203",
-  title: "Artificial General Intelligence",
-  credits: 3,
-  days: ["Mon", "Wed", "Fri"],
-  start: 15 * 60,
-  end: 15 * 60 + 50,
-  why: "Suggested major elective. Prerequisite met.",
-};
+/* Core */
+export const softwareDesign = offeringFor("CIS 3296", "Required. Writing intensive.");
 
-export const webApps: Offering = {
-  code: "CIS 3308",
-  title: "Web Application Programming",
-  credits: 4,
-  days: ["Tue", "Thu"],
-  start: 9 * 60 + 30,
-  end: 10 * 60 + 50,
-  why: "Major elective. Prerequisite met.",
-};
+/* Elective slot: CIS 4526 */
+export const machineLearning = offeringFor("CIS 4526", "Major elective. Prerequisites met.");
+export const dataScience = offeringFor("CIS 3715", "Major elective. Prerequisites met.");
+export const dataIntensive = offeringFor("CIS 4517", "Major elective. Prerequisites met.");
 
-export const college: Offering = {
-  code: "AMST 0862",
-  title: "Why care about College: Higher Education in American Life",
-  credits: 3,
-  days: ["Tue", "Thu"],
-  start: 15 * 60 + 30,
-  end: 16 * 60 + 50,
-  why: "Suggested for the one gen ed still open.",
-};
+/* Elective slot: CIS 4360 */
+export const seminar = offeringFor("CIS 4360", "Major elective. Prerequisites met.");
+export const compilers = offeringFor("CIS 4324", "Major elective. Prerequisites met.");
+export const microservices = offeringFor("CIS 3523", "Major elective. Prerequisites met.");
 
-export const society: Offering = {
-  code: "AMST 0859",
-  title: "The Making of American Society: Melting Pot or Culture Wars?",
-  credits: 3,
-  days: ["Mon", "Wed"],
-  start: 11 * 60 + 20,
-  end: 12 * 60 + 35,
-  why: "Also satisfies the gen ed still open.",
-};
+/* The elective that takes Software Design's place when it moves to a later term */
+export const webApps = offeringFor("CIS 3308", "Major elective. Prerequisites met.");
+export const automata = offeringFor("CIS 3211", "Major elective. Prerequisites met.");
+
+/* Gen ed slot: Arts */
+export const meaningOfArts = offeringFor("PHIL 0847", "Gen ed · Arts.");
+export const sacredSpace = offeringFor("ARTH 0803", "Gen ed · Arts.");
+export const shakespeareMovies = offeringFor("ENG 0822", "Gen ed · Arts.");
+
+/* Gen ed slot: U.S. Society */
+export const whyCollege = offeringFor("AMST 0855", "Gen ed · U.S. Society.");
+export const socialMovements = offeringFor("COMC 0801", "Gen ed · U.S. Society.");
+export const constitution = offeringFor("LAWU 0825", "Gen ed · U.S. Society.");
+
+/* Every Offering above, so the finder and the record agree with the plan. */
+export const PLAN_OFFERINGS: Offering[] = [
+  softwareDesign,
+  machineLearning,
+  dataScience,
+  dataIntensive,
+  seminar,
+  compilers,
+  microservices,
+  webApps,
+  automata,
+  meaningOfArts,
+  sacredSpace,
+  shakespeareMovies,
+  whyCollege,
+  socialMovements,
+  constitution,
+];
 
 export const DAY_START = 9 * 60;
 export const DAY_END = 17 * 60;

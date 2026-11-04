@@ -675,11 +675,6 @@
   color: var(--ink-tertiary);
 }
 .sp-dblock > p { margin: 0; max-width: 65ch; font-size: var(--text-ui); line-height: 1.55; color: var(--ink-secondary); text-wrap: pretty; }
-.sp-courselist { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.sp-courselist li { display: grid; grid-template-columns: 72px 1fr; gap: 8px; font-size: var(--text-ui); line-height: 1.4; }
-.sp-courselist b { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.sp-courselist span { color: var(--ink-secondary); text-wrap: pretty; }
-.sp-courselist small { display: block; margin-top: 1px; font-size: var(--text-label); color: var(--ink-tertiary); }
 .sp-dblock .sp-fine { margin-top: 8px; font-size: var(--text-label); color: var(--ink-tertiary); }
 .sp-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .sp-tag { padding: 4px 10px; border-radius: 999px; background: var(--muted); font-size: var(--text-label); color: var(--ink-secondary); }

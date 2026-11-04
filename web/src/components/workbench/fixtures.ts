@@ -8,14 +8,22 @@
 
 import { useState } from "react";
 import {
-  agi,
-  college,
+  automata,
+  compilers,
+  constitution,
+  dataIntensive,
   dataScience,
-  databases,
-  os,
-  society,
+  machineLearning,
+  meaningOfArts,
+  microservices,
+  offeringFor,
+  sacredSpace,
+  seminar,
+  shakespeareMovies,
+  socialMovements,
+  softwareDesign,
   webApps,
-  writing,
+  whyCollege,
   type Offering,
 } from "@/components/plan/data";
 import type { Placement } from "@/components/plan/use-plan";
@@ -26,20 +34,15 @@ type Seed = Pick<Placement, "id" | "kind" | "course" | "dotted" | "options"> & {
   canDefer?: boolean;
 };
 
-/* CIS 4331 section 001 in sections.json meets MWF 10:00–11:05, on top of CIS 3207. */
-const databasesMorning: Offering = {
-  ...databases,
-  days: ["Mon", "Wed", "Fri"],
-  start: 10 * 60,
-  end: 11 * 60 + 5,
-};
+/* CIS 3217 section 001 in sections.json meets MWF 12:00–12:50, on top of CIS 4360. */
+const architecture = offeringFor("CIS 3217", "Major elective. Prerequisites met.");
 
 const starting: Seed[] = [
-  { id: "os", kind: "core", course: os, dotted: false, options: [] },
-  { id: "writing", kind: "core", course: writing, dotted: false, options: [], canDefer: true },
-  { id: "a", kind: "elective", course: databases, dotted: true, options: [databases, dataScience] },
-  { id: "b", kind: "elective", course: agi, dotted: true, options: [agi, webApps] },
-  { id: "gen", kind: "gened", course: college, dotted: true, options: [college, society] },
+  { id: "software-design", kind: "core", course: softwareDesign, dotted: false, options: [], canDefer: true },
+  { id: "a", kind: "elective", course: machineLearning, dotted: true, options: [machineLearning, dataScience, dataIntensive] },
+  { id: "b", kind: "elective", course: seminar, dotted: true, options: [seminar, microservices, compilers] },
+  { id: "arts", kind: "gened", course: meaningOfArts, dotted: true, options: [meaningOfArts, sacredSpace, shakespeareMovies] },
+  { id: "us-society", kind: "gened", course: whyCollege, dotted: true, options: [whyCollege, socialMovements, constitution] },
 ];
 
 type State = {
@@ -62,7 +65,7 @@ export const STATES: State[] = [
   {
     id: "course-open",
     name: "Course open",
-    note: "A course page open: Databases' description, prerequisites, what it is a prerequisite for, and its alternative, with its meetings ringed in the week.",
+    note: "A course page open: Machine Learning's description, prerequisites, what it is a prerequisite for, and its alternatives, with its meetings ringed in the week.",
     seeds: starting,
     expanded: "a",
   },
@@ -76,7 +79,7 @@ export const STATES: State[] = [
   {
     id: "previewing",
     name: "Previewing a swap",
-    note: "On the Databases page, Data Science pinned as a preview: Databases fades out in the week, Data Science outlined in its place. Nothing changes until Swap.",
+    note: "On the Machine Learning page, Data Science pinned as a preview: Machine Learning fades out in the week, Data Science outlined in its place. Nothing changes until Swap.",
     seeds: starting,
     confirmed: "all",
     expanded: "a",
@@ -85,9 +88,9 @@ export const STATES: State[] = [
   {
     id: "conflict",
     name: "Time conflict",
-    note: "Section 001 of CIS 4331 overlaps CIS 3207 on Mon, Wed, Fri.",
+    note: "Section 001 of CIS 3217 overlaps CIS 4360 on Mon, Wed, Fri.",
     seeds: starting.map((s) =>
-      s.id === "a" ? { ...s, course: databasesMorning, options: [databasesMorning, dataScience] } : s,
+      s.id === "a" ? { ...s, course: architecture, options: [architecture, machineLearning] } : s,
     ),
     expanded: "a",
   },
@@ -96,8 +99,8 @@ export const STATES: State[] = [
     name: "Course moved later",
     note: "Software Design moved to a later term: its card stays, dimmed, with Add. A third elective is suggested for the open slot.",
     seeds: [
-      ...starting.map((s) => (s.id === "writing" ? { ...s, deferred: true } : s)),
-      { id: "c", kind: "elective", course: dataScience, dotted: true, options: [dataScience, webApps, databases] },
+      ...starting.map((s) => (s.id === "software-design" ? { ...s, deferred: true } : s)),
+      { id: "c", kind: "elective", course: webApps, dotted: true, options: [webApps, automata] },
     ],
   },
 ];

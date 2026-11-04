@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CURRENT_TERM, closedTerm, closedTerms } from "@/components/plan/terms";
+import { CURRENT_TERM, closedTerm, closedTerms, termStatusLabel } from "@/components/plan/terms";
 import "../../../components/plan/plan.css";
 
 export function generateStaticParams() {
@@ -14,8 +14,8 @@ export async function generateMetadata({ params }: PageProps<"/term/[slug]">): P
 }
 
 /*
- * A closed term is a record. No search, no Add or Drop: there is nothing here
- * to change, so the page offers nothing that looks like it could.
+ * A past or in-progress term is a record. No search, no Add or Drop: there is
+ * nothing here to change, so the page offers nothing that looks like it could.
  */
 export default async function ClosedTermPage({ params }: PageProps<"/term/[slug]">) {
   const { slug } = await params;
@@ -33,10 +33,7 @@ export default async function ClosedTermPage({ params }: PageProps<"/term/[slug]
           ← All terms
         </Link>
         <h1>{term.name}</h1>
-        <p className="meta">
-          Completed · view only. A sample record from the bulletin&rsquo;s suggested plan, not your
-          transcript.
-        </p>
+        <p className="meta">{termStatusLabel(term)} · view only. From your degree audit.</p>
         <section className="record" aria-label={`${term.name} courses`}>
           <ul>
             {term.rows.map((row, i) => (

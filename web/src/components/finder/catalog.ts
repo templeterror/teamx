@@ -3,22 +3,11 @@
  *
  * Pure functions over `@/data` and the live plan. No React here, so a caller
  * can use these in render, in a memo, or in a test. Course lists are never
- * copied in: everything is read from courses.json, sections.json, program.json
- * and academic-plan.json.
+ * copied in: everything is read from courses.json, sections.json, program.json,
+ * academic-plan.json and student-record.json.
  */
-import { courses, degree, sections, suggestedPlan } from "@/data";
-import {
-  agi,
-  college,
-  dataScience,
-  databases,
-  os,
-  society,
-  webApps,
-  writing,
-  type Day,
-  type Offering,
-} from "@/components/plan/data";
+import { courses, degree, sections, studentRecord, suggestedPlan } from "@/data";
+import { PLAN_OFFERINGS, sectionOffering, type Offering } from "@/components/plan/data";
 import type { Placement, usePlan } from "@/components/plan/use-plan";
 
 /* ---------- Public types ---------- */
@@ -70,6 +59,8 @@ export type FinderRow = {
   inPlan: boolean;
   /* In the student's completed set (see COMPLETED below). Taking it again is not useful. */
   completed: boolean;
+  /* Which part of the record it is in, so the row can say "Completed" or "In progress". */
+  recordStatus: RecordStatus | null;
   /* Bulletin restrictions joined into one line (cohort, field of study...), or null. */
   restriction: string | null;
   /*
@@ -84,6 +75,8 @@ export type FinderRow = {
 export type Plan = ReturnType<typeof usePlan>;
 export type PlanLike = Pick<Plan, "placements" | "addCourse" | "toggleCourse">;
 
+
+export type RecordStatus = "completed" | "in-progress";
 
 /* ---------- Raw data shapes (the JSON is typed loosely on purpose) ---------- */
 
@@ -141,9 +134,6 @@ const YEARS = (
   suggestedPlan as unknown as { years: { year: number; terms: { rows: PlanRow[] }[] }[] }
 ).years;
 
-/* The courses the plan hook knows by name (placements and their "Or" options). */
-const KNOWN_OFFERINGS = [os, writing, databases, dataScience, agi, webApps, college, society];
-
 function titleOf(code: string) {
   return BY_CODE.get(code)?.title ?? code;
 }
@@ -166,19 +156,27 @@ function find(nodes: ReqNode[], id: string): ReqNode | undefined {
 /* ---------- Completed set ---------- */
 
 /*
- * Rule (a sample, not a transcript): the demo student finished years 1-3 of
- * the bulletin's suggested plan. Every `course` row counts, and every option of
- * a `oneOf` row counts (we do not know which one they picked, so any of them
- * satisfies a prerequisite). Courses in this term's plan (the Offerings in
- * components/plan/data.ts, e.g. CIS 3207 which the suggested plan puts in
- * year 3) are taken out, same as components/plan/terms.ts does for the record.
+ * From the student's degree audit (data/student-record.json). Completed terms and
+ * the term in progress both count: Banner lets a student register for a course
+ * whose prerequisite is in progress, pending its completion. Registered courses
+ * (this term's plan) do not.
  */
-const IN_THIS_TERM = new Set(KNOWN_OFFERINGS.map((o) => o.code));
-export const COMPLETED: ReadonlySet<string> = new Set(
-  YEARS.filter((y) => y.year <= 3)
-    .flatMap((y) => y.terms.flatMap((t) => t.rows.flatMap(rowCodes)))
-    .filter((code) => !IN_THIS_TERM.has(code)),
+const RECORD_STATUS: ReadonlyMap<string, RecordStatus> = new Map(
+  studentRecord.terms.flatMap(({ status, courses: taken }) =>
+    status === "registered" ? [] : taken.map((c) => [c.code, status] as const),
+  ),
 );
+
+export const COMPLETED: ReadonlySet<string> = new Set(RECORD_STATUS.keys());
+
+export function recordStatus(code: string): RecordStatus | null {
+  return RECORD_STATUS.get(code) ?? null;
+}
+
+/* "Completed", "In progress" */
+export function recordLabel(status: RecordStatus): string {
+  return status === "in-progress" ? "In progress" : "Completed";
+}
 
 /* ---------- Gen ed ---------- */
 
@@ -186,17 +184,29 @@ const GENED_AREAS = (find(REQUIREMENTS, "university.gened")?.children ?? []).fil
   (n) => n.attribute,
 );
 
+/* Areas the audit marks complete by exception (World Society), as program.json attributes. */
+const BY_EXCEPTION = new Set(
+  studentRecord.satisfiedByException.flatMap(({ requirement }) =>
+    requirement.startsWith("gened.") ? [requirement.slice("gened.".length).toUpperCase()] : [],
+  ),
+);
+
 /*
- * The one gen ed still open is the area the plan's "gened" placement satisfies.
- * The hook's gened slot defaults to `college` (AMST 0862); its options are all
- * the same area, so we resolve that course against program.json.
+ * The gen ed areas still open, in bulletin order: every area minus those a
+ * completed or in-progress course covers, those satisfied by exception, and those
+ * the major waives (Quantitative Literacy by Calculus, Science and Technology by
+ * the lab science sequence). This term's registered gen eds are its plan, so
+ * their areas stay open.
  */
-export const OPEN_GENED: { area: string; label: string } = (() => {
-  const area = GENED_AREAS.find((n) => n.courses?.includes(college.code));
-  return area?.attribute && area.title
-    ? { area: area.attribute, label: area.title }
-    : { area: "GU", label: "U.S. Society" };
-})();
+const COVERED = new Set(
+  [...COMPLETED].flatMap((code) => BY_CODE.get(code)?.genEdAreas.map((a) => a.toUpperCase()) ?? []),
+);
+
+export const OPEN_GENED: { area: string; label: string }[] = GENED_AREAS.flatMap((n) =>
+  n.attribute && n.title && n.kind !== "waivedBy" && !COVERED.has(n.attribute) && !BY_EXCEPTION.has(n.attribute)
+    ? [{ area: n.attribute, label: n.title }]
+    : [],
+);
 
 /* ---------- Counts for ---------- */
 
@@ -221,8 +231,8 @@ const CORE = new Set([
 function countsFor(c: RawCourse): CountsFor {
   if (MAJOR_ELECTIVES.has(c.code)) return { kind: "major-elective", label: "Major elective" };
   /* A gen ed for an area already finished (or waived) is just a free elective. */
-  if (c.genEdAreas.some((a) => a.toUpperCase() === OPEN_GENED.area))
-    return { kind: "gened", label: `Gen ed · ${OPEN_GENED.label}`, area: OPEN_GENED.area };
+  const open = OPEN_GENED.find((g) => c.genEdAreas.some((a) => a.toUpperCase() === g.area));
+  if (open) return { kind: "gened", label: `Gen ed · ${open.label}`, area: open.area };
   if (CORE.has(c.code)) return { kind: "core", label: "Required" };
   return { kind: "free", label: "Free elective" };
 }
@@ -233,16 +243,17 @@ type Tri = true | false | null; /* null = cannot evaluate */
 
 /*
  * Three-valued evaluation of the prerequisite tree.
- * - course leaf: in COMPLETED, or (when `concurrent`) in the active plan.
+ * - course leaf: in `done` (COMPLETED unless a caller narrows it), or (when
+ *   `concurrent`) in the active plan.
  * - subjectRange leaf: any such course with that subject and a number in range.
  * - placement leaf ('Y' in MA07 and similar): unknown. It only matters when
  *   nothing beside it resolves the parent: an `any` with one satisfied course
  *   is met; an `all` with one missing course is missing.
- * Grades are ignored (the sample record has none).
+ * Grades are ignored: the record leaves them out, and every completed course meets the C- minimum.
  */
-function evaluate(e: Expr, plan: ReadonlySet<string>): Tri {
+function evaluate(e: Expr, plan: ReadonlySet<string>, done: ReadonlySet<string> = COMPLETED): Tri {
   if ("op" in e) {
-    const results = e.of.map((x) => evaluate(x, plan));
+    const results = e.of.map((x) => evaluate(x, plan, done));
     if (e.op === "all") {
       if (results.includes(false)) return false;
       return results.includes(null) ? null : true;
@@ -251,11 +262,11 @@ function evaluate(e: Expr, plan: ReadonlySet<string>): Tri {
     return results.includes(null) ? null : false;
   }
   if (e.kind === "placement") return null;
-  const has = (code: string) => COMPLETED.has(code) || (!!e.concurrent && plan.has(code));
+  const has = (code: string) => done.has(code) || (!!e.concurrent && plan.has(code));
   if (e.kind === "course") return has(e.code);
   const lo = Number(e.from);
   const hi = Number(e.to);
-  const pool = [...COMPLETED, ...(e.concurrent ? plan : [])];
+  const pool = [...done, ...(e.concurrent ? plan : [])];
   return pool.some((code) => {
     const [subject, num] = code.split(" ");
     return subject === e.subject && Number(num) >= lo && Number(num) <= hi;
@@ -311,6 +322,109 @@ function eligibility(c: RawCourse, plan: ReadonlySet<string>): Eligibility {
   return { status: "missing", needs: list, groups, raw: p.raw };
 }
 
+/* ---------- Prerequisites, group by group (the course pages on /plan and /find) ---------- */
+
+export type PrereqState = "completed" | "in-progress" | "in-plan" | "missing" | "unknown";
+export type PrereqOption = { label: string; title: string | null; met: boolean };
+/* One AND group of the tree; its options read joined by `join`. */
+export type PrereqGroup = { options: PrereqOption[]; join: "and" | "or"; state: PrereqState };
+
+const FINISHED: ReadonlySet<string> = new Set(
+  [...RECORD_STATUS].flatMap(([code, status]) => (status === "completed" ? [code] : [])),
+);
+const NOTHING: ReadonlySet<string> = new Set();
+
+/*
+ * A whole subtree, every option named: "MATH 1042", "any MATH 2043–3080", "MA07 placement".
+ * Each code keeps a no-break space, so a long option breaks between codes, never inside one.
+ */
+function phrase(e: Expr): string {
+  if ("op" in e) {
+    const parts = e.of.map(phrase);
+    if (e.op === "any") return series(parts, "or");
+    return parts.some((x) => x.includes(" or ")) ? parts.join(", and ") : series(parts, "and");
+  }
+  if (e.kind === "course") return e.code.replace(" ", "\u00a0");
+  if (e.kind === "subjectRange") return `any ${e.subject}\u00a0${e.from}–${e.to}`;
+  return `${e.code}\u00a0placement`;
+}
+
+/*
+ * The tree as the student needs to read it: one entry per top-level AND group, each
+ * with its options and how the record meets it. The earliest that holds wins:
+ * completed, in progress, or in the plan (only where the bulletin allows taking it at
+ * the same time). An option is `met` when it is what meets the group at that level.
+ */
+export function prerequisiteGroups(code: string, plan: ReadonlySet<string>): PrereqGroup[] {
+  const e = BY_CODE.get(code)?.prerequisites?.expression;
+  if (!e) return [];
+  const levels: [PrereqState, ReadonlySet<string>, ReadonlySet<string>][] = [
+    ["completed", NOTHING, FINISHED],
+    ["in-progress", NOTHING, COMPLETED],
+    ["in-plan", plan, COMPLETED],
+  ];
+  return ("op" in e && e.op === "all" ? e.of : [e]).map((group) => {
+    const level = levels.find(([, p, done]) => evaluate(group, p, done) === true);
+    const state = level?.[0] ?? (evaluate(group, plan) === null ? "unknown" : "missing");
+    return {
+      join: "op" in group && group.op === "all" ? "and" : "or",
+      state,
+      options: ("op" in group ? group.of : [group]).map((x) => ({
+        label: phrase(x),
+        title: !("op" in x) && x.kind === "course" ? (BY_CODE.get(x.code)?.title ?? null) : null,
+        met: !!level && evaluate(x, level[1], level[2]) === true,
+      })),
+    };
+  });
+}
+
+/* "Completed", "In progress", "In your plan", "Ask your advisor"; null for missing (the row reads "Needs …"). */
+export function prereqStateLabel(state: PrereqState): string | null {
+  if (state === "completed" || state === "in-progress") return recordLabel(state);
+  if (state === "in-plan") return "In your plan";
+  if (state === "unknown") return "Ask your advisor";
+  return null;
+}
+
+export type Unlock = { code: string; title: string; role: "required" | "option" };
+
+/* How `code` appears in a tree: needed outright, or one of several options. */
+function roleIn(e: Expr, code: string, inAny = false): Unlock["role"] | null {
+  if (!("op" in e)) return e.kind === "course" && e.code === code ? (inAny ? "option" : "required") : null;
+  let found: Unlock["role"] | null = null;
+  for (const child of e.of) {
+    const r = roleIn(child, code, inAny || e.op === "any");
+    if (r === "required") return r;
+    found ??= r;
+  }
+  return found;
+}
+
+function courseLeaves(e: Expr, out: Set<string>): Set<string> {
+  if ("op" in e) e.of.forEach((x) => courseLeaves(x, out));
+  else if (e.kind === "course") out.add(e.code);
+  return out;
+}
+
+/* Reverse prerequisites, built once: the courses whose tree names this one. */
+let UNLOCKS: Map<string, Unlock[]> | null = null;
+export function prerequisiteFor(code: string): Unlock[] {
+  if (!UNLOCKS) {
+    UNLOCKS = new Map();
+    for (const c of CATALOG) {
+      const e = c.prerequisites?.expression;
+      if (!e) continue;
+      for (const leaf of courseLeaves(e, new Set())) {
+        const list = UNLOCKS.get(leaf) ?? [];
+        list.push({ code: c.code, title: c.title, role: roleIn(e, leaf) ?? "required" });
+        UNLOCKS.set(leaf, list);
+      }
+    }
+    for (const list of UNLOCKS.values()) list.sort((a, b) => a.code.localeCompare(b.code));
+  }
+  return UNLOCKS.get(code) ?? [];
+}
+
 /* ---------- Credits ---------- */
 
 function creditRange({ credits: c }: RawCourse): FinderRow["creditRange"] {
@@ -321,23 +435,6 @@ function creditRange({ credits: c }: RawCourse): FinderRow["creditRange"] {
 }
 
 /* ---------- Offering and fit ---------- */
-
-const minutes = (t: string) => {
-  const [h, m] = t.split(":").map(Number);
-  return h * 60 + m;
-};
-
-function sectionOffering(c: RawCourse, s: RawSection): Offering {
-  return {
-    code: c.code,
-    title: c.title,
-    credits: c.credits.value ?? 0,
-    days: s.days.map((d) => d.slice(0, 3) as Day),
-    start: minutes(s.start),
-    end: minutes(s.end),
-    why: "Added from Find courses",
-  };
-}
 
 function overlaps(a: Offering, b: Offering) {
   return a.days.some((d) => b.days.includes(d)) && a.start < b.end && b.start < a.end;
@@ -357,7 +454,8 @@ export function buildRows(plan: PlanLike): FinderRow[] {
   const activeCodes = new Set(active.map((p) => p.course.code));
   /* Offerings the plan already holds, so a row never disagrees with the week. */
   const known = new Map<string, Offering>();
-  for (const o of KNOWN_OFFERINGS) known.set(o.code, o);
+  /* The courses the plan hook knows by name (placements and their "Or" options). */
+  for (const o of PLAN_OFFERINGS) known.set(o.code, o);
   for (const p of plan.placements) {
     for (const o of p.options) known.set(o.code, o);
     known.set(p.course.code, p.course);
@@ -368,7 +466,7 @@ export function buildRows(plan: PlanLike): FinderRow[] {
     const offering =
       known.get(c.code) ??
       (s
-        ? sectionOffering(c, s)
+        ? sectionOffering(c, s, "Added from Find courses")
         : { code: c.code, title: c.title, credits: c.credits.value ?? 0, days: [], start: 0, end: 0, why: "Added from Find courses" });
     const restriction = Object.entries(c.restrictions ?? {})
       .map(([k, v]) => `${k}: ${v}`)
@@ -389,6 +487,7 @@ export function buildRows(plan: PlanLike): FinderRow[] {
       fit: fit(offering, active),
       inPlan: activeCodes.has(c.code),
       completed: COMPLETED.has(c.code),
+      recordStatus: recordStatus(c.code),
       restriction: restriction || null,
       offering,
       section: s
@@ -440,7 +539,7 @@ export function scopeCounts(rows: FinderRow[]): Record<Scope, number> {
 
 export const SCOPES: { id: Scope; label: string }[] = [
   { id: "major-elective", label: "Major elective" },
-  { id: "gened", label: `Gen ed · ${OPEN_GENED.label}` },
+  { id: "gened", label: "Gen ed" },
   { id: "free", label: "Free elective" },
   { id: "all", label: "All courses" },
 ];

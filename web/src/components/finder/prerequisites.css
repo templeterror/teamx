@@ -1,0 +1,63 @@
+/*
+ * Course lists on the course pages (prerequisites.tsx). Each list is a two-column grid
+ * and every row a subgrid of it, so the first column is as wide as the longest entry
+ * in that list and every second-column line starts on one shared edge.
+ */
+
+.courselist,
+.reqlist {
+  display: grid;
+  gap: 8px 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-ui);
+  line-height: 1.4;
+}
+.courselist > li,
+.reqlist > li {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: baseline;
+}
+
+/* Prerequisite for: code, then title with its note hanging under it. */
+.courselist { grid-template-columns: max-content minmax(0, 1fr); }
+.courselist-code { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.courselist-title { min-width: 0; color: var(--ink-secondary); text-wrap: pretty; }
+.courselist-title small { display: block; margin-top: 1px; font-size: var(--text-label); line-height: 1.4; color: var(--ink-tertiary); }
+
+.courselist-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Prerequisites: the group's options, then its state at the end of the row. */
+.reqlist { grid-template-columns: minmax(0, 1fr) max-content; column-gap: 16px; }
+.reqlist-opts { min-width: 0; color: var(--ink-tertiary); text-wrap: pretty; }
+/* Codes carry no-break spaces (catalog.ts phrase()), so a nested "A and B" option can still wrap between codes. */
+.reqlist-code { font-weight: 500; color: var(--ink-secondary); font-variant-numeric: tabular-nums; }
+.reqlist-code[data-met] { color: var(--ink); }
+.reqlist-title { color: var(--ink-secondary); }
+.reqlist-state { font-size: var(--text-caption); color: var(--ink-tertiary); text-align: end; white-space: nowrap; }
+
+/*
+ * A missing group is the exception, read like the finder's "Needs …" chip: muted fill,
+ * ink, medium. It takes the whole row; the fill bleeds into the gutter so its text
+ * keeps the list's left edge.
+ */
+.reqlist > li[data-state="missing"] .reqlist-opts {
+  grid-column: 1 / -1;
+  margin-inline: -8px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--muted);
+  color: var(--ink);
+}
+.reqlist > li[data-state="missing"] :is(.reqlist-code, .reqlist-title) { color: var(--ink); }
+.reqlist-needs { font-weight: 500; }
