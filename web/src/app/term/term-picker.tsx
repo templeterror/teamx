@@ -19,7 +19,7 @@ export function TermPicker() {
         <p className="meta">Spring 2027 is open for planning.</p>
         <article className="row core term-card">
           <h2 className="title">Spring 2027</h2>
-          <Link className="btn primary" href="/plan">
+          <Link className="btn-primary" href="/plan">
             Open plan
           </Link>
         </article>

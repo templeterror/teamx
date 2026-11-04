@@ -54,7 +54,7 @@ export default async function ClosedTermPage({ params }: PageProps<"/term/[slug]
             <span className="record-credits">{term.credits} credits</span>
           </footer>
         </section>
-        <Link className="btn primary" href="/plan">
+        <Link className="btn-primary" href="/plan">
           Go to {CURRENT_TERM} plan
         </Link>
       </main>

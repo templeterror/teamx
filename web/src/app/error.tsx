@@ -24,7 +24,7 @@ export default function ErrorPage({
         </p>
         <h1>Something went wrong on this page</h1>
         <p className="meta">Your plan is still here. Try again, or go back to it.</p>
-        <button type="button" className="btn primary" onClick={reset}>
+        <button type="button" className="btn-primary" onClick={reset}>
           Try again
         </button>{" "}
         <Link className="btn text" href="/plan">

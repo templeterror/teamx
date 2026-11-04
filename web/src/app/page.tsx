@@ -29,7 +29,7 @@ export default function LoginPage() {
           <span>Password</span>
           <input type="password" defaultValue="password" readOnly />
         </label>
-        <Link className="btn primary" href="/term">
+        <Link className="btn-primary" href="/term">
           Continue
         </Link>
       </main>

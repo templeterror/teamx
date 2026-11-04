@@ -779,33 +779,18 @@
   color: var(--ink-tertiary);
 }
 .sp-card-foot p { margin: 0; text-align: center; text-wrap: pretty; }
-/* Everything dropped: the same 40px as Confirm plan, so the list above does not grow. */
-.sp-card-foot .sp-foot-empty { display: grid; align-content: center; min-height: 40px; }
+/* Everything dropped: the same 44px as Confirm plan, so the list above does not grow. */
+.sp-card-foot .sp-foot-empty { display: grid; align-content: center; min-height: 44px; }
 .sp-foot-empty strong { font-size: var(--text-caption); font-weight: 500; color: var(--ink); }
-.sp-primary {
-  min-height: 40px;
-  border: 0;
-  border-radius: 8px;
-  background: var(--accent);
-  color: white;
-  font: inherit;
-  font-size: var(--text-ui);
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 150ms ease-out, transform 150ms ease-out;
-}
-.sp-primary:active { transform: scale(0.96); }
 /* Blocked: the warning tone the week's "over 18" uses, and a button that explains instead of acting. */
 .sp-card-foot .sp-foot-warn { color: var(--warning); }
 ul.sp-foot-warn { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; text-align: center; text-wrap: pretty; }
-.sp-primary[aria-disabled] { background: var(--muted); color: var(--ink-tertiary); cursor: not-allowed; }
-.sp-primary[aria-disabled]:active { transform: none; }
 /* 40px buttons reach 44px on touch without growing. */
-.sp-primary, .sp-swap, .sp-edit { position: relative; }
-.sp-primary::after, .sp-swap::after { content: ""; position: absolute; inset: -2px 0; }
+.sp-swap, .sp-edit { position: relative; }
+.sp-swap::after { content: ""; position: absolute; inset: -2px 0; }
 .sp-edit::after { content: ""; position: absolute; inset: -4px; }
-/* Confirmed: status on the left, Edit plan on the right, same 40px row as Confirm plan. */
-.sp-confirmed-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 40px; }
+/* Confirmed: status on the left, Edit plan on the right, same 44px row as Confirm plan. */
+.sp-confirmed-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; }
 .sp-confirmed-state { display: inline-flex; align-items: center; gap: 8px; font-size: var(--text-ui); font-weight: 500; color: var(--ink); }
 .sp-confirmed-badge {
   display: grid;
@@ -843,7 +828,7 @@ ul.sp-foot-warn { display: grid; gap: 4px; margin: 0; padding: 0; list-style: no
   white-space: nowrap;
 }
 
-.sp .sp-card :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 8px; }
+.sp .sp-card :focus-visible:not(.btn-primary) { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 8px; }
 .sp .sp-card .sp-ccard-main:focus-visible { outline-offset: 6px; }
 .sp .sp-card .sp-adddrop:focus-visible, .sp .sp-card .sp-chip:focus-visible { border-radius: 999px; }
 
@@ -855,7 +840,6 @@ ul.sp-foot-warn { display: grid; gap: 4px; margin: 0; padding: 0; list-style: no
   .sp-adddrop[data-mode="drop"]:hover svg { color: var(--accent); }
   .sp-chip:not([aria-pressed="true"]):hover { background: var(--line); }
   .sp-text-btn:hover { text-decoration: underline; text-underline-offset: 3px; }
-  .sp-primary:not([aria-disabled]):hover { background: var(--accent-hover); }
   .sp-edit:hover { background: var(--muted); box-shadow: 0 0 0 1px rgb(0 0 0 / 0.16), 0 1px 2px rgb(0 0 0 / 0.06); }
   .sp-swap:hover { background: color-mix(in oklch, var(--ink) 85%, black); }
   .sp-findlink:hover { text-decoration: underline; text-underline-offset: 3px; }
@@ -867,6 +851,6 @@ ul.sp-foot-warn { display: grid; gap: 4px; margin: 0; padding: 0; list-style: no
   .sp-edit:active { transform: none; }
   .sp-track, .sp-drill[data-open] .sp-track, .sp-alt, .sp-back { transition: none; }
   .sp-block[data-linked] { transform: none; }
-  .sp-block, .sp-block:hover, .sp-ccard, .sp-chip, .sp-adddrop, .sp-adddrop svg, .sp-primary, .sp-swap { transition: none; }
-  .sp-chip:active, .sp-adddrop:active, .sp-primary:active, .sp-swap:active, .sp-block:active, .sp-block:hover, .sp-back:active { transform: none; }
+  .sp-block, .sp-block:hover, .sp-ccard, .sp-chip, .sp-adddrop, .sp-adddrop svg, .sp-swap { transition: none; }
+  .sp-chip:active, .sp-adddrop:active, .sp-swap:active, .sp-block:active, .sp-block:hover, .sp-back:active { transform: none; }
 }

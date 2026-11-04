@@ -16,7 +16,7 @@ export default function NotFound() {
         </p>
         <h1>There&rsquo;s nothing at this address</h1>
         <p className="meta">The page may have moved when the plan changed.</p>
-        <Link className="btn primary" href="/plan">
+        <Link className="btn-primary" href="/plan">
           Go to your plan
         </Link>
       </main>

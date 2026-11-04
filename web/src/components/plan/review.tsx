@@ -51,7 +51,7 @@ export function Review() {
                     : `You dropped ${plan.pendingDrops.map((p) => p.course.code).join(", ")}. Confirm your plan to remove ${plan.pendingDrops.length === 1 ? "it" : "them"}, and review opens.`}
             </p>
           </div>
-          <Link className="btn primary" href="/plan">
+          <Link className="btn-primary" href="/plan">
             Back to your plan
           </Link>
         </header>
@@ -102,7 +102,7 @@ export function Review() {
           <h1>Ready for Banner</h1>
           <p className="intro">Planning does not register you. Use this list to register in Banner.</p>
         </div>
-        <button className="btn primary" onClick={() => window.print()}>
+        <button className="btn-primary" onClick={() => window.print()}>
           Print course list
         </button>
       </header>

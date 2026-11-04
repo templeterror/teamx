@@ -280,15 +280,10 @@ export function FindPage({ scope, scoped }: { scope: Scope; scoped: boolean }) {
           </div>
 
           <footer className="finder-side-foot">
-            {n > 0 ? (
-              <Link href="/plan" className="finder-primary">
-                Back to plan with {n} shortlisted
-              </Link>
-            ) : (
-              <Link href="/plan" className="finder-quiet-link">
-                Back to plan
-              </Link>
-            )}
+            {/* The page's one red primary, shortlist or not. */}
+            <Link href="/plan" className="btn-primary">
+              {n > 0 ? `Back to plan with ${n} shortlisted` : "Back to plan"}
+            </Link>
           </footer>
         </div>
         <p className="finder-sr" role="status">

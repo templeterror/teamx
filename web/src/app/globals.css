@@ -49,6 +49,24 @@
     0 0 0 1px color-mix(in oklch, var(--ink) 20%, transparent),
     0 1px 2px color-mix(in oklch, var(--ink) 7%, transparent);
 
+  /*
+   * The primary button's depth: a hairline of light along the top edge, and a short
+   * shadow in the accent's own hue (black would read as dirt under red). Hover pulls
+   * the shadow in; press flattens it to the edge.
+   */
+  --primary-highlight: inset 0 1px 0 color-mix(in oklch, var(--on-accent) 18%, transparent);
+  --primary-shadow:
+    var(--primary-highlight),
+    0 1px 2px color-mix(in oklch, var(--accent) 28%, transparent),
+    0 3px 8px -3px color-mix(in oklch, var(--accent) 45%, transparent);
+  --primary-shadow-hover:
+    var(--primary-highlight),
+    0 1px 2px color-mix(in oklch, var(--accent) 32%, transparent),
+    0 2px 4px -2px color-mix(in oklch, var(--accent) 45%, transparent);
+  --primary-shadow-active:
+    var(--primary-highlight),
+    0 0 1px color-mix(in oklch, var(--accent) 40%, transparent);
+
   /* Stacking steps. Every z-index in the product uses one of these. */
   --z-raised: 1;
   --z-active: 2;
@@ -128,4 +146,72 @@ p {
 ::selection {
   background: var(--accent-wash);
   color: var(--ink);
+}
+
+/*
+ * The primary action, one per view: Continue, Open plan, Confirm plan, Back to plan.
+ * Red always means "you can press this". A blocked action (disabled, or aria-disabled
+ * so it stays focusable and reads its reasons) drops to the muted fill with no depth
+ * and no press. Works the same on <button> and <Link>; layout (margins, width) stays
+ * with each page.
+ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--accent);
+  box-shadow: var(--primary-shadow);
+  color: var(--on-accent);
+  font: inherit;
+  font-size: var(--text-ui);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease-out,
+    color 150ms ease-out,
+    box-shadow 150ms ease-out,
+    transform 150ms ease-out;
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover:not(:disabled, [aria-disabled="true"]) {
+    background: var(--accent-hover);
+    box-shadow: var(--primary-shadow-hover);
+  }
+}
+
+.btn-primary:active:not(:disabled, [aria-disabled="true"]) {
+  box-shadow: var(--primary-shadow-active);
+  transform: scale(0.96);
+}
+
+.btn-primary:is(:disabled, [aria-disabled="true"]) {
+  background: var(--muted);
+  box-shadow: none;
+  color: var(--ink-tertiary);
+  cursor: not-allowed;
+}
+
+/* Reduced motion: color and depth still change, the press scale goes. */
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary {
+    transition-property: background-color, color, box-shadow;
+  }
+  .btn-primary:active {
+    transform: none;
+  }
 }
