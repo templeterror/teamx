@@ -5,7 +5,7 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 import { usePlanContext } from "@/components/plan/plan-shell";
 import type { Placement } from "@/components/plan/use-plan";
 import { SHORTLIST_MAX } from "@/components/plan/use-shortlist";
-import { OPEN_GENED, buildRows, rowKind, type Scope } from "./catalog";
+import { buildRows, rowKind, type Scope } from "./catalog";
 import { Finder } from "./finder";
 import { MiniWeek, type MiniItem } from "./mini-week";
 import { CoursePage } from "./course-page";
@@ -31,7 +31,7 @@ function scopeLine(scope: Scope, placements: Placement[]) {
   const open = placements.filter((p) => !p.deferred && p.options.length > 0);
   const electives = open.filter((p) => p.kind === "elective").length;
   const gened = open.filter((p) => p.kind === "gened").length;
-  if (scope === "gened") return `For: Gen ed · ${OPEN_GENED.label} · ${gened} to choose`;
+  if (scope === "gened") return `For: Gen ed · ${gened} to choose`;
   if (scope === "major-elective") return `For: Major electives · ${electives} to choose`;
   if (scope === "free") return `For: Free electives · ${electives} to choose`;
   return `For: Any open slot · ${electives + gened} to choose`;

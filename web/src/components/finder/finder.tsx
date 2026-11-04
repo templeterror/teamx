@@ -5,7 +5,7 @@
  * "Course finder" and "Finding courses is its own page").
  * A search field, the "Counts for" scope chips with live counts, Ask AI, then the
  * course table. The only verb is Shortlist; Add and Drop stay on the plan.
- * Rows in the plan say "In your plan", completed rows "Completed", and at 10 of 10
+ * Rows in the plan say "In your plan", recorded rows "Completed" or "In progress", and at 10 of 10
  * Shortlist disables. The course cell opens the Drill-in (onOpen).
  * Every class is `finder-` prefixed.
  */
@@ -17,6 +17,7 @@ import {
   SCOPES,
   SUBJECTS,
   formatCreditRange,
+  recordLabel,
   scopeCounts,
   scopeRows,
   searchRows,
@@ -25,6 +26,8 @@ import {
   type Scope,
 } from "./catalog";
 import { SHORTLIST_MAX, type Shortlist } from "@/components/plan/use-shortlist";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Select, type SelectOption } from "@/components/ui/select";
 import "./finder.css";
 
 const LEVELS = ["1000", "2000", "3000", "4000"];
@@ -35,6 +38,24 @@ const ATTRIBUTES = [
 const DAY_SETS = [
   { id: "MWF", label: "Mon Wed Fri", days: ["Mon", "Wed", "Fri"] },
   { id: "TTh", label: "Tue Thu", days: ["Tue", "Thu"] },
+];
+
+/* More filters. The empty value is each select's unset choice. */
+const SUBJECT_OPTIONS: SelectOption[] = [
+  { value: "", label: "All subjects" },
+  ...SUBJECTS.map((s) => ({ value: s, label: s })),
+];
+const LEVEL_OPTIONS: SelectOption[] = [
+  { value: "", label: "Any level" },
+  ...LEVELS.map((l) => ({ value: l, label: `${l} and above` })),
+];
+const ATTRIBUTE_OPTIONS: SelectOption[] = [
+  { value: "", label: "Any attribute" },
+  ...ATTRIBUTES.map((a) => ({ value: a.id, label: a.label })),
+];
+const DAY_OPTIONS: SelectOption[] = [
+  { value: "", label: "Any days" },
+  ...DAY_SETS.map((d) => ({ value: d.id, label: d.label })),
 ];
 
 const KIND_ORDER: Record<FinderRow["countsFor"]["kind"], number> = {
@@ -74,7 +95,7 @@ type Chip = { text: string; tone: "needs" | "plan" | "completed" | "rule" };
  * a restriction is its own outlined chip after them. Met says nothing ([]).
  */
 function eligibilityChips(row: FinderRow): Chip[] {
-  if (row.completed) return [{ text: "Completed", tone: "completed" }];
+  if (row.recordStatus) return [{ text: recordLabel(row.recordStatus), tone: "completed" }];
   if (row.inPlan) return [{ text: "In your plan", tone: "plan" }];
   const chips: Chip[] = [];
   const elig = row.eligibility;
@@ -116,7 +137,7 @@ function countSentence(n: number, scope: Scope, query: string): string {
   const noun = plural(n, "course", "courses");
   const verb = plural(n, "counts", "count");
   if (scope === "major-elective") return `${n} ${noun} ${verb} as a major elective`;
-  if (scope === "gened") return `${n} ${noun} ${verb} toward ${OPEN_GENED.label}`;
+  if (scope === "gened") return `${n} ${noun} ${verb} toward ${series(OPEN_GENED.map((g) => g.label), "or")}`;
   if (scope === "free") return `${n} ${noun} ${verb} as a free elective`;
   return query.trim() ? `${n} ${noun} ${plural(n, "matches", "match")}` : `${n} ${noun}`;
 }
@@ -360,8 +381,8 @@ export function Finder({
     if (row.completed || row.inPlan) {
       if (!note) return null;
       return (
-        <span className="finder-row-note" data-tone={row.completed ? "muted" : "state"}>
-          {row.completed ? "Completed" : "In your plan"}
+        <span className="finder-row-note" data-tone={row.recordStatus ? "muted" : "state"}>
+          {row.recordStatus ? recordLabel(row.recordStatus) : "In your plan"}
         </span>
       );
     }
@@ -554,58 +575,20 @@ export function Finder({
 
           {moreOpen && (
             <div id={moreId} className="finder-more-panel">
-              <label className="finder-field">
-                Subject
-                <select value={subject} onChange={(e) => setSubject(e.target.value)}>
-                  <option value="">All subjects</option>
-                  {SUBJECTS.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="finder-field">
-                Level
-                <select value={level} onChange={(e) => setLevel(e.target.value)}>
-                  <option value="">Any level</option>
-                  {LEVELS.map((l) => (
-                    <option key={l} value={l}>
-                      {l} and above
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="finder-field">
-                Attribute
-                <select value={attribute} onChange={(e) => setAttribute(e.target.value)}>
-                  <option value="">Any attribute</option>
-                  {ATTRIBUTES.map((a) => (
-                    <option key={a.id} value={a.id}>
-                      {a.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="finder-field">
-                Days
-                <select value={days} onChange={(e) => setDays(e.target.value)}>
-                  <option value="">Any days</option>
-                  {DAY_SETS.map((d) => (
-                    <option key={d.id} value={d.id}>
-                      {d.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="finder-check">
-                <input type="checkbox" checked={eligibleOnly} onChange={(e) => setEligibleOnly(e.target.checked)} />
-                Eligible only
-              </label>
-              <label className="finder-check">
-                <input type="checkbox" checked={fitsOnly} onChange={(e) => setFitsOnly(e.target.checked)} />
-                Fits my week
-              </label>
+              <div className="finder-more-selects">
+                <Select label="Subject" value={subject} onChange={setSubject} options={SUBJECT_OPTIONS} />
+                <Select label="Level" value={level} onChange={setLevel} options={LEVEL_OPTIONS} />
+                <Select label="Attribute" value={attribute} onChange={setAttribute} options={ATTRIBUTE_OPTIONS} />
+                <Select label="Days" value={days} onChange={setDays} options={DAY_OPTIONS} />
+              </div>
+              <div className="finder-more-flags" role="group" aria-label="Show only">
+                <Checkbox checked={eligibleOnly} onChange={setEligibleOnly}>
+                  Eligible only
+                </Checkbox>
+                <Checkbox checked={fitsOnly} onChange={setFitsOnly}>
+                  Fits my week
+                </Checkbox>
+              </div>
             </div>
           )}
 

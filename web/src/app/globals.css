@@ -48,13 +48,19 @@
   --shadow-control-hover:
     0 0 0 1px color-mix(in oklch, var(--ink) 20%, transparent),
     0 1px 2px color-mix(in oklch, var(--ink) 7%, transparent);
+  /* A menu floating over content: a hairline ring, a close shadow, a soft far one. */
+  --shadow-popover:
+    0 0 0 1px color-mix(in oklch, var(--ink) 9%, transparent),
+    0 2px 4px -1px color-mix(in oklch, var(--ink) 6%, transparent),
+    0 12px 28px -6px color-mix(in oklch, var(--ink) 16%, transparent);
 
   /* Stacking steps. Every z-index in the product uses one of these. */
   --z-raised: 1;
   --z-active: 2;
   --z-preview: 3;
   --z-sticky: 4;
-  --z-tooltip: 5;
+  --z-popover: 5;
+  --z-tooltip: 6;
 
   /* Type roles (productthink.md). Inter for everything; serif only for page headings and course titles at 17px and up. */
   --text-display: 32px;

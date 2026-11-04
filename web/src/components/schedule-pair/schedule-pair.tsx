@@ -18,6 +18,8 @@ import { useEffect, useId, useRef, useState, type ReactNode, type RefObject } fr
 import { CREDIT_MAX, CREDIT_MIN, DAY_END, DAY_START, type Day, type Offering } from "@/components/plan/data";
 import { formatMeetings, planProblems, type PlanProblem, type Placement, type usePlan } from "@/components/plan/use-plan";
 import { courses, sections } from "@/data";
+import { prerequisiteFor, prerequisiteGroups } from "@/components/finder/catalog";
+import { PrerequisiteList, UnlockList } from "@/components/finder/prerequisites";
 import { BlockText, FitLine } from "./fit-text";
 import "./schedule-pair.css";
 
@@ -763,65 +765,31 @@ function CourseCard({
 
 /* ---------- Course page data (courses.json, sections.json) ---------- */
 
-type PrereqNode = { op?: "all" | "any"; of?: PrereqNode[]; kind?: string; code?: string };
 type CourseRecord = {
   title: string;
   credits?: { value?: number; options?: number[]; min?: number; max?: number };
   description?: string;
   attributes?: string[];
   typicallyOffered?: string | null;
-  prerequisites?: { raw?: string; expression?: PrereqNode } | null;
+  prerequisites?: { raw?: string } | null;
 };
 const catalog = courses as unknown as Record<string, CourseRecord>;
 
 const ATTRIBUTES: Record<string, string> = {
   WI: "Writing intensive",
+  GA: "Gen ed · Arts",
   GU: "Gen ed · U.S. Society",
   SI: "Gen ed · Science & Technology",
 };
-
-const COURSE_CODE = /[A-Z]{2,4} \d{4}[A-Z]?/g;
-
-/* How `code` appears in a prerequisite tree: needed outright, or one of several options. */
-function roleIn(node: PrereqNode | undefined, code: string, inAny = false): "required" | "option" | null {
-  if (!node) return null;
-  if (node.kind === "course") return node.code === code ? (inAny ? "option" : "required") : null;
-  let found: "required" | "option" | null = null;
-  for (const child of node.of ?? []) {
-    const r = roleIn(child, code, inAny || node.op === "any");
-    if (r === "required") return r;
-    found ??= r;
-  }
-  return found;
-}
-
-/* Reverse prerequisites, built once: which courses list this one. */
-let unlocksIndex: Map<string, { code: string; title: string; role: "required" | "option" }[]> | null = null;
-function prerequisiteFor(code: string) {
-  if (!unlocksIndex) {
-    unlocksIndex = new Map();
-    for (const [other, rec] of Object.entries(catalog)) {
-      const raw = rec.prerequisites?.raw ?? "";
-      for (const listed of new Set(raw.match(COURSE_CODE) ?? [])) {
-        const role = roleIn(rec.prerequisites?.expression, listed) ?? "required";
-        const list = unlocksIndex.get(listed) ?? [];
-        list.push({ code: other, title: rec.title, role });
-        unlocksIndex.set(listed, list);
-      }
-    }
-    for (const list of unlocksIndex.values()) list.sort((a, b) => a.code.localeCompare(b.code));
-  }
-  return unlocksIndex.get(code) ?? [];
-}
 
 /* The course page: everything a student needs to learn about it, then the decisions. */
 function CourseDetails({ item, props }: { item: Placement; props: ListProps }) {
   const rec = catalog[item.course.code];
   const section = sections.find((s) => s.course === item.course.code);
   const raw = rec?.prerequisites?.raw ?? "";
-  const prereqs = [...new Set(raw.match(COURSE_CODE) ?? [])];
-  const unlocks = prerequisiteFor(item.course.code);
   const inPlan = new Set(props.plan.placements.filter((p) => !p.deferred).map((p) => p.course.code));
+  const groups = prerequisiteGroups(item.course.code, inPlan);
+  const unlocks = prerequisiteFor(item.course.code);
   const attributes = (rec?.attributes ?? []).map((a) => ATTRIBUTES[a] ?? a);
   const dropped = Boolean(item.deferred);
   const alts = dropped ? [] : item.options.filter((o) => o.code !== item.course.code);
@@ -868,23 +836,7 @@ function CourseDetails({ item, props }: { item: Placement; props: ListProps }) {
       <section className="sp-dblock">
         <h4>Prerequisite for</h4>
         {unlocks.length ? (
-          <ul className="sp-courselist">
-            {unlocks.map((u) => (
-              <li key={u.code}>
-                <b>{u.code}</b>
-                <span>
-                  {u.title}
-                  {(u.role === "option" || inPlan.has(u.code)) && (
-                    <small>
-                      {[u.role === "option" ? "one of the accepted options" : null, inPlan.has(u.code) ? "in your plan" : null]
-                        .filter(Boolean)
-                        .join(" · ")}
-                    </small>
-                  )}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <UnlockList unlocks={unlocks} planned={inPlan} />
         ) : (
           <p>No other course lists it as a prerequisite.</p>
         )}
@@ -892,16 +844,9 @@ function CourseDetails({ item, props }: { item: Placement; props: ListProps }) {
 
       <section className="sp-dblock">
         <h4>Prerequisites</h4>
-        {prereqs.length ? (
+        {groups.length ? (
           <>
-            <ul className="sp-courselist">
-              {prereqs.map((code) => (
-                <li key={code}>
-                  <b>{code}</b>
-                  <span>{catalog[code]?.title ?? ""}</span>
-                </li>
-              ))}
-            </ul>
+            <PrerequisiteList groups={groups} />
             <p className="sp-fine">{raw}.</p>
           </>
         ) : (

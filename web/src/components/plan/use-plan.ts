@@ -4,14 +4,21 @@ import { useState } from "react";
 import {
   CREDIT_MAX,
   CREDIT_MIN,
-  agi,
-  college,
+  automata,
+  compilers,
+  constitution,
+  dataIntensive,
   dataScience,
-  databases,
-  os,
-  society,
+  machineLearning,
+  meaningOfArts,
+  microservices,
+  sacredSpace,
+  seminar,
+  shakespeareMovies,
+  socialMovements,
+  softwareDesign,
   webApps,
-  writing,
+  whyCollege,
   type Offering,
 } from "./data";
 
@@ -118,7 +125,8 @@ export function usePlan() {
   const [slotA, setSlotA] = useState(0);
   const [slotB, setSlotB] = useState(0);
   const [slotC, setSlotC] = useState(0);
-  const [gen, setGen] = useState(0);
+  const [arts, setArts] = useState(0);
+  const [usSociety, setUsSociety] = useState(0);
   const [kept, setKept] = useState(false);
   /* Per-course confirmation. Lives here, not in the schedule, so /plan/review can read it. */
   const [confirmed, setConfirmed] = useState<Record<string, boolean>>({});
@@ -127,24 +135,19 @@ export function usePlan() {
   /* Dropped placements that Confirm plan removed. Adding the course again brings it back. */
   const [cleared, setCleared] = useState<string[]>([]);
 
-  const slotAOptions = [databases, dataScience];
-  const slotBOptions = [agi, webApps];
-  const slotCOptions = [dataScience, webApps, databases];
-  const genOptions = [college, society];
+  /* Each slot starts on the course the student registered for; the rest are its "Or" options. */
+  const slotAOptions = [machineLearning, dataScience, dataIntensive];
+  const slotBOptions = [seminar, microservices, compilers];
+  /* Only while Software Design is moved to a later term. */
+  const slotCOptions = [webApps, automata];
+  const artsOptions = [meaningOfArts, sacredSpace, shakespeareMovies];
+  const usSocietyOptions = [whyCollege, socialMovements, constitution];
 
   const placements: Placement[] = [
     {
-      id: "os",
+      id: "software-design",
       kind: "core",
-      course: os,
-      dotted: false,
-      options: [],
-      pick: () => {},
-    },
-    {
-      id: "writing",
-      kind: "core",
-      course: writing,
+      course: softwareDesign,
       dotted: false,
       options: [],
       pick: () => {},
@@ -196,17 +199,30 @@ export function usePlan() {
     });
   }
 
-  placements.push({
-    id: "gen",
-    kind: "gened",
-    course: genOptions[gen],
-    dotted: true,
-    options: genOptions,
-    pick: (code) => {
-      setGen(genOptions.findIndex((item) => item.code === code));
-      setKept(false);
+  placements.push(
+    {
+      id: "arts",
+      kind: "gened",
+      course: artsOptions[arts],
+      dotted: true,
+      options: artsOptions,
+      pick: (code) => {
+        setArts(artsOptions.findIndex((item) => item.code === code));
+        setKept(false);
+      },
     },
-  });
+    {
+      id: "us-society",
+      kind: "gened",
+      course: usSocietyOptions[usSociety],
+      dotted: true,
+      options: usSocietyOptions,
+      pick: (code) => {
+        setUsSociety(usSocietyOptions.findIndex((item) => item.code === code));
+        setKept(false);
+      },
+    },
+  );
 
   for (const course of catalogCourses) {
     if (!placements.some(item => item.course.code === course.code)) placements.push({ id: `catalog-${course.code}`, kind: "elective", course, dotted: false, options: [], pick: () => {} });
