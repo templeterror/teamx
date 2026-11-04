@@ -10,16 +10,17 @@
  * Every class is `finder-` prefixed.
  */
 
-import { useEffect, useId, useMemo, useRef, useState, type FocusEvent, type KeyboardEvent } from "react";
+import { Fragment, useEffect, useId, useMemo, useRef, useState, type FocusEvent, type KeyboardEvent } from "react";
 import type { Offering } from "@/components/plan/data";
 import {
   OPEN_GENED,
   SCOPES,
   SUBJECTS,
-  formatCredits,
+  formatCreditRange,
   scopeCounts,
   scopeRows,
   searchRows,
+  series,
   type FinderRow,
   type Scope,
 } from "./catalog";
@@ -65,16 +66,46 @@ function meeting(o: Offering): string {
   return `${o.days.join(" ")} ${range}`;
 }
 
-function conflictText(names: string[]): string {
-  if (names.length <= 2) return `Conflicts with ${names.join(" and ")}`;
-  return `Conflicts with ${names.slice(0, 2).join(", ")} +${names.length - 2}`;
+type Chip = { text: string; tone: "needs" | "plan" | "completed" | "rule" };
+
+/*
+ * Eligibility as chips. Completed and in-plan win over prerequisites: CIS 4203 is in
+ * the plan without its prerequisites. One chip per AND group, "Needs" on the first only;
+ * a restriction is its own outlined chip after them. Met says nothing ([]).
+ */
+function eligibilityChips(row: FinderRow): Chip[] {
+  if (row.completed) return [{ text: "Completed", tone: "completed" }];
+  if (row.inPlan) return [{ text: "In your plan", tone: "plan" }];
+  const chips: Chip[] = [];
+  const elig = row.eligibility;
+  if (elig.status === "missing" && elig.groups.length)
+    elig.groups.forEach((g, i) => chips.push({ text: i === 0 ? `Needs ${g}` : g, tone: "needs" }));
+  else if (elig.status !== "met") chips.push({ text: "Check prerequisites", tone: "needs" });
+  const restriction = shortRestriction(row.restriction);
+  if (restriction) chips.push({ text: restriction, tone: "rule" });
+  return chips;
 }
 
-function needsText(needs: { code: string }[]): string {
-  const codes = needs.map((n) => n.code);
-  if (!codes.length) return "Check prerequisites";
-  const head = codes.slice(0, 2).join(" or ");
-  return codes.length > 2 ? `Needs ${head} +${codes.length - 2}` : `Needs ${head}`;
+/* Something for the Eligibility column to say: a missing prerequisite, "Check prerequisites", a restriction. */
+function hasEligibilityNote(row: FinderRow) {
+  return !row.completed && !row.inPlan && (row.eligibility.status !== "met" || !!row.restriction);
+}
+
+type FitLine = { text: string; tone: "fits" | "conflict" | "muted"; lead: boolean };
+
+/* In-plan rows show their own time (they cannot conflict with themselves); completed rows show nothing. */
+function fitLine(row: FinderRow): FitLine | null {
+  if (row.completed) return null;
+  if (row.fit.status === "conflict" && !row.inPlan)
+    return { text: `Conflicts with ${series(row.fit.with.map((w) => w.title), "and")}`, tone: "conflict", lead: false };
+  if (!row.offering.days.length) return { text: "Time to be announced", tone: "muted", lead: false };
+  return { text: meeting(row.offering), tone: "fits", lead: !row.inPlan };
+}
+
+/* "4 credits", "1–6 credits" */
+function creditsLong(row: FinderRow) {
+  const r = row.creditRange;
+  return r ? `${formatCreditRange(r)} ${r.max === 1 ? "credit" : "credits"}` : "Credits not listed";
 }
 
 function plural(n: number, one: string, many: string) {
@@ -90,7 +121,7 @@ function countSentence(n: number, scope: Scope, query: string): string {
   return query.trim() ? `${n} ${noun} ${plural(n, "matches", "match")}` : `${n} ${noun}`;
 }
 
-function Icon({ name, size = 16 }: { name: "search" | "close" | "chevron" | "open" | "check" | "add"; size?: number }) {
+function Icon({ name, size = 16 }: { name: "search" | "close" | "chevron" | "check" | "add"; size?: number }) {
   return (
     <svg
       width={size}
@@ -112,14 +143,41 @@ function Icon({ name, size = 16 }: { name: "search" | "close" | "chevron" | "ope
         <path d="m4.5 4.5 7 7m0-7-7 7" />
       ) : name === "chevron" ? (
         <path d="m4 6 4 4 4-4" />
-      ) : name === "open" ? (
-        <path d="m6 4 4 4-4 4" />
       ) : name === "check" ? (
         <path d="m3.5 8.5 3 3 6-7" />
       ) : (
         <path d="M4 8h8M8 4v8" />
       )}
     </svg>
+  );
+}
+
+/* Status, not a control: no hover, no pointer. */
+function EligibilityChip({ chip }: { chip: Chip }) {
+  return (
+    <span className="finder-elig-chip" data-chip={chip.tone}>
+      {chip.tone === "plan" && (
+        <span className="finder-elig-chip-icon">
+          <Icon name="check" size={12} />
+        </span>
+      )}
+      {chip.text}
+    </span>
+  );
+}
+
+function FitText({ fit }: { fit: FitLine }) {
+  /* "Mon Wed Fri" | "11:00 am–12:05 pm": a long time wraps after the days, never inside. */
+  const [, days, time] = (fit.tone === "fits" && /^(\D+?)\s(\d.*)$/.exec(fit.text)) || [];
+  if (!time) return <span data-tone={fit.tone}>{fit.text}</span>;
+  return (
+    <span data-tone="fits">
+      <span className="finder-nowrap">
+        {fit.lead && "Fits · "}
+        {days}
+      </span>{" "}
+      <span className="finder-nowrap">{time}</span>
+    </span>
   );
 }
 
@@ -210,6 +268,11 @@ export function Finder({
 
   /* One scope chip makes every row's "Counts for" the same, so the column only shows for All courses. */
   const showCountsFor = scope === "all";
+  /*
+   * Eligibility only earns a column when some row in the results has something to say
+   * there. Otherwise Fit takes the width and in-plan / completed move to the action cell.
+   */
+  const showElig = useMemo(() => visible.some(hasEligibilityNote), [visible]);
 
   function previewFocus(code: string) {
     return {
@@ -278,21 +341,38 @@ export function Finder({
 
   /* ---- Shortlist: the page's one verb ---- */
 
-  function action(row: FinderRow) {
-    if (row.completed) return <span className="finder-row-note">Completed</span>;
-    if (row.inPlan) return <span className="finder-row-note">In your plan</span>;
-    const on = shortlist.has(row.code);
-    if (on)
+  function toggleShortlist(row: FinderRow) {
+    if (shortlist.has(row.code)) {
+      shortlist.remove(row.code);
+      setNotice(`${row.code} removed from your shortlist. ${shortlist.count - 1} of ${SHORTLIST_MAX}.`);
+      return;
+    }
+    if (shortlist.full) return;
+    shortlist.add(row.code);
+    setNotice(`${row.code} shortlisted. ${shortlist.count + 1} of ${SHORTLIST_MAX}.`);
+  }
+
+  /*
+   * In-plan and completed rows have no verb. Their state reads once: in Eligibility when
+   * that column shows, otherwise here, as a quiet note where the button would be.
+   */
+  function action(row: FinderRow, note: boolean) {
+    if (row.completed || row.inPlan) {
+      if (!note) return null;
+      return (
+        <span className="finder-row-note" data-tone={row.completed ? "muted" : "state"}>
+          {row.completed ? "Completed" : "In your plan"}
+        </span>
+      );
+    }
+    if (shortlist.has(row.code))
       return (
         <button
           type="button"
           className="finder-shortlist"
           data-on=""
           aria-label={`Shortlisted: remove ${row.code} from shortlist`}
-          onClick={() => {
-            shortlist.remove(row.code);
-            setNotice(`${row.code} removed from your shortlist. ${shortlist.count - 1} of ${SHORTLIST_MAX}.`);
-          }}
+          onClick={() => toggleShortlist(row)}
         >
           Shortlisted
           <span className="finder-shortlist-icon" aria-hidden="true">
@@ -313,68 +393,10 @@ export function Finder({
         aria-disabled={blocked || undefined}
         title={blocked ? `Your shortlist is full (${SHORTLIST_MAX} of ${SHORTLIST_MAX})` : undefined}
         aria-label={`Shortlist ${row.code} ${row.title}${blocked ? `. Shortlist is full, ${SHORTLIST_MAX} of ${SHORTLIST_MAX}` : ""}`}
-        onClick={() => {
-          if (blocked) return;
-          shortlist.add(row.code);
-          setNotice(`${row.code} shortlisted. ${shortlist.count + 1} of ${SHORTLIST_MAX}.`);
-        }}
+        onClick={() => toggleShortlist(row)}
       >
         Shortlist
       </button>
-    );
-  }
-
-  function eligibility(row: FinderRow) {
-    const restriction = shortRestriction(row.restriction);
-    let main;
-    if (row.completed) main = <span data-tone="muted">Completed</span>;
-    else if (row.inPlan) main = <span data-tone="plan">In your plan</span>;
-    else if (row.eligibility.status === "met") main = <span data-tone="ok">Prereqs met</span>;
-    else if (row.eligibility.status === "missing") main = <span data-tone="needs">{needsText(row.eligibility.needs)}</span>;
-    else main = <span data-tone="muted">Check prerequisites</span>;
-    return (
-      <span className="finder-elig">
-        {main}
-        {restriction && !row.completed && <small>{restriction}</small>}
-      </span>
-    );
-  }
-
-  function fit(row: FinderRow) {
-    const when = meeting(row.offering);
-    if (row.completed)
-      return (
-        <span className="finder-fit" aria-label="Not applicable">
-          —
-        </span>
-      );
-    if (row.inPlan)
-      return (
-        <span className="finder-fit">
-          <b data-tone="plan">In your week</b> · <span className="finder-when">{when}</span>
-        </span>
-      );
-    if (row.fit.status === "conflict") {
-      const names = row.fit.with.map((w) => w.title);
-      return (
-        <span className="finder-fit" data-tone="conflict" title={names.length > 2 ? names.join(", ") : undefined}>
-          {conflictText(names)}
-        </span>
-      );
-    }
-    return (
-      <span className="finder-fit">
-        <b data-tone="ok">Fits</b> · <span className="finder-when">{when}</span>
-      </span>
-    );
-  }
-
-  function countsFor(row: FinderRow) {
-    return (
-      <span className="finder-kind" data-kind={row.countsFor.kind}>
-        {row.countsFor.kind !== "free" && <i className="finder-swatch" aria-hidden="true" />}
-        {row.countsFor.label}
-      </span>
     );
   }
 
@@ -413,7 +435,7 @@ export function Finder({
               onKeyDown={(e) => {
                 if (e.key === "ArrowDown") {
                   e.preventDefault();
-                  tableRef.current?.querySelector<HTMLButtonElement>(".finder-course")?.focus();
+                  tableRef.current?.querySelector<HTMLButtonElement>("[data-finder-open]")?.focus();
                 }
               }}
             />
@@ -589,7 +611,11 @@ export function Finder({
 
           <div ref={tableRef} id={tableId} className="finder-scroll" tabIndex={-1}>
             {visible.length ? (
-              <table className="finder-table" data-scoped={showCountsFor ? undefined : ""}>
+              <table
+                className="finder-table"
+                data-counts={showCountsFor ? "" : undefined}
+                data-elig={showElig ? "" : undefined}
+              >
                 <thead>
                   <tr>
                     <th scope="col">Course</th>
@@ -597,7 +623,7 @@ export function Finder({
                       Credits
                     </th>
                     {showCountsFor && <th scope="col">Counts for</th>}
-                    <th scope="col">Eligibility</th>
+                    {showElig && <th scope="col">Eligibility</th>}
                     <th scope="col">Fit</th>
                     <th scope="col">
                       <span className="finder-sr">Shortlist</span>
@@ -605,49 +631,105 @@ export function Finder({
                   </tr>
                 </thead>
                 <tbody onPointerLeave={() => onPreview(null, "hover")}>
-                  {visible.map((row) => (
-                    <tr
-                      key={row.code}
-                      className="finder-tr"
-                      data-completed={row.completed || undefined}
-                      data-previewing={previewCode === row.code || openCode === row.code || undefined}
-                      data-shortlisted={shortlist.has(row.code) || undefined}
-                      data-preview-code={row.code}
-                      onPointerEnter={() => onPreview(row.code, "hover")}
-                      {...previewFocus(row.code)}
-                    >
-                      <td className="finder-td-course">
-                        <button
-                          type="button"
-                          className="finder-course"
-                          aria-label={`${row.code} ${row.title}. Open course details`}
-                          onClick={(e) => onOpen(row.code, e.currentTarget)}
-                        >
-                          <span className="finder-code">{row.code}</span>
-                          <span className="finder-ctitle">{row.title}</span>
-                          <span className="finder-chev">
-                            <Icon name="open" size={14} />
+                  {visible.map((row) => {
+                    const chips = eligibilityChips(row);
+                    const fit = fitLine(row);
+                    return (
+                      <tr
+                        key={row.code}
+                        className="finder-tr"
+                        data-completed={row.completed || undefined}
+                        data-previewing={previewCode === row.code || openCode === row.code || undefined}
+                        data-shortlisted={shortlist.has(row.code) || undefined}
+                        data-preview-code={row.code}
+                        onPointerEnter={() => onPreview(row.code, "hover")}
+                        {...previewFocus(row.code)}
+                      >
+                        <td className="finder-td-course">
+                          <button
+                            type="button"
+                            className="finder-course"
+                            data-finder-open=""
+                            aria-label={`${row.code} ${row.title}. Open course details`}
+                            onClick={(e) => onOpen(row.code, e.currentTarget)}
+                          >
+                            <span className="finder-code">{row.code}</span>
+                            <span className="finder-ctitle">{row.title}</span>
+                          </button>
+                          {/* Phone width only: the meta cells fold into one line here. */}
+                          <span className="finder-mobile-meta">
+                            {creditsLong(row)}
+                            {showCountsFor && <> · {row.countsFor.label}</>}
+                            {/* Needs and In your plan as the same chips, inline; the rest as text. */}
+                            {chips.map((c, i) => (
+                              <Fragment key={c.text}>
+                                {i > 0 && chips[i - 1].tone === "needs" && c.tone === "needs" ? " " : " · "}
+                                {c.tone === "needs" || c.tone === "plan" ? (
+                                  <EligibilityChip chip={c} />
+                                ) : (
+                                  <span data-tone={c.tone === "completed" ? "muted" : undefined}>{c.text}</span>
+                                )}
+                              </Fragment>
+                            ))}
+                            {fit && (
+                              <>
+                                {" · "}
+                                <span data-tone={fit.tone}>{fit.lead ? `Fits ${fit.text}` : fit.text}</span>
+                              </>
+                            )}
                           </span>
-                        </button>
-                        <span className="finder-mobile-meta">
-                          {formatCredits(row.credits)}
-                          {showCountsFor && <> · {countsFor(row)}</>} · {eligibility(row)}
-                          <span className="finder-mobile-fit">{fit(row)}</span>
-                        </span>
-                      </td>
-                      <td className="finder-num finder-td-meta">{row.credits === null ? "Variable" : row.credits}</td>
-                      {showCountsFor && <td className="finder-td-meta finder-td-counts">{countsFor(row)}</td>}
-                      <td className="finder-td-meta finder-td-elig">{eligibility(row)}</td>
-                      <td className="finder-td-meta finder-td-fit">{fit(row)}</td>
-                      <td className="finder-td-action">{action(row)}</td>
-                    </tr>
-                  ))}
+                        </td>
+                        <td className="finder-td-meta finder-num">
+                          {row.creditRange ? (
+                            formatCreditRange(row.creditRange)
+                          ) : (
+                            <>
+                              <span aria-hidden="true">—</span>
+                              <span className="finder-sr">Credits not listed</span>
+                            </>
+                          )}
+                        </td>
+                        {showCountsFor && (
+                          <td className="finder-td-meta finder-td-counts">
+                            <span className="finder-kind">
+                              <i className="finder-swatch" data-kind={row.countsFor.kind} aria-hidden="true" />
+                              {/* "Gen ed ·" / "U.S. Society" may wrap at the dot, nowhere else. */}
+                              {row.countsFor.label.split(" · ").map((part, i, all) => (
+                                <Fragment key={part}>
+                                  {i > 0 && " "}
+                                  <span className="finder-nowrap">
+                                    {part}
+                                    {i < all.length - 1 && " ·"}
+                                  </span>
+                                </Fragment>
+                              ))}
+                            </span>
+                          </td>
+                        )}
+                        {showElig && (
+                          <td className="finder-td-meta finder-td-elig">
+                            {chips.length ? (
+                              <span className="finder-elig">
+                                {chips.map((c) => (
+                                  <EligibilityChip key={c.text} chip={c} />
+                                ))}
+                              </span>
+                            ) : (
+                              <span className="finder-sr">Prerequisites met</span>
+                            )}
+                          </td>
+                        )}
+                        <td className="finder-td-meta finder-td-fit">{fit && <FitText fit={fit} />}</td>
+                        <td className="finder-td-action">{action(row, !showElig)}</td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             ) : (
               <div className="finder-empty">
                 <h3>{hasQuery ? `No courses match ‘${query.trim()}’` : "No courses match these filters"}</h3>
-                <p>Try a code like CIS 3203, or clear the scope.</p>
+                <p>Try a code like CIS 3203, or clear the search and filters.</p>
                 <button type="button" className="finder-btn" onClick={clearAll}>
                   Clear
                 </button>

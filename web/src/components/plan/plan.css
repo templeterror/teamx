@@ -691,16 +691,13 @@
 .review-list { list-style: none; margin: 8px 0 0; padding: 0; }
 .review-row:last-child { border-bottom: 0; }
 .review-row > span { font-variant-numeric: tabular-nums; color: var(--ink-secondary); }
-.review-row[data-conflict] { box-shadow: inset 2px 0 0 var(--warning); padding-left: 14px; }
-.review-row .warn { margin: 6px 0 0; font-weight: 500; }
 .review-actions { display: flex; gap: 12px; padding-top: 20px; border-top: 1px solid var(--line); }
 /* "← Back to your plan": 2px less on the arrow side. */
 .review-actions .btn.text { padding-left: 6px; }
 .review-blockers { max-width: 900px; margin-bottom: 24px; padding: 20px 24px; border-radius: 8px; background: var(--surface); box-shadow: var(--elevation), inset 3px 0 0 var(--warning); }
-.review-blockers ul { list-style: none; margin: 0 0 20px; padding: 0; display: grid; gap: 16px; }
+.review-blockers ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
 .review-blockers li { display: flex; gap: 12px; }
-.review-blockers strong { font-size: 14px; font-weight: 600; }
-.review-blockers p { margin: 4px 0 0; color: var(--ink-secondary); line-height: 1.6; max-width: 65ch; }
+.review-blockers p { margin: 0; color: var(--ink); line-height: 1.6; max-width: 65ch; }
 .review-blocker-icon { flex: none; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: var(--warning); color: var(--on-accent); font-size: 12px; font-weight: 600; margin-top: 1px; }
 @media print { .review-actions, .review-blockers { display: none; } }
 
