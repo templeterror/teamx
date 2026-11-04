@@ -146,41 +146,10 @@
 .finder-sl :focus-visible { outline-offset: -2px; }
 
 .finder-side-foot { display: grid; flex: none; padding: 12px 16px 14px; border-top: var(--hairline) solid var(--line); }
-/* The page's one red primary. */
-.finder-primary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  border-radius: 8px;
-  background: var(--accent);
-  color: var(--on-accent);
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: background-color 150ms ease-out, transform 150ms ease-out;
-}
-.finder-primary { font-variant-numeric: tabular-nums; }
-.finder-primary:active,
-.finder-quiet-link:active { transform: scale(0.96); }
-.finder-quiet-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  border-radius: 8px;
-  color: var(--ink);
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: background-color 150ms ease-out, transform 150ms ease-out;
-}
 
 @media (hover: hover) and (pointer: fine) {
   .finder-sl-row:hover { background: var(--muted); }
   .finder-sl-remove:hover { background: var(--line); color: var(--ink); }
-  .finder-primary:hover { background: var(--accent-hover); }
-  .finder-quiet-link:hover { background: var(--muted); }
 }
 
 /* ---------- Narrow: the right column goes under the finder, and the page scrolls ---------- */
@@ -197,10 +166,6 @@
   .finder-track,
   .finder-panel[data-open] .finder-track,
   .finder-sl-row,
-  .finder-sl-remove,
-  .finder-primary,
-  .finder-quiet-link { transition: none; }
-  .finder-primary:active,
-  .finder-quiet-link:active,
+  .finder-sl-remove { transition: none; }
   .finder-sl-remove:active { transform: none; }
 }

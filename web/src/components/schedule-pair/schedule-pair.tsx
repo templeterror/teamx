@@ -1056,7 +1056,7 @@ function Footer({ planConfirmed: confirmed, problems, activeCount, decide, annou
           {problems.length > 0 && <FootProblems id={warnId} problems={problems} />}
           <button
             ref={actionRef}
-            className="sp-primary"
+            className="btn-primary"
             aria-disabled={problems.length ? true : undefined}
             aria-describedby={problems.length ? warnId : undefined}
             onClick={() => {
