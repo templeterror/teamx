@@ -213,9 +213,7 @@ export function FindPage({ scope, scoped }: { scope: Scope; scoped: boolean }) {
                     {n > 0 && <> · {creditsText(shortlistCredits, shortlistVariable)}</>}
                   </span>
                 </header>
-                {n === 0 ? (
-                  <p className="finder-sl-empty">Courses you shortlist show up here and on your week.</p>
-                ) : (
+                {n > 0 && (
                   <ul ref={listRef} className="finder-sl" onPointerLeave={() => setHover(null)}>
                     {shortlist.codes.map((code, i) => {
                       const row = rowByCode.get(code);

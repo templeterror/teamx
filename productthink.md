@@ -70,6 +70,8 @@ Set in the Figma file on the Foundations page, before any screen. White mode onl
 
 The neutrals are a cool gray, the temperature of Linear’s light UI. The accent is a clear red, `#B82F31`, in the same family as Temple cherry and light enough to read as red rather than maroon. It is the button, the link, and the elective label. Hover is the same hue, darker, `#852726`. Success and warning are separate, so a full section does not look like the accent.
 
+The cool gray surfaces stay. On 3 November 2026, five surface treatments for Your plan were built and compared on the real page: Current, Tray (cool gray with more contrast), Paper (warm bulletin paper), Cherry (neutrals on the brand hue) and Flat (no shadows). Rafiat kept Current. One lesson from that round: any warm surface has to warm the text, chips and button fills at the same lightness too. Warm panels under cool contents read as unpolished. The audit is in `plan-surfaces-audit.md`.
+
 Text colors are the steps that pass WCAG AA on white: primary, secondary, and tertiary. The lighter gray step is not a text color.
 
 Two typefaces, changed 3 November 2026 in the pre-judging design pass. Source Serif 4 sets page headings and course titles at 17px and up, the voice of the bulletin the courses come from. Inter sets everything else: tables, calendar blocks, chips, buttons, labels. The serif never goes below 17px. Ten roles: Display, Title, Heading, Body, Body strong, UI, UI strong, Caption, Label, Number. Body and inputs are 16px. UI rows are 14px. Captions are 13px. Labels are 12px, uppercase, with open tracking. Display and title tracking is slightly tight. Numbers should use tabular figures on the layer. Figma text styles cannot store that feature.

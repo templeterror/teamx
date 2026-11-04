@@ -1,6 +1,7 @@
 /*
- * The Find page layout: the finder on the left, a column on the right with the
- * mini week, the shortlist and "Back to plan". Classes are `finder-` prefixed.
+ * The Find page layout: the "Find courses" heading on its own row, then the finder
+ * on the left and a column on the right with the mini week, the shortlist and
+ * "Back to plan". Classes are `finder-` prefixed.
  */
 
 /*
@@ -15,7 +16,8 @@
   box-sizing: border-box;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 360px;
-  gap: 24px;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0 24px;
   height: calc(100dvh - 56px);
   margin: 0 -40px -60px;
   padding: 24px;
@@ -25,9 +27,16 @@
 
 .finder-page :where(a, button):focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
+/*
+ * The finder's head sits in the page's first row and its card in the second, beside
+ * the right column, so the two panels share a top and a bottom. The finder stays in
+ * the left column only: its card's container queries measure that width.
+ */
+.finder-page > .finder { display: grid; grid-row: 1 / -1; grid-template-rows: subgrid; }
+
 /* ---------- Right column ---------- */
 
-.finder-side { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.finder-side { display: flex; grid-row: 2; grid-column: 2; flex-direction: column; min-width: 0; min-height: 0; }
 
 .finder-panel {
   display: flex;
@@ -71,7 +80,6 @@
 /* Shortlist */
 .finder-list { display: flex; flex: 1; flex-direction: column; min-height: 0; padding-top: 14px; }
 .finder-list .finder-sec-head { margin-bottom: 4px; padding: 0 16px; }
-.finder-sl-empty { margin: 4px 16px 16px; font-size: var(--text-caption); line-height: 1.5; color: var(--ink-tertiary); text-wrap: pretty; }
 /*
  * Until the shortlist is read from this tab's storage (after hydration), everything that
  * depends on it is held blank at its real size, so a reload never shows an empty shortlist first.
@@ -178,7 +186,9 @@
 /* ---------- Narrow: the right column goes under the finder, and the page scrolls ---------- */
 
 @media (max-width: 1100px) {
-  .finder-page { grid-template-columns: minmax(0, 1fr); height: auto; margin: 0; padding: 24px 0 0; }
+  .finder-page { grid-template: none / minmax(0, 1fr); gap: 24px; height: auto; margin: 0; padding: 24px 0 0; }
+  .finder-page > .finder { display: flex; grid-row: auto; }
+  .finder-side { grid-row: auto; grid-column: auto; }
   .finder-page .finder-body > .finder-scroll { height: 60dvh; flex: none; }
   .finder-panel { flex: none; height: min(640px, 90dvh); }
 }

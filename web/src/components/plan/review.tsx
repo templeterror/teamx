@@ -25,8 +25,8 @@ function meets(course: Offering) {
 
 /*
  * The last step before Banner, so it holds the line:
- *   locked  — some courses are still suggestions. Confirm plan is the decision.
- *   blocked — confirmed, but the week cannot work (overlaps, over the credit limit).
+ *   locked  — not confirmed: suggestions, drops waiting on Confirm plan, or over the credit limit.
+ *   blocked — confirmed, but the week cannot work (overlaps).
  *   ready   — the course list, and the handoff.
  */
 export function Review() {
@@ -44,7 +44,11 @@ export function Review() {
             <p className="intro">
               {active.length === 0
                 ? "Your plan has no courses to confirm yet."
-                : `${suggested.length} of ${active.length} courses ${suggested.length === 1 ? "is still a suggestion" : "are still suggestions"}, so review stays closed.`}
+                : plan.over
+                  ? `${plan.credits} credits is over the ${CREDIT_MAX}-credit limit, so review stays closed. Drop a course, or get approval from your department to take more.`
+                  : suggested.length > 0
+                    ? `${suggested.length} of ${active.length} courses ${suggested.length === 1 ? "is still a suggestion" : "are still suggestions"}, so review stays closed.`
+                    : `You dropped ${plan.pendingDrops.map((p) => p.course.code).join(", ")}. Confirm your plan to remove ${plan.pendingDrops.length === 1 ? "it" : "them"}, and review opens.`}
             </p>
           </div>
           <Link className="btn primary" href="/plan">
@@ -73,22 +77,12 @@ export function Review() {
     );
   }
 
-  const blockers = [
-    ...plan.conflicts.map(([a, b]) => ({
-      key: `${a.id}-${b.id}`,
-      title: `${a.course.code} and ${b.course.code} overlap`,
-      detail: `${meets(a.course)} and ${meets(b.course)}. Banner will not register both. Swap one, or move one to a later term.`,
-    })),
-    ...(plan.over
-      ? [
-          {
-            key: "credits",
-            title: `${plan.credits} credits, ${plan.over} over the ${CREDIT_MAX}-credit limit`,
-            detail: "Going over needs an advisor’s approval. Drop a course, or move one to a later term.",
-          },
-        ]
-      : []),
-  ];
+  /* Over the credit limit never gets here: a plan over it cannot be confirmed. */
+  const blockers = plan.conflicts.map(([a, b]) => ({
+    key: `${a.id}-${b.id}`,
+    title: `${a.course.code} and ${b.course.code} overlap`,
+    detail: `${meets(a.course)} and ${meets(b.course)}. Banner will not register both. Swap one, or move one to a later term.`,
+  }));
   const conflicted = new Set(plan.conflicts.flat().map((p) => p.id));
 
   return (

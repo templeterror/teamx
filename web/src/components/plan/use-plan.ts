@@ -163,8 +163,18 @@ export function usePlan() {
   const active = visible.filter((item) => !item.deferred);
   const credits = active.reduce((sum, item) => sum + item.course.credits, 0);
   const over = Math.max(0, credits - CREDIT_MAX);
-  /* The semester is confirmed only when every course in it is. A new course reopens it. */
-  const planConfirmed = active.length > 0 && active.every((item) => confirmed[item.id]);
+  /* Dropped, still on screen: Confirm plan removes them. */
+  const pendingDrops = visible.filter((item) => item.dropped);
+  /*
+   * The semester is confirmed only when every course in it is. A new course reopens it,
+   * and so does a drop, until Confirm plan removes the course or Add undoes it.
+   * Over the credit limit it is never confirmed: that takes the department's approval.
+   */
+  const planConfirmed =
+    active.length > 0 &&
+    active.every((item) => confirmed[item.id]) &&
+    pendingDrops.length === 0 &&
+    over === 0;
 
   const conflicts: Array<[Placement, Placement]> = [];
   for (let i = 0; i < active.length; i += 1) {
@@ -206,10 +216,16 @@ export function usePlan() {
       setConfirmed(current => ({ ...current, ...Object.fromEntries(ids.map(id => [id, false])) }));
     },
     fromShortlist,
-    /* Confirm plan: every course in the plan is confirmed and every dropped one leaves it. */
+    /* Confirm plan: every course in the plan is confirmed and every dropped one leaves it. Refused over the limit. */
     confirmPlan: () => {
-      setConfirmed(current => ({ ...current, ...Object.fromEntries(active.map(item => [item.id, true])) }));
-      const gone = visible.filter(item => item.dropped).map(item => item.id);
+      if (over) return;
+      const gone = pendingDrops.map(item => item.id);
+      /* A removed course loses its confirmation, so adding it again later reopens the plan. */
+      setConfirmed(current => ({
+        ...current,
+        ...Object.fromEntries(active.map(item => [item.id, true])),
+        ...Object.fromEntries(gone.map(id => [id, false])),
+      }));
       if (gone.length) setCleared(ids => [...ids, ...gone]);
     },
     toggleCourse: (item: Placement) => {
@@ -229,6 +245,7 @@ export function usePlan() {
     conflicts,
     confirmed,
     setConfirmed,
+    pendingDrops,
     planConfirmed,
   };
 }

@@ -391,7 +391,6 @@ export function Finder({
             {context(scope)}
           </p>
         )}
-        <span className="finder-note">Meeting times are samples</span>
       </div>
 
       <div className="finder-card">
@@ -658,7 +657,7 @@ export function Finder({
 
           <div className="finder-foot">
             <span>
-              Showing {visible.length} {plural(visible.length, "course", "courses")}
+              Showing {visible.length} {plural(visible.length, "course", "courses")} · Meeting times are samples
             </span>
             <p role="status" className="finder-status">
               {notice}

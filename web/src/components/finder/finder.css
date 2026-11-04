@@ -8,7 +8,6 @@
   --finder-radius: 12px;
   --finder-pad: 6px;
 
-  container-type: inline-size;
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -69,11 +68,16 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.finder-note { margin-left: auto; font-size: var(--text-label); color: var(--ink-tertiary); white-space: nowrap; }
 
 /* ---------- Card ---------- */
 
+/*
+ * The card, not .finder, is the size container: containment on .finder would stop
+ * the Find page from laying its head and card out on the page's own rows (subgrid).
+ * Same width either way, so the @container breakpoints below are unchanged.
+ */
 .finder-card {
+  container-type: inline-size;
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -631,8 +635,6 @@
 /* ---------- Narrow: rows become two-line cards ---------- */
 
 @container (max-width: 719px) {
-  .finder-note { display: none; }
-
   .finder-applied { padding-left: 12px; }
   .finder-count { flex: 1 1 180px; margin: 0; }
 

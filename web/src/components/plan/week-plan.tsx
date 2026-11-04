@@ -5,16 +5,8 @@ import { useEffect, useMemo } from "react";
 import { usePlanContext } from "./plan-shell";
 import type { Offering } from "./data";
 import type { Placement } from "./use-plan";
-import { buildRows, rowKind, type Scope } from "@/components/finder/catalog";
+import { buildRows, rowKind } from "@/components/finder/catalog";
 import { SchedulePair } from "@/components/schedule-pair/schedule-pair";
-
-/* The Find page's scope for an open slot of each kind. */
-const SLOT_SCOPE: Record<Placement["kind"], Scope> = {
-  elective: "major-elective",
-  "free-elective": "free",
-  gened: "gened",
-  core: "all",
-};
 
 /*
  * The plan page: the week and Your courses. Finding courses is its own page
@@ -55,7 +47,6 @@ export function WeekPlan() {
       <SchedulePair
         plan={plan}
         kindFor={kindFor}
-        findHref={(item) => `/find?scope=${SLOT_SCOPE[kindFor(item)]}`}
         coursesAction={
           <Link href="/find" className="sp-findlink">
             Find courses
