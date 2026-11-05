@@ -1,16 +1,43 @@
 import { courses, programs, type CourseCode, type ProgramCode } from "@/data";
 import { sequencePrerequisite } from "@/components/finder/catalog";
+import type { Placement } from "@/components/plan/use-plan";
 
 export const COMPLETED = "completed";
 export const UNPLANNED = "unplanned";
+
+/* The same four kinds, and colours, as the week and Your courses on /plan. */
+export type Kind = Placement["kind"];
 
 export type Card = {
   id: string;
   term: string;
   label: string;
+  kind: Kind;
+  /* What an open requirement slot stands for ("Gen ed"); null when the row names a course. */
+  slot: string | null;
   options: string[];
   credits: { min: number; max: number };
 };
+
+const SLOT_LABEL: Record<string, string> = {
+  genEd: "Gen ed",
+  labScience: "Lab science",
+  csElective: "CS elective",
+  businessElective: "Business elective",
+  freeElective: "Free elective",
+};
+
+/* A oneOf row with a genEd area (English, say) counts toward gen ed; any other oneOf is a major course. */
+function kindOf(row: { kind: string; genEd?: string }): Kind {
+  switch (row.kind) {
+    case "genEd": return "gened";
+    case "oneOf": return row.genEd ? "gened" : "core";
+    case "csElective":
+    case "businessElective": return "elective";
+    case "freeElective": return "free-elective";
+    default: return "core"; // course, labScience
+  }
+}
 
 export type Choice = { term: string; code: string };
 export type Board = Record<string, Choice>;
@@ -35,15 +62,20 @@ function buildBoard(program: ProgramCode) {
 
   const cards: Card[] = years.flatMap(({ terms }) =>
     terms.flatMap(({ id, rows }) =>
-      rows.map((row, index) => ({
-        id: `${id}-${index}`,
-        term: id,
-        label: row.label,
-        options: "code" in row && row.code ? [row.code] : ("courses" in row ? row.courses ?? [] : []),
-        credits: typeof row.credits === "number"
-          ? { min: row.credits, max: row.credits }
-          : row.credits,
-      })),
+      rows.map((row, index) => {
+        const options = "code" in row && row.code ? [row.code] : ("courses" in row ? row.courses ?? [] : []);
+        return {
+          id: `${id}-${index}`,
+          term: id,
+          label: row.label,
+          kind: kindOf(row),
+          slot: options.length ? null : SLOT_LABEL[row.kind] ?? row.label,
+          options,
+          credits: typeof row.credits === "number"
+            ? { min: row.credits, max: row.credits }
+            : row.credits,
+        };
+      }),
     ),
   );
 
