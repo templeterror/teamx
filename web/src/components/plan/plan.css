@@ -729,10 +729,11 @@
   .plan-topbar-steps { flex: 1; min-width: 0; margin-left: 0; overflow-x: auto; scrollbar-width: none; }
   .plan-topbar-steps a { flex: none; font-size: var(--text-label); }
 }
-/* Phone width: "Review & register" shortens to "Review" and the steps close up, so all three fit. */
+/* Phone width: "Review & register" shortens to "Review" and the steps sit below the brand. */
 @media (max-width: 479px) {
-  .plan-topbar-steps { gap: 0; }
-  .plan-topbar-steps a { padding: 0 8px; }
+  .plan-topbar { height: auto; flex-wrap: wrap; gap: 0; }
+  .plan-topbar-steps { flex-basis: 100%; gap: 0; }
+  .plan-topbar-steps a { flex: 1 0 auto; justify-content: center; padding: 0 6px; }
   .plan-topbar-step-tail { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
 .workspace-heading .btn-primary { flex: none; }

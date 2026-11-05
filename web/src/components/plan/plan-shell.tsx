@@ -25,8 +25,9 @@ export function usePlanContext() {
 const STEPS = [
   { href: "/find", label: "Find" },
   { href: "/plan", label: "Your plan" },
-  /* The tail hides at phone width so all three steps fit; it stays in the accessible name. */
+  /* The tail hides at phone width to save space; it stays in the accessible name. */
   { href: "/plan/review", label: "Review", tail: " & register" },
+  { href: "/four-year", label: "Four-year plan" },
 ] as const;
 
 /* `program` is the signed-in student's, from the sign-in cookie (see the workspace layout). */
@@ -64,6 +65,7 @@ export function PlanShell({ program, children }: { program: ProgramCode; childre
                   step.href === "/plan/review" &&
                   plan.planConfirmed &&
                   pathname !== step.href &&
+                  pathname !== "/four-year" &&
                   !(pathname === "/find" && shortlist.count > 0);
                 return (
                   <Link

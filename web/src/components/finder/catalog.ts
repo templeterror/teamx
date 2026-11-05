@@ -390,6 +390,21 @@ function eligibility(c: RawCourse, plan: ReadonlySet<string>, done: ReadonlySet<
   return { status: "missing", needs: list, groups, raw: p.raw };
 }
 
+/* The four-year board uses its own history and respects same-term prerequisites. */
+export function sequencePrerequisite(
+  code: string,
+  earlier: ReadonlySet<string>,
+  sameTerm: ReadonlySet<string>,
+): { status: "missing" | "unknown"; raw: string } | null {
+  const prerequisite = BY_CODE.get(code)?.prerequisites;
+  if (!prerequisite) return null;
+  const result = prerequisite.expression
+    ? evaluate(prerequisite.expression, sameTerm, earlier)
+    : null;
+  if (result === true) return null;
+  return { status: result === false ? "missing" : "unknown", raw: prerequisite.raw };
+}
+
 /* ---------- Prerequisites, group by group (the course pages on /plan and /find) ---------- */
 
 export type PrereqState = "completed" | "in-progress" | "in-plan" | "missing" | "unknown";
