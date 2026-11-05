@@ -1,6 +1,9 @@
 import { studentRecord } from "@/data";
 
-export const CURRENT_TERM = "Spring 2027";
+/* The term being planned: the one the degree audit shows as registered (Spring 2027). */
+const registeredTerm = studentRecord.terms.find((t) => t.status === "registered");
+if (!registeredTerm) throw new Error("student-record.json needs a registered term to plan");
+export const CURRENT_TERM = registeredTerm.term;
 
 /*
  * Terms before the one being planned are a record, not a plan. They come from the

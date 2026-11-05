@@ -1,6 +1,6 @@
 # Team X
 
-Temple course planner. The mock data is the Computer Science BS only.
+Temple course planner. The data covers two programs: Computer Science BS (`ST-CSCI-BS`, the demo student's program) and Management Information Systems BBA (`BU-MIS-BBA`). Course facts come from the 2026–2027 bulletin; section meeting times, instructors, section numbers and campus are placeholders.
 
 ## Design
 
@@ -39,9 +39,12 @@ By November 6, 2026, after the data is validated:
 
 Import `web/src/data`. Do not copy course lists into components. Source is the 2026–2027 bulletin.
 
-- `courses.json` — course cards and prerequisites
-- `program.json` — requirement tree
-- `academic-plan.json` — eight-semester plan
+- `courses.json` — course cards and prerequisites, shared by both programs
+- `program.json` — CS BS requirement tree
+- `academic-plan.json` — CS BS eight-semester plan
+- `mis-program.json` — MIS BBA requirement tree; `needsReview` lists bulletin contradictions left unresolved on purpose
+- `mis-academic-plan.json` — MIS BBA eight-semester plan
+- `student-record.json` — the demo student's real DARS audit (no ID, grades or GPA; the repo is public)
 - `sections.json` — placeholder meetings, Monday/Wednesday/Friday or Tuesday/Thursday
 - `web/scripts/build_mock_data.py` — rebuilds the JSON
 

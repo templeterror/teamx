@@ -194,8 +194,8 @@ const BY_EXCEPTION = new Set(
 /*
  * The gen ed areas still open, in bulletin order: every area minus those a
  * completed or in-progress course covers, those satisfied by exception, and those
- * the major waives (Quantitative Literacy by Calculus, Science and Technology by
- * the lab science sequence). This term's registered gen eds are its plan, so
+ * the major waives (Quantitative Literacy and Science and Technology: completing a
+ * CST major waives them, per program.json). This term's registered gen eds are its plan, so
  * their areas stay open.
  */
 const COVERED = new Set(

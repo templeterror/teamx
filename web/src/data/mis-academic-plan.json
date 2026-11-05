@@ -1,0 +1,409 @@
+{
+  "bulletinYear": "2026-2027",
+  "title": "Suggested academic plan for new students starting in 2026-2027",
+  "program": "BU-MIS-BBA",
+  "totalCredits": 124,
+  "note": "Please note that this plan is suggested only, ensuring prerequisites are met.",
+  "source": "https://bulletin.temple.edu/undergraduate/fox-business-management/management-information-systems-bba/#academicplantextcontainer",
+  "years": [
+    {
+      "year": 1,
+      "terms": [
+        {
+          "term": "Fall",
+          "credits": 16,
+          "rows": [
+            {
+              "kind": "course",
+              "label": "Quantitative Methods for Business I",
+              "credits": 3,
+              "code": "STAT 1001"
+            },
+            {
+              "kind": "course",
+              "label": "Macroeconomic Principles",
+              "credits": 3,
+              "code": "ECON 1101"
+            },
+            {
+              "kind": "course",
+              "label": "Leadership and Organizational Management",
+              "credits": 3,
+              "code": "HRM 1101"
+            },
+            {
+              "kind": "oneOf",
+              "label": "Analytical Reading and Writing",
+              "credits": 4,
+              "courses": [
+                "ENG 0802",
+                "ENG 0812",
+                "ENG 0902"
+              ],
+              "genEd": "GW"
+            },
+            {
+              "kind": "genEd",
+              "label": "GenEd breadth",
+              "credits": 3,
+              "areas": [
+                "GA",
+                "GB",
+                "GD",
+                "GG",
+                "GS",
+                "GU"
+              ]
+            }
+          ]
+        },
+        {
+          "term": "Spring",
+          "credits": 16,
+          "rows": [
+            {
+              "kind": "course",
+              "label": "Quantitative Methods for Business II",
+              "credits": 4,
+              "code": "STAT 1102"
+            },
+            {
+              "kind": "course",
+              "label": "Microeconomic Principles",
+              "credits": 3,
+              "code": "ECON 1102"
+            },
+            {
+              "kind": "course",
+              "label": "Legal and Ethical Reasoning in Business",
+              "credits": 3,
+              "code": "BA 1103"
+            },
+            {
+              "kind": "course",
+              "label": "Digital Systems",
+              "credits": 3,
+              "code": "MIS 1101"
+            },
+            {
+              "kind": "oneOf",
+              "label": "Intellectual Heritage I",
+              "credits": 3,
+              "courses": [
+                "IH 0851",
+                "IH 0951"
+              ],
+              "genEd": "GY"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2,
+      "terms": [
+        {
+          "term": "Fall",
+          "credits": 17,
+          "rows": [
+            {
+              "kind": "course",
+              "label": "Financial and Managerial Accounting for Decision Making",
+              "credits": 4,
+              "code": "ACCT 2103"
+            },
+            {
+              "kind": "course",
+              "label": "Statistical Business Analytics",
+              "credits": 4,
+              "code": "STAT 2103",
+              "note": "Waives the GenEd Quantitative Literacy requirement."
+            },
+            {
+              "kind": "course",
+              "label": "Professional Development in MIS 1",
+              "credits": 0,
+              "code": "MIS 1001"
+            },
+            {
+              "kind": "course",
+              "label": "Web Application Development",
+              "credits": 3,
+              "code": "MIS 2402"
+            },
+            {
+              "kind": "course",
+              "label": "Data and Analytics",
+              "credits": 3,
+              "code": "MIS 2502"
+            },
+            {
+              "kind": "oneOf",
+              "label": "Intellectual Heritage II",
+              "credits": 3,
+              "courses": [
+                "IH 0852",
+                "IH 0952"
+              ],
+              "genEd": "GZ"
+            }
+          ]
+        },
+        {
+          "term": "Spring",
+          "credits": 16,
+          "rows": [
+            {
+              "kind": "course",
+              "label": "Marketing Management",
+              "credits": 3,
+              "code": "MKTG 2101"
+            },
+            {
+              "kind": "course",
+              "label": "Professional Development Strategies",
+              "credits": 1,
+              "code": "BA 2101"
+            },
+            {
+              "kind": "course",
+              "label": "Business Communications",
+              "credits": 3,
+              "code": "BA 2196"
+            },
+            {
+              "kind": "course",
+              "label": "Turning Numbers into Knowledge: Visualizing Data",
+              "credits": 3,
+              "code": "BA 2501"
+            },
+            {
+              "kind": "course",
+              "label": "Professional Development in MIS 2",
+              "credits": 0,
+              "code": "MIS 2001"
+            },
+            {
+              "kind": "course",
+              "label": "Cloud Architecture",
+              "credits": 3,
+              "code": "MIS 3406"
+            },
+            {
+              "kind": "course",
+              "label": "User Experience Design",
+              "credits": 3,
+              "code": "MIS 3506"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "terms": [
+        {
+          "term": "Fall",
+          "credits": 15,
+          "rows": [
+            {
+              "kind": "course",
+              "label": "Introduction to Risk Management",
+              "credits": 3,
+              "code": "RMI 2101"
+            },
+            {
+              "kind": "course",
+              "label": "Financial Management",
+              "credits": 3,
+              "code": "FIN 3101"
+            },
+            {
+              "kind": "course",
+              "label": "Operations Management",
+              "credits": 3,
+              "code": "MSOM 3101"
+            },
+            {
+              "kind": "businessElective",
+              "label": "Business elective",
+              "credits": 3,
+              "requirement": "fox.upper-foundation.business-electives",
+              "note": "2000-3999 electives can be selected from: ACCT, AS, BA, ECON, FIN, HCM, HRM, IB, LGLS, MIS, MKTG, RE, RMI, STAT, SCM, SGM. Please see your advisor for elective suggestions that match your career objectives. MIS 3535 is highly recommended as a business elective."
+            },
+            {
+              "kind": "genEd",
+              "label": "GenEd breadth",
+              "credits": 3,
+              "areas": [
+                "GA",
+                "GB",
+                "GD",
+                "GG",
+                "GS",
+                "GU"
+              ]
+            }
+          ]
+        },
+        {
+          "term": "Spring",
+          "credits": 15,
+          "rows": [
+            {
+              "kind": "course",
+              "label": "Professional Development in MIS 3",
+              "credits": 0,
+              "code": "MIS 3001"
+            },
+            {
+              "kind": "course",
+              "label": "Web Service Programming",
+              "credits": 3,
+              "code": "MIS 3502"
+            },
+            {
+              "kind": "businessElective",
+              "label": "Business elective",
+              "credits": 3,
+              "requirement": "fox.upper-foundation.business-electives",
+              "note": "2000-3999 electives can be selected from: ACCT, AS, BA, ECON, FIN, HCM, HRM, IB, LGLS, MIS, MKTG, RE, RMI, STAT, SCM, SGM. Please see your advisor for elective suggestions that match your career objectives. MIS 3535 is highly recommended as a business elective."
+            },
+            {
+              "kind": "genEd",
+              "label": "GenEd breadth",
+              "credits": 3,
+              "areas": [
+                "GA",
+                "GB",
+                "GD",
+                "GG",
+                "GS",
+                "GU"
+              ]
+            },
+            {
+              "kind": "genEd",
+              "label": "GenEd breadth",
+              "credits": 3,
+              "areas": [
+                "GA",
+                "GB",
+                "GD",
+                "GG",
+                "GS",
+                "GU"
+              ]
+            },
+            {
+              "kind": "freeElective",
+              "label": "Free elective",
+              "credits": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 4,
+      "terms": [
+        {
+          "term": "Fall",
+          "credits": 15,
+          "rows": [
+            {
+              "kind": "course",
+              "label": "Strategic Management",
+              "credits": 3,
+              "code": "BA 4102"
+            },
+            {
+              "kind": "businessElective",
+              "label": "Business elective",
+              "credits": 3,
+              "requirement": "fox.upper-foundation.business-electives",
+              "note": "2000-3999 electives can be selected from: ACCT, AS, BA, ECON, FIN, HCM, HRM, IB, LGLS, MIS, MKTG, RE, RMI, STAT, SCM, SGM. Please see your advisor for elective suggestions that match your career objectives. MIS 3535 is highly recommended as a business elective."
+            },
+            {
+              "kind": "genEd",
+              "label": "GenEd breadth",
+              "credits": 3,
+              "areas": [
+                "GA",
+                "GB",
+                "GD",
+                "GG",
+                "GS",
+                "GU"
+              ]
+            },
+            {
+              "kind": "genEd",
+              "label": "GenEd breadth",
+              "credits": 3,
+              "areas": [
+                "GA",
+                "GB",
+                "GD",
+                "GG",
+                "GS",
+                "GU"
+              ]
+            },
+            {
+              "kind": "genEd",
+              "label": "GenEd breadth",
+              "credits": 3,
+              "areas": [
+                "GA",
+                "GB",
+                "GD",
+                "GG",
+                "GS",
+                "GU"
+              ]
+            }
+          ]
+        },
+        {
+          "term": "Spring",
+          "credits": 14,
+          "rows": [
+            {
+              "kind": "course",
+              "label": "Professional Development in MIS 4",
+              "credits": 0,
+              "code": "MIS 4001"
+            },
+            {
+              "kind": "course",
+              "label": "Managing Enterprise Cybersecurity",
+              "credits": 3,
+              "code": "MIS 4596"
+            },
+            {
+              "kind": "freeElective",
+              "label": "Free elective",
+              "credits": 3
+            },
+            {
+              "kind": "freeElective",
+              "label": "Free elective",
+              "credits": 3
+            },
+            {
+              "kind": "freeElective",
+              "label": "Free elective",
+              "credits": 3
+            },
+            {
+              "kind": "freeElective",
+              "label": "Free elective",
+              "credits": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

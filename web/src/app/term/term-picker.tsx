@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import "../../components/plan/plan.css";
-import { closedTerms, termStatusLabel } from "../../components/plan/terms";
+import { CURRENT_TERM, closedTerms, termStatusLabel } from "../../components/plan/terms";
 
 export function TermPicker() {
   const [open, setOpen] = useState(false);
@@ -16,9 +16,9 @@ export function TermPicker() {
           <span>Course Planner</span>
         </p>
         <h1>Select a term</h1>
-        <p className="meta">Spring 2027 is open for planning.</p>
+        <p className="meta">{CURRENT_TERM} is open for planning.</p>
         <article className="row core term-card">
-          <h2 className="title">Spring 2027</h2>
+          <h2 className="title">{CURRENT_TERM}</h2>
           <Link className="btn-primary" href="/plan">
             Open plan
           </Link>

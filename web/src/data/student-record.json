@@ -1,5 +1,5 @@
 {
-  "source": "Temple DARS degree audit, prepared 31 October 2026. Course codes, titles, credits and terms only. The student ID, grades and GPA are left out on purpose because this repository is public. Every completed course meets the C- minimum, so grade-gated prerequisites are treated as met. Withdrawn attempts (W) are left out.",
+  "source": "Temple DARS degree audit, prepared 31 October 2026. Course codes, titles, credits and terms only. The student ID, grades and GPA are left out on purpose because this repository is public. Every completed course meets the C- minimum, so grade-gated prerequisites are treated as met. Withdrawn attempts (W) are left out. Each open item names its program.json node in \"requirement\"; University Honors and the minor are not part of the Computer Science BS, so they have no node and are marked by \"track\" instead.",
   "student": "Rafiat",
   "program": "ST-CSCI-BS",
   "catalogYear": "Fall 2025",
@@ -78,14 +78,14 @@
     "credits": { "required": 123, "earned": 56, "inProgress": 33, "needed": 34 },
     "open": [
       { "requirement": "gened.gy", "label": "Intellectual Heritage I", "needs": "1 course", "from": ["IH 0951", "IH 0851"], "note": "Honors requires IH 0951." },
-      { "requirement": "major.labScience", "label": "Two sequenced lab science courses", "needs": "1 sequence (2 courses)", "note": "Also waives the GS gen ed areas." },
-      { "requirement": "major.algorithms", "label": "Data Structures and Algorithms", "needs": "1 course", "from": ["CIS 3223"] },
+      { "requirement": "major.lab-science", "label": "Two sequenced lab science courses", "needs": "1 sequence (2 courses)", "note": "Also waives the GS gen ed areas." },
+      { "requirement": "major", "label": "Data Structures and Algorithms", "needs": "1 course", "from": ["CIS 3223"] },
       { "requirement": "major.capstone", "label": "Capstone (writing intensive)", "needs": "1 course", "from": ["CIS 4397", "CIS 4398"] },
       { "requirement": "major.electives", "label": "CIS electives", "needs": "1 credit after Fall 2026 and Spring 2027", "note": "15-16 credits required: 3 earned, 11 in progress or registered." },
-      { "requirement": "college.upperLevel", "label": "Upper-level credits (2000+ in CLA, CST or ENGR)", "needs": "8 credits after Fall 2026 and Spring 2027" },
+      { "requirement": "college.upper-level", "label": "Upper-level credits (2000+ in CLA, CST or ENGR)", "needs": "8 credits after Fall 2026 and Spring 2027" },
       { "requirement": "free-electives", "label": "Free electives", "needs": "9 credits" },
-      { "requirement": "honors", "label": "University Honors", "needs": "IH 0951 and 3 more Honors courses at 2000 or above" },
-      { "requirement": "minor.uxui", "label": "UX/UI Design minor", "needs": "DES 2002, DES 2522, DES 3301 and 6 elective credits", "note": "15 credits left; 6 must be taken at Temple." }
+      { "track": "honors", "label": "University Honors", "needs": "IH 0951 and 3 more Honors courses at 2000 or above" },
+      { "track": "minor", "label": "UX/UI Design minor", "needs": "DES 2002, DES 2522, DES 3301 and 6 elective credits", "note": "15 credits left; 6 must be taken at Temple." }
     ]
   }
 }
