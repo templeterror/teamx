@@ -12,7 +12,7 @@
 import { DEFAULT_PROGRAM, courses, programs, sections, type ProgramCode } from "@/data";
 import { sectionOffering, startingOfferings, type Offering } from "@/components/plan/data";
 import type { Placement, usePlan } from "@/components/plan/use-plan";
-import { studentFor } from "@/components/student/student";
+import { REQUIRED_FROM, profileForProgram } from "@/components/student/student";
 
 /* ---------- Public types ---------- */
 
@@ -172,7 +172,7 @@ function find(nodes: ReqNode[], id: string): ReqNode | undefined {
  */
 function recordStatuses(program: ProgramCode): ReadonlyMap<string, RecordStatus> {
   return new Map(
-    studentFor(program).record.terms.flatMap(({ status, courses: taken }) =>
+    profileForProgram(program).record.terms.flatMap(({ status, courses: taken }) =>
       status === "registered" ? [] : taken.map((c) => [c.code, status] as const),
     ),
   );
@@ -278,7 +278,7 @@ function requiredCourses(program: ProgramCode, requirements: ReqNode[]): Readonl
     programs[program].plan as unknown as { years: { terms: { rows: PlanRow[] }[] }[] }
   ).years;
   return new Set([
-    ...studentFor(program).requiredFrom.flatMap((id) => namedCourses(find(requirements, id) ?? { kind: "all" })),
+    ...REQUIRED_FROM[program].flatMap((id) => namedCourses(find(requirements, id) ?? { kind: "all" })),
     ...years.flatMap((y) => y.terms.flatMap((t) => t.rows.flatMap(rowCodes))),
   ]);
 }
@@ -653,7 +653,7 @@ export type Catalog = {
 };
 
 function buildCatalog(program: ProgramCode): Catalog {
-  const record = studentFor(program).record;
+  const record = profileForProgram(program).record;
   const requirements = (programs[program].degree as unknown as { requirements: ReqNode[] }).requirements;
   const statuses = recordStatuses(program);
   const completed: ReadonlySet<string> = new Set(statuses.keys());

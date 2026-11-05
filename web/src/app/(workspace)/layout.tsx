@@ -1,6 +1,6 @@
 import { Suspense, type ReactNode } from "react";
 import { PlanShell } from "@/components/plan/plan-shell";
-import { currentProgram } from "@/components/student/program-cookie";
+import { currentProfile } from "@/components/student/profile-cookie";
 
 /*
  * /find, /plan and /plan/review share one PlanShell, so client navigation
@@ -14,11 +14,14 @@ export default function WorkspaceLayout({ children }: { children: ReactNode }) {
   );
 }
 
-/* The signed-in program comes from the sign-in cookie; a new program starts a fresh plan. */
+/*
+ * The signed-in profile comes from its cookie. Keyed by profile, so switching in the top
+ * bar mounts the other person's plan fresh rather than carrying one person's state into it.
+ */
 async function Workspace({ children }: { children: ReactNode }) {
-  const program = await currentProgram();
+  const profile = await currentProfile();
   return (
-    <PlanShell key={program} program={program}>
+    <PlanShell key={profile} profile={profile}>
       {children}
     </PlanShell>
   );

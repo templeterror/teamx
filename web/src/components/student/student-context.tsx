@@ -1,31 +1,30 @@
 "use client";
 
-import { createContext, useContext, useMemo, type ReactNode } from "react";
-import { DEFAULT_PROGRAM, type ProgramCode } from "@/data";
+import { createContext, useContext, type ReactNode } from "react";
 import { catalogFor } from "@/components/finder/catalog";
-import { studentFor } from "./student";
+import { DEFAULT_PROFILE, profileFor, type Profile, type ProfileId } from "./student";
 
 /*
- * The signed-in program for client components. The server reads the cookie and hands the
- * code down; everything else (record, tree, finder model) is derived here from @/data.
+ * The signed-in profile for client components. The server reads the cookie and hands the
+ * id down; everything else (record, program, tree, finder model) is derived from @/data.
  * Outside a provider (the /components workbench) it is Rafiat's, as before.
  */
-const ProgramContext = createContext<ProgramCode>(DEFAULT_PROGRAM);
+const ProfileContext = createContext<Profile>(profileFor(DEFAULT_PROFILE));
 
-export function StudentProvider({ program, children }: { program: ProgramCode; children: ReactNode }) {
-  return <ProgramContext value={program}>{children}</ProgramContext>;
+export function StudentProvider({ profile, children }: { profile: ProfileId; children: ReactNode }) {
+  return <ProfileContext value={profileFor(profile)}>{children}</ProfileContext>;
 }
 
+export function useProfile() {
+  return useContext(ProfileContext);
+}
+
+/* The signed-in profile's program: what the requirement tree, plan seed and finder are built from. */
 export function useProgram() {
-  return useContext(ProgramContext);
+  return useProfile().program;
 }
 
-export function useStudent() {
-  const program = useProgram();
-  return useMemo(() => studentFor(program), [program]);
-}
-
-/* The finder model for the signed-in program, built once per program (see catalogFor). */
+/* The finder model for the signed-in profile's program, built once per program (see catalogFor). */
 export function useCatalog() {
   return catalogFor(useProgram());
 }
