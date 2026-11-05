@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { DEFAULT_PROGRAM, type ProgramCode } from "@/data";
 import {
   CREDIT_MAX,
   CREDIT_MIN,
@@ -19,6 +20,8 @@ import {
   softwareDesign,
   webApps,
   whyCollege,
+  opensOnRegistration,
+  startingSlots,
   type Offering,
 } from "./data";
 
@@ -117,7 +120,11 @@ function conflictPairs(active: Placement[]) {
 /* The reason line on the card of a course the student shortlisted on /find. */
 export const SHORTLIST_WHY = "You shortlisted this";
 
-export function usePlan() {
+/*
+ * The plan for the signed-in program. Rafiat's opens on her Spring 2027 registration
+ * (data.ts); a student with no registration opens on their suggested plan's first term.
+ */
+export function usePlan(program: ProgramCode = DEFAULT_PROGRAM) {
   const [catalogCourses, setCatalogCourses] = useState<Offering[]>([]);
   const [selectedSections, setSelectedSections] = useState<Record<string, Offering>>({});
   const [dropped, setDropped] = useState<string[]>([]);
@@ -134,6 +141,8 @@ export function usePlan() {
   const [fromShortlist, setFromShortlist] = useState<ReadonlySet<string>>(() => new Set());
   /* Dropped placements that Confirm plan removed. Adding the course again brings it back. */
   const [cleared, setCleared] = useState<string[]>([]);
+  /* For a seeded plan: which option each card shows, by slot id (0 = the suggested plan's first). */
+  const [picks, setPicks] = useState<Record<string, number>>({});
 
   /* Each slot starts on the course the student registered for; the rest are its "Or" options. */
   const slotAOptions = [machineLearning, dataScience, dataIntensive];
@@ -143,86 +152,106 @@ export function usePlan() {
   const artsOptions = [meaningOfArts, sacredSpace, shakespeareMovies];
   const usSocietyOptions = [whyCollege, socialMovements, constitution];
 
-  const placements: Placement[] = [
-    {
-      id: "software-design",
-      kind: "core",
-      course: softwareDesign,
-      dotted: false,
-      options: [],
-      pick: () => {},
-      deferred: !writingHere,
-      defer: () => {
-        setWritingHere(false);
-        setKept(false);
-      },
-      restore: () => {
-        setWritingHere(true);
-        setKept(false);
-      },
-    },
-    {
-      id: "a",
-      kind: "elective",
-      course: slotAOptions[slotA],
-      dotted: true,
-      options: slotAOptions,
+  /* A seeded plan: one card per suggested-plan row, its "Or" options beside it. */
+  const seeded = (): Placement[] =>
+    startingSlots(program).map((slot) => ({
+      id: slot.id,
+      kind: slot.kind,
+      course: slot.options[picks[slot.id] ?? 0],
+      dotted: slot.kind !== "core",
+      options: slot.options.length > 1 ? slot.options : [],
       pick: (code) => {
-        setSlotA(slotAOptions.findIndex((item) => item.code === code));
+        setPicks((current) => ({ ...current, [slot.id]: slot.options.findIndex((item) => item.code === code) }));
         setKept(false);
       },
-    },
-    {
-      id: "b",
-      kind: "elective",
-      course: slotBOptions[slotB],
-      dotted: true,
-      options: slotBOptions,
-      pick: (code) => {
-        setSlotB(slotBOptions.findIndex((item) => item.code === code));
-        setKept(false);
-      },
-    },
-  ];
+    }));
 
-  if (!writingHere) {
-    placements.push({
-      id: "c",
-      kind: "elective",
-      course: slotCOptions[slotC],
-      dotted: true,
-      options: slotCOptions,
-      pick: (code) => {
-        setSlotC(slotCOptions.findIndex((item) => item.code === code));
-        setKept(false);
+  /* Rafiat's registration: Software Design, two electives and two gen eds, each with its "Or" options. */
+  const registered = (): Placement[] => {
+    const placements: Placement[] = [
+      {
+        id: "software-design",
+        kind: "core",
+        course: softwareDesign,
+        dotted: false,
+        options: [],
+        pick: () => {},
+        deferred: !writingHere,
+        defer: () => {
+          setWritingHere(false);
+          setKept(false);
+        },
+        restore: () => {
+          setWritingHere(true);
+          setKept(false);
+        },
       },
-    });
-  }
+      {
+        id: "a",
+        kind: "elective",
+        course: slotAOptions[slotA],
+        dotted: true,
+        options: slotAOptions,
+        pick: (code) => {
+          setSlotA(slotAOptions.findIndex((item) => item.code === code));
+          setKept(false);
+        },
+      },
+      {
+        id: "b",
+        kind: "elective",
+        course: slotBOptions[slotB],
+        dotted: true,
+        options: slotBOptions,
+        pick: (code) => {
+          setSlotB(slotBOptions.findIndex((item) => item.code === code));
+          setKept(false);
+        },
+      },
+    ];
 
-  placements.push(
-    {
-      id: "arts",
-      kind: "gened",
-      course: artsOptions[arts],
-      dotted: true,
-      options: artsOptions,
-      pick: (code) => {
-        setArts(artsOptions.findIndex((item) => item.code === code));
-        setKept(false);
+    if (!writingHere) {
+      placements.push({
+        id: "c",
+        kind: "elective",
+        course: slotCOptions[slotC],
+        dotted: true,
+        options: slotCOptions,
+        pick: (code) => {
+          setSlotC(slotCOptions.findIndex((item) => item.code === code));
+          setKept(false);
+        },
+      });
+    }
+
+    placements.push(
+      {
+        id: "arts",
+        kind: "gened",
+        course: artsOptions[arts],
+        dotted: true,
+        options: artsOptions,
+        pick: (code) => {
+          setArts(artsOptions.findIndex((item) => item.code === code));
+          setKept(false);
+        },
       },
-    },
-    {
-      id: "us-society",
-      kind: "gened",
-      course: usSocietyOptions[usSociety],
-      dotted: true,
-      options: usSocietyOptions,
-      pick: (code) => {
-        setUsSociety(usSocietyOptions.findIndex((item) => item.code === code));
-        setKept(false);
+      {
+        id: "us-society",
+        kind: "gened",
+        course: usSocietyOptions[usSociety],
+        dotted: true,
+        options: usSocietyOptions,
+        pick: (code) => {
+          setUsSociety(usSocietyOptions.findIndex((item) => item.code === code));
+          setKept(false);
+        },
       },
-    },
-  );
+    );
+    return placements;
+  };
+
+  const placements = opensOnRegistration(program) ? registered() : seeded();
 
   for (const course of catalogCourses) {
     if (!placements.some(item => item.course.code === course.code)) placements.push({ id: `catalog-${course.code}`, kind: "elective", course, dotted: false, options: [], pick: () => {} });

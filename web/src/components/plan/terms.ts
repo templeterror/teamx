@@ -1,14 +1,18 @@
-import { studentRecord } from "@/data";
+import { studentRecord, type ProgramCode } from "@/data";
+import { studentFor } from "@/components/student/student";
 
-/* The term being planned: the one the degree audit shows as registered (Spring 2027). */
+/*
+ * The term being planned: the one Rafiat's degree audit shows as registered (Spring 2027).
+ * Every student plans it; a new student has no registration of their own to say otherwise.
+ */
 const registeredTerm = studentRecord.terms.find((t) => t.status === "registered");
 if (!registeredTerm) throw new Error("student-record.json needs a registered term to plan");
 export const CURRENT_TERM = registeredTerm.term;
 
 /*
  * Terms before the one being planned are a record, not a plan. They come from the
- * student's degree audit (data/student-record.json), newest first. A term still in
- * progress is shown as such: its courses are not finished yet.
+ * student's degree audit (data/student-record.json), newest first; a new student has
+ * none. A term still in progress is shown as such: its courses are not finished yet.
  */
 export type RecordRow = { code: string | null; title: string; credits: number };
 
@@ -24,31 +28,41 @@ function slugify(name: string) {
   return name.toLowerCase().replace(/\s+/g, "-");
 }
 
-export const closedTerms: ClosedTerm[] = studentRecord.terms
-  .flatMap(({ term, status, courses }) =>
-    status === "registered"
-      ? []
-      : [
-          {
-            name: term,
-            slug: slugify(term),
-            status,
-            rows: courses.map(({ code, title, credits }) => ({ code, title, credits })),
-            credits: courses.reduce((sum, course) => sum + course.credits, 0),
-          },
-        ],
-  )
-  .reverse();
+const CLOSED = new Map<ProgramCode, ClosedTerm[]>();
+
+/* The signed-in student's closed terms, built once per program. */
+export function closedTerms(program: ProgramCode): ClosedTerm[] {
+  let terms = CLOSED.get(program);
+  if (!terms) {
+    terms = studentFor(program)
+      .record.terms.flatMap(({ term, status, courses }) =>
+        status === "registered"
+          ? []
+          : [
+              {
+                name: term,
+                slug: slugify(term),
+                status,
+                rows: courses.map(({ code, title, credits }) => ({ code, title, credits })),
+                credits: courses.reduce((sum, course) => sum + course.credits, 0),
+              },
+            ],
+      )
+      .reverse();
+    CLOSED.set(program, terms);
+  }
+  return terms;
+}
 
 /* "Completed" or "In progress", for a term's status line. */
 export function termStatusLabel(term: ClosedTerm) {
   return term.status === "in-progress" ? "In progress" : "Completed";
 }
 
-export function closedTerm(slug: string) {
-  return closedTerms.find((t) => t.slug === slug);
+export function closedTerm(program: ProgramCode, slug: string) {
+  return closedTerms(program).find((t) => t.slug === slug);
 }
 
-export function closedTermByName(name: string) {
-  return closedTerms.find((t) => t.name === name);
+export function closedTermByName(program: ProgramCode, name: string) {
+  return closedTerms(program).find((t) => t.name === name);
 }

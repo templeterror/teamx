@@ -744,8 +744,8 @@
         "Wednesday",
         "Friday"
       ],
-      "start": "13:00",
-      "end": "13:50",
+      "start": "09:00",
+      "end": "09:50",
       "instructor": "Skyler Brooks",
       "campus": "Main",
       "source": "placeholder"
@@ -773,8 +773,8 @@
         "Tuesday",
         "Thursday"
       ],
-      "start": "12:00",
-      "end": "13:15",
+      "start": "09:00",
+      "end": "10:15",
       "instructor": "Ari Mendel",
       "campus": "Main",
       "source": "placeholder"
@@ -787,8 +787,8 @@
         "Tuesday",
         "Thursday"
       ],
-      "start": "08:00",
-      "end": "09:15",
+      "start": "14:00",
+      "end": "15:15",
       "instructor": "Cameron Ortiz",
       "campus": "Main",
       "source": "placeholder"
@@ -798,11 +798,12 @@
       "course": "BA 2501",
       "section": "001",
       "days": [
-        "Tuesday",
-        "Thursday"
+        "Monday",
+        "Wednesday",
+        "Friday"
       ],
-      "start": "16:00",
-      "end": "17:15",
+      "start": "09:00",
+      "end": "09:50",
       "instructor": "Finley Grant",
       "campus": "Main",
       "source": "placeholder"
@@ -2815,8 +2816,8 @@
         "Wednesday",
         "Friday"
       ],
-      "start": "11:00",
-      "end": "11:50",
+      "start": "12:00",
+      "end": "12:50",
       "instructor": "Drew Okada",
       "campus": "Main",
       "source": "placeholder"
@@ -2829,8 +2830,8 @@
         "Tuesday",
         "Thursday"
       ],
-      "start": "12:00",
-      "end": "13:15",
+      "start": "09:00",
+      "end": "10:15",
       "instructor": "Jamie Costa",
       "campus": "Main",
       "source": "placeholder"
@@ -4489,8 +4490,8 @@
         "Wednesday",
         "Friday"
       ],
-      "start": "11:00",
-      "end": "11:50",
+      "start": "13:00",
+      "end": "13:50",
       "instructor": "Parker Singh",
       "campus": "Main",
       "source": "placeholder"
@@ -5558,8 +5559,8 @@
         "Tuesday",
         "Thursday"
       ],
-      "start": "16:00",
-      "end": "17:15",
+      "start": "12:00",
+      "end": "13:15",
       "instructor": "Devon Cho",
       "campus": "Main",
       "source": "placeholder"
@@ -5573,8 +5574,8 @@
         "Wednesday",
         "Friday"
       ],
-      "start": "08:00",
-      "end": "08:50",
+      "start": "11:00",
+      "end": "11:50",
       "instructor": "Ari Mendel",
       "campus": "Main",
       "source": "placeholder"
@@ -5656,11 +5657,12 @@
       "course": "MIS 3506",
       "section": "001",
       "days": [
-        "Tuesday",
-        "Thursday"
+        "Monday",
+        "Wednesday",
+        "Friday"
       ],
-      "start": "13:00",
-      "end": "14:15",
+      "start": "10:00",
+      "end": "10:50",
       "instructor": "Logan Iyer",
       "campus": "Main",
       "source": "placeholder"
@@ -7612,8 +7614,8 @@
         "Wednesday",
         "Friday"
       ],
-      "start": "10:00",
-      "end": "10:50",
+      "start": "11:00",
+      "end": "11:50",
       "instructor": "Morgan Ellis",
       "campus": "Main",
       "source": "placeholder"
@@ -7657,8 +7659,8 @@
         "Wednesday",
         "Friday"
       ],
-      "start": "14:00",
-      "end": "15:05",
+      "start": "09:00",
+      "end": "10:05",
       "instructor": "Devon Cho",
       "campus": "Main",
       "source": "placeholder"

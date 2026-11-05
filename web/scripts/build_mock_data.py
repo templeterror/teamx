@@ -533,6 +533,118 @@ def section_for(course: dict, index: int) -> dict:
     return section
 
 
+# First-program sections that later programs may retime anyway. Each is in no CS
+# plan term, not in the CS student record, and not a CS Spring offering in
+# web/src/components/plan/data.ts; without moving them the MIS suggested plan
+# overlaps (STAT 1001 with ENG 0802, STAT 2103 with IH 0852).
+RETIMABLE_SHARED_SECTIONS = {"STAT 1001", "STAT 2103"}
+
+# The app's week (web/src/components/plan/data.ts DAY_START / DAY_END).
+DAY_START = 9 * 60
+DAY_END = 17 * 60
+PATTERN_DAYS = {"MWF": ["Monday", "Wednesday", "Friday"], "TTh": ["Tuesday", "Thursday"]}
+
+
+def clock_minutes(value: str) -> int:
+    hour, minute = map(int, value.split(":"))
+    return hour * 60 + minute
+
+
+def clock_text(minutes: int) -> str:
+    return f"{minutes // 60:02d}:{minutes % 60:02d}"
+
+
+def sections_overlap(a: dict, b: dict) -> bool:
+    """Same rule as overlaps() in web/src/components/plan/use-plan.ts."""
+    if not set(a["days"]) & set(b["days"]):
+        return False
+    return clock_minutes(a["start"]) < clock_minutes(b["end"]) and clock_minutes(b["start"]) < clock_minutes(a["end"])
+
+
+def in_day_window(section: dict) -> bool:
+    return clock_minutes(section["start"]) >= DAY_START and clock_minutes(section["end"]) <= DAY_END
+
+
+def candidate_slots(course: dict, preferred: str):
+    """MWF and Tuesday/Thursday slots on the hour inside the day window, the section's
+    own pattern first. Durations follow section_for()."""
+    credits = course["credits"]
+    credit_value = credits.get("value")
+    if credit_value is None:
+        credit_value = credits.get("min", 3)
+    for pattern in (preferred, "TTh" if preferred == "MWF" else "MWF"):
+        if pattern == "MWF":
+            duration = 50 if credit_value <= 3 else 65
+        else:
+            duration = 75 if credit_value <= 3 else 100
+        for start in range(DAY_START, DAY_END, 60):
+            if start + duration <= DAY_END:
+                yield pattern, start, start + duration
+
+
+def plan_term_courses(term: dict, by_code: dict) -> tuple[list[str], list[str]]:
+    """The courses a suggested-plan term seeds in the week: each course row, and the
+    first option of each oneOf row (its main course), then the other options."""
+    main, alternatives = [], []
+    for row in term["rows"]:
+        if row["kind"] == "course" and row.get("code") in by_code:
+            main.append(row["code"])
+        elif row["kind"] == "oneOf":
+            options = [code for code in row.get("courses", []) if code in by_code]
+            if options:
+                main.append(options[0])
+                alternatives.extend(options[1:])
+    return main, alternatives
+
+
+def place_plan_sections(plans: list[dict], by_code: dict, courses: dict, movable: set[str]) -> list[str]:
+    """Retime movable placeholder sections so no suggested-plan term has two main
+    courses at the same time. Frozen sections never move; a movable course is placed
+    once (the first term that seeds it) and then stays put. Returns report lines."""
+    settled: set[str] = set()
+    report: list[str] = []
+
+    def fits(section: dict, placed: list[dict]) -> bool:
+        return in_day_window(section) and not any(sections_overlap(section, other) for other in placed)
+
+    def place(code: str, placed: list[dict]) -> None:
+        section = by_code[code]
+        if code in movable and code not in settled and not fits(section, placed):
+            preferred = "MWF" if "Monday" in section["days"] else "TTh"
+            for pattern, start, end in candidate_slots(courses[code], preferred):
+                trial = {**section, "days": PATTERN_DAYS[pattern], "start": clock_text(start), "end": clock_text(end)}
+                if fits(trial, placed):
+                    section.update(days=trial["days"], start=trial["start"], end=trial["end"])
+                    break
+            else:
+                report.append(f"no free slot for {code}")
+        if code in movable:
+            settled.add(code)
+
+    for plan in plans:
+        for year in plan["years"]:
+            for term in year["terms"]:
+                main, alternatives = plan_term_courses(term, by_code)
+                # Sections that cannot move go in first; movable ones fit around them.
+                fixed = [code for code in main if code not in movable or code in settled]
+                placed = [by_code[code] for code in fixed]
+                for code in main:
+                    if code not in fixed:
+                        place(code, placed)
+                        placed.append(by_code[code])
+                for code in alternatives:
+                    place(code, placed)
+                clashes = [
+                    (a, b)
+                    for i, a in enumerate(main)
+                    for b in main[i + 1 :]
+                    if sections_overlap(by_code[a], by_code[b])
+                ]
+                if clashes:
+                    report.append(f"{plan['program']} year {year['year']} {term['term']}: overlaps {clashes}")
+    return report
+
+
 def program_document(courses: dict[str, dict], gened_codes: dict[str, list[str]]) -> dict:
     def course_node(code: str, credits: int | None = None) -> dict:
         node = {"kind": "course", "code": code}
@@ -1590,12 +1702,18 @@ def main() -> None:
                     if target not in area_by_code[code]:
                         area_by_code[code].append(target)
 
-    needed = (
-        {code for spec in PROGRAMS for code in spec["courses"] + spec["related"]}
-        | record_course_codes(STUDENT_RECORD)
-    )
-    for codes in groups.values():
-        needed.update(codes)
+    # Phase 0 is the first program plus everything shared (GenEd lists, the student
+    # record); each later program is its own phase. A course belongs to the first
+    # phase that pulls it in, prerequisites included. Sections of phase-0 courses are
+    # frozen; later phases' sections may be retimed (see place_plan_sections).
+    phases: list[set[str]] = []
+    for index, spec in enumerate(PROGRAMS):
+        wanted = set(spec["courses"]) | set(spec["related"])
+        if index == 0:
+            wanted |= record_course_codes(STUDENT_RECORD)
+            for codes in groups.values():
+                wanted.update(codes)
+        phases.append(wanted)
 
     cards: dict[str, dict] = {}
     # Codes the bulletin has no 2026-2027 card for. They stay out of the catalog.
@@ -1624,20 +1742,24 @@ def main() -> None:
                 else:
                     cards[code] = card
 
-    pull_all(needed)
-    # Prerequisite courses, hop by hop, so no prerequisite names a course without a card.
-    for _ in range(PREREQ_HOPS):
-        extra = {
-            code
-            for card in cards.values()
-            for code in prerequisite_codes(card)
-            if code not in cards and code not in not_in_bulletin
-        }
-        if not extra:
-            break
-        pull_all(extra)
-    else:
-        print("WARNING prerequisite hops capped; some prerequisite codes have no card")
+    phase_of: dict[str, int] = {}
+    for phase, wanted in enumerate(phases):
+        pull_all(wanted)
+        # Prerequisite courses, hop by hop, so no prerequisite names a course without a card.
+        for _ in range(PREREQ_HOPS):
+            extra = {
+                code
+                for card in cards.values()
+                for code in prerequisite_codes(card)
+                if code not in cards and code not in not_in_bulletin
+            }
+            if not extra:
+                break
+            pull_all(extra)
+        else:
+            print("WARNING prerequisite hops capped; some prerequisite codes have no card")
+        for code in cards:
+            phase_of.setdefault(code, phase)
 
     courses = {}
     failures = []
@@ -1686,16 +1808,31 @@ def main() -> None:
         document["coursesUsed"] = sorted(code for code in set(spec["courses"]) if code in courses)
         outputs[spec["programFile"]] = document
         outputs[spec["planFile"]] = spec["plan"]()
-    # Placeholder sections already written keep their made-up meeting and instructor,
-    # so adding a course to the catalog does not reshuffle the others.
+    # Placeholder sections of the first program's catalog keep their made-up meeting
+    # and instructor, so its plans never move. Later programs' sections are rebuilt
+    # from the course (keeping a written instructor) and then retimed so each
+    # suggested-plan term is free of time conflicts.
     sections_path = ROOT / "sections.json"
     kept_sections = {}
     if sections_path.exists():
         kept_sections = {item["course"]: item for item in json.loads(sections_path.read_text())["sections"]}
-    sections = [
-        kept_sections.get(course["code"]) or section_for(course, index)
-        for index, course in enumerate(sorted(courses.values(), key=lambda item: item["code"]))
-    ]
+    frozen = {code for code, phase in phase_of.items() if phase == 0} - RETIMABLE_SHARED_SECTIONS
+    by_code = {}
+    for index, course in enumerate(sorted(courses.values(), key=lambda item: item["code"])):
+        code = course["code"]
+        kept = kept_sections.get(code)
+        if code in frozen and kept:
+            by_code[code] = kept
+            continue
+        section = section_for(course, index)
+        if kept:
+            section["instructor"] = kept["instructor"]
+        by_code[code] = section
+    movable = set(by_code) - frozen
+    plans = [outputs[spec["planFile"]] for spec in PROGRAMS]
+    for line in place_plan_sections(plans, by_code, courses, movable):
+        print(line)
+    sections = [by_code[code] for code in sorted(by_code)]
 
     ROOT.mkdir(parents=True, exist_ok=True)
     write_json(ROOT / "courses.json", {

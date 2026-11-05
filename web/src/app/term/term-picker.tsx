@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 import "../../components/plan/plan.css";
-import { CURRENT_TERM, closedTerms, termStatusLabel } from "../../components/plan/terms";
+import { CURRENT_TERM, termStatusLabel, type ClosedTerm } from "../../components/plan/terms";
 
-export function TermPicker() {
+export function TermPicker({ closedTerms }: { closedTerms: ClosedTerm[] }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -23,15 +23,18 @@ export function TermPicker() {
             Open plan
           </Link>
         </article>
-        <button
-          type="button"
-          className="btn text"
-          aria-expanded={open}
-          onClick={() => setOpen((value) => !value)}
-        >
-          {open ? "Hide old terms" : "Look at old terms"}
-        </button>
-        {open ? (
+        {/* A new student has no old terms, so there is nothing to look at. */}
+        {closedTerms.length > 0 && (
+          <button
+            type="button"
+            className="btn text"
+            aria-expanded={open}
+            onClick={() => setOpen((value) => !value)}
+          >
+            {open ? "Hide old terms" : "Look at old terms"}
+          </button>
+        )}
+        {open && closedTerms.length > 0 ? (
           <div className="old-terms">
             {closedTerms.map((term) => (
               <Link key={term.slug} href={`/term/${term.slug}`}>

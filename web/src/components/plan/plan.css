@@ -442,6 +442,70 @@
   outline-offset: 2px;
 }
 
+/* Sign-in wraps its fields in a form; the first keeps the heading's 24px. */
+.plan .gate-form > .field:first-child {
+  margin-top: 24px;
+}
+
+/* The program choice: radio rows dressed as the inputs above, the chosen one outlined in ink. */
+.plan .gate-choice {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  margin: 16px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.plan .gate-choice legend {
+  margin-bottom: 6px;
+  padding: 0;
+  font-size: var(--text-caption);
+  color: var(--ink-secondary);
+}
+
+.plan .gate-choice label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 44px;
+  padding: 11px 12px;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 0 0 var(--hairline) var(--line);
+  cursor: pointer;
+}
+
+.plan .gate-choice label:has(:checked) {
+  box-shadow: 0 0 0 1.5px var(--ink);
+}
+
+.plan .gate-choice input {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin: 3px 0 0;
+  accent-color: var(--ink);
+}
+
+.plan .gate-choice input:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.plan .gate-choice span {
+  display: grid;
+  gap: 2px;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.plan .gate-choice small {
+  font-size: var(--text-caption);
+  color: var(--ink-secondary);
+}
+
 .plan .gate .btn-primary {
   margin-top: 24px;
 }

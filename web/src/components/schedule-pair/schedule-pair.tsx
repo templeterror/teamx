@@ -18,7 +18,8 @@ import { useEffect, useId, useRef, useState, type ReactNode, type RefObject } fr
 import { CREDIT_MAX, CREDIT_MIN, DAY_END, DAY_START, type Day, type Offering } from "@/components/plan/data";
 import { formatMeetings, planProblems, type PlanProblem, type Placement, type usePlan } from "@/components/plan/use-plan";
 import { courses, sections } from "@/data";
-import { prerequisiteFor, prerequisiteGroups } from "@/components/finder/catalog";
+import { prerequisiteFor } from "@/components/finder/catalog";
+import { useCatalog } from "@/components/student/student-context";
 import { PrerequisiteList, UnlockList } from "@/components/finder/prerequisites";
 import { BlockText, FitLine } from "./fit-text";
 import "./schedule-pair.css";
@@ -788,7 +789,7 @@ function CourseDetails({ item, props }: { item: Placement; props: ListProps }) {
   const section = sections.find((s) => s.course === item.course.code);
   const raw = rec?.prerequisites?.raw ?? "";
   const inPlan = new Set(props.plan.placements.filter((p) => !p.deferred).map((p) => p.course.code));
-  const groups = prerequisiteGroups(item.course.code, inPlan);
+  const groups = useCatalog().prerequisiteGroups(item.course.code, inPlan);
   const unlocks = prerequisiteFor(item.course.code);
   const attributes = (rec?.attributes ?? []).map((a) => ATTRIBUTES[a] ?? a);
   const dropped = Boolean(item.deferred);

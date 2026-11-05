@@ -12,9 +12,8 @@
 
 import { Fragment, useEffect, useId, useMemo, useRef, useState, type FocusEvent, type KeyboardEvent } from "react";
 import type { Offering } from "@/components/plan/data";
+import { useCatalog } from "@/components/student/student-context";
 import {
-  OPEN_GENED,
-  SCOPES,
   SUBJECTS,
   formatCreditRange,
   recordLabel,
@@ -22,6 +21,7 @@ import {
   scopeRows,
   searchRows,
   series,
+  type Catalog,
   type FinderRow,
   type Scope,
 } from "./catalog";
@@ -133,11 +133,11 @@ function plural(n: number, one: string, many: string) {
   return n === 1 ? one : many;
 }
 
-function countSentence(n: number, scope: Scope, query: string): string {
+function countSentence(n: number, scope: Scope, query: string, catalog: Catalog): string {
   const noun = plural(n, "course", "courses");
   const verb = plural(n, "counts", "count");
-  if (scope === "major-elective") return `${n} ${noun} ${verb} as a major elective`;
-  if (scope === "gened") return `${n} ${noun} ${verb} toward ${series(OPEN_GENED.map((g) => g.label), "or")}`;
+  if (scope === "major-elective") return `${n} ${noun} ${verb} as a ${catalog.elective.one.toLowerCase()}`;
+  if (scope === "gened") return `${n} ${noun} ${verb} toward ${series(catalog.openGened.map((g) => g.label), "or")}`;
   if (scope === "free") return `${n} ${noun} ${verb} as a free elective`;
   return query.trim() ? `${n} ${noun} ${plural(n, "matches", "match")}` : `${n} ${noun}`;
 }
@@ -227,6 +227,7 @@ export function Finder({
   context = null,
 }: FinderProps) {
   const uid = useId();
+  const catalog = useCatalog();
   const inputId = `${uid}-q`;
   const tableId = `${uid}-table`;
   const moreId = `${uid}-more`;
@@ -476,7 +477,7 @@ export function Finder({
           </form>
 
           <div ref={chipsRef} className="finder-chips" role="group" aria-label="Counts for">
-            {SCOPES.map((s) => (
+            {catalog.scopes.map((s) => (
               <button
                 key={s.id}
                 type="button"
@@ -550,7 +551,7 @@ export function Finder({
               </ul>
             )}
             <p className="finder-count" aria-live="polite">
-              {countSentence(visible.length, scope, query)}
+              {countSentence(visible.length, scope, query, catalog)}
               {visible.length > 0 && (
                 <>
                   {" · "}
