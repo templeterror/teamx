@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { DEFAULT_PROGRAM, type ProgramCode } from "@/data";
 import {
   CREDIT_MAX,
   CREDIT_MIN,
@@ -19,6 +20,8 @@ import {
   softwareDesign,
   webApps,
   whyCollege,
+  opensOnRegistration,
+  startingSlots,
   type Offering,
 } from "./data";
 
@@ -117,23 +120,66 @@ function conflictPairs(active: Placement[]) {
 /* The reason line on the card of a course the student shortlisted on /find. */
 export const SHORTLIST_WHY = "You shortlisted this";
 
-export function usePlan() {
-  const [catalogCourses, setCatalogCourses] = useState<Offering[]>([]);
-  const [selectedSections, setSelectedSections] = useState<Record<string, Offering>>({});
-  const [dropped, setDropped] = useState<string[]>([]);
-  const [writingHere, setWritingHere] = useState(true);
-  const [slotA, setSlotA] = useState(0);
-  const [slotB, setSlotB] = useState(0);
-  const [slotC, setSlotC] = useState(0);
-  const [arts, setArts] = useState(0);
-  const [usSociety, setUsSociety] = useState(0);
-  const [kept, setKept] = useState(false);
+/* Everything the student changed in a plan, so a profile switch can set it aside and bring it back. */
+type PlanState = {
+  catalogCourses: Offering[];
+  selectedSections: Record<string, Offering>;
+  dropped: string[];
+  writingHere: boolean;
+  slotA: number;
+  slotB: number;
+  slotC: number;
+  arts: number;
+  usSociety: number;
+  kept: boolean;
+  confirmed: Record<string, boolean>;
+  fromShortlist: ReadonlySet<string>;
+  cleared: string[];
+  picks: Record<string, number>;
+};
+
+/*
+ * Switching profile in the top bar mounts a fresh PlanShell for the other person. The
+ * plan being left is parked here first, and the next plan mounted for that program takes
+ * it back once, so Rafiat → Allegra → Rafiat returns to Rafiat's plan as she left it.
+ * Only a switch parks: leaving the workspace (Change term) still starts a fresh plan, as
+ * before, and so does a reload.
+ */
+const parked = new Map<ProgramCode, PlanState>();
+
+export function parkPlan(program: ProgramCode, state: PlanState) {
+  parked.set(program, state);
+}
+
+/*
+ * The plan for the signed-in program. Rafiat's opens on her Spring 2027 registration
+ * (data.ts); a student with no registration opens on their suggested plan's first term.
+ */
+export function usePlan(program: ProgramCode = DEFAULT_PROGRAM) {
+  /* Read, not taken, during render (it may run more than once); the effect below clears it. */
+  const [initial] = useState(() => parked.get(program));
+  useEffect(() => {
+    parked.delete(program);
+  }, [program]);
+
+  const [catalogCourses, setCatalogCourses] = useState<Offering[]>(initial?.catalogCourses ?? []);
+  const [selectedSections, setSelectedSections] = useState<Record<string, Offering>>(initial?.selectedSections ?? {});
+  const [dropped, setDropped] = useState<string[]>(initial?.dropped ?? []);
+  const [writingHere, setWritingHere] = useState(initial?.writingHere ?? true);
+  const [slotA, setSlotA] = useState(initial?.slotA ?? 0);
+  const [slotB, setSlotB] = useState(initial?.slotB ?? 0);
+  const [slotC, setSlotC] = useState(initial?.slotC ?? 0);
+  const [arts, setArts] = useState(initial?.arts ?? 0);
+  const [usSociety, setUsSociety] = useState(initial?.usSociety ?? 0);
+  const [kept, setKept] = useState(initial?.kept ?? false);
   /* Per-course confirmation. Lives here, not in the schedule, so /plan/review can read it. */
-  const [confirmed, setConfirmed] = useState<Record<string, boolean>>({});
+  const [confirmed, setConfirmed] = useState<Record<string, boolean>>(initial?.confirmed ?? {});
   /* Codes that arrived from the shortlist, so their cards can say so. */
-  const [fromShortlist, setFromShortlist] = useState<ReadonlySet<string>>(() => new Set());
+  const [fromShortlist, setFromShortlist] = useState<ReadonlySet<string>>(() => initial?.fromShortlist ?? new Set());
   /* Dropped placements that Confirm plan removed. Adding the course again brings it back. */
-  const [cleared, setCleared] = useState<string[]>([]);
+  const [cleared, setCleared] = useState<string[]>(initial?.cleared ?? []);
+  /* For a seeded plan: which option each card shows, by slot id (0 = the suggested plan's first). */
+  const [picks, setPicks] = useState<Record<string, number>>(initial?.picks ?? {});
 
   /* Each slot starts on the course the student registered for; the rest are its "Or" options. */
   const slotAOptions = [machineLearning, dataScience, dataIntensive];
@@ -143,86 +189,106 @@ export function usePlan() {
   const artsOptions = [meaningOfArts, sacredSpace, shakespeareMovies];
   const usSocietyOptions = [whyCollege, socialMovements, constitution];
 
-  const placements: Placement[] = [
-    {
-      id: "software-design",
-      kind: "core",
-      course: softwareDesign,
-      dotted: false,
-      options: [],
-      pick: () => {},
-      deferred: !writingHere,
-      defer: () => {
-        setWritingHere(false);
-        setKept(false);
-      },
-      restore: () => {
-        setWritingHere(true);
-        setKept(false);
-      },
-    },
-    {
-      id: "a",
-      kind: "elective",
-      course: slotAOptions[slotA],
-      dotted: true,
-      options: slotAOptions,
+  /* A seeded plan: one card per suggested-plan row, its "Or" options beside it. */
+  const seeded = (): Placement[] =>
+    startingSlots(program).map((slot) => ({
+      id: slot.id,
+      kind: slot.kind,
+      course: slot.options[picks[slot.id] ?? 0],
+      dotted: slot.kind !== "core",
+      options: slot.options.length > 1 ? slot.options : [],
       pick: (code) => {
-        setSlotA(slotAOptions.findIndex((item) => item.code === code));
+        setPicks((current) => ({ ...current, [slot.id]: slot.options.findIndex((item) => item.code === code) }));
         setKept(false);
       },
-    },
-    {
-      id: "b",
-      kind: "elective",
-      course: slotBOptions[slotB],
-      dotted: true,
-      options: slotBOptions,
-      pick: (code) => {
-        setSlotB(slotBOptions.findIndex((item) => item.code === code));
-        setKept(false);
-      },
-    },
-  ];
+    }));
 
-  if (!writingHere) {
-    placements.push({
-      id: "c",
-      kind: "elective",
-      course: slotCOptions[slotC],
-      dotted: true,
-      options: slotCOptions,
-      pick: (code) => {
-        setSlotC(slotCOptions.findIndex((item) => item.code === code));
-        setKept(false);
+  /* Rafiat's registration: Software Design, two electives and two gen eds, each with its "Or" options. */
+  const registered = (): Placement[] => {
+    const placements: Placement[] = [
+      {
+        id: "software-design",
+        kind: "core",
+        course: softwareDesign,
+        dotted: false,
+        options: [],
+        pick: () => {},
+        deferred: !writingHere,
+        defer: () => {
+          setWritingHere(false);
+          setKept(false);
+        },
+        restore: () => {
+          setWritingHere(true);
+          setKept(false);
+        },
       },
-    });
-  }
+      {
+        id: "a",
+        kind: "elective",
+        course: slotAOptions[slotA],
+        dotted: true,
+        options: slotAOptions,
+        pick: (code) => {
+          setSlotA(slotAOptions.findIndex((item) => item.code === code));
+          setKept(false);
+        },
+      },
+      {
+        id: "b",
+        kind: "elective",
+        course: slotBOptions[slotB],
+        dotted: true,
+        options: slotBOptions,
+        pick: (code) => {
+          setSlotB(slotBOptions.findIndex((item) => item.code === code));
+          setKept(false);
+        },
+      },
+    ];
 
-  placements.push(
-    {
-      id: "arts",
-      kind: "gened",
-      course: artsOptions[arts],
-      dotted: true,
-      options: artsOptions,
-      pick: (code) => {
-        setArts(artsOptions.findIndex((item) => item.code === code));
-        setKept(false);
+    if (!writingHere) {
+      placements.push({
+        id: "c",
+        kind: "elective",
+        course: slotCOptions[slotC],
+        dotted: true,
+        options: slotCOptions,
+        pick: (code) => {
+          setSlotC(slotCOptions.findIndex((item) => item.code === code));
+          setKept(false);
+        },
+      });
+    }
+
+    placements.push(
+      {
+        id: "arts",
+        kind: "gened",
+        course: artsOptions[arts],
+        dotted: true,
+        options: artsOptions,
+        pick: (code) => {
+          setArts(artsOptions.findIndex((item) => item.code === code));
+          setKept(false);
+        },
       },
-    },
-    {
-      id: "us-society",
-      kind: "gened",
-      course: usSocietyOptions[usSociety],
-      dotted: true,
-      options: usSocietyOptions,
-      pick: (code) => {
-        setUsSociety(usSocietyOptions.findIndex((item) => item.code === code));
-        setKept(false);
+      {
+        id: "us-society",
+        kind: "gened",
+        course: usSocietyOptions[usSociety],
+        dotted: true,
+        options: usSocietyOptions,
+        pick: (code) => {
+          setUsSociety(usSocietyOptions.findIndex((item) => item.code === code));
+          setKept(false);
+        },
       },
-    },
-  );
+    );
+    return placements;
+  };
+
+  const placements = opensOnRegistration(program) ? registered() : seeded();
 
   for (const course of catalogCourses) {
     if (!placements.some(item => item.course.code === course.code)) placements.push({ id: `catalog-${course.code}`, kind: "elective", course, dotted: false, options: [], pick: () => {} });
@@ -274,6 +340,23 @@ export function usePlan() {
 
   return {
     placements: visible,
+    /* What parkPlan keeps when the profile switches. */
+    snapshot: (): PlanState => ({
+      catalogCourses,
+      selectedSections,
+      dropped,
+      writingHere,
+      slotA,
+      slotB,
+      slotC,
+      arts,
+      usSociety,
+      kept,
+      confirmed,
+      fromShortlist,
+      cleared,
+      picks,
+    }),
     addCourse,
     /* Shortlisted courses arrive as suggestions, like the planner's own, and say who picked them. */
     addShortlisted: (courses: Offering[]) => {

@@ -1,43 +1,70 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
-import { bulletinYear, suggestedPlan } from "@/data";
+import { bulletinYear, programs, type ProgramCode } from "@/data";
+import { useProgram } from "@/components/student/student-context";
 import {
-  cards, courseTitle, readSavedBoard, sequenceIssues, starterBoard, terms, totalCredits, years,
+  boardFor, courseTitle, totalCredits,
   COMPLETED, UNPLANNED, type Board, type Choice,
 } from "./board";
 import "./four-year.css";
 
-const STORAGE_KEY = `course-planner:four-year:${suggestedPlan.program}:${bulletinYear}`;
-let boardCache: Board | undefined;
-const listeners = new Set<() => void>();
+/* One saved board per program, so the CS and MIS students never share a timeline. */
+type BoardStore = {
+  read: () => Board;
+  save: (board: Board) => void;
+  subscribe: (listener: () => void) => () => void;
+};
+const STORES = new Map<ProgramCode, BoardStore>();
 
-function readBoard() {
-  if (boardCache) return boardCache;
-  try {
-    boardCache = readSavedBoard(JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? "null"));
-  } catch {
-    boardCache = starterBoard;
+function storeFor(program: ProgramCode): BoardStore {
+  const existing = STORES.get(program);
+  if (existing) return existing;
+
+  const { plan, readSavedBoard, starterBoard } = boardFor(program);
+  const STORAGE_KEY = `course-planner:four-year:${plan.program}:${bulletinYear}`;
+  let boardCache: Board | undefined;
+  const listeners = new Set<() => void>();
+
+  function readBoard() {
+    if (boardCache) return boardCache;
+    try {
+      boardCache = readSavedBoard(JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? "null"));
+    } catch {
+      boardCache = starterBoard;
+    }
+    return boardCache;
   }
-  return boardCache;
+
+  function saveBoard(board: Board) {
+    boardCache = board;
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(board));
+    } catch {
+      /* Keep edits in memory if browser storage is disabled. */
+    }
+    for (const listener of listeners) listener();
+  }
+
+  function subscribe(listener: () => void) {
+    listeners.add(listener);
+    return () => { listeners.delete(listener); };
+  }
+
+  const store = { read: readBoard, save: saveBoard, subscribe };
+  STORES.set(program, store);
+  return store;
 }
 
-function saveBoard(board: Board) {
-  boardCache = board;
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(board));
-  } catch {
-    /* Keep edits in memory if browser storage is disabled. */
-  }
-  for (const listener of listeners) listener();
-}
-
-function subscribe(listener: () => void) {
-  listeners.add(listener);
-  return () => { listeners.delete(listener); };
+/* "Computer Science BS": the program's name and the degree letters its code ends with. */
+function programHeading(program: ProgramCode) {
+  return `${programs[program].degree.program.name} ${program.split("-").at(-1)}`;
 }
 
 export function FourYearPlan() {
+  const program = useProgram();
+  const { years, terms, cards, starterBoard, sequenceIssues } = boardFor(program);
+  const { read: readBoard, save: saveBoard, subscribe } = storeFor(program);
   const board = useSyncExternalStore(subscribe, readBoard, () => starterBoard);
   const [dragged, setDragged] = useState<string | null>(null);
   const [dropTarget, setDropTarget] = useState<string | null>(null);
@@ -142,7 +169,7 @@ export function FourYearPlan() {
     <div className="four-year">
       <div className="workspace-heading">
         <div>
-          <p className="eyebrow">Computer Science BS · {bulletinYear} bulletin</p>
+          <p className="eyebrow">{programHeading(program)} · {bulletinYear} bulletin</p>
           <h1>Four-year plan</h1>
           <p className="intro">Drag a course between terms or open it to move it or mark it as completed.</p>
         </div>

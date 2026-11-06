@@ -16,12 +16,12 @@ import {
   formatCredits,
   formatMeeting,
   prerequisiteFor,
-  prerequisiteGroups,
   recordLabel,
   rowKind,
   type FinderRow,
   type Plan,
 } from "./catalog";
+import { useCatalog } from "@/components/student/student-context";
 import { PrerequisiteList, UnlockList } from "./prerequisites";
 import "./course-page.css";
 
@@ -133,7 +133,7 @@ function Page({
   const fit = fitText(row);
   const unlocks = prerequisiteFor(row.code);
   const raw = RAW[row.code]?.prerequisites?.raw ?? "";
-  const groups = prerequisiteGroups(row.code, planCodes);
+  const groups = useCatalog().prerequisiteGroups(row.code, planCodes);
   const named = row.attributes.filter((a) => ATTRIBUTE_NAMES[a]).map((a) => ATTRIBUTE_NAMES[a]);
   const otherAttrs = row.attributes.filter((a) => !ATTRIBUTE_NAMES[a]);
   const restriction = restrictionLines(row.restriction);

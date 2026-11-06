@@ -72,6 +72,7 @@
           "title": "General Education",
           "kind": "all",
           "note": "A GenEd course counts in one area only. Grade of C- or higher. No more than two GenEd courses from a single department; foundation and transfer courses are excluded. Course numbers are 0800-0899, or 0900-0999 for Honors.",
+          "source": "https://bulletin.temple.edu/undergraduate/general-education/",
           "children": [
             {
               "id": "gened.gw",
@@ -106,7 +107,8 @@
                 "IH 0852",
                 "IH 0952"
               ],
-              "note": "IH I and IH II may be taken in either order, after Analytical Reading and Writing."
+              "note": "IH I and IH II may be taken in either order. Students normally complete them soon after Analytical Reading and Writing.",
+              "source": "https://bulletin.temple.edu/undergraduate/general-education/"
             },
             {
               "id": "gened.gq",
@@ -147,7 +149,8 @@
                 "POLS 0925",
                 "SOC 0925"
               ],
-              "note": "CST majors waive one GQ course. Calculus I in this major is the waiver."
+              "note": "Students who complete CST majors receive a waiver for one GQ course (Computer Science BS page). The GenEd page also lists MATH 1041, 1042, 1941, 1942 and 2043 among the courses that waive GQ; Calculus I and II are required in this major.",
+              "source": "https://bulletin.temple.edu/undergraduate/general-education/"
             },
             {
               "id": "gened.ga",
@@ -470,7 +473,7 @@
               "kind": "waivedBy",
               "credits": 6,
               "count": 2,
-              "waivedByRequirement": "major.lab-science",
+              "waivedByRequirement": "major",
               "otherwise": [
                 "BIOL 0813",
                 "NSCI 0817",
@@ -513,7 +516,7 @@
                 "ENVT 0945",
                 "PHYS 0939"
               ],
-              "note": "CST majors waive both GS courses by completing one sequenced laboratory science."
+              "note": "Students who complete CST majors receive a waiver for both GS courses (Computer Science BS page)."
             }
           ]
         }
@@ -544,8 +547,13 @@
           "credits": 1,
           "courses": [
             "SCTC 1001",
-            "SCTC 2001"
-          ]
+            "SCTC 2001",
+            "UNVS 1001",
+            "HNRS 1901",
+            "UNVS 2002"
+          ],
+          "note": "SCTC 1001 for entering first-year students, SCTC 2001 for transfer students. The college also accepts UNVS 1001 or HNRS 1901 in the first year, and UNVS 2002 after it. At most three attempts in total.",
+          "source": "https://bulletin.temple.edu/undergraduate/science-technology/#collegerequirementstextcontainer"
         }
       ]
     },
@@ -557,7 +565,9 @@
         "min": 73,
         "max": 74
       },
-      "note": "At least 9 courses required for the major, and at least 7 CIS courses, must be completed at Temple. Major courses need a grade of C- or higher.",
+      "note": "At least 9 courses required for the major, and at least 7 CIS courses, must be completed at Temple. The minimum grade in a course taken for the major is C- unless otherwise specified (College of Science and Technology, Bachelor of Science requirements).",
+      "minGrade": "C-",
+      "minGradeSource": "https://bulletin.temple.edu/undergraduate/science-technology/#collegerequirementstextcontainer",
       "children": [
         {
           "kind": "course",
@@ -689,7 +699,7 @@
             "At most 4 credits from CIS 3381.",
             "At most one of MATH 2101, MATH 2103, and MATH 2043.",
             "CIS 4397 or CIS 4398 counts here only when it is not the capstone.",
-            "Bulletin footnote on CIS 3381: prerequisite is CIS 4203 or CIS 4526. That line is not on the CIS 3381 course card."
+            "Bulletin footnote 3, marked on CIS 3381 and CIS 4203 in this list: prerequisite is CIS 4203 or CIS 4526. The CIS 3381 card lists no prerequisite; the CIS 4203 card lists CIS 3203 or CIS 4526."
           ]
         },
         {
@@ -721,7 +731,7 @@
           "title": "Laboratory science sequence",
           "kind": "oneSequence",
           "credits": 8,
-          "note": "Sequence A and sequence B come from the same department. Completing this sequence waives both GS GenEds.",
+          "note": "One sequence: Lab Science A and Lab Science B must be taken from the same department.",
           "options": [
             {
               "id": "biology",
@@ -896,6 +906,7 @@
     "ENG 0802",
     "ENG 0812",
     "ENG 0902",
+    "HNRS 1901",
     "IH 0851",
     "IH 0852",
     "IH 0951",
@@ -918,6 +929,8 @@
     "PHYS 2921",
     "PHYS 2922",
     "SCTC 1001",
-    "SCTC 2001"
+    "SCTC 2001",
+    "UNVS 1001",
+    "UNVS 2002"
   ]
 }

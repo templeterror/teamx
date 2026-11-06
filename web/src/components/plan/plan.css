@@ -442,6 +442,70 @@
   outline-offset: 2px;
 }
 
+/* Sign-in wraps its fields in a form; the first keeps the heading's 24px. */
+.plan .gate-form > .field:first-child {
+  margin-top: 24px;
+}
+
+/* The program choice: radio rows dressed as the inputs above, the chosen one outlined in ink. */
+.plan .gate-choice {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  margin: 16px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.plan .gate-choice legend {
+  margin-bottom: 6px;
+  padding: 0;
+  font-size: var(--text-caption);
+  color: var(--ink-secondary);
+}
+
+.plan .gate-choice label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 44px;
+  padding: 11px 12px;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 0 0 var(--hairline) var(--line);
+  cursor: pointer;
+}
+
+.plan .gate-choice label:has(:checked) {
+  box-shadow: 0 0 0 1.5px var(--ink);
+}
+
+.plan .gate-choice input {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin: 3px 0 0;
+  accent-color: var(--ink);
+}
+
+.plan .gate-choice input:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.plan .gate-choice span {
+  display: grid;
+  gap: 2px;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.plan .gate-choice small {
+  font-size: var(--text-caption);
+  color: var(--ink-secondary);
+}
+
 .plan .gate .btn-primary {
   margin-top: 24px;
 }
@@ -642,33 +706,157 @@
 .plan-topbar-step { display: block; font-weight: 500; }
 .plan-topbar-steps a[data-ready] .plan-topbar-step { color: var(--accent); }
 
-.plan-topbar-student { margin: 0 0 0 auto; padding-left: 24px; border-left: var(--hairline) solid var(--line); font-weight: 500; color: var(--ink); }
+/*
+ * The student: a menu button for switching profile (profile-switcher.tsx). The divider
+ * and 16px + the button's 8px keep the name where the plain block had it. At phone
+ * widths the name and program hide (still the button's accessible name) behind initials.
+ */
+/* The one item in the bar that shrinks: a long program name ellipsizes instead of pushing the bar past the viewport. */
+.plan-topbar-student { position: relative; display: flex; flex: 0 1 auto; min-width: 0; margin: 0 0 0 auto; padding-left: 16px; border-left: var(--hairline) solid var(--line); }
+.profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 500;
+  text-align: start;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color 150ms ease-out;
+}
+.profile-trigger:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.profile-trigger[aria-expanded="true"] { background: var(--muted); }
+.profile-trigger:active { background: var(--muted); }
+/* While the server renders the other profile: quieter, nothing moves. */
+.profile-trigger[aria-busy] { color: var(--ink-tertiary); cursor: progress; }
+.profile-trigger-text { display: block; min-width: 0; }
+.profile-trigger-text, .profile-trigger-text small { overflow: hidden; text-overflow: ellipsis; }
+/* Stays in the accessible name at phone width, where the bar hides its other small text. */
+.plan-topbar .profile-trigger-text small { display: block; }
+.profile-badge {
+  display: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--muted);
+  box-shadow: inset 0 0 0 var(--hairline) var(--line-strong);
+  color: var(--ink);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.profile-chevron { flex: none; color: var(--ink-tertiary); transition: rotate 150ms ease-out; }
+.profile-trigger[aria-expanded="true"] .profile-chevron { rotate: 180deg; }
+
+/* The menu: the Select's popover (ui/select.css), opening from the button's right edge. */
+.profile-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: var(--z-popover);
+  display: grid;
+  min-width: 100%;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  padding: 4px;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow-popover);
+  transform-origin: right top;
+  opacity: 0;
+  transform: scale(0.97);
+  visibility: hidden;
+  transition: opacity 120ms ease-in, transform 120ms ease-in, visibility 0s linear 120ms;
+}
+.profile-menu[data-open] {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition:
+    opacity 180ms cubic-bezier(0.32, 0.72, 0, 1),
+    transform 180ms cubic-bezier(0.32, 0.72, 0, 1),
+    visibility 0s;
+}
+.profile-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--text-ui);
+  font-weight: 500;
+  line-height: 20px;
+  text-align: start;
+  cursor: pointer;
+}
+.profile-option > span { flex: 1; }
+/* Wins over the bar's small-text rules, which hide small at phone width. */
+.plan-topbar .profile-option small { display: block; margin-top: 0; font-size: var(--text-label); line-height: 16px; }
+.profile-option:focus { outline: 0; background: var(--muted); }
+.profile-option:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+.profile-check { flex: none; opacity: 0; }
+.profile-option[aria-checked="true"] .profile-check { opacity: 1; }
 
 @media (hover: hover) and (pointer: fine) {
+  .profile-trigger:hover { background: var(--muted); }
   .plan-topbar-term a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
   .plan-topbar-steps a:not([aria-current]):hover { color: var(--ink); }
   .plan-topbar-steps a[data-ready]:hover .plan-topbar-step { color: var(--accent-hover); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .plan-topbar-term a, .plan-topbar-steps a { transition: none; }
+  .plan-topbar-term a, .plan-topbar-steps a, .profile-trigger, .profile-chevron { transition: none; }
+  /* The menu only fades. */
+  .profile-menu, .profile-menu[data-open] { transform: none; }
+  .profile-menu { transition: opacity 120ms ease-out, visibility 0s linear 120ms; }
+  .profile-menu[data-open] { transition: opacity 120ms ease-out, visibility 0s; }
 }
 @media (max-width: 1100px) {
   .plan-topbar { padding-inline: 24px; }
 }
-/* Below this the bar would outgrow the viewport; the student goes first. */
-@media (max-width: 900px) {
-  .plan-topbar-student { display: none; }
+/*
+ * Below these the bar would outgrow the viewport. The student gives way first: the
+ * program line goes (it is in the menu, and in the button's accessible name), then
+ * the name shrinks to initials.
+ */
+@media (max-width: 1100px) {
+  .plan-topbar .profile-trigger-text small { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+@media (max-width: 1000px) {
+  /* Initials never shrink; the steps scroll instead (as below 700px), so the bar never outgrows the viewport. */
+  .plan-topbar-student { flex: none; padding-left: 12px; }
+  .plan-topbar-steps { flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+  .plan-topbar-steps a { flex: none; }
+  .profile-trigger { padding: 6px; }
+  .profile-badge { display: grid; }
+  .profile-trigger-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .profile-chevron { display: none; }
 }
 @media (max-width: 700px) {
   .plan-topbar { gap: 16px; padding-inline: 16px; }
-  .plan-topbar small, .plan-topbar-term, .plan-topbar-student { display: none; }
+  .plan-topbar small, .plan-topbar-term { display: none; }
+  .plan-topbar-student { padding-left: 0; border-left: 0; }
   .plan-topbar-steps { flex: 1; min-width: 0; margin-left: 0; overflow-x: auto; scrollbar-width: none; }
   .plan-topbar-steps a { flex: none; font-size: var(--text-label); }
 }
 /* Phone width: "Review & register" shortens to "Review" and the steps sit below the brand. */
 @media (max-width: 479px) {
   .plan-topbar { height: auto; flex-wrap: wrap; gap: 0; }
-  .plan-topbar-steps { flex-basis: 100%; gap: 0; }
+  /* The student stays on the brand's row; the steps take the row below. */
+  .plan-topbar-steps { order: 1; flex-basis: 100%; gap: 0; }
   .plan-topbar-steps a { flex: 1 0 auto; justify-content: center; padding: 0 6px; }
   .plan-topbar-step-tail { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }

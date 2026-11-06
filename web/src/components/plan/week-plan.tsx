@@ -5,7 +5,8 @@ import { useEffect, useMemo } from "react";
 import { usePlanContext } from "./plan-shell";
 import type { Offering } from "./data";
 import type { Placement } from "./use-plan";
-import { buildRows, rowKind } from "@/components/finder/catalog";
+import { rowKind } from "@/components/finder/catalog";
+import { useCatalog } from "@/components/student/student-context";
 import { SchedulePair } from "@/components/schedule-pair/schedule-pair";
 
 /*
@@ -18,9 +19,10 @@ export function WeekPlan() {
   const plan = usePlanContext();
   const { placements, addCourse, toggleCourse, addShortlisted } = plan;
   const { codes, takeAll } = plan.shortlist;
+  const catalog = useCatalog();
   const rows = useMemo(
-    () => buildRows({ placements, addCourse, toggleCourse }),
-    [placements, addCourse, toggleCourse],
+    () => catalog.buildRows({ placements, addCourse, toggleCourse }),
+    [catalog, placements, addCourse, toggleCourse],
   );
   const rowByCode = useMemo(() => new Map(rows.map((r) => [r.code, r])), [rows]);
 
