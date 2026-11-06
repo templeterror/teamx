@@ -1,0 +1,484 @@
+/*
+ * Plan setup (onboarding.tsx). Built on the sign-in gate: same column, fields and radio
+ * rows (.gate, .gate-choice in plan.css), tokens only. Inter throughout; the serif is the
+ * page heading alone, from .gate h1.
+ */
+
+.plan .onb {
+  padding-top: 32px;
+}
+
+.plan .onb-num {
+  font-variant-numeric: tabular-nums;
+}
+
+.plan .onb-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Brand and the quiet way out, on one row. */
+.plan .onb-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.plan .onb-top .plan-topbar-brand {
+  margin: 0;
+  font-size: var(--text-ui);
+}
+
+.plan .onb-skip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 4px;
+  border-radius: 6px;
+  color: var(--ink-secondary);
+  font-size: var(--text-ui);
+  text-decoration: none;
+  transition: color 150ms ease-out;
+}
+
+.plan .onb-skip:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* ---------- Progress ---------- */
+
+.plan .onb-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 32px;
+  padding: 0;
+  list-style: none;
+}
+
+.plan .onb-step {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 0 6px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ink-tertiary);
+  font: inherit;
+  text-align: left;
+}
+
+.plan button.onb-step {
+  cursor: pointer;
+  transition: color 150ms ease-out;
+}
+
+.plan button.onb-step:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.plan .onb-step-bar {
+  display: block;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--well);
+  transition: background-color 200ms ease-out;
+}
+
+.plan .onb-step-label {
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 16px;
+}
+
+.plan .onb-steps [data-state="done"] .onb-step { color: var(--ink-secondary); }
+.plan .onb-steps [data-state="done"] .onb-step-bar { background: var(--ink-tertiary); }
+.plan .onb-steps [data-state="current"] .onb-step { color: var(--ink); }
+.plan .onb-steps [data-state="current"] .onb-step-bar { background: var(--ink); }
+
+/* ---------- Step body ---------- */
+
+.plan .onb-heading {
+  margin: 0;
+}
+
+.plan .onb-heading:focus {
+  outline: none;
+}
+
+.plan .onb-body[data-enter] {
+  animation: onb-enter 200ms ease-out;
+}
+
+@keyframes onb-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+.plan .onb .intro {
+  max-width: 60ch;
+  color: var(--ink-secondary);
+}
+
+.plan .onb-note,
+.plan .onb-source,
+.plan .onb-hint {
+  margin: 12px 0 0;
+  font-size: var(--text-caption);
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+
+.plan .onb-source {
+  margin-top: 24px;
+  color: var(--ink-tertiary);
+}
+
+.plan .onb-empty {
+  margin: 24px 0 0;
+  padding: 20px 16px;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 0 0 var(--hairline) var(--line);
+  color: var(--ink-secondary);
+}
+
+/* Facts read from the record: label over value, one row each. */
+.plan .onb-facts {
+  display: grid;
+  margin: 24px 0 0;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 0 0 var(--hairline) var(--line);
+}
+
+.plan .onb-facts > div {
+  display: grid;
+  grid-template-columns: 152px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 16px;
+  padding: 14px 0;
+}
+
+.plan .onb-facts > div + div {
+  border-top: var(--hairline) solid var(--line);
+}
+
+.plan .onb-facts dt {
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+}
+
+.plan .onb-facts dd {
+  margin: 0;
+  font-size: var(--text-body);
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.plan .onb-facts dd small {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--text-caption);
+  color: var(--ink-secondary);
+}
+
+/* The summary adds a Change action at the end of a row. */
+.plan .onb-summary > div {
+  grid-template-columns: 152px minmax(0, 1fr) auto;
+  align-items: center;
+  padding: 4px 0;
+  min-height: 52px;
+}
+
+.plan .onb-change {
+  justify-self: end;
+}
+
+.plan .onb-link {
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: var(--text-ui);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 150ms ease-out, background-color 150ms ease-out;
+}
+
+.plan .onb-link:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Radio and checkbox rows reuse .gate-choice; legends match the fact labels. */
+.plan .onb-choice {
+  margin-top: 24px;
+}
+
+.plan .onb-choice legend,
+.plan .onb-credits legend {
+  margin-bottom: 8px;
+  padding: 0;
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+}
+
+.plan .onb-choice label:has(:focus-visible) {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.plan .onb-choice input:focus-visible {
+  outline: none;
+}
+
+.plan .onb-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* ---------- Record ---------- */
+
+.plan .onb-totals {
+  margin-top: 24px;
+}
+
+.plan .onb-totals p {
+  margin: 0;
+  font-size: var(--text-body);
+  color: var(--ink-secondary);
+}
+
+.plan .onb-totals strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.plan .onb-totals p > span {
+  color: var(--ink-tertiary);
+}
+
+.plan .onb-meter {
+  display: flex;
+  gap: 2px;
+  height: 6px;
+  margin-top: 10px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.plan .onb-meter span { flex-basis: 0; }
+.plan .onb-meter [data-part="earned"] { background: var(--ink); }
+.plan .onb-meter [data-part="progress"] { background: var(--ink-tertiary); }
+.plan .onb-meter [data-part="to-go"] { background: var(--well); }
+
+.plan .onb-terms {
+  width: 100%;
+  margin-top: 16px;
+  border-collapse: collapse;
+  font-size: var(--text-ui);
+}
+
+.plan .onb-terms th,
+.plan .onb-terms td {
+  height: 40px;
+  padding: 0 12px 0 0;
+  border-bottom: var(--hairline) solid var(--line);
+  text-align: left;
+  font-weight: 400;
+}
+
+.plan .onb-terms thead th {
+  height: 32px;
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+}
+
+.plan .onb-terms tbody th {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.plan .onb-terms th:last-child,
+.plan .onb-terms td:last-child {
+  padding-right: 0;
+  text-align: right;
+}
+
+.plan .onb-terms [data-status="completed"] { color: var(--success); }
+.plan .onb-terms [data-status="in-progress"] { color: var(--ink); }
+.plan .onb-terms [data-status="registered"] { color: var(--ink-secondary); }
+
+.plan .onb-open {
+  margin-top: 28px;
+}
+
+.plan .onb-open h2 {
+  margin: 0;
+  font-size: var(--text-ui);
+  font-weight: 600;
+}
+
+.plan .onb-open ul {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan .onb-open li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 8px 0;
+  border-bottom: var(--hairline) solid var(--line);
+  font-size: var(--text-ui);
+  line-height: 1.4;
+}
+
+.plan .onb-open li > span:last-child {
+  flex: none;
+  max-width: 50%;
+  text-align: right;
+  color: var(--ink-secondary);
+}
+
+/* ---------- Pace ---------- */
+
+.plan .onb-credits {
+  min-width: 0;
+  margin: 24px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.plan .onb-segments {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border-radius: 10px;
+  background: var(--muted);
+}
+
+.plan .onb-segments label {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  border-radius: 7px;
+  color: var(--ink-secondary);
+  font-size: var(--text-body);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease-out, color 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+.plan .onb-segments input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.plan .onb-segments label:has(:checked) {
+  background: var(--surface);
+  box-shadow: 0 0 0 1.5px var(--ink);
+  color: var(--ink);
+}
+
+.plan .onb-segments label:has(:focus-visible) {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.plan .onb-pace {
+  display: grid;
+  gap: 2px;
+  margin: 24px 0 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: inset 3px 0 0 var(--success), 0 0 0 var(--hairline) var(--line);
+  font-size: var(--text-ui);
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.plan .onb-pace > span + span {
+  color: var(--ink-secondary);
+}
+
+.plan .onb-pace[data-tone="warning"] {
+  box-shadow: inset 3px 0 0 var(--warning), 0 0 0 var(--hairline) var(--line);
+}
+
+.plan .onb-pace[data-tone="warning"] > span:first-child {
+  color: var(--warning);
+}
+
+/* ---------- Actions ---------- */
+
+.plan .onb-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.plan .onb .onb-actions .btn-primary {
+  margin-top: 0;
+}
+
+.plan .onb-actions .btn.empty {
+  margin-right: auto;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .plan .onb-skip:hover { color: var(--ink); }
+  .plan button.onb-step:hover { color: var(--ink); }
+  .plan .onb-link:hover { color: var(--accent-hover); background: var(--accent-wash); }
+  .plan .onb-segments label:not(:has(:checked)):hover { color: var(--ink); background: var(--surface); }
+}
+
+@media (max-width: 520px) {
+  .plan .onb-grid { grid-template-columns: 1fr; }
+  .plan .onb-facts > div { grid-template-columns: 1fr; gap: 4px; }
+  .plan .onb-summary > div { grid-template-columns: minmax(0, 1fr) auto; }
+  .plan .onb-summary dt { grid-column: 1 / -1; padding-top: 8px; }
+  .plan .onb-step-label { letter-spacing: 0.04em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plan .onb-body[data-enter] { animation: none; }
+  .plan .onb-step-bar,
+  .plan .onb-segments label { transition: none; }
+}

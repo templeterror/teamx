@@ -687,6 +687,48 @@
       "url": "https://bulletin.temple.edu/undergraduate/fox-business-management/#requirementstextcontainer"
     },
     {
+      "id": "minor-business-elective-overlap",
+      "summary": "Not stated: whether a course that counts toward a minor (the MIS student's Marketing minor: MKTG 3511, MKTG 3596, MKTG 35xx electives) can also count as one of the three business electives. MKTG 3000-level courses are Fox courses in the 2000-3999 range not required for the MIS major, so the progress engine (web/src/components/progress/progress.ts) lets a minor course count toward both.",
+      "quotes": [
+        "2000-3999 electives can be selected from: ACCT, AS, BA, ECON, FIN, HCM, HRM, IB, LGLS, MIS, MKTG, RE, RMI, STAT, SCM, SGM."
+      ],
+      "url": "https://bulletin.temple.edu/undergraduate/fox-business-management/#requirementstextcontainer"
+    },
+    {
+      "id": "audit-honors-accepted",
+      "summary": "The MIS student's DARS audit (mis-student-record.json, catalog year Fall 2025) applies ACCT 2903 (Honors) to the lower-division foundation and offers FIN 3901, MSOM 3901 and BA 4902 beside FIN 3101, MSOM 3101 and BA 4102. The BBA tables name only the regular codes (see honors-alternates); the tree keeps the bulletin's codes. The FIN 3101 and FIN 3901 cards accept only ACCT 2101 or ACCT 2103, so a prerequisite check flags them for a student with ACCT 2903.",
+      "quotes": [],
+      "url": "https://bulletin.temple.edu/undergraduate/fox-business-management/#requirementstextcontainer"
+    },
+    {
+      "id": "audit-mis-intro-course",
+      "summary": "The tree requires MIS 1101 (Digital Systems). The MIS student's DARS audit counts MIS 2101 (Digital Systems), which has no 2026-2027 card, with the line 'Satisfies: MIS 1101'. The tree is unchanged; the record lists the substitution in satisfiedByException.",
+      "quotes": [],
+      "url": "https://bulletin.temple.edu/undergraduate/fox-business-management/#requirementstextcontainer",
+      "alsoSee": [
+        "https://bulletin.temple.edu/courses/mis/"
+      ]
+    },
+    {
+      "id": "audit-catalog-year-differences",
+      "summary": "The MIS student's DARS audit runs on catalog year Fall 2025; this tree encodes the 2026-2027 bulletin. The audit lists no MIS 1001, 2001, 3001 or 4001 (major.professional-development), and its World Society list differs from the 2026-2027 GG page (19 of its codes are not on the 2026-2027 list). The tree is left as the 2026-2027 bulletin states it (see catalog-year).",
+      "quotes": [
+        "These requirements are for students who matriculated in academic year 2026-2027."
+      ],
+      "url": "https://bulletin.temple.edu/undergraduate/fox-business-management/management-information-systems-bba/#requirementstextcontainer",
+      "alsoSee": [
+        "https://bulletin.temple.edu/undergraduate/general-education/gg/"
+      ]
+    },
+    {
+      "id": "audit-business-elective-levels",
+      "summary": "The 2026-2027 bulletin lets every listed subject count at 2000-3999. The MIS student's DARS audit (Fall 2025 catalog) accepts BA, HCM, LGLS, MIS, RE and SCM business electives at the 3000 level only (BA 3***, MIS 3*** and so on). The tree keeps the bulletin's ranges; the record's open item keeps the audit's.",
+      "quotes": [
+        "2000-3999 electives can be selected from: ACCT, AS, BA, ECON, FIN, HCM, HRM, IB, LGLS, MIS, MKTG, RE, RMI, STAT, SCM, SGM."
+      ],
+      "url": "https://bulletin.temple.edu/undergraduate/fox-business-management/#requirementstextcontainer"
+    },
+    {
       "id": "gened-45-plus",
       "summary": "Students with 45 or more transfer credits follow the 45+ GenEd curriculum, which is not encoded here.",
       "quotes": [

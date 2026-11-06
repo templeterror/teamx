@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useId, useRef, useState, useTransition, type KeyboardEvent } from "react";
 import { switchProfile } from "./actions";
 import { PROFILES, type Profile, type ProfileId } from "./student";
+import "./profile-switcher.css";
 
 /*
  * The top bar's student block, as a menu button (WAI-ARIA APG menu button with radio
@@ -13,6 +15,9 @@ import { PROFILES, type Profile, type ProfileId } from "./student";
  * Choosing the other profile runs switchProfile, which only sets the cookie. The server
  * re-renders this page as the other person (see actions.ts), so the URL stays put and
  * nothing renders from the client's guess first.
+ *
+ * Below the profiles, one link: Plan setup (/onboarding), the way back into onboarding
+ * for this profile. It is the last menu item and roves with the others.
  */
 
 /* The new top bar mounts with the new profile; this tells its switcher to take focus back. */
@@ -48,7 +53,7 @@ export function ProfileSwitcher({
   const menuId = `${uid}-menu`;
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const itemRefs = useRef<(HTMLElement | null)[]>([]);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const [pending, startTransition] = useTransition();
@@ -57,7 +62,8 @@ export function ProfileSwitcher({
     0,
     PROFILES.findIndex((p) => p.id === current.id),
   );
-  const last = PROFILES.length - 1;
+  /* The profiles, then Plan setup. */
+  const last = PROFILES.length;
 
   function openAt(index: number) {
     setActive(index);
@@ -178,7 +184,7 @@ export function ProfileSwitcher({
       <div
         id={menuId}
         role="menu"
-        aria-label="Switch profile"
+        aria-label="Student"
         className="profile-menu"
         data-open={open || undefined}
         onKeyDown={onMenuKeyDown}
@@ -219,6 +225,25 @@ export function ProfileSwitcher({
             </svg>
           </button>
         ))}
+        <div role="separator" className="profile-menu-separator" />
+        <Link
+          ref={(node) => {
+            itemRefs.current[last] = node;
+          }}
+          href="/onboarding"
+          role="menuitem"
+          tabIndex={last === active ? 0 : -1}
+          className="profile-option profile-setup"
+          onClick={() => close({ refocus: false })}
+          onPointerMove={() => {
+            if (open && last !== active) setActive(last);
+          }}
+        >
+          <span>
+            Plan setup
+            <small>Graduation term, credits, minor</small>
+          </span>
+        </Link>
       </div>
     </div>
   );

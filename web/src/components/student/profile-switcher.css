@@ -1,0 +1,11 @@
+/* Additions to the student menu (plan.css has the rest): a divider and the Plan setup link. */
+.profile-menu-separator {
+  height: var(--hairline);
+  margin: 4px 6px;
+  background: var(--line);
+}
+
+.profile-setup {
+  color: var(--ink);
+  text-decoration: none;
+}

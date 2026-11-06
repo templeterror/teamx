@@ -36,9 +36,10 @@ CST_COLLEGE_URL = f"{BULLETIN}/undergraduate/science-technology/"
 CST_COLLEGE_REQUIREMENTS_URL = CST_COLLEGE_URL + "#collegerequirementstextcontainer"
 GENED_URL = f"{BULLETIN}/undergraduate/general-education/"
 
-# Hand-written from the student's DARS audit, not generated. Its course codes are
-# pulled into the catalog so every course in the record has a card.
+# Hand-written from each student's DARS audit, not generated. Their course codes are
+# pulled into the catalog so every course in a record has a card.
 STUDENT_RECORD = ROOT / "student-record.json"
+MIS_STUDENT_RECORD = ROOT / "mis-student-record.json"
 
 # Prerequisite courses are fetched hop by hop until every code named in a card's
 # prerequisites has a card (or is not in this year's bulletin). The cap only
@@ -1149,6 +1150,14 @@ MIS_RELATED_COURSES = [
     "MIS 3581", "MIS 3582", "MIS 3682",
     "AS 1501", "AS 2503", "AS 2505", "ISE 2101", "SCTC 1021", "STAT 2104",
 ]
+# Courses the MIS student's open audit items can be planned as (mis-student-record.json):
+# the honors strategic management option, the Marketing minor's courses, the course the
+# audit's "Satisfies: AAAS 0857" names, and Italian Language II after her ITAL 1001.
+MIS_RECORD_PLANNING_COURSES = [
+    "BA 4902", "AAAS 0857", "ITAL 1002",
+    "MKTG 3501", "MKTG 3504", "MKTG 3506", "MKTG 3508", "MKTG 3509", "MKTG 3511",
+    "MKTG 3513", "MKTG 3514", "MKTG 3580", "MKTG 3596",
+]
 
 
 def mis_program_document() -> dict:
@@ -1483,6 +1492,44 @@ def mis_program_document() -> dict:
                 "url": FOX_REQ,
             },
             {
+                "id": "minor-business-elective-overlap",
+                "summary": "Not stated: whether a course that counts toward a minor (the MIS student's Marketing minor: MKTG 3511, MKTG 3596, MKTG 35xx electives) can also count as one of the three business electives. MKTG 3000-level courses are Fox courses in the 2000-3999 range not required for the MIS major, so the progress engine (web/src/components/progress/progress.ts) lets a minor course count toward both.",
+                "quotes": [
+                    "2000-3999 electives can be selected from: ACCT, AS, BA, ECON, FIN, HCM, HRM, IB, LGLS, MIS, MKTG, RE, RMI, STAT, SCM, SGM.",
+                ],
+                "url": FOX_REQ,
+            },
+            {
+                "id": "audit-honors-accepted",
+                "summary": "The MIS student's DARS audit (mis-student-record.json, catalog year Fall 2025) applies ACCT 2903 (Honors) to the lower-division foundation and offers FIN 3901, MSOM 3901 and BA 4902 beside FIN 3101, MSOM 3101 and BA 4102. The BBA tables name only the regular codes (see honors-alternates); the tree keeps the bulletin's codes. The FIN 3101 and FIN 3901 cards accept only ACCT 2101 or ACCT 2103, so a prerequisite check flags them for a student with ACCT 2903.",
+                "quotes": [],
+                "url": FOX_REQ,
+            },
+            {
+                "id": "audit-mis-intro-course",
+                "summary": "The tree requires MIS 1101 (Digital Systems). The MIS student's DARS audit counts MIS 2101 (Digital Systems), which has no 2026-2027 card, with the line 'Satisfies: MIS 1101'. The tree is unchanged; the record lists the substitution in satisfiedByException.",
+                "quotes": [],
+                "url": FOX_REQ,
+                "alsoSee": [f"{BULLETIN}/courses/mis/"],
+            },
+            {
+                "id": "audit-catalog-year-differences",
+                "summary": "The MIS student's DARS audit runs on catalog year Fall 2025; this tree encodes the 2026-2027 bulletin. The audit lists no MIS 1001, 2001, 3001 or 4001 (major.professional-development), and its World Society list differs from the 2026-2027 GG page (19 of its codes are not on the 2026-2027 list). The tree is left as the 2026-2027 bulletin states it (see catalog-year).",
+                "quotes": [
+                    "These requirements are for students who matriculated in academic year 2026-2027.",
+                ],
+                "url": MIS_REQ,
+                "alsoSee": [f"{GENED_URL}gg/"],
+            },
+            {
+                "id": "audit-business-elective-levels",
+                "summary": "The 2026-2027 bulletin lets every listed subject count at 2000-3999. The MIS student's DARS audit (Fall 2025 catalog) accepts BA, HCM, LGLS, MIS, RE and SCM business electives at the 3000 level only (BA 3***, MIS 3*** and so on). The tree keeps the bulletin's ranges; the record's open item keeps the audit's.",
+                "quotes": [
+                    "2000-3999 electives can be selected from: ACCT, AS, BA, ECON, FIN, HCM, HRM, IB, LGLS, MIS, MKTG, RE, RMI, STAT, SCM, SGM.",
+                ],
+                "url": FOX_REQ,
+            },
+            {
                 "id": "gened-45-plus",
                 "summary": "Students with 45 or more transfer credits follow the 45+ GenEd curriculum, which is not encoded here.",
                 "quotes": [
@@ -1629,6 +1676,7 @@ PROGRAMS = [
         "code": "ST-CSCI-BS",
         "courses": DEGREE_COURSES,
         "related": [],
+        "record": STUDENT_RECORD,
         "document": program_document,
         "plan": academic_plan,
         "programFile": "program.json",
@@ -1637,7 +1685,8 @@ PROGRAMS = [
     {
         "code": "BU-MIS-BBA",
         "courses": MIS_COURSES,
-        "related": MIS_RELATED_COURSES,
+        "related": MIS_RELATED_COURSES + MIS_RECORD_PLANNING_COURSES,
+        "record": MIS_STUDENT_RECORD,
         "document": lambda courses, gened_codes: mis_program_document(),
         "plan": mis_academic_plan,
         "programFile": "mis-program.json",
@@ -1708,9 +1757,8 @@ def main() -> None:
     # frozen; later phases' sections may be retimed (see place_plan_sections).
     phases: list[set[str]] = []
     for index, spec in enumerate(PROGRAMS):
-        wanted = set(spec["courses"]) | set(spec["related"])
+        wanted = set(spec["courses"]) | set(spec["related"]) | record_course_codes(spec["record"])
         if index == 0:
-            wanted |= record_course_codes(STUDENT_RECORD)
             for codes in groups.values():
                 wanted.update(codes)
         phases.append(wanted)
