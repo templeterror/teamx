@@ -320,7 +320,8 @@ type Entry = {
   role: "normal" | "outgoing" | "incoming";
 };
 
-function Week({
+/* Also rendered on /plan/review, read-only: no preview, and a selection only highlights. */
+export function Week({
   plan,
   confirmed,
   link,
@@ -437,6 +438,19 @@ function Week({
                 const body = (
                   <>
                     <BlockText title={e.course.title} code={e.course.code} time={time} />
+                    {/*
+                     * Printing lays the week out at paper width, which BlockText never measured.
+                     * Print shows this instead (see the review print styles): the title clamped
+                     * to the lines the block has room for, the time always whole. Hidden on screen.
+                     */}
+                    <span
+                      className="sp-block-print"
+                      aria-hidden="true"
+                      style={{ ["--sp-mins" as string]: e.course.end - e.course.start }}
+                    >
+                      <span className="sp-block-print-name">{e.course.title}</span>
+                      <span className="sp-block-print-time">{time}</span>
+                    </span>
                     {clashes.length > 0 && (
                       <span className="sp-block-flag" aria-hidden="true">
                         !
@@ -492,7 +506,7 @@ function Week({
   );
 }
 
-function Legend({ free }: { free: boolean }) {
+export function Legend({ free }: { free: boolean }) {
   const kinds: Placement["kind"][] = ["core", "elective", "gened", ...(free ? (["free-elective"] as const) : [])];
   return (
     <div className="sp-legend">
@@ -927,7 +941,7 @@ function timeRange(start: number, end: number) {
 }
 
 /* "Tue-Thu · 2:00–3:20 PM" */
-function MeetingTime({ course }: { course: Offering }) {
+export function MeetingTime({ course }: { course: Offering }) {
   const spoken = `${new Intl.ListFormat("en", { type: "conjunction" }).format(course.days.map((d) => DAY_NAMES[d]))}, ${timeRange(course.start, course.end)}`;
   return (
     <span className="sp-ccard-meta" aria-label={spoken}>

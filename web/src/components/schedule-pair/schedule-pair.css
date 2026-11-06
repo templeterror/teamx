@@ -274,6 +274,8 @@
   overflow: hidden;
 }
 .sp-block-body [hidden] { display: none; }
+/* The print layout of a block (schedule-pair.tsx); a page that prints the week shows it. */
+.sp-block-print { display: none; }
 .sp-block-name {
   display: block;
   font-size: var(--text-label);
