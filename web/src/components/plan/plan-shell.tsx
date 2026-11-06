@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { createContext, useContext, type ReactNode } from "react";
 import { StudentProvider } from "@/components/student/student-context";
 import { ProfileSwitcher } from "@/components/student/profile-switcher";
-import { profileFor, type ProfileId } from "@/components/student/student";
+import { profileFor, type ProfileKey } from "@/components/student/student";
 import { parkPlan, usePlan } from "./use-plan";
 import { useShortlist, type Shortlist } from "./use-shortlist";
 import { CURRENT_TERM } from "./terms";
@@ -31,14 +31,14 @@ const STEPS = [
 ] as const;
 
 /*
- * `profile` is the signed-in person's, from the profile cookie (see the workspace layout).
- * The plan and shortlist stay keyed by program: one profile per program for now, and the
- * keys saved before profiles existed keep working.
+ * `profile` is the signed-in person's key, from the profile cookies (see the workspace
+ * layout). The plan and shortlist are keyed by it, so the new student in CS never sees
+ * Rafiat's; Rafiat's and Allegra's keep the storage keys they had before.
  */
-export function PlanShell({ profile, children }: { profile: ProfileId; children: ReactNode }) {
+export function PlanShell({ profile, children }: { profile: ProfileKey; children: ReactNode }) {
   const student = profileFor(profile);
-  const plan = usePlan(student.program);
-  const shortlist = useShortlist(student.program);
+  const plan = usePlan(profile);
+  const shortlist = useShortlist(profile);
   const pathname = usePathname();
 
   return (
@@ -87,7 +87,7 @@ export function PlanShell({ profile, children }: { profile: ProfileId; children:
                 );
               })}
             </nav>
-            <ProfileSwitcher current={student} onBeforeSwitch={() => parkPlan(student.program, plan.snapshot())} />
+            <ProfileSwitcher current={student} onBeforeSwitch={() => parkPlan(profile, plan.snapshot())} />
           </header>
           <main className="workspace-main">{children}</main>
         </div>

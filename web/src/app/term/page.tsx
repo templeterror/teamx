@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { closedTerms } from "@/components/plan/terms";
-import { currentProgram } from "@/components/student/profile-cookie";
+import { currentProfile } from "@/components/student/profile-cookie";
 import { TermPicker } from "./term-picker";
 
 export const metadata: Metadata = {
@@ -18,5 +18,5 @@ export default function TermPage() {
 
 /* Old terms are the signed-in student's own; a new student has none. */
 async function ResolvedTerms() {
-  return <TermPicker closedTerms={closedTerms(await currentProgram())} />;
+  return <TermPicker closedTerms={closedTerms(await currentProfile())} />;
 }

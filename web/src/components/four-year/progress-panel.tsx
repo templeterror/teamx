@@ -208,10 +208,10 @@ export function ProgressPanel({ program, minor, progress, goal, board, onShowReq
         </button>
         {isOpen && (
           <div className="fy-req-body" id={bodyId}>
-            {row.missing.map((item) => {
+            {row.missing.map((item, index) => {
               const what = describeMissing(item);
               return (
-                <p key={item.label} className="fy-req-missing">
+                <p key={`${item.label}-${index}`} className="fy-req-missing">
                   <strong>{item.label}</strong>: missing {plural(item.credits, "credit")}{what ? ` from ${what}` : ""}.
                 </p>
               );

@@ -16,11 +16,13 @@ export type Edits = { moves: Moves; choices: Choices };
 
 const NONE: Edits = { moves: {}, choices: {} };
 
+/* "course-planner:four-year:v3:rafiat:ST-CSCI-BS"; the new student's is ":new:<program>", one per program. */
 export const EDITS_KEY = (profile: ProfileId, program: ProgramCode) => `course-planner:four-year:v3:${profile}:${program}`;
 
 type Store = {
   read: () => Edits;
   save: (edits: Edits) => void;
+  clear: () => void;
   subscribe: (listener: () => void) => () => void;
 };
 const STORES = new Map<string, Store>();
@@ -57,6 +59,16 @@ function storeFor(key: string): Store {
     for (const listener of listeners) listener();
   }
 
+  function clear() {
+    cache = NONE;
+    try {
+      window.localStorage.removeItem(key);
+    } catch {
+      /* Nothing stored to remove. */
+    }
+    for (const listener of listeners) listener();
+  }
+
   function subscribe(listener: () => void) {
     listeners.add(listener);
     function onStorage(event: StorageEvent) {
@@ -71,9 +83,14 @@ function storeFor(key: string): Store {
     };
   }
 
-  const store = { read, save, subscribe };
+  const store = { read, save, clear, subscribe };
   STORES.set(key, store);
   return store;
+}
+
+/* Forgets every edit for a profile and program ("+ New student" starts clean). */
+export function clearEdits(profile: ProfileId, program: ProgramCode) {
+  storeFor(EDITS_KEY(profile, program)).clear();
 }
 
 export function useEdits(profile: ProfileId, program: ProgramCode) {

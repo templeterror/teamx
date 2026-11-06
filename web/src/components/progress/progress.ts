@@ -200,6 +200,8 @@ type Need = {
   overlay: boolean;
   /* An overlay's own test for a placed course (honors, upper-level), when it names no list. */
   accepts?: (code: string) => boolean;
+  /* A gen ed area another requirement's course waives (GQ by MATH 1041): no card of its own. */
+  waiver?: boolean;
   filled: { code: string; credits: number; term: string }[];
 };
 
@@ -211,6 +213,8 @@ type Row = {
   required: { credits: number; courses?: number };
   /* Codes the tree names for this row (named courses, an area's or elective list). */
   codes: Set<string>;
+  /* The tree's untitled course and one-of children, one course each ("Major courses"). */
+  leaves: TreeNode[];
   pool: string[];
   attribute?: string;
   satisfiedBy: SatisfiedBy[];
@@ -246,6 +250,7 @@ function makeRow(program: ProgramCode, id: string, node: TreeNode | undefined, l
     node,
     required,
     codes: new Set([...named, ...ownCodes, ...listed]),
+    leaves,
     pool: node?.pool ? rangePatterns(node.pool) : [],
     attribute: node?.attribute,
     satisfiedBy: [],
@@ -523,51 +528,123 @@ function buildModel(program: ProgramCode, record: StudentRecord) {
     }
   }
 
-  /* 5. With no audit, whatever the record leaves short is open. */
+  /*
+   * 5. With no audit (the new student), whatever the record leaves short is open, as one
+   * need per course still to take so each is a card on the board: every named course in a
+   * row of them, a choice ("one of", a gen ed area, a lab sequence) per course it asks for,
+   * an elective list's credits in 3-credit courses, and free electives as whatever the
+   * degree's credits leave over. A gen ed area waived by a course the program requires
+   * anyway (GQ by MATH 1041 in CS, by STAT 2103 in MIS) gets no card: that course fills it.
+   */
   if (!audit) {
+    const has = (code: string) => byCode.has(code);
+    const recordCredits = (row: Row) => row.satisfiedBy.reduce((sum, item) => sum + (byCode.get(item.code)?.credits ?? 0), 0);
+    const need = (label: string, extra: Partial<Need> & { credits: number }): Need => ({
+      label,
+      slotLabel: singular(label),
+      courses: 1,
+      slotOnly: false,
+      overlay: false,
+      filled: [],
+      ...extra,
+    });
+    const requiredElsewhere = (self: Row, code: string) =>
+      rows.some((row) => row !== self && row.node?.kind !== "creditsFrom" && row.codes.has(code));
+
     for (const row of rows) {
-      const have = row.satisfiedBy.reduce((sum, item) => sum + (byCode.get(item.code)?.credits ?? 0), 0);
-      if (have >= row.required.credits || row.node?.waivedByRequirement) continue;
-      const from = row.codes.size ? [...row.codes].filter((code) => !byCode.has(code)) : undefined;
-      row.needs.push({
-        label: row.label,
-        slotLabel: row.label,
-        credits: row.required.credits - have,
+      const node = row.node;
+      if (row.id === "free-electives" || node?.waivedByRequirement) continue;
+      if (node?.kind === "waivedBy") {
+        if (row.satisfiedBy.length) continue;
+        const waivers = (node.waivedBy ?? []).filter((code) => requiredElsewhere(row, code));
+        if (waivers.length) {
+          row.needs.push(need(row.label, { credits: row.required.credits, from: waivers, overlay: true, waiver: true }));
+          row.note ??= `Waived by ${waivers.length > 2 ? `${waivers[0]} or ${waivers[1]}` : waivers.join(" or ")}, which your program requires.`;
+          continue;
+        }
+      }
+      if (row.leaves.length) {
+        for (const leaf of row.leaves) {
+          const codes = leafCodes(leaf);
+          if (!codes.length || codes.some(has)) continue;
+          row.needs.push(need(`${row.label}: ${codes[0]}`, {
+            credits: minCredits(leaf.credits) || catalogCredits(codes[0]) || 3,
+            from: codes,
+          }));
+        }
+        continue;
+      }
+      const short = row.required.credits - recordCredits(row);
+      if (short <= 0) continue;
+      const count = node?.count
+        ?? (node?.kind === "oneSequence" ? 2 : node?.kind === "creditsFrom" ? Math.max(1, Math.round(row.required.credits / 3)) : 1);
+      const from = row.codes.size ? [...row.codes].filter((code) => !has(code)) : undefined;
+      row.needs.push(need(row.label, {
+        credits: short,
+        courses: Math.max(1, count - row.satisfiedBy.length),
         from,
         pool: row.pool.length ? row.pool : undefined,
-        slotOnly: false,
-        overlay: false,
-        filled: [],
-      });
+      }));
+    }
+
+    /* Free electives: at least the tree's minimum, and whatever else the degree's credits need. 3 credits a card. */
+    const free = rows.find((row) => row.id === "free-electives");
+    if (free) {
+      const degree = minCredits(findNode(tree, "university.credits")?.credits);
+      const recorded = entries.reduce((sum, entry) => sum + entry.credits, 0) - recordCredits(free);
+      const placed = rows.flatMap((row) => row.needs).filter((item) => !item.overlay).reduce((sum, item) => sum + item.credits, 0);
+      const credits = Math.max(free.required.credits, degree - recorded - placed) - recordCredits(free);
+      const cards = Math.floor(credits / 3);
+      for (let k = 0; k < cards; k++) {
+        const label = `Free elective (${k + 1} of ${cards})`;
+        /* What 3-credit cards leave over goes one credit each on the last cards (14: 3, 3, 4, 4). */
+        free.needs.push(need(label, { label, slotLabel: label, credits: 3 + (k >= cards - (credits % 3) ? 1 : 0) }));
+      }
     }
   }
 
-  return { rows, entries, byCode };
+  return { rows, entries, byCode, hasAudit: !!audit };
 }
 
 /* ---------- Slots ---------- */
 
 /*
- * The default first choice for a slot, per program. MIS 3535 is the bulletin's highly
- * recommended business elective (its prerequisite, MIS 2101, is on Allegra's record);
- * MIS 3534 and MIS 3536 are MIS 3000-level electives whose cards list no prerequisite.
- * MKTG 3508 (Digital Marketing) and MKTG 3509 (Customer Data Analytics) sit closest to
- * an MIS major. ITAL 0868 (World Society) and ITAL 1002 follow her ITAL 1001.
+ * The default first choice for a slot. Two layers: the program's, for anyone in it, and
+ * the ones picked for Rafiat's and Allegra's audits, which win for them.
+ *
+ * Program: MIS 3535 is the bulletin's highly recommended business elective; MIS 3534 and
+ * MIS 3536 are MIS 3000-level electives whose cards list no prerequisite. For the CS lab
+ * science sequence, General Physics I and II (PHYS 2021, PHYS 2022), the calculus-based
+ * physics pair the major lists; without a default the sequence's first choices would be
+ * two biology "A" courses, which are not a sequence.
  */
-const DEFAULT_CHOICES: Record<ProgramCode, Record<string, string[]>> = {
+const PROGRAM_CHOICES: Record<ProgramCode, Record<string, string[]>> = {
+  "BU-MIS-BBA": {
+    [MINOR_OVERLAP_ROW]: ["MIS 3535", "MIS 3534", "MIS 3536"],
+  },
+  "ST-CSCI-BS": {
+    "major.lab-science": ["PHYS 2021", "PHYS 2022"],
+  },
+};
+
+/*
+ * Picked for a person's audit, so only a record with one gets them.
+ *
+ * Allegra: MKTG 3508 (Digital Marketing) and MKTG 3509 (Customer Data Analytics) sit
+ * closest to an MIS major. ITAL 0868 (World Society) and ITAL 1002 follow her ITAL 1001.
+ *
+ * Rafiat is in University Honors, which still wants 3 honors courses at 2000 or above, and
+ * her IH I default is already the honors IH 0951. Honors General Physics I and II are a
+ * lab science sequence the major lists, so they fill the sequence and two of the three
+ * honors courses at once (and count as upper-level CST credits). MATH 2941 (Honors
+ * Differential Equations I) is the third, the honors course closest to a CS degree.
+ */
+const RECORD_CHOICES: Record<ProgramCode, Record<string, string[]>> = {
   "BU-MIS-BBA": {
     "gened.gg": ["ITAL 0868"],
-    [MINOR_OVERLAP_ROW]: ["MIS 3535", "MIS 3534", "MIS 3536"],
     minor: ["MKTG 3508", "MKTG 3509"],
     "free-electives": ["ITAL 1002"],
   },
-  /*
-   * Rafiat is in University Honors, which still wants 3 honors courses at 2000 or above, and
-   * her IH I default is already the honors IH 0951. Honors General Physics I and II are a
-   * lab science sequence the major lists, so they fill the sequence and two of the three
-   * honors courses at once (and count as upper-level CST credits). MATH 2941 (Honors
-   * Differential Equations I) is the third, the honors course closest to a CS degree.
-   */
   "ST-CSCI-BS": {
     "major.lab-science": ["PHYS 2921", "PHYS 2922"],
     honors: ["MATH 2941", "MATH 2943"],
@@ -590,13 +667,16 @@ function slotKind(row: Row): SlotKind {
 }
 
 function slotsFor(program: ProgramCode, model: ReturnType<typeof buildModel>): OpenSlot[] {
-  const { rows, byCode } = model;
+  const { rows, byCode, hasAudit } = model;
+  /* A new student (no audit) gets the program's defaults only. */
+  const defaultsFor = hasAudit ? { ...PROGRAM_CHOICES[program], ...RECORD_CHOICES[program] } : PROGRAM_CHOICES[program];
   const required = new Set(rows.flatMap((row) => (row.node?.kind === "creditsFrom" ? [] : [...row.codes])));
   const elsewhere = (self: Need) =>
     new Set(rows.flatMap((row) => row.needs.filter((need) => need !== self).flatMap((need) => need.from ?? [])));
 
   return rows.flatMap((row) =>
     row.needs.flatMap((need, needIndex): OpenSlot[] => {
+      if (need.waiver) return [];
       const taken = elsewhere(need);
       const listed = need.from
         ? need.from
@@ -609,7 +689,7 @@ function slotsFor(program: ProgramCode, model: ReturnType<typeof buildModel>): O
                 need.pool!.some((pattern) => matchesPattern(code, pattern)) && !required.has(code) && !taken.has(code))
             : [];
       const candidates = listed.filter((code) => code in CATALOG && !byCode.has(code) && !excludedFor(program, code));
-      const defaults = (DEFAULT_CHOICES[program][row.id] ?? []).filter((code) =>
+      const defaults = (defaultsFor[row.id] ?? []).filter((code) =>
         need.from || need.pool || need.accepts || row.attribute ? candidates.includes(code) : code in CATALOG && !byCode.has(code));
       const ordered = [...defaults, ...candidates.filter((code) => !defaults.includes(code))];
       const count = need.courses ?? 1;

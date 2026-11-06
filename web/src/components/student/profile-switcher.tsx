@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, useTransition, type KeyboardEvent } from "react";
-import { switchProfile } from "./actions";
-import { PROFILES, type Profile, type ProfileId } from "./student";
+import { startNewStudent, switchProfile } from "./actions";
+import { forgetNewStudent } from "./new-student";
+import { PROFILES, type Profile } from "./student";
 import "./profile-switcher.css";
 
 /*
@@ -16,8 +17,11 @@ import "./profile-switcher.css";
  * re-renders this page as the other person (see actions.ts), so the URL stays put and
  * nothing renders from the client's guess first.
  *
- * Below the profiles, one link: Plan setup (/onboarding), the way back into onboarding
- * for this profile. It is the last menu item and roves with the others.
+ * The new student is listed only while signed in as them (it is whoever "+ New student"
+ * last started). Below the profiles, two more items that rove with the others:
+ * "+ New student", which clears the new student's saved state in both programs and opens
+ * plan setup for a fresh one (startNewStudent), and Plan setup (/onboarding), the way
+ * back into onboarding for this profile.
  */
 
 /* The new top bar mounts with the new profile; this tells its switcher to take focus back. */
@@ -58,12 +62,14 @@ export function ProfileSwitcher({
   const [active, setActive] = useState(0);
   const [pending, startTransition] = useTransition();
 
+  const profiles = current.isNew ? [...PROFILES, current] : PROFILES;
   const currentIndex = Math.max(
     0,
-    PROFILES.findIndex((p) => p.id === current.id),
+    profiles.findIndex((p) => p.key === current.key),
   );
-  /* The profiles, then Plan setup. */
-  const last = PROFILES.length;
+  /* The profiles, then + New student, then Plan setup. */
+  const newIndex = profiles.length;
+  const last = newIndex + 1;
 
   function openAt(index: number) {
     setActive(index);
@@ -75,12 +81,20 @@ export function ProfileSwitcher({
     if (refocus) triggerRef.current?.focus();
   }
 
-  function choose(id: ProfileId) {
+  function choose(profile: Profile) {
     close({ refocus: true });
-    if (id === current.id) return;
+    if (profile.key === current.key) return;
     onBeforeSwitch();
     markRefocus();
-    startTransition(() => switchProfile(id));
+    startTransition(() => switchProfile(profile.id));
+  }
+
+  /* Park this plan, forget the old new student, then sign in as a fresh one and open plan setup. */
+  function startOver() {
+    close({ refocus: false });
+    onBeforeSwitch();
+    forgetNewStudent();
+    startTransition(() => startNewStudent());
   }
 
   /* Focus follows the active item while open. */
@@ -189,18 +203,18 @@ export function ProfileSwitcher({
         data-open={open || undefined}
         onKeyDown={onMenuKeyDown}
       >
-        {PROFILES.map((p, i) => (
+        {profiles.map((p, i) => (
           <button
-            key={p.id}
+            key={p.key}
             ref={(node) => {
               itemRefs.current[i] = node;
             }}
             type="button"
             role="menuitemradio"
-            aria-checked={p.id === current.id}
+            aria-checked={p.key === current.key}
             tabIndex={i === active ? 0 : -1}
             className="profile-option"
-            onClick={() => choose(p.id)}
+            onClick={() => choose(p)}
             onPointerMove={() => {
               if (open && i !== active) setActive(i);
             }}
@@ -226,6 +240,24 @@ export function ProfileSwitcher({
           </button>
         ))}
         <div role="separator" className="profile-menu-separator" />
+        <button
+          ref={(node) => {
+            itemRefs.current[newIndex] = node;
+          }}
+          type="button"
+          role="menuitem"
+          tabIndex={newIndex === active ? 0 : -1}
+          className="profile-option profile-setup"
+          onClick={startOver}
+          onPointerMove={() => {
+            if (open && newIndex !== active) setActive(newIndex);
+          }}
+        >
+          <span>
+            + New student
+            <small>Start over with no courses</small>
+          </span>
+        </button>
         <Link
           ref={(node) => {
             itemRefs.current[last] = node;

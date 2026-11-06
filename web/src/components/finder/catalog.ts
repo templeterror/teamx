@@ -7,12 +7,12 @@
  * requirement tree and suggested plan, and the signed-in student's record.
  *
  * What depends on the student (their record, their program's tree) lives on a
- * Catalog built once per program by catalogFor(); the rest is plain functions.
+ * Catalog built once per profile by catalogFor(); the rest is plain functions.
  */
-import { DEFAULT_PROGRAM, courses, programs, sections, type ProgramCode } from "@/data";
+import { courses, programs, sections, type ProgramCode, type StudentRecord } from "@/data";
 import { sectionOffering, startingOfferings, type Offering } from "@/components/plan/data";
 import type { Placement, usePlan } from "@/components/plan/use-plan";
-import { REQUIRED_FROM, profileForProgram } from "@/components/student/student";
+import { DEFAULT_PROFILE, REQUIRED_FROM, profileFor, type ProfileKey } from "@/components/student/student";
 
 /* ---------- Public types ---------- */
 
@@ -170,9 +170,9 @@ function find(nodes: ReqNode[], id: string): ReqNode | undefined {
  * student register for a course whose prerequisite is in progress, pending its
  * completion. Registered courses (this term's plan) do not.
  */
-function recordStatuses(program: ProgramCode): ReadonlyMap<string, RecordStatus> {
+function recordStatuses(record: StudentRecord): ReadonlyMap<string, RecordStatus> {
   return new Map(
-    profileForProgram(program).record.terms.flatMap(({ status, courses: taken }) =>
+    record.terms.flatMap(({ status, courses: taken }) =>
       status === "registered" ? [] : taken.map((c) => [c.code, status] as const),
     ),
   );
@@ -632,11 +632,11 @@ export function scopeCounts(rows: FinderRow[]): Record<Scope, number> {
 
 export const SUBJECTS: string[] = [...new Set(CATALOG.map((c) => c.subject))].sort();
 
-/* ---------- Per program ---------- */
+/* ---------- Per profile ---------- */
 
 /*
  * Everything the finder reads that depends on who is signed in: their record and
- * their program's tree. Built once per program, then shared by every render.
+ * their program's tree. Built once per profile, then shared by every render.
  */
 export type Catalog = {
   program: ProgramCode;
@@ -652,10 +652,10 @@ export type Catalog = {
   prerequisiteGroups: (code: string, plan: ReadonlySet<string>) => PrereqGroup[];
 };
 
-function buildCatalog(program: ProgramCode): Catalog {
-  const record = profileForProgram(program).record;
+function buildCatalog(key: ProfileKey): Catalog {
+  const { program, record } = profileFor(key);
   const requirements = (programs[program].degree as unknown as { requirements: ReqNode[] }).requirements;
-  const statuses = recordStatuses(program);
+  const statuses = recordStatuses(record);
   const completed: ReadonlySet<string> = new Set(statuses.keys());
   const finished: ReadonlySet<string> = new Set(
     [...statuses].flatMap(([code, status]) => (status === "completed" ? [code] : [])),
@@ -667,7 +667,7 @@ function buildCatalog(program: ProgramCode): Catalog {
     completed,
     statuses,
     countsFor: (c) => countsFor(c, e, open, required),
-    starting: startingOfferings(program),
+    starting: startingOfferings(key),
   };
   return {
     program,
@@ -686,13 +686,14 @@ function buildCatalog(program: ProgramCode): Catalog {
   };
 }
 
-const CATALOGS = new Map<ProgramCode, Catalog>();
+const CATALOGS = new Map<ProfileKey, Catalog>();
 
-export function catalogFor(program: ProgramCode = DEFAULT_PROGRAM): Catalog {
-  let catalog = CATALOGS.get(program);
+/* Per profile, not program: the new student in CS has Rafiat's tree but none of her record. */
+export function catalogFor(key: ProfileKey = DEFAULT_PROFILE): Catalog {
+  let catalog = CATALOGS.get(key);
   if (!catalog) {
-    catalog = buildCatalog(program);
-    CATALOGS.set(program, catalog);
+    catalog = buildCatalog(key);
+    CATALOGS.set(key, catalog);
   }
   return catalog;
 }
