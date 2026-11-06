@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useState } from "react";
 import { programs, type ProgramCode } from "@/data";
 import type { GraduationProgress, RequirementProgress } from "@/components/progress/progress";
 import { CREDIT_MAX, PLACEHOLDER, TRAY, type Board, type Card } from "./board";
-import { AlertIcon, CheckIcon, ChevronIcon, InfoIcon } from "./icons";
+import { AlertIcon, ChevronIcon, InfoIcon } from "./icons";
 
 type Props = {
   program: ProgramCode;
@@ -43,16 +43,23 @@ function groupTitle(group: GroupId, rows: RequirementProgress[], program: Progra
   }
 }
 
-const STATUS_TEXT: Record<RequirementProgress["status"], string> = {
-  met: "Met",
-  "in-progress": "In progress",
-  planned: "Planned",
-  missing: "Missing",
-};
-
 const STATE_TEXT = { completed: "Completed", "in-progress": "In progress", registered: "Registered", planned: "Planned" } as const;
+/* A course's state as a step on the progress ramp, the same swatch the legend uses. */
+const STATE_SEG = { completed: "done", "in-progress": "progress", registered: "progress", planned: "planned" } as const;
 
 const plural = (count: number, word: string) => `${count} ${word}${count === 1 ? "" : "s"}`;
+
+/* Spring, Summer, Fall in calendar order. */
+const termIndex = (term: string) => {
+  const [season, year] = term.split(" ");
+  return Number(year) * 3 + (season === "Fall" ? 2 : season === "Summer" ? 1 : 0);
+};
+
+/* The term a requirement finishes: the latest term of anything counting toward it. */
+function finishTerm(row: RequirementProgress): string | null {
+  return row.satisfiedBy.reduce<string | null>(
+    (latest, item) => (!latest || termIndex(item.term) > termIndex(latest) ? item.term : latest), null);
+}
 
 /* Regular terms between two terms; a summer counts with the spring before it. */
 function termsApart(from: string, to: string) {
@@ -98,17 +105,19 @@ export function ProgressPanel({ program, minor, progress, goal, board, onShowReq
   const toggle = (id: string) => toggleIn(setOpen, id);
 
   /* ---------- Headline ---------- */
-  let tone: "success" | "warning" = progress.onTrack ? "success" : "warning";
+  /* The headline states the fact in ink; the problem, when there is one, is the amber sentence under it. */
   let headline: string;
-  let detail: string;
+  let problem: string | null = null;
+  let detail: string | null = null;
   if (progress.onTrack && progress.graduationTerm) {
-    headline = `On track to graduate ${progress.graduationTerm}`;
     const apart = termsApart(goal, progress.graduationTerm);
-    if (apart === 0) detail = `Meets your ${goal} goal.`;
-    else if (apart < 0) detail = `${plural(-apart, "term")} ahead of your ${goal} goal.`;
-    else {
-      tone = "warning";
-      detail = `${plural(apart, "term")} past your ${goal} goal. Take more credits a term or add summers in setup.`;
+    if (apart > 0) {
+      headline = `Graduating ${progress.graduationTerm}`;
+      problem = `${plural(apart, "term")} after your ${goal} goal.`;
+      detail = "Take more credits a term or add summers in setup.";
+    } else {
+      headline = `On track to graduate ${progress.graduationTerm}`;
+      detail = apart === 0 ? `Meets your ${goal} goal.` : `${plural(-apart, "term")} ahead of your ${goal} goal.`;
     }
   } else {
     headline = "Not on track yet";
@@ -119,8 +128,8 @@ export function ProgressPanel({ program, minor, progress, goal, board, onShowReq
     const names = missingRows.slice(0, 3).map((row) => `${row.label} (${row.missingCredits} cr)`);
     const more = missingRows.length > 3 ? ` and ${missingRows.length - 3} more` : "";
     const inTray = board.cards.some((card) => board.placement[card.id] === TRAY && !board.optional.has(card.id));
-    detail = `${parts.join(" and ")} unplaced${names.length ? `: ${names.join(", ")}${more}` : ""}.`
-      + (inTray ? " Drag what’s left from Still to place into a term." : "");
+    problem = `${parts.join(" and ")} unplaced${names.length ? `: ${names.join(", ")}${more}` : ""}.`;
+    detail = inTray ? "Drag what’s left from Still to place into a term." : null;
   }
 
   /* ---------- Plan checks ---------- */
@@ -153,22 +162,33 @@ export function ProgressPanel({ program, minor, progress, goal, board, onShowReq
   const progressW = Math.min(total.inProgress, required - doneW);
   const plannedW = Math.min(total.planned, required - doneW - progressW);
   const beyond = total.done + total.inProgress + total.planned - total.required;
+  const legend = [
+    { seg: "done", count: total.done, label: "done" },
+    { seg: "progress", count: total.inProgress, label: "in progress" },
+    { seg: "planned", count: total.planned, label: "planned" },
+    ...(total.missing ? [{ seg: "missing", count: total.missing, label: "missing" }] : []),
+  ];
 
   const groups = GROUP_ORDER.map((group) => ({ group, rows: requirements.filter((row) => groupOf(row) === group) }))
     .filter(({ rows }) => rows.length);
 
   const trayFor = (row: RequirementProgress) =>
     board.cards.filter((card) => card.slot.requirement === row.id && board.placement[card.id] === TRAY && !board.optional.has(card.id));
-  const cardLabel = (code: string) => {
-    if (!code.startsWith(PLACEHOLDER)) return code;
-    return board.cards.find((card) => card.id === code.slice(PLACEHOLDER.length))?.fills ?? "Open slot";
-  };
+  /* An open card is "Open slot", as on the board; the row already says what it fills. */
+  const cardLabel = (code: string) => (code.startsWith(PLACEHOLDER) ? "Open slot" : code);
+
+  /* Right of the label: what's missing, or the term the requirement finishes. */
+  function rowStatus(row: RequirementProgress) {
+    if (row.status === "missing") return <>{row.missingCredits} cr missing</>;
+    if (row.status === "met") return <>Met</>;
+    if (row.status === "in-progress") return <>In progress</>;
+    const term = finishTerm(row);
+    return term ? <><span className="fy-sr">Planned through </span>{term}</> : <>Planned</>;
+  }
 
   function renderRow(row: RequirementProgress) {
     const isOpen = open.has(row.id);
-    const size = Math.max(row.required.credits, row.done + row.inProgress + row.planned + row.missingCredits, 1);
     const tray = trayFor(row);
-    const status = row.status === "missing" ? `Missing ${plural(row.missingCredits, "credit")}` : STATUS_TEXT[row.status];
     const bodyId = `fy-req-${row.id.replace(/[^a-z0-9]+/gi, "-")}`;
     return (
       <li key={row.id} className="fy-req" data-status={row.status} data-open={isOpen || undefined}>
@@ -183,21 +203,8 @@ export function ProgressPanel({ program, minor, progress, goal, board, onShowReq
           }}
         >
           <span className="fy-req-label">{row.label}</span>
-          <span className="fy-req-status">
-            {row.status === "met" && <CheckIcon />}
-            {status}
-          </span>
+          <span className="fy-req-status">{rowStatus(row)}</span>
           <ChevronIcon />
-          <span className="fy-req-bar" aria-hidden="true"
-            style={{
-              "--done": `${(row.done / size) * 100}%`,
-              "--progress": `${(row.inProgress / size) * 100}%`,
-              "--planned": `${(row.planned / size) * 100}%`,
-            } as CSSProperties}>
-            <span data-seg="done" />
-            <span data-seg="progress" />
-            <span data-seg="planned" />
-          </span>
         </button>
         {isOpen && (
           <div className="fy-req-body" id={bodyId}>
@@ -221,10 +228,11 @@ export function ProgressPanel({ program, minor, progress, goal, board, onShowReq
             {row.satisfiedBy.length > 0 && (
               <ul className="fy-req-courses">
                 {row.satisfiedBy.map((item) => (
-                  <li key={`${item.code}-${item.term}`} data-state={item.state}>
+                  <li key={`${item.code}-${item.term}`}>
+                    <i data-seg={STATE_SEG[item.state]} aria-hidden="true" />
                     <span className="fy-req-code">{cardLabel(item.code)}</span>
-                    <span>{item.term}</span>
-                    <span>{STATE_TEXT[item.state]}</span>
+                    <span className="fy-sr">, {STATE_TEXT[item.state]}, </span>
+                    <span className="fy-req-term">{item.term}</span>
                   </li>
                 ))}
               </ul>
@@ -238,20 +246,22 @@ export function ProgressPanel({ program, minor, progress, goal, board, onShowReq
 
   return (
     <div className="fy-progress">
-      <p className="fy-progress-label">Graduation progress</p>
-      <div className="fy-headline" data-tone={tone} aria-live="polite">
-        {tone === "success" ? <CheckIcon /> : <AlertIcon />}
-        <div>
-          <h2>{headline}</h2>
-          <p>{detail}</p>
-        </div>
+      <div className="fy-headline" aria-live="polite">
+        <h2>{headline}</h2>
+        {(problem || detail) && (
+          <p>
+            {problem && <span className="fy-headline-problem">{problem}</span>}
+            {problem && detail && " "}
+            {detail}
+          </p>
+        )}
       </div>
 
       <div className="fy-meter-block">
         <div className="fy-meter-caption">
           <span>Credits</span>
           <span className="fy-num">
-            {Math.min(total.done + total.inProgress + total.planned, total.required)} of {total.required}
+            {total.required} needed{beyond > 0 && <span className="fy-meter-extra"> · {beyond} extra</span>}
           </span>
         </div>
         <div className="fy-meter" role="img"
@@ -260,13 +270,14 @@ export function ProgressPanel({ program, minor, progress, goal, board, onShowReq
           <span data-seg="progress" style={{ width: share(progressW) }} />
           <span data-seg="planned" style={{ width: share(plannedW) }} />
         </div>
-        <dl className="fy-legend">
-          <div><dt><i data-seg="done" />Done</dt><dd>{total.done}</dd></div>
-          <div><dt><i data-seg="progress" />In progress</dt><dd>{total.inProgress}</dd></div>
-          <div><dt><i data-seg="planned" />Planned</dt><dd>{total.planned}</dd></div>
-          <div data-tone={total.missing ? "warning" : undefined}><dt><i data-seg="missing" />Missing</dt><dd>{total.missing}</dd></div>
-        </dl>
-        {beyond > 0 && <p className="fy-meter-note">{beyond} credits beyond the {total.required} the degree needs.</p>}
+        <ul className="fy-legend" aria-hidden="true">
+          {legend.map(({ seg, count, label }) => (
+            <li key={seg} data-seg-item={seg}>
+              <i data-seg={seg} />
+              <b className="fy-num">{count}</b> {label}
+            </li>
+          ))}
+        </ul>
       </div>
 
       {(outOfOrder.length > 0 || overloaded.length > 0 || toCheck.length > 0) && (
@@ -300,28 +311,24 @@ export function ProgressPanel({ program, minor, progress, goal, board, onShowReq
 
       <div className="fy-groups">
         {groups.map(({ group, rows }) => {
-          const missing = rows.filter((row) => row.status === "missing").length;
-          const expanded = shownGroups.has(group);
+          const title = groupTitle(group, rows, program, minor);
+          /* "Free electives" holding one "Free electives" row: the row is its own heading. */
+          const solo = rows.length === 1 && rows[0].label.toLowerCase() === title.toLowerCase();
+          const expanded = solo || shownGroups.has(group);
           const pending = rows.filter((row) => row.status === "missing" || row.status === "planned");
           const visible = expanded ? rows : pending;
           const hidden = rows.length - pending.length;
           return (
-            <section key={group} className="fy-group" aria-labelledby={`fy-group-${group}`}>
-              <h3 id={`fy-group-${group}`} className="fy-group-head">
-                <span>{groupTitle(group, rows, program, minor)}</span>
-                <span className="fy-group-count" data-tone={missing ? "warning" : undefined}>
-                  {missing ? `${missing} missing` : pending.length ? `${pending.length} planned` : "Done or underway"}
-                </span>
-              </h3>
+            <section key={group} className="fy-group"
+              {...(solo ? { "aria-label": title } : { "aria-labelledby": `fy-group-${group}` })}>
+              {!solo && <h3 id={`fy-group-${group}`} className="fy-group-head">{title}</h3>}
               <ul className="fy-reqs">
                 {visible.map(renderRow)}
               </ul>
-              {hidden > 0 && (
+              {!solo && hidden > 0 && (
                 <button type="button" className="fy-group-more" aria-expanded={expanded}
                   onClick={() => toggleIn(setShownGroups, group)}>
-                  {expanded
-                    ? "Show only what’s left"
-                    : `${hidden} ${hidden === 1 ? "requirement" : "requirements"} met or in progress`}
+                  {expanded ? "Show only what’s left" : `${hidden} more met or in progress`}
                   <ChevronIcon />
                 </button>
               )}

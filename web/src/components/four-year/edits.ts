@@ -1,6 +1,7 @@
 /*
  * The student's own edits to the four-year board, one store per profile and program:
  * the cards they moved (to a term or the tray) and the course they picked for a card.
+ * Only open-slot cards offer a course picker now; choices saved before from any card still apply.
  * Everything else is autoPlace (board.ts), so changing preferences re-flows the rest.
  *
  * v3: the board is built from the audit's open slots now; v2 boards held the bulletin's
@@ -84,9 +85,11 @@ export function useEdits(profile: ProfileId, program: ProgramCode) {
       const current = store.read();
       store.save({ ...current, moves: { ...current.moves, [id]: term } });
     },
-    choose: (id: string, code: string) => {
+    /* Picking a course can change a card's credits; `term` keeps it where the student picked it instead of re-flowing. */
+    choose: (id: string, code: string, term?: string) => {
       const current = store.read();
-      store.save({ ...current, choices: { ...current.choices, [id]: code } });
+      const moves = term ? { ...current.moves, [id]: term } : current.moves;
+      store.save({ moves, choices: { ...current.choices, [id]: code } });
     },
     /* "Re-place remaining courses": autoPlace again, keeping the courses the student picked. */
     clearMoves: () => store.save({ ...store.read(), moves: {} }),
