@@ -4,7 +4,7 @@
  * the terms ahead. The student's own edits (moves and course choices, see edits.ts) sit on
  * top of autoPlace, so a change of preferences re-flows every card they have not moved.
  */
-import { courses, type ProgramCode, type StudentRecord } from "@/data";
+import { courses, programs, type ProgramCode, type StudentRecord } from "@/data";
 import {
   graduationProgress,
   openSlots,
@@ -15,7 +15,8 @@ import {
   type SlotKind,
 } from "@/components/progress/progress";
 import { opensOnRegistration } from "@/components/plan/data";
-import { profileFor, type ProfileId } from "@/components/student/student";
+import { CURRENT_TERM } from "@/components/plan/terms";
+import { profileFor, type ProfileKey } from "@/components/student/student";
 
 export type Kind = SlotKind;
 
@@ -114,11 +115,12 @@ export type HistoryTerm = {
 };
 
 export type Model = {
-  profile: ProfileId;
+  profile: ProfileKey;
   program: ProgramCode;
   record: StudentRecord;
   slots: OpenSlot[];
   history: HistoryTerm[];
+  /* The record's last term; for a new student, the term just before the one they start. */
   lastRecordTerm: string;
   /* Credits on the record, every state: what the student will have before the terms ahead. */
   recordCredits: number;
@@ -137,7 +139,14 @@ export function rowKind(row: Pick<RequirementProgress, "id" | "group">): Kind {
   return "core";
 }
 
-function buildModel(profile: ProfileId): Model {
+/* The term before a new student's first: Fall 2026 for Spring 2027, Summer 2027 for Fall 2027 (so no summer comes first). */
+function termBefore(start: string): string {
+  const parsed = parseTerm(start);
+  if (!parsed) return start;
+  return parsed.season === "Spring" ? `Fall ${parsed.year - 1}` : `${parsed.season === "Fall" ? "Summer" : "Spring"} ${parsed.year}`;
+}
+
+function buildModel(profile: ProfileKey, start: string | null): Model {
   const { program, record } = profileFor(profile);
   const baseline = graduationProgress(program, record, []);
   const rows = new Map(baseline.requirements.map((row) => [row.id, row]));
@@ -153,7 +162,7 @@ function buildModel(profile: ProfileId): Model {
   };
   const fillsOf = (code: string) => rowOf.get(code)?.label ?? null;
 
-  const fromPlan = opensOnRegistration(program);
+  const fromPlan = opensOnRegistration(profile);
   const history: HistoryTerm[] = record.terms.map((term) => {
     const items = term.courses.map((course) => ({
       code: course.code,
@@ -183,7 +192,8 @@ function buildModel(profile: ProfileId): Model {
     record,
     slots: openSlots(program, record),
     history,
-    lastRecordTerm: [...record.terms].sort((a, b) => termOrder(a.term) - termOrder(b.term)).at(-1)?.term ?? "Spring 2027",
+    lastRecordTerm: [...record.terms].sort((a, b) => termOrder(a.term) - termOrder(b.term)).at(-1)?.term
+      ?? termBefore(start ?? CURRENT_TERM),
     recordCredits: history.reduce((sum, term) => sum + term.credits, 0),
     taken,
     rows,
@@ -192,14 +202,19 @@ function buildModel(profile: ProfileId): Model {
   };
 }
 
-const MODELS = new Map<ProfileId, Model>();
+const MODELS = new Map<string, Model>();
 
-/* Built once per profile: it reads the whole record and requirement tree. */
-export function modelFor(profile: ProfileId): Model {
-  let model = MODELS.get(profile);
+/*
+ * Built once per profile (and, for a new student, per start term): it reads the whole
+ * record and requirement tree. `start` is the new student's first term from setup; a
+ * profile with a record starts where its record does and ignores it.
+ */
+export function modelFor(profile: ProfileKey, start: string | null = null): Model {
+  const id = profileFor(profile).record.terms.length ? profile : `${profile}|${start ?? ""}`;
+  let model = MODELS.get(id);
   if (!model) {
-    model = buildModel(profile);
-    MODELS.set(profile, model);
+    model = buildModel(profile, start);
+    MODELS.set(id, model);
   }
   return model;
 }
@@ -303,11 +318,49 @@ function evaluate(e: Expr, earlier: ReadonlySet<string>, same: ReadonlySet<strin
   });
 }
 
+/* Courses only: a placement test or an untracked course is not met. */
+function evaluateCourses(e: Expr, earlier: ReadonlySet<string>, same: ReadonlySet<string>): boolean {
+  if ("op" in e) {
+    const results = e.of.map((x) => evaluateCourses(x, earlier, same));
+    return e.op === "all" ? results.every(Boolean) : results.some(Boolean);
+  }
+  if (e.kind === "placement") return false;
+  return evaluate(e, earlier, same) === true;
+}
+
+/*
+ * evaluate, except that a group the board's own courses can meet must be met by them:
+ * "CIS 1051 or a placement test" waits for CIS 1051 when CIS 1051 is on the board, so
+ * Calculus II never lands beside Calculus I. A group only a placement test (or nothing on
+ * the board) meets stays unknown, as before. `board` is the record plus every card (see boardFor).
+ */
+function gate(e: Expr, earlier: ReadonlySet<string>, same: ReadonlySet<string>, board: ReadonlySet<string>): Tri {
+  if ("op" in e && e.op === "all") {
+    const results = e.of.map((x) => gate(x, earlier, same, board));
+    return results.includes(false) ? false : results.includes(null) ? null : true;
+  }
+  return evaluateCourses(e, board, board) ? evaluateCourses(e, earlier, same) : evaluate(e, earlier, same);
+}
+
+/*
+ * The courses that can meet `code`'s prerequisites: everything on the record and the board,
+ * less higher-numbered courses that themselves need `code`. MATH 1041 lists MATH 1042 as a
+ * way in (Calculus II shows the placement), and MATH 1042 needs MATH 1041: Calculus I must
+ * not wait for Calculus II, while Calculus II still waits for Calculus I.
+ */
+function boardFor(code: string, board: ReadonlySet<string>): ReadonlySet<string> {
+  const number = Number(code.split(" ")[1]);
+  return new Set([...board].filter((other) => {
+    const e = CATALOG[other]?.prerequisites?.expression;
+    return !e || Number(other.split(" ")[1]) <= number || !leafCodes(e).includes(code);
+  }));
+}
+
 /* The unmet AND groups, each as its first two options: [["FIN 3101", "FIN 3901"]]. */
-function unmetGroups(e: Expr, earlier: ReadonlySet<string>, same: ReadonlySet<string>): string[][] {
+function unmetGroups(e: Expr, earlier: ReadonlySet<string>, same: ReadonlySet<string>, board: ReadonlySet<string>): string[][] {
   const groups = "op" in e && e.op === "all" ? e.of : [e];
   return groups
-    .filter((group) => evaluate(group, earlier, same) === false)
+    .filter((group) => gate(group, earlier, same, board) === false)
     .map((group) => leafCodes(group).slice(0, 2));
 }
 
@@ -371,6 +424,7 @@ export function sequenceIssues(model: Model, cards: Card[], placement: Placement
   const terms = [...new Set(Object.values(placement).filter((term) => term !== TRAY))].sort((a, b) => termOrder(a) - termOrder(b));
   const earlier = new Set(before);
   const where = new Map(cards.flatMap((card) => (card.code ? [[card.code, placement[card.id]] as const] : [])));
+  const board = new Set([...before, ...where.keys()]);
   let credits = model.recordCredits;
   for (const term of terms) {
     const here = cards.filter((card) => placement[card.id] === term);
@@ -379,10 +433,11 @@ export function sequenceIssues(model: Model, cards: Card[], placement: Placement
       if (!card.code) continue;
       const prerequisite = CATALOG[card.code]?.prerequisites;
       const expression = prerequisite?.expression;
-      const result = expression ? evaluate(expression, earlier, same) : true;
+      const reach = expression ? boardFor(card.code, board) : board;
+      const result = expression ? gate(expression, earlier, same, reach) : true;
       if (expression && result === false) {
         /* Name the option the board already holds ("FIN 3101"), else the first two ("ECON 1101 or ECON 1901"). */
-        const parts = unmetGroups(expression, earlier, same).map((group) => {
+        const parts = unmetGroups(expression, earlier, same, reach).map((group) => {
           const planned = group.find((code) => where.has(code));
           return planned ? { text: planned, term: where.get(planned)! } : { text: group.join(" or "), term: null };
         });
@@ -472,6 +527,48 @@ function goalTerm(model: Model, prefs: Preferences): string {
   return termOrder(goal) < termOrder(first) ? first : goal;
 }
 
+/* The suggested plan's placeholder rows, by the requirement a card fills ("Laboratory science A"). */
+const PLAN_ROW_KIND: Record<string, string> = {
+  "major.lab-science": "labScience",
+  "major.electives": "csElective",
+  "fox.upper-foundation.business-electives": "businessElective",
+};
+
+type PlanRow = { kind: string; code?: string; courses?: string[] };
+
+/*
+ * For a student with no record: the term of the bulletin's eight-semester plan that holds
+ * each card, 0 for the first. A course the plan names goes where it names it; a card the
+ * plan only has a placeholder for (a gen ed, an elective) takes the next placeholder of
+ * its kind. A card the plan has no row for is left out and sorts after the rest.
+ */
+function suggestedTerms(program: ProgramCode, cards: Card[]): Map<string, number> {
+  const plan = programs[program].plan as unknown as { years: { terms: { rows: PlanRow[] }[] }[] };
+  const terms = plan.years.flatMap((year) => year.terms);
+  const byCode = new Map<string, number>();
+  const placeholders = new Map<string, number[]>();
+  terms.forEach((term, index) => {
+    for (const row of term.rows) {
+      const codes = row.code ? [row.code] : row.courses ?? [];
+      if (codes.length) for (const code of codes) byCode.set(code, index);
+      else placeholders.set(row.kind, [...(placeholders.get(row.kind) ?? []), index]);
+    }
+  });
+  const order = new Map<string, number>();
+  for (const card of cards) {
+    const named = [card.code, ...card.options].find((code) => code && byCode.has(code));
+    if (named) {
+      order.set(card.id, byCode.get(named)!);
+      continue;
+    }
+    const kind = PLAN_ROW_KIND[card.slot.requirement]
+      ?? (card.kind === "gened" ? "genEd" : card.kind === "free-elective" ? "freeElective" : null);
+    const next = kind ? placeholders.get(kind)?.shift() : undefined;
+    if (next !== undefined) order.set(card.id, next);
+  }
+  return order;
+}
+
 /*
  * Lays the open cards into the terms ahead. Deterministic: the same record, preferences
  * and choices always give the same board.
@@ -484,6 +581,8 @@ function goalTerm(model: Model, prefs: Preferences): string {
  * 3. The capstone goes in the final term; other late courses (4000-level, seniors only) too.
  * 4. Term by term, the cards whose prerequisites are met by the record and earlier terms,
  *    in order: those that unlock other cards, then core, gen ed, elective, free elective.
+ *    With no record (a new student) the bulletin's suggested plan orders them first, so
+ *    the first year holds what it suggests for the first year (see suggestedTerms).
  *    A term fills to the target (the student's credits a term, raised toward 18 only as far
  *    as the goal needs), past it up to 18 only when later terms could not take the rest.
  * 5. Whatever still does not fit goes to the earliest term with room, else a term past the goal.
@@ -540,8 +639,10 @@ export function autoPlace(model: Model, prefs: Preferences, choices: Choices): A
         }).length
       : 0;
   const order = new Map(toPlace.map((card, index) => [card.id, index]));
+  const suggested = model.record.terms.length ? new Map<string, number>() : suggestedTerms(model.program, toPlace);
+  const planned = (card: Card) => suggested.get(card.id) ?? Number.MAX_SAFE_INTEGER;
   const ranked = [...toPlace].sort((a, b) =>
-    unlocks(b) - unlocks(a) || KIND_ORDER[a.kind] - KIND_ORDER[b.kind] || order.get(a.id)! - order.get(b.id)!);
+    planned(a) - planned(b) || unlocks(b) - unlocks(a) || KIND_ORDER[a.kind] - KIND_ORDER[b.kind] || order.get(a.id)! - order.get(b.id)!);
 
   /* A prerequisite nothing on the record or board can meet never holds a card back. */
   const everything = new Set([...model.taken, ...toPlace.flatMap((card) => (card.code ? [card.code] : []))]);
@@ -559,7 +660,7 @@ export function autoPlace(model: Model, prefs: Preferences, choices: Choices): A
     if (!card.code) return true;
     const e = CATALOG[card.code]?.prerequisites?.expression;
     const same = new Set(toPlace.flatMap((other) => (other.code && placement[other.id] === term ? [other.code] : [])));
-    if (e && satisfiable(card) && evaluate(e, earlierThan(term), same) === false) return false;
+    if (e && satisfiable(card) && gate(e, earlierThan(term), same, boardFor(card.code, everything)) === false) return false;
     const standing = standingRule(card.code);
     return !standing || standing.allows(creditsBefore(term));
   };

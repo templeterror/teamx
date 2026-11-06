@@ -1,4 +1,5 @@
 import { courses, programs, sections, studentRecord, type ProgramCode } from "@/data";
+import { profileFor, type ProfileKey } from "@/components/student/student";
 
 export type Day = "Mon" | "Tue" | "Wed" | "Thu" | "Fri";
 
@@ -150,9 +151,10 @@ function seed(program: ProgramCode): StartSlot[] {
  * Whether the student opens on the registration above rather than a seed. Only Rafiat's
  * Spring 2027 registration is encoded here; Allegra's record has a registered Spring 2027
  * too, but it is not built into the week yet, so she still opens on her program's seed.
+ * By record, not program: a new Computer Science student opens on the seed, not on Rafiat's.
  */
-export function opensOnRegistration(program: ProgramCode) {
-  return program === studentRecord.program;
+export function opensOnRegistration(key: ProfileKey) {
+  return profileFor(key).record === studentRecord;
 }
 
 const SEEDS = new Map<ProgramCode, StartSlot[]>();
@@ -168,8 +170,8 @@ export function startingSlots(program: ProgramCode): StartSlot[] {
 }
 
 /* Every Offering the student's plan can open with, so the finder agrees with it. */
-export function startingOfferings(program: ProgramCode): Offering[] {
-  return opensOnRegistration(program) ? PLAN_OFFERINGS : startingSlots(program).flatMap((s) => s.options);
+export function startingOfferings(key: ProfileKey): Offering[] {
+  return opensOnRegistration(key) ? PLAN_OFFERINGS : startingSlots(profileFor(key).program).flatMap((s) => s.options);
 }
 
 export const DAY_START = 9 * 60;

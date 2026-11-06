@@ -49,9 +49,10 @@ const EDGE = 72;
 
 export function FourYearPlan() {
   const profile = useProfile();
-  const { id: profileId, program, record } = profile;
-  const model = modelFor(profileId);
-  const prefs = usePreferences(profileId);
+  const { id: profileId, key, program, record } = profile;
+  const prefs = usePreferences(key);
+  /* A new student's board starts in the term they chose in setup; a record's starts where it does. */
+  const model = modelFor(key, prefs.startTerm);
   const { edits, move, choose, clearMoves } = useEdits(profileId, program);
   const { placements } = usePlanContext();
 
@@ -258,14 +259,25 @@ export function FourYearPlan() {
     ...board.openTerms.map((term) => ({ kind: "open" as const, term })),
   ];
   const nameOf = (column: Column) => (column.kind === "history" ? column.term.name : column.term);
-  const firstYear = academicYear(model.history[0]?.name ?? board.openTerms[0] ?? "Fall 2024");
+  /*
+   * Years start in the student's first season: Fall to Summer as the academic year runs,
+   * or, for a new student who starts in spring, Spring to Fall, so Year 1 is their first
+   * two terms rather than a lone spring.
+   */
+  const firstTerm = columns[0] ? nameOf(columns[0]) : "Fall 2024";
+  const springStart = seasonOf(firstTerm) === "Spring";
+  const yearOf = (term: string) => (springStart ? Number(term.split(" ")[1]) : academicYear(term));
+  const firstYear = yearOf(firstTerm);
   const years = new Map<number, Column[]>();
   for (const column of columns) {
-    const year = academicYear(nameOf(column));
+    const year = yearOf(nameOf(column));
     years.set(year, [...(years.get(year) ?? []), column]);
   }
   /* Every year shares the same columns, Fall | Spring (| Summer), so a term lines up with the years above and below. */
   const hasSummer = columns.some((column) => isSummer(nameOf(column)));
+  const seasons = (springStart ? ["Spring", "Summer", "Fall"] : ["Fall", "Spring", "Summer"])
+    .filter((season) => hasSummer || season !== "Summer");
+  const columnStyle = (term: string) => ({ "--fy-col": seasons.indexOf(seasonOf(term)) + 1 }) as CSSProperties;
 
   /* Courses already on the board count once, so an open slot's picker leaves them out. */
   const chosenElsewhere = (card: Card) =>
@@ -400,7 +412,7 @@ export function FourYearPlan() {
       const credits = items.reduce((sum, item) => sum + item.credits, 0);
       return (
         <section key={term.name} className="fy-term" data-state={state} data-season={seasonOf(term.name)}
-          data-drop={term.name} data-drop-locked=""
+          style={columnStyle(term.name)} data-drop={term.name} data-drop-locked=""
           aria-label={`${term.name}, ${STATUS_LABEL[state]}`}>
           {termHeader(term.name, credits, <span className="fy-chip" data-state={state}>{STATUS_LABEL[state]}</span>)}
           {items.length ? <ul className="fy-rows">{items.map(renderRecordRow)}</ul> : <p className="fy-empty">No courses</p>}
@@ -420,7 +432,7 @@ export function FourYearPlan() {
     const isEditing = editing.has(term);
     const bodyId = `fy-term-body-${term.replace(/\W+/g, "-")}`;
     return (
-      <section key={term} className="fy-term" data-state="open" data-season={seasonOf(term)} data-drop={term}
+      <section key={term} className="fy-term" data-state="open" data-season={seasonOf(term)} style={columnStyle(term)} data-drop={term}
         data-over={drag?.over === term || undefined} aria-label={`${term}, planned`}>
         {termHeader(term, credits, term === board.goal
           ? <span className="fy-chip" data-state="goal">Graduation goal</span>
@@ -448,7 +460,11 @@ export function FourYearPlan() {
         <div>
           <p className="eyebrow">{programHeading(program)} · {catalog}</p>
           <h1>Four-year plan</h1>
-          <p className="intro">Your audit is filled in. Drag the remaining courses into terms, or let us place them.</p>
+          <p className="intro">
+            {profile.isNew
+              ? "No courses yet. We’ve laid out all four years from the degree requirements. Drag a course to move it, or let us place them again."
+              : "Your audit is filled in. Drag the remaining courses into terms, or let us place them."}
+          </p>
         </div>
         <div className="fy-actions">
           <Link href="/onboarding" className="fy-link">Edit setup</Link>
@@ -492,7 +508,7 @@ export function FourYearPlan() {
                   aria-labelledby={`fy-year-${year}`}>
                   <h2 id={`fy-year-${year}`} className="fy-year-head">
                     Year {year - firstYear + 1}
-                    <span className="fy-year-span"> · {year}–{String(year + 1).slice(-2)}</span>
+                    <span className="fy-year-span"> · {springStart ? year : `${year}–${String(year + 1).slice(-2)}`}</span>
                   </h2>
                   <div className="fy-terms" style={{ "--fy-cols": hasSummer ? 3 : 2 } as CSSProperties}>
                     {yearColumns.map(renderColumn)}

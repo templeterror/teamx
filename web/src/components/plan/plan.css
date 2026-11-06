@@ -866,21 +866,12 @@
 .plan-week { padding-top: 24px; }
 
 /* Review & register */
-.review-panel .review-title { margin: 0; font-size: var(--text-body); font-weight: 600; }
-.review-summary { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-.review-summary > span { font-size: var(--text-caption); color: var(--ink-secondary); font-variant-numeric: tabular-nums; }
-.review-list { list-style: none; margin: 8px 0 0; padding: 0; }
-.review-row:last-child { border-bottom: 0; }
-.review-row > span { font-variant-numeric: tabular-nums; color: var(--ink-secondary); }
-.review-actions { display: flex; gap: 12px; padding-top: 20px; border-top: 1px solid var(--line); }
-/* "← Back to your plan": 2px less on the arrow side. */
-.review-actions .btn.text { padding-left: 6px; }
 .review-blockers { max-width: 900px; margin-bottom: 24px; padding: 20px 24px; border-radius: 8px; background: var(--surface); box-shadow: var(--elevation), inset 3px 0 0 var(--warning); }
 .review-blockers ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
 .review-blockers li { display: flex; gap: 12px; }
 .review-blockers p { margin: 0; color: var(--ink); line-height: 1.6; max-width: 65ch; }
 .review-blocker-icon { flex: none; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: var(--warning); color: var(--on-accent); font-size: 12px; font-weight: 600; margin-top: 1px; }
-@media print { .review-actions, .review-blockers { display: none; } }
+@media print { .review-blockers { display: none; } }
 
 /* Closed term record: read only, nothing that looks editable. */
 .plan .back-link { position: relative; display: inline-block; margin-bottom: 24px; font-size: var(--text-ui); color: var(--ink-secondary); text-decoration: none; }
@@ -897,3 +888,172 @@
 .plan .record li span { color: var(--ink-secondary); }
 .plan .record footer { padding: 14px 20px; border-top: 1px solid var(--line); background: var(--muted); border-radius: 0 0 12px 12px; color: var(--ink-secondary); }
 .plan .record-credits { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/*
+ * Review & register: the week and the courses on the left, what this term does for the
+ * degree in a /four-year-style rail on the right. Built from .sp (schedule-pair.css) and .fy (four-year.css);
+ * these rules only arrange them and make them read-only.
+ */
+.rv-print { display: none; }
+.rv-heading { padding-bottom: 24px; }
+.rv-actions { display: flex; flex: none; align-items: center; gap: 20px; }
+.rv-actions .btn.empty { box-shadow: var(--shadow-control); }
+.rv-draft { color: var(--warning); font-weight: 500; }
+.rv .review-blockers { max-width: none; }
+
+.rv-main { grid-area: board; min-width: 0; display: grid; gap: 8px; }
+.rv-main .sp-toolbar { padding-top: 0; }
+/* The page scrolls, not the week: show every hour at once. */
+.rv .sp-calendar { height: auto; }
+.rv-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 0 14px; }
+.rv-legend .sp-legend { padding-block: 12px; }
+.rv-legend-suggested { font-size: var(--text-label); }
+/* The week's "suggested" block in miniature: white, dashed edge. */
+.rv-swatch-suggested {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  outline: 1px dashed var(--ink-tertiary);
+  outline-offset: -1px;
+}
+
+.rv-courses { display: grid; gap: 4px; margin-top: 16px; }
+.rv-group { display: grid; gap: 10px; }
+.rv-group + .rv-group { margin-top: 20px; }
+.rv-group h3 { margin: 0; font-size: var(--text-caption); font-weight: 600; color: var(--ink); }
+.rv-group h3 span { font-weight: 400; color: var(--ink-tertiary); }
+.rv-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* The /plan card without its controls, and with the week block's kind bar down the left. */
+.rv .rv-card { position: relative; gap: 4px; padding: 14px 16px 14px 22px; }
+.rv-card::before {
+  content: "";
+  position: absolute;
+  inset: 12px auto 12px 10px;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--k);
+}
+.rv-card[data-dropped]::before { background: var(--line-strong); }
+.rv-section { color: var(--ink-secondary); }
+.rv-empty { margin: 0; padding: 20px; border-radius: 12px; background: var(--surface); box-shadow: var(--elevation); color: var(--ink-secondary); }
+.rv-empty a { color: var(--accent); text-underline-offset: 3px; }
+/*
+ * The rail: this term against the degree (term-progress.tsx), from ProgressPanel's headline,
+ * meter and rows in four-year.css. This term is its own step on the red ramp, between in
+ * progress and planned; a suggested course's bar is dashed, as a suggestion's is in the week.
+ */
+.rv-term [data-seg="term"] { background: oklch(0.79 0.085 25); }
+.rv-term .fy-meter-caption { margin: 0; justify-content: flex-start; }
+.rv-term .fy-groups { gap: 24px; }
+.rv-term .fy-group-head { margin-bottom: 6px; }
+.rv-term .fy-row { grid-template-columns: 72px minmax(0, 1fr) auto; }
+.rv-term .fy-row-title { display: flex; gap: 0.35em; white-space: normal; text-wrap: pretty; }
+.rv-term-arrow { color: var(--ink-tertiary); }
+.rv-term .fy-row[data-suggested]::before { background: repeating-linear-gradient(to bottom, var(--k) 0 3px, transparent 3px 5px); }
+.rv-term .fy-row[data-suggested] .fy-row-title { color: var(--ink-secondary); }
+.rv-term-left { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 7px 0; }
+.rv-term-left .fy-req-status { color: var(--ink-secondary); }
+.rv-term .fy-req-note { margin: 0; font-size: var(--text-label); color: var(--ink-tertiary); }
+.rv-term-more { padding-top: 6px; border-top: var(--hairline) solid var(--line); }
+.rv-term .rv-term-link {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--accent);
+  text-decoration-color: color-mix(in oklch, var(--accent) 35%, transparent);
+}
+@media (hover: hover) and (pointer: fine) {
+  .rv-term .rv-term-link:hover { color: var(--accent-hover); text-decoration-color: currentColor; }
+}
+
+/* Stacked, the plan being reviewed comes first and progress follows (/four-year puts progress first). */
+@media (max-width: 1100px) { .rv .rv-layout { grid-template-areas: "board" "rail"; } }
+
+/* ---------- Save as PDF: one US Letter page for the week and courses, one for this term toward the degree ---------- */
+@page {
+  size: letter;
+  margin: 0.45in 0.5in 0.5in;
+}
+
+@media print {
+  .rv, .rv * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html, body, .plan.workspace { background: #fff; }
+  .plan-topbar, .rv-screen, .rv-actions { display: none !important; }
+  .rv-print { display: block; }
+  span.rv-print { display: inline; }
+  .workspace-main { padding: 0; }
+
+  .rv-heading { display: block; padding: 0 0 10px; margin-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .rv .eyebrow { margin-bottom: 4px; }
+  .plan .rv-heading h1 { font-size: 22px; }
+  .rv-who { margin: 4px 0 0; font-size: var(--text-caption); color: var(--ink-secondary); }
+  .rv .intro { margin-top: 2px; font-size: var(--text-caption); line-height: 1.4; }
+
+  .rv .rv-layout { display: block; }
+  .rv-main { gap: 0; }
+  .rv .sp-toolbar { padding: 0 0 6px; }
+  .rv .sp-toolbar h2 { font-size: 17px; line-height: 22px; }
+  .rv .sp { --sp-print-hour: 44; --sp-hour: calc(var(--sp-print-hour) * 1px); --sp-head: 40px; }
+  .rv .sp-calendar { overflow: visible; border-radius: 8px; box-shadow: 0 0 0 1px var(--line); break-inside: avoid; }
+  .rv .sp-week { min-width: 0; }
+  .rv .sp-block { box-shadow: none; padding-block: 3px; }
+  /*
+   * The screen's fitted text was measured at screen width; print the block's own layout:
+   * the title clamped to whole lines (block height − 22px of padding, gap and time line,
+   * in 13px lines), the time last and never cut. Should the clamp not apply, the title
+   * still shrinks first, so the time stays whole.
+   */
+  .rv .sp-block-body { display: none; }
+  .rv .sp-block-print { display: flex; flex: 1; flex-direction: column; gap: 1px; min-height: 0; overflow: hidden; }
+  .rv .sp-block-print-name {
+    display: -webkit-box;
+    flex: 0 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: max(1, round(down, calc((var(--sp-mins) / 60 * var(--sp-print-hour) - 22) / 13), 1));
+    line-clamp: max(1, round(down, calc((var(--sp-mins) / 60 * var(--sp-print-hour) - 22) / 13), 1));
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 13px;
+  }
+  .rv .sp-block-print-time {
+    flex: none;
+    font-size: 10px;
+    line-height: 13px;
+    color: color-mix(in oklch, var(--k-ink) 85%, var(--surface));
+    font-variant-numeric: tabular-nums;
+  }
+  .rv .sp-week[data-focusing] .sp-block { opacity: 1 !important; }
+  .rv-legend .sp-legend { padding-block: 6px; }
+
+  .rv-courses { margin-top: 8px; }
+  .rv-group + .rv-group { margin-top: 10px; }
+  .rv-group { gap: 6px; }
+  .rv-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .rv .rv-card { padding: 8px 10px 8px 18px; box-shadow: 0 0 0 1px var(--line); break-inside: avoid; }
+  .rv-card::before { inset: 8px auto 8px 8px; }
+  /* Source Serif is for 17px and up; the printed card title is 13px, so it is Inter. */
+  .rv-card .sp-ccard-title { font-family: inherit; font-size: var(--text-caption); line-height: 1.3; }
+  .rv-card .sp-ccard-meta, .rv-card .sp-ccard-code { font-size: 11px; }
+
+  /* This term toward the degree gets its own page: headline and meter, then what the term counts toward beside what is left. */
+  .rv .rv-rail { position: static; border-radius: 0; max-height: none; overflow: visible; box-shadow: none; break-before: page; }
+  .rv-rail .fy-progress { padding: 0; gap: 16px; border-radius: 0; box-shadow: none; }
+  .rv-rail .eyebrow { margin: 0 0 8px; }
+  .rv-rail .fy-meter-block { max-width: 5in; }
+  .rv-term .fy-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; align-items: start; }
+  .rv-term .fy-groups > section { break-inside: avoid; }
+  .rv-term .rv-term-link { display: none; }
+
+  .rv-foot { margin-top: 18px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 11px; color: var(--ink-tertiary); break-inside: avoid; }
+}

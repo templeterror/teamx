@@ -1,14 +1,15 @@
 "use client";
 
 import { useCallback, useMemo, useSyncExternalStore } from "react";
-import { DEFAULT_PROGRAM, type ProgramCode } from "@/data";
+import { DEFAULT_PROGRAM } from "@/data";
+import { DEFAULT_PROFILE, profileFor, type ProfileKey } from "@/components/student/student";
 
 /*
  * The Find page's shortlist: an ordered list of course codes, capped at 10.
  * PlanShell holds it next to the plan, so moving between /find and /plan keeps
  * it, and it is mirrored to sessionStorage so a reload of /find keeps it too.
- * Each program keeps its own, so switching student at sign-in never carries
- * one student's shortlist into the other's plan.
+ * Each profile keeps its own, so switching student never carries one student's
+ * shortlist into another's plan.
  *
  * It is a trip, not a list that lives on the plan: arriving on /plan hands
  * every shortlisted course to the plan as a suggestion and empties it
@@ -17,36 +18,43 @@ import { DEFAULT_PROGRAM, type ProgramCode } from "@/data";
 
 export const SHORTLIST_MAX = 10;
 
-/* Rafiat's keeps the original key, so a shortlist from before programs existed survives. */
-const keyFor = (program: ProgramCode) =>
-  program === DEFAULT_PROGRAM ? "course-planner:shortlist" : `course-planner:shortlist:${program}`;
+/*
+ * Rafiat's keeps the original key and Allegra's the program one it had before profiles,
+ * so their shortlists survive. The new student's carries its key, program included:
+ * "course-planner:shortlist:new:BU-MIS-BBA".
+ */
+export function shortlistStorageKey(key: ProfileKey) {
+  const { isNew, program } = profileFor(key);
+  if (isNew) return `course-planner:shortlist:${key}`;
+  return program === DEFAULT_PROGRAM ? "course-planner:shortlist" : `course-planner:shortlist:${program}`;
+}
 const EMPTY: string[] = [];
 /* The server and the hydration pass cannot see sessionStorage; this stands for "not read yet". */
 const PENDING: string[] = [];
 
-const cache = new Map<ProgramCode, string[]>();
+const cache = new Map<ProfileKey, string[]>();
 const listeners = new Set<() => void>();
 
-function read(program: ProgramCode): string[] {
-  const cached = cache.get(program);
+function read(key: ProfileKey): string[] {
+  const cached = cache.get(key);
   if (cached) return cached;
   let list: string[];
   try {
-    const parsed: unknown = JSON.parse(window.sessionStorage.getItem(keyFor(program)) ?? "[]");
+    const parsed: unknown = JSON.parse(window.sessionStorage.getItem(shortlistStorageKey(key)) ?? "[]");
     list = Array.isArray(parsed)
       ? parsed.filter((c): c is string => typeof c === "string").slice(0, SHORTLIST_MAX)
       : [];
   } catch {
     list = [];
   }
-  cache.set(program, list);
+  cache.set(key, list);
   return list;
 }
 
-function write(program: ProgramCode, next: string[]) {
-  cache.set(program, next);
+function write(key: ProfileKey, next: string[]) {
+  cache.set(key, next);
   try {
-    window.sessionStorage.setItem(keyFor(program), JSON.stringify(next));
+    window.sessionStorage.setItem(shortlistStorageKey(key), JSON.stringify(next));
   } catch {
     /* Private mode or storage off: the shortlist still works for this visit. */
   }
@@ -71,30 +79,41 @@ export type Shortlist = {
   takeAll: () => string[];
 };
 
-export function useShortlist(program: ProgramCode = DEFAULT_PROGRAM): Shortlist {
-  const snapshot = useSyncExternalStore(subscribe, () => read(program), () => PENDING);
+/* Empties a profile's shortlist, stored and cached ("+ New student" starts clean). */
+export function clearShortlist(key: ProfileKey) {
+  cache.set(key, []);
+  try {
+    window.sessionStorage.removeItem(shortlistStorageKey(key));
+  } catch {
+    /* Nothing stored to remove. */
+  }
+  for (const listener of listeners) listener();
+}
+
+export function useShortlist(key: ProfileKey = DEFAULT_PROFILE): Shortlist {
+  const snapshot = useSyncExternalStore(subscribe, () => read(key), () => PENDING);
   const ready = snapshot !== PENDING;
   const codes = ready ? snapshot : EMPTY;
 
   const add = useCallback(
     (code: string) => {
-      const now = read(program);
+      const now = read(key);
       if (now.includes(code) || now.length >= SHORTLIST_MAX) return;
-      write(program, [...now, code]);
+      write(key, [...now, code]);
     },
-    [program],
+    [key],
   );
   const remove = useCallback(
     (code: string) => {
-      write(program, read(program).filter((c) => c !== code));
+      write(key, read(key).filter((c) => c !== code));
     },
-    [program],
+    [key],
   );
   const takeAll = useCallback(() => {
-    const now = read(program);
-    if (now.length) write(program, []);
+    const now = read(key);
+    if (now.length) write(key, []);
     return now;
-  }, [program]);
+  }, [key]);
 
   return useMemo(
     () => ({

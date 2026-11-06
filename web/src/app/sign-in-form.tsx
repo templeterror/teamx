@@ -2,17 +2,18 @@
 
 import { useState } from "react";
 import { chooseProfile } from "@/components/student/actions";
-import { DEFAULT_PROFILE, PROFILES, profileFor, type ProfileId } from "@/components/student/student";
+import { DEFAULT_PROFILE, NEW_STUDENT_NAME, PROFILES, profileFor, type ProfileId } from "@/components/student/student";
 
 /*
  * The mock sign-in's form. Client-side only so the email follows the chosen profile:
- * Rafiat's address for Rafiat, and an empty field for Allegra, who has none on file.
+ * Rafiat's address for Rafiat, and an empty field for Allegra and the new student, who
+ * have none on file. The new student comes last and picks a program in setup.
  * Like any sign-in it starts on the default, Rafiat, rather than reading the last choice
  * back, so no saved choice can swap in under the pointer.
  */
 export function SignInForm() {
   const [chosen, setChosen] = useState<ProfileId>(DEFAULT_PROFILE);
-  const email = profileFor(chosen).email;
+  const email = chosen === "new" ? null : profileFor(chosen).email;
 
   return (
     <form className="gate-form" action={chooseProfile}>
@@ -32,8 +33,8 @@ export function SignInForm() {
         <input type="password" defaultValue="password" readOnly />
       </label>
       {/*
-       * Two radios rather than a select: "Management Information Systems · BBA" does not
-       * fit a 440px select without truncating, and two choices read best side by side
+       * Radios rather than a select: "Management Information Systems · BBA" does not
+       * fit a 440px select without truncating, and three choices read best in a list
        * anyway. Each row is a real label around its radio.
        */}
       <fieldset className="gate-choice">
@@ -53,6 +54,19 @@ export function SignInForm() {
             </span>
           </label>
         ))}
+        <label>
+          <input
+            type="radio"
+            name="profile"
+            value="new"
+            checked={chosen === "new"}
+            onChange={() => setChosen("new")}
+          />
+          <span>
+            {NEW_STUDENT_NAME}
+            <small>No courses yet · choose a program next</small>
+          </span>
+        </label>
       </fieldset>
       <button type="submit" className="btn-primary">
         Continue

@@ -1,13 +1,37 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { usePlanContext } from "./plan-shell";
 import type { Offering } from "./data";
 import type { Placement } from "./use-plan";
 import { rowKind } from "@/components/finder/catalog";
 import { useCatalog } from "@/components/student/student-context";
 import { SchedulePair } from "@/components/schedule-pair/schedule-pair";
+
+/*
+ * The plan's courses as finder rows, and the colour each placement takes. A course added
+ * from the catalog arrives as "elective"; colour it by what it counts for. Shared with
+ * /plan/review so a course is the same colour on both pages.
+ */
+export function usePlanKinds() {
+  const { placements, addCourse, toggleCourse } = usePlanContext();
+  const catalog = useCatalog();
+  const rows = useMemo(
+    () => catalog.buildRows({ placements, addCourse, toggleCourse }),
+    [catalog, placements, addCourse, toggleCourse],
+  );
+  const rowByCode = useMemo(() => new Map(rows.map((r) => [r.code, r])), [rows]);
+  const kindFor = useCallback(
+    (p: Placement) => {
+      if (!p.id.startsWith("catalog-")) return p.kind;
+      const row = rowByCode.get(p.course.code);
+      return row ? rowKind(row) : p.kind;
+    },
+    [rowByCode],
+  );
+  return { rowByCode, kindFor };
+}
 
 /*
  * The plan page: the week and Your courses. Finding courses is its own page
@@ -17,14 +41,9 @@ import { SchedulePair } from "@/components/schedule-pair/schedule-pair";
  */
 export function WeekPlan() {
   const plan = usePlanContext();
-  const { placements, addCourse, toggleCourse, addShortlisted } = plan;
+  const { addShortlisted } = plan;
   const { codes, takeAll } = plan.shortlist;
-  const catalog = useCatalog();
-  const rows = useMemo(
-    () => catalog.buildRows({ placements, addCourse, toggleCourse }),
-    [catalog, placements, addCourse, toggleCourse],
-  );
-  const rowByCode = useMemo(() => new Map(rows.map((r) => [r.code, r])), [rows]);
+  const { rowByCode, kindFor } = usePlanKinds();
 
   /* Arrival: on mount, and whenever the shortlist changes while the student is here. */
   useEffect(() => {
@@ -34,13 +53,6 @@ export function WeekPlan() {
       .filter((o): o is Offering => o !== undefined);
     addShortlisted(arriving);
   }, [codes, takeAll, rowByCode, addShortlisted]);
-
-  /* A course added from the catalog arrives as "elective"; colour it by what it counts for. */
-  const kindFor = (p: Placement) => {
-    if (!p.id.startsWith("catalog-")) return p.kind;
-    const row = rowByCode.get(p.course.code);
-    return row ? rowKind(row) : p.kind;
-  };
 
   return (
     /* No page heading: the top bar already names the term and the step. */
