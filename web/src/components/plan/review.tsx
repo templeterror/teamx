@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 import { sections } from "@/data";
 import { Legend, MeetingTime, Week, type Link as WeekLink } from "@/components/schedule-pair/schedule-pair";
-import { ProgressPanel } from "@/components/four-year/progress-panel";
 import { useGraduation } from "@/components/four-year/use-graduation";
 import "@/components/four-year/four-year.css";
 import { useProfile } from "@/components/student/student-context";
 import { usePlanContext } from "./plan-shell";
+import { TermProgress } from "./term-progress";
 import { CURRENT_TERM } from "./terms";
 import type { Placement } from "./use-plan";
 import { usePlanKinds } from "./week-plan";
@@ -19,13 +19,10 @@ const plural = (count: number, word: string) => `${count} ${word}${count === 1 ?
 const noSubscribe = () => () => {};
 const today = () => new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
 
-/* The rail is a summary here: nothing on this page to scroll to. */
-const ignore = () => {};
-
 /*
  * The last step before Banner, and the page a student hands an advisor (on screen, or
- * saved as a PDF from the browser's print dialog). The week, the courses and graduation
- * progress, read-only, built from the same pieces as /plan and /four-year.
+ * saved as a PDF from the browser's print dialog). The week, the courses and what this
+ * term does for the degree, read-only, built from the same pieces as /plan and /four-year.
  *   not confirmed: a problem (under 12 credits, over 18, overlapping classes), suggestions,
  *                  or drops waiting on Confirm plan. Back to your plan is the action.
  *   confirmed:     the registration summary with sections. Save as PDF is the action.
@@ -33,7 +30,7 @@ const ignore = () => {};
 export function Review() {
   const plan = usePlanContext();
   const profile = useProfile();
-  const { kindFor } = usePlanKinds();
+  const { kindFor, rowByCode } = usePlanKinds();
   const { program, record, board, progress } = useGraduation();
   const generated = useSyncExternalStore(noSubscribe, today, () => "");
 
@@ -204,16 +201,18 @@ export function Review() {
           </section>
         </div>
 
-        <aside className="fy fy-rail rv-rail" aria-label="Graduation progress">
-          <p className="eyebrow rv-print">Graduation progress · {profile.programLabel}</p>
-          <ProgressPanel
+        <aside className="fy fy-rail rv-rail" aria-label={`${CURRENT_TERM} toward your degree`}>
+          <p className="eyebrow rv-print">{CURRENT_TERM} toward your degree · {profile.programLabel}</p>
+          <TermProgress
             program={program}
-            minor={record.minor}
+            record={record}
             progress={progress}
-            goal={board.goal}
             board={board}
-            onShowRequirement={ignore}
-            onShowCard={ignore}
+            active={active}
+            confirmed={plan.confirmed}
+            credits={plan.credits}
+            kindFor={kindFor}
+            rowByCode={rowByCode}
           />
         </aside>
       </div>

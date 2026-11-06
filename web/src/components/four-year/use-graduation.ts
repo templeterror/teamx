@@ -15,9 +15,10 @@ import { useEdits } from "./edits";
  * Keep the two in step if either changes.
  */
 export function useGraduation() {
-  const { id: profileId, program, record } = useProfile();
-  const model = modelFor(profileId);
-  const prefs = usePreferences(profileId);
+  const { id: profileId, key, program, record } = useProfile();
+  const prefs = usePreferences(key);
+  /* A new student's board starts in the term they chose in setup; a record's starts where it does. */
+  const model = modelFor(key, prefs.startTerm);
   const { edits } = useEdits(profileId, program);
   const { placements } = usePlanContext();
 

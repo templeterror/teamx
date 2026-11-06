@@ -17,11 +17,11 @@ type Props = {
   onShowCard: (cardId: string) => void;
 };
 
-type GroupId = "gened" | "foundation" | "major" | "electives" | "minor" | "university";
-const GROUP_ORDER: GroupId[] = ["gened", "foundation", "major", "electives", "minor", "university"];
+export type GroupId = "gened" | "foundation" | "major" | "electives" | "minor" | "university";
+export const GROUP_ORDER: GroupId[] = ["gened", "foundation", "major", "electives", "minor", "university"];
 
 /* Business electives are a Fox foundation requirement; progress files them with electives. */
-function groupOf(row: RequirementProgress): GroupId {
+export function groupOf(row: RequirementProgress): GroupId {
   if (row.id === "fox.upper-foundation.business-electives") return "foundation";
   return row.group;
 }
@@ -87,25 +87,14 @@ function describeMissing(item: RequirementProgress["missing"][number]): string |
   return null;
 }
 
-function toggleIn(set: (update: (previous: Set<string>) => Set<string>) => void, id: string) {
-  set((previous) => {
-    const next = new Set(previous);
-    if (next.has(id)) next.delete(id);
-    else next.add(id);
-    return next;
-  });
-}
-
-export function ProgressPanel({ program, minor, progress, goal, board, onShowRequirement, onShowCard }: Props) {
-  const [open, setOpen] = useState<Set<string>>(() => new Set());
-  const [shownGroups, setShownGroups] = useState<Set<string>>(() => new Set());
+/*
+ * The headline over the rail: the fact in ink, the problem (when there is one) as the
+ * amber sentence under it, then what to do about it. `advice` off drops the board and
+ * setup advice for a page where neither is at hand (/plan/review).
+ */
+export function graduationHeadline(progress: GraduationProgress, goal: string, board: Board, advice = true) {
   const { totalCredits: total, requirements } = progress;
   const missingRows = requirements.filter((row) => row.status === "missing");
-
-  const toggle = (id: string) => toggleIn(setOpen, id);
-
-  /* ---------- Headline ---------- */
-  /* The headline states the fact in ink; the problem, when there is one, is the amber sentence under it. */
   let headline: string;
   let problem: string | null = null;
   let detail: string | null = null;
@@ -114,7 +103,7 @@ export function ProgressPanel({ program, minor, progress, goal, board, onShowReq
     if (apart > 0) {
       headline = `Graduating ${progress.graduationTerm}`;
       problem = `${plural(apart, "term")} after your ${goal} goal.`;
-      detail = "Take more credits a term or add summers in setup.";
+      detail = advice ? "Take more credits a term or add summers in setup." : null;
     } else {
       headline = `On track to graduate ${progress.graduationTerm}`;
       detail = apart === 0 ? `Meets your ${goal} goal.` : `${plural(-apart, "term")} ahead of your ${goal} goal.`;
@@ -129,8 +118,28 @@ export function ProgressPanel({ program, minor, progress, goal, board, onShowReq
     const more = missingRows.length > 3 ? ` and ${missingRows.length - 3} more` : "";
     const inTray = board.cards.some((card) => board.placement[card.id] === TRAY && !board.optional.has(card.id));
     problem = `${parts.join(" and ")} unplaced${names.length ? `: ${names.join(", ")}${more}` : ""}.`;
-    detail = inTray ? "Drag what’s left from Still to place into a term." : null;
+    detail = advice && inTray ? "Drag what’s left from Still to place into a term." : null;
   }
+  return { headline, problem, detail };
+}
+
+function toggleIn(set: (update: (previous: Set<string>) => Set<string>) => void, id: string) {
+  set((previous) => {
+    const next = new Set(previous);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
+    return next;
+  });
+}
+
+export function ProgressPanel({ program, minor, progress, goal, board, onShowRequirement, onShowCard }: Props) {
+  const [open, setOpen] = useState<Set<string>>(() => new Set());
+  const [shownGroups, setShownGroups] = useState<Set<string>>(() => new Set());
+  const { totalCredits: total, requirements } = progress;
+
+  const toggle = (id: string) => toggleIn(setOpen, id);
+
+  const { headline, problem, detail } = graduationHeadline(progress, goal, board);
 
   /* ---------- Plan checks ---------- */
   const issues = board.cards.flatMap((card) => {

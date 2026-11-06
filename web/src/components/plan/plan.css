@@ -890,8 +890,8 @@
 .plan .record-credits { font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /*
- * Review & register: the week and the courses on the left, graduation progress in the
- * /four-year rail on the right. Built from .sp (schedule-pair.css) and .fy (four-year.css);
+ * Review & register: the week and the courses on the left, what this term does for the
+ * degree in a /four-year-style rail on the right. Built from .sp (schedule-pair.css) and .fy (four-year.css);
  * these rules only arrange them and make them read-only.
  */
 .rv-print { display: none; }
@@ -947,10 +947,38 @@
 .rv-section { color: var(--ink-secondary); }
 .rv-empty { margin: 0; padding: 20px; border-radius: 12px; background: var(--surface); box-shadow: var(--elevation); color: var(--ink-secondary); }
 .rv-empty a { color: var(--accent); text-underline-offset: 3px; }
+/*
+ * The rail: this term against the degree (term-progress.tsx), from ProgressPanel's headline,
+ * meter and rows in four-year.css. This term is its own step on the red ramp, between in
+ * progress and planned; a suggested course's bar is dashed, as a suggestion's is in the week.
+ */
+.rv-term [data-seg="term"] { background: oklch(0.79 0.085 25); }
+.rv-term .fy-meter-caption { margin: 0; justify-content: flex-start; }
+.rv-term .fy-groups { gap: 24px; }
+.rv-term .fy-group-head { margin-bottom: 6px; }
+.rv-term .fy-row { grid-template-columns: 72px minmax(0, 1fr) auto; }
+.rv-term .fy-row-title { display: flex; gap: 0.35em; white-space: normal; text-wrap: pretty; }
+.rv-term-arrow { color: var(--ink-tertiary); }
+.rv-term .fy-row[data-suggested]::before { background: repeating-linear-gradient(to bottom, var(--k) 0 3px, transparent 3px 5px); }
+.rv-term .fy-row[data-suggested] .fy-row-title { color: var(--ink-secondary); }
+.rv-term-left { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 7px 0; }
+.rv-term-left .fy-req-status { color: var(--ink-secondary); }
+.rv-term .fy-req-note { margin: 0; font-size: var(--text-label); color: var(--ink-tertiary); }
+.rv-term-more { padding-top: 6px; border-top: var(--hairline) solid var(--line); }
+.rv-term .rv-term-link {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--accent);
+  text-decoration-color: color-mix(in oklch, var(--accent) 35%, transparent);
+}
+@media (hover: hover) and (pointer: fine) {
+  .rv-term .rv-term-link:hover { color: var(--accent-hover); text-decoration-color: currentColor; }
+}
+
 /* Stacked, the plan being reviewed comes first and progress follows (/four-year puts progress first). */
 @media (max-width: 1100px) { .rv .rv-layout { grid-template-areas: "board" "rail"; } }
 
-/* ---------- Save as PDF: one US Letter page for the week and courses, one for progress ---------- */
+/* ---------- Save as PDF: one US Letter page for the week and courses, one for this term toward the degree ---------- */
 @page {
   size: letter;
   margin: 0.45in 0.5in 0.5in;
@@ -1018,14 +1046,14 @@
   .rv-card .sp-ccard-title { font-family: inherit; font-size: var(--text-caption); line-height: 1.3; }
   .rv-card .sp-ccard-meta, .rv-card .sp-ccard-code { font-size: 11px; }
 
-  /* Progress gets its own page, two columns of requirements under the headline and meter. */
+  /* This term toward the degree gets its own page: headline and meter, then what the term counts toward beside what is left. */
   .rv .rv-rail { position: static; border-radius: 0; max-height: none; overflow: visible; box-shadow: none; break-before: page; }
-  .rv-rail .fy-progress { padding: 0; gap: 14px; border-radius: 0; box-shadow: none; }
+  .rv-rail .fy-progress { padding: 0; gap: 16px; border-radius: 0; box-shadow: none; }
   .rv-rail .eyebrow { margin: 0 0 8px; }
-  .rv-rail .fy-groups { display: block; columns: 2; column-gap: 28px; }
-  .rv-rail .fy-group { break-inside: avoid; margin-bottom: 14px; }
-  .rv-rail .fy-group-more, .rv-rail .fy-req-head svg { display: none; }
-  .rv-rail .fy-checks button { pointer-events: none; }
+  .rv-rail .fy-meter-block { max-width: 5in; }
+  .rv-term .fy-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; align-items: start; }
+  .rv-term .fy-groups > section { break-inside: avoid; }
+  .rv-term .rv-term-link { display: none; }
 
   .rv-foot { margin-top: 18px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 11px; color: var(--ink-tertiary); break-inside: avoid; }
 }
