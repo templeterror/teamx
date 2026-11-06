@@ -1,8 +1,8 @@
-import { courses, programs, type CourseCode, type ProgramCode } from "@/data";
+import { courses, programs, type CourseCode } from "@/data";
 import { catalogFor, rowKind, sequencePrerequisite, type FinderRow } from "@/components/finder/catalog";
 import type { Placement } from "@/components/plan/use-plan";
 import { CURRENT_TERM } from "@/components/plan/terms";
-import { studentFor } from "@/components/student/student";
+import { profileFor, type ProfileId } from "@/components/student/student";
 
 export const COMPLETED = "completed";
 export const UNPLANNED = "unplanned";
@@ -82,10 +82,10 @@ export type Board = Record<string, Choice>;
 type AuditLike = { audit?: { open?: { from?: string[] }[] } };
 const GEN_ED = courses as unknown as Record<string, { genEdAreas?: string[] }>;
 
-/* The suggested plan for one program, laid over the signed-in student's record. */
-function buildBoard(program: ProgramCode) {
+/* The suggested plan for a profile's program, laid over that profile's record. */
+function buildBoard(profile: ProfileId) {
+  const { program, record } = profileFor(profile);
   const suggestedPlan = programs[program].plan;
-  const record = studentFor(program).record;
 
   /*
    * The record's first term is Year 1 Fall. A record that starts in another season would
@@ -331,14 +331,14 @@ function buildBoard(program: ProgramCode) {
 export type FourYearBoard = ReturnType<typeof buildBoard>;
 export type DerivedBoard = ReturnType<FourYearBoard["derive"]>;
 
-const BOARDS = new Map<ProgramCode, FourYearBoard>();
+const BOARDS = new Map<ProfileId, FourYearBoard>();
 
-/* The signed-in program's board, built once per program so its functions stay one object. */
-export function boardFor(program: ProgramCode): FourYearBoard {
-  let board = BOARDS.get(program);
+/* The signed-in profile's board, built once per profile (it reads their record) so its functions stay one object. */
+export function boardFor(profile: ProfileId): FourYearBoard {
+  let board = BOARDS.get(profile);
   if (!board) {
-    board = buildBoard(program);
-    BOARDS.set(program, board);
+    board = buildBoard(profile);
+    BOARDS.set(profile, board);
   }
   return board;
 }

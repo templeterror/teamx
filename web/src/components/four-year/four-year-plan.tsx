@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useState, useSyncExternalStore, type ReactNode } from "react";
 import { bulletinYear, programs, type ProgramCode } from "@/data";
-import { useProgram } from "@/components/student/student-context";
+import { useProfile } from "@/components/student/student-context";
+import type { ProfileId } from "@/components/student/student";
 import { usePlanContext } from "@/components/plan/plan-shell";
 import {
   boardFor, courseTitle, totalCredits,
@@ -13,7 +14,7 @@ import {
 import "./four-year.css";
 
 /*
- * One saved board per program, so the CS and MIS students never share a timeline. It holds
+ * One saved board per profile, so Rafiat and Allegra never share a timeline. It holds
  * only the student's moves; the record and this term's plan decide the rest (board.ts).
  */
 type BoardStore = {
@@ -21,17 +22,17 @@ type BoardStore = {
   save: (board: Board) => void;
   subscribe: (listener: () => void) => () => void;
 };
-const STORES = new Map<ProgramCode, BoardStore>();
+const STORES = new Map<ProfileId, BoardStore>();
 /* Nothing moved yet: the server's render, and the board after Reset. */
 const NO_MOVES: Board = {};
 
-function storeFor(program: ProgramCode): BoardStore {
-  const existing = STORES.get(program);
+function storeFor(profile: ProfileId): BoardStore {
+  const existing = STORES.get(profile);
   if (existing) return existing;
 
-  const { plan, readSavedBoard } = boardFor(program);
+  const { plan, readSavedBoard } = boardFor(profile);
   /* v2: boards saved before the record was applied could hold cards in terms now locked. */
-  const STORAGE_KEY = `course-planner:four-year:v2:${plan.program}:${bulletinYear}`;
+  const STORAGE_KEY = `course-planner:four-year:v2:${profile}:${plan.program}:${bulletinYear}`;
   let boardCache: Board | undefined;
   const listeners = new Set<() => void>();
 
@@ -61,7 +62,7 @@ function storeFor(program: ProgramCode): BoardStore {
   }
 
   const store = { read: readBoard, save: saveBoard, subscribe };
-  STORES.set(program, store);
+  STORES.set(profile, store);
   return store;
 }
 
@@ -109,15 +110,15 @@ function slotTitle(card: Card) {
 }
 
 export function FourYearPlan() {
-  const program = useProgram();
+  const { id: profile, program } = useProfile();
   const {
     hasRecord, years, openTerms, cards,
     currentFromPlan, derive, resolve, sequenceIssues,
-  } = boardFor(program);
+  } = boardFor(profile);
   const { placements } = usePlanContext();
   /* The plan lives in the workspace layout, so a drop on /plan is already gone here. */
   const derived = derive(currentFromPlan(placements));
-  const { read: readBoard, save: saveBoard, subscribe } = storeFor(program);
+  const { read: readBoard, save: saveBoard, subscribe } = storeFor(profile);
   const saved = useSyncExternalStore(subscribe, readBoard, () => NO_MOVES);
   const board = resolve(saved, derived);
   const { starter, locked, lockedByTerm, countsToward, fixed, met } = derived;
