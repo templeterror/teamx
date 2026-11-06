@@ -1,4 +1,4 @@
-/* Additions to the student menu (plan.css has the rest): a divider and the Plan setup link. */
+/* Additions to the student menu (plan.css has the rest): a divider, and the + New student and Plan setup items. */
 .profile-menu-separator {
   height: var(--hairline);
   margin: 4px 6px;

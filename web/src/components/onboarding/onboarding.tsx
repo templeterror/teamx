@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState, useTransition, type FormEvent, type ReactNode } from "react";
-import { profileFor, type ProfileId } from "@/components/student/student";
+import { programs, type ProgramCode } from "@/data";
+import { chooseNewStudentProgram } from "@/components/student/actions";
+import { NEW_STUDENT_PROGRAMS, profileFor, profileKey, type ProfileKey } from "@/components/student/student";
 import {
   auditDate,
   graduationOptions,
@@ -15,7 +17,14 @@ import {
   totalsFor,
   type PaceCheck,
 } from "./onboarding-model";
-import { defaultPreferences, savePreferences, usePreferences, type PlanPreferences } from "./preferences";
+import {
+  START_TERMS,
+  defaultPreferences,
+  fourYearsFrom,
+  savePreferences,
+  usePreferences,
+  type PlanPreferences,
+} from "./preferences";
 import "./onboarding.css";
 
 /*
@@ -24,28 +33,47 @@ import "./onboarding.css";
  * that and asks only what the audit cannot know: when to finish, how heavy a term, and
  * whether summers count. Nothing is saved until "Build my four-year plan"; "Skip for now"
  * leaves without saving.
+ *
+ * A new student has no record to confirm, so the flow asks instead: Program picks the
+ * major (CS or MIS, kept in a cookie so the server renders it) and the first term, and
+ * the Record step is skipped, since a step that only says "nothing yet" adds a click
+ * and no information. No minor is offered: minors come from an audit, and neither
+ * program's data has one of its own.
  */
 
-const STEPS = [
+const ALL_STEPS = [
   { id: "program", label: "Program" },
   { id: "record", label: "Record" },
   { id: "pace", label: "Pace" },
   { id: "ready", label: "Ready" },
 ] as const;
 
+type StepId = (typeof ALL_STEPS)[number]["id"];
+
 const CREDIT_CHOICES = [12, 13, 14, 15, 16, 17, 18];
 const NO_MINOR = "none";
 
 const STATUS_LABEL = { completed: "Completed", "in-progress": "In progress", registered: "Registered" } as const;
 
-export function Onboarding({ profileId }: { profileId: ProfileId }) {
+/* "First term" choices: the term open now, and the fall after it. */
+const START_NOTES = ["The term open for planning now", "Start in the fall instead"];
+
+export function Onboarding({ signedIn }: { signedIn: ProfileKey }) {
+  const isNew = profileFor(signedIn).isNew;
+  /* The new student's major, here first so the choice shows at once; the cookie follows (chooseProgram). */
+  const [program, setProgram] = useState<ProgramCode>(profileFor(signedIn).program);
+  const profileId: ProfileKey = isNew ? profileKey("new", program) : signedIn;
   const profile = profileFor(profileId);
+  const STEPS = isNew ? ALL_STEPS.filter((s) => s.id !== "record") : ALL_STEPS;
+  const indexOf = (id: StepId) => STEPS.findIndex((s) => s.id === id);
   const router = useRouter();
   const saved = usePreferences(profileId);
   const defaults = defaultPreferences(profileId);
   /* Only what was changed here; everything else reads through to what is saved. */
   const [draft, setDraft] = useState<Partial<PlanPreferences>>({});
   const prefs: PlanPreferences = { ...saved, ...draft };
+  /* The default goal follows the first term: four years from whichever the student picks. */
+  const defaultGraduation = prefs.startTerm ? fourYearsFrom(prefs.startTerm) : defaults.graduationTerm;
   const [step, setStep] = useState(0);
   const [reached, setReached] = useState(0);
   const [moved, setMoved] = useState(false);
@@ -55,10 +83,17 @@ export function Onboarding({ profileId }: { profileId: ProfileId }) {
   const editing = saved.completedAt !== null;
   const facts = programFacts(profile);
   const totals = totalsFor(profile);
-  const pace = paceCheck(profile, totals, prefs.graduationTerm, prefs.creditsPerTerm, prefs.summers);
+  const pace = paceCheck(profile, totals, prefs.graduationTerm, prefs.creditsPerTerm, prefs.summers, prefs.startTerm);
+  const [, startSaving] = useTransition();
 
   function update(change: Partial<PlanPreferences>) {
     setDraft((d) => ({ ...d, ...change }));
+  }
+
+  /* Sets the program cookie; the server re-renders this page as that program's new student, in place. */
+  function chooseProgram(code: ProgramCode) {
+    setProgram(code);
+    startSaving(() => chooseNewStudentProgram(code));
   }
 
   function goTo(index: number) {
@@ -80,7 +115,8 @@ export function Onboarding({ profileId }: { profileId: ProfileId }) {
       goTo(step + 1);
       return;
     }
-    startBuilding(() => {
+    startBuilding(async () => {
+      if (isNew) await chooseNewStudentProgram(program);
       savePreferences(profileId, { ...prefs, completedAt: new Date().toISOString() });
       router.push("/four-year");
     });
@@ -95,7 +131,69 @@ export function Onboarding({ profileId }: { profileId: ProfileId }) {
   let body: ReactNode;
   switch (STEPS[step].id) {
     case "program":
-      body = (
+      body = isNew ? (
+        <>
+          {heading("Your program")}
+          <p className="intro">
+            No courses yet, so we start from your degree’s requirements. Pick your major and your first term.
+          </p>
+          <fieldset className="gate-choice onb-choice">
+            <legend>Major</legend>
+            {NEW_STUDENT_PROGRAMS.map((code) => {
+              const college = (programs[code].degree.program as { college?: string }).college;
+              return (
+                <label key={code}>
+                  <input
+                    type="radio"
+                    name="program"
+                    value={code}
+                    checked={program === code}
+                    onChange={() => chooseProgram(code)}
+                  />
+                  <span>
+                    {keepDegreeTogether(profileFor(profileKey("new", code)).programLabel)}
+                    {college && <small>{college}</small>}
+                  </span>
+                </label>
+              );
+            })}
+          </fieldset>
+          <fieldset className="gate-choice onb-choice onb-grid">
+            <legend>First term</legend>
+            {START_TERMS.map((term, i) => (
+              <label key={term}>
+                <input
+                  type="radio"
+                  name="start"
+                  value={term}
+                  checked={prefs.startTerm === term}
+                  onChange={() => update({ startTerm: term, graduationTerm: fourYearsFrom(term) })}
+                />
+                <span>
+                  {term}
+                  <small>{START_NOTES[i]}</small>
+                </span>
+              </label>
+            ))}
+          </fieldset>
+          <dl className="onb-facts">
+            <div>
+              <dt>Catalog year</dt>
+              <dd>
+                {facts.catalogYear}
+                <small>The bulletin you start under</small>
+              </dd>
+            </div>
+            <div>
+              <dt>Class standing</dt>
+              <dd>
+                {facts.standing}
+                <small className="onb-num">{facts.earned} credits earned</small>
+              </dd>
+            </div>
+          </dl>
+        </>
+      ) : (
         <>
           {heading("Your program")}
           <p className="intro">From your degree audit. Check it, and change your minor if that has changed.</p>
@@ -157,17 +255,21 @@ export function Onboarding({ profileId }: { profileId: ProfileId }) {
       break;
 
     case "record":
-      body = <RecordStep profileId={profileId} keepMinor={prefs.minor !== null} heading={heading} />;
+      body = <RecordStep profileKey={profileId} keepMinor={prefs.minor !== null} heading={heading} />;
       break;
 
     case "pace":
       body = (
         <>
           {heading("Your pace")}
-          <p className="intro">The audit can’t know these. Pick what you’re aiming for; you can change it later.</p>
+          <p className="intro">
+            {isNew
+              ? "Pick what you’re aiming for; you can change it later."
+              : "The audit can’t know these. Pick what you’re aiming for; you can change it later."}
+          </p>
           <fieldset className="gate-choice onb-choice onb-grid">
             <legend>Graduate by</legend>
-            {graduationOptions(profile, defaults.graduationTerm).map((option) => (
+            {graduationOptions(profile, defaultGraduation, prefs.startTerm).map((option) => (
               <label key={option.term}>
                 <input
                   type="radio"
@@ -211,21 +313,35 @@ export function Onboarding({ profileId }: { profileId: ProfileId }) {
         <>
           {heading(editing ? "Your plan setup" : "Ready to build your plan")}
           <p className="intro">
-            Your four-year plan starts from your record and these choices. Change them any time from your
-            name in the top bar.
+            Your four-year plan starts from {isNew ? "your degree’s requirements" : "your record"} and these
+            choices. Change them any time from your name in the top bar.
           </p>
           <dl className="onb-facts onb-summary">
-            <SummaryRow label="Program">{keepDegreeTogether(facts.label)}</SummaryRow>
-            <SummaryRow label="Minor" onChange={() => goTo(0)} changeLabel="Change minor">
-              {prefs.minor ?? "No minor"}
-            </SummaryRow>
-            <SummaryRow label="Graduate by" onChange={() => goTo(2)} changeLabel="Change graduation term">
+            {isNew ? (
+              <>
+                <SummaryRow label="Program" onChange={() => goTo(indexOf("program"))} changeLabel="Change program">
+                  {keepDegreeTogether(facts.label)}
+                </SummaryRow>
+                <SummaryRow label="First term" onChange={() => goTo(indexOf("program"))} changeLabel="Change first term">
+                  {prefs.startTerm}
+                </SummaryRow>
+                <SummaryRow label="Minor">No minor</SummaryRow>
+              </>
+            ) : (
+              <>
+                <SummaryRow label="Program">{keepDegreeTogether(facts.label)}</SummaryRow>
+                <SummaryRow label="Minor" onChange={() => goTo(indexOf("program"))} changeLabel="Change minor">
+                  {prefs.minor ?? "No minor"}
+                </SummaryRow>
+              </>
+            )}
+            <SummaryRow label="Graduate by" onChange={() => goTo(indexOf("pace"))} changeLabel="Change graduation term">
               {prefs.graduationTerm}
             </SummaryRow>
-            <SummaryRow label="Credits per term" onChange={() => goTo(2)} changeLabel="Change credits per term">
+            <SummaryRow label="Credits per term" onChange={() => goTo(indexOf("pace"))} changeLabel="Change credits per term">
               <span className="onb-num">{prefs.creditsPerTerm}</span>
             </SummaryRow>
-            <SummaryRow label="Summers" onChange={() => goTo(2)} changeLabel="Change summers">
+            <SummaryRow label="Summers" onChange={() => goTo(indexOf("pace"))} changeLabel="Change summers">
               {prefs.summers ? "Used" : "Not used"}
             </SummaryRow>
           </dl>
@@ -298,15 +414,15 @@ export function Onboarding({ profileId }: { profileId: ProfileId }) {
 }
 
 function RecordStep({
-  profileId,
+  profileKey,
   keepMinor,
   heading,
 }: {
-  profileId: ProfileId;
+  profileKey: ProfileKey;
   keepMinor: boolean;
   heading: (text: string) => ReactNode;
 }) {
-  const profile = profileFor(profileId);
+  const profile = profileFor(profileKey);
   const rows = termRows(profile);
   const totals = totalsFor(profile);
   const open = openItems(profile, keepMinor);

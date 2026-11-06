@@ -1,5 +1,5 @@
-import { studentRecord, type ProgramCode } from "@/data";
-import { profileForProgram } from "@/components/student/student";
+import { studentRecord } from "@/data";
+import { profileFor, type ProfileKey } from "@/components/student/student";
 
 /*
  * The term being planned: the one Rafiat's degree audit shows as registered (Spring 2027).
@@ -28,13 +28,13 @@ function slugify(name: string) {
   return name.toLowerCase().replace(/\s+/g, "-");
 }
 
-const CLOSED = new Map<ProgramCode, ClosedTerm[]>();
+const CLOSED = new Map<ProfileKey, ClosedTerm[]>();
 
-/* The signed-in student's closed terms, built once per program. */
-export function closedTerms(program: ProgramCode): ClosedTerm[] {
-  let terms = CLOSED.get(program);
+/* The signed-in student's closed terms, built once per profile. */
+export function closedTerms(key: ProfileKey): ClosedTerm[] {
+  let terms = CLOSED.get(key);
   if (!terms) {
-    terms = profileForProgram(program)
+    terms = profileFor(key)
       .record.terms.flatMap(({ term, status, courses }) =>
         status === "registered"
           ? []
@@ -49,7 +49,7 @@ export function closedTerms(program: ProgramCode): ClosedTerm[] {
             ],
       )
       .reverse();
-    CLOSED.set(program, terms);
+    CLOSED.set(key, terms);
   }
   return terms;
 }
@@ -59,10 +59,10 @@ export function termStatusLabel(term: ClosedTerm) {
   return term.status === "in-progress" ? "In progress" : "Completed";
 }
 
-export function closedTerm(program: ProgramCode, slug: string) {
-  return closedTerms(program).find((t) => t.slug === slug);
+export function closedTerm(key: ProfileKey, slug: string) {
+  return closedTerms(key).find((t) => t.slug === slug);
 }
 
-export function closedTermByName(program: ProgramCode, name: string) {
-  return closedTerms(program).find((t) => t.name === name);
+export function closedTermByName(key: ProfileKey, name: string) {
+  return closedTerms(key).find((t) => t.name === name);
 }

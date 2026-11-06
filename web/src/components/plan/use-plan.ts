@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { DEFAULT_PROGRAM, type ProgramCode } from "@/data";
+import { DEFAULT_PROFILE, profileFor, type ProfileKey } from "@/components/student/student";
 import {
   CREDIT_MAX,
   CREDIT_MIN,
@@ -140,27 +140,33 @@ type PlanState = {
 
 /*
  * Switching profile in the top bar mounts a fresh PlanShell for the other person. The
- * plan being left is parked here first, and the next plan mounted for that program takes
+ * plan being left is parked here first, and the next plan mounted for that profile takes
  * it back once, so Rafiat → Allegra → Rafiat returns to Rafiat's plan as she left it.
  * Only a switch parks: leaving the workspace (Change term) still starts a fresh plan, as
  * before, and so does a reload.
  */
-const parked = new Map<ProgramCode, PlanState>();
+const parked = new Map<ProfileKey, PlanState>();
 
-export function parkPlan(program: ProgramCode, state: PlanState) {
-  parked.set(program, state);
+export function parkPlan(key: ProfileKey, state: PlanState) {
+  parked.set(key, state);
+}
+
+/* Forgets a parked plan ("+ New student" starts clean). */
+export function dropParkedPlan(key: ProfileKey) {
+  parked.delete(key);
 }
 
 /*
- * The plan for the signed-in program. Rafiat's opens on her Spring 2027 registration
+ * The plan for the signed-in profile. Rafiat's opens on her Spring 2027 registration
  * (data.ts); a student with no registration opens on their suggested plan's first term.
  */
-export function usePlan(program: ProgramCode = DEFAULT_PROGRAM) {
+export function usePlan(key: ProfileKey = DEFAULT_PROFILE) {
+  const { program } = profileFor(key);
   /* Read, not taken, during render (it may run more than once); the effect below clears it. */
-  const [initial] = useState(() => parked.get(program));
+  const [initial] = useState(() => parked.get(key));
   useEffect(() => {
-    parked.delete(program);
-  }, [program]);
+    parked.delete(key);
+  }, [key]);
 
   const [catalogCourses, setCatalogCourses] = useState<Offering[]>(initial?.catalogCourses ?? []);
   const [selectedSections, setSelectedSections] = useState<Record<string, Offering>>(initial?.selectedSections ?? {});
@@ -288,7 +294,7 @@ export function usePlan(program: ProgramCode = DEFAULT_PROGRAM) {
     return placements;
   };
 
-  const placements = opensOnRegistration(program) ? registered() : seeded();
+  const placements = opensOnRegistration(key) ? registered() : seeded();
 
   for (const course of catalogCourses) {
     if (!placements.some(item => item.course.code === course.code)) placements.push({ id: `catalog-${course.code}`, kind: "elective", course, dotted: false, options: [], pick: () => {} });

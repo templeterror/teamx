@@ -8,7 +8,8 @@ export const metadata: Metadata = {
 
 /*
  * A mock sign-in. The one real choice is whose profile to open: Rafiat (her Computer
- * Science audit) or Allegra (a new Management Information Systems student). Continue
+ * Science audit), Allegra (her Management Information Systems audit), or a new student
+ * with no courses yet, who picks a program in setup. Continue
  * keeps it in a cookie (chooseProfile), so every page after this renders that person;
  * the top bar can switch later.
  */

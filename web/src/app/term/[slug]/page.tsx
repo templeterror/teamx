@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { programs, type ProgramCode } from "@/data";
 import { CURRENT_TERM, closedTerm, closedTerms, termStatusLabel } from "@/components/plan/terms";
-import { currentProgram } from "@/components/student/profile-cookie";
+import { PROFILE_KEYS } from "@/components/student/student";
+import { currentProfile } from "@/components/student/profile-cookie";
 import "../../../components/plan/plan.css";
 
 /* Every student's closed terms. Which one a visitor may see is decided per request, from the cookie. */
-const ALL_CLOSED = (Object.keys(programs) as ProgramCode[]).flatMap((code) => closedTerms(code));
+const ALL_CLOSED = PROFILE_KEYS.flatMap((key) => closedTerms(key));
 
 export function generateStaticParams() {
   return [...new Set(ALL_CLOSED.map((t) => t.slug))].map((slug) => ({ slug }));
@@ -20,7 +20,7 @@ export function generateStaticParams() {
  */
 export async function generateMetadata({ params }: PageProps<"/term/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const term = closedTerm(await currentProgram(), slug);
+  const term = closedTerm(await currentProfile(), slug);
   return { title: term ? `${term.name} · Course Planner` : "Page not found · Course Planner" };
 }
 
@@ -39,7 +39,7 @@ export default function ClosedTermPage({ params }: PageProps<"/term/[slug]">) {
 /* Only the signed-in student's own record: another student's term is not found. */
 async function ResolvedTerm({ params }: Pick<PageProps<"/term/[slug]">, "params">) {
   const { slug } = await params;
-  const term = closedTerm(await currentProgram(), slug);
+  const term = closedTerm(await currentProfile(), slug);
   if (!term) notFound();
 
   return (

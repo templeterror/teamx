@@ -2,16 +2,16 @@
 
 import { createContext, useContext, type ReactNode } from "react";
 import { catalogFor } from "@/components/finder/catalog";
-import { DEFAULT_PROFILE, profileFor, type Profile, type ProfileId } from "./student";
+import { DEFAULT_PROFILE, profileFor, type Profile, type ProfileKey } from "./student";
 
 /*
- * The signed-in profile for client components. The server reads the cookie and hands the
- * id down; everything else (record, program, tree, finder model) is derived from @/data.
+ * The signed-in profile for client components. The server reads the cookies and hands the
+ * key down; everything else (record, program, tree, finder model) is derived from @/data.
  * Outside a provider (the /components workbench) it is Rafiat's, as before.
  */
 const ProfileContext = createContext<Profile>(profileFor(DEFAULT_PROFILE));
 
-export function StudentProvider({ profile, children }: { profile: ProfileId; children: ReactNode }) {
+export function StudentProvider({ profile, children }: { profile: ProfileKey; children: ReactNode }) {
   return <ProfileContext value={profileFor(profile)}>{children}</ProfileContext>;
 }
 
@@ -24,7 +24,7 @@ export function useProgram() {
   return useProfile().program;
 }
 
-/* The finder model for the signed-in profile's program, built once per program (see catalogFor). */
+/* The finder model for the signed-in profile, built once per profile (see catalogFor). */
 export function useCatalog() {
-  return catalogFor(useProgram());
+  return catalogFor(useProfile().key);
 }

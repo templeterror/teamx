@@ -160,10 +160,11 @@
   gap: 20px;
 }
 
-/* A term takes its season's column, leaving a gap where a year has no such term. */
-.fy-term[data-season="Fall"] { grid-column: 1; }
-.fy-term[data-season="Spring"] { grid-column: 2; }
-.fy-term[data-season="Summer"] { grid-column: 3; }
+/*
+ * A term takes its season's column, leaving a gap where a year has no such term. --fy-col
+ * is set per student: Fall | Spring | Summer, or Spring | Summer | Fall for a spring start.
+ */
+.fy-term[data-season] { grid-column: var(--fy-col, auto); }
 
 /* The padding and matching negative margin give the drop outline room without moving the column. */
 .fy-term {

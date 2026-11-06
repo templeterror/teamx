@@ -26,7 +26,7 @@ export type ProgramFacts = {
   catalogYear: string | null;
   /* The minor on the audit, if any. */
   recordMinor: string | null;
-  /* "Junior", from earned credits; null with nothing earned on record. */
+  /* "Junior", from earned credits; "First year" for a new student; null with no record to read. */
   standing: string | null;
   earned: number;
 };
@@ -46,9 +46,10 @@ export function classStanding(earned: number) {
   return "Freshman";
 }
 
+/* The record's credits against the degree's; a new student's are all to go. */
 export function totalsFor(profile: Profile): Totals | null {
   const { record } = profile;
-  if (!record.audit && record.terms.length === 0) return null;
+  if (!record.audit && record.terms.length === 0 && !profile.isNew) return null;
   const { totalCredits } = graduationProgress(profile.program, record, []);
   return {
     required: totalCredits.required,
@@ -67,7 +68,7 @@ export function programFacts(profile: Profile): ProgramFacts {
     college: program.college ?? "",
     catalogYear: profile.record.catalogYear,
     recordMinor: profile.record.minor,
-    standing: totals ? classStanding(earned) : null,
+    standing: profile.isNew ? "First year" : totals ? classStanding(earned) : null,
     earned,
   };
 }
@@ -99,31 +100,38 @@ export function minorItemCount(profile: Profile) {
 
 /* ---------- Pace ---------- */
 
-/* The last term on the record, or the spring before the next fall when there is none. */
-export function lastRecordTerm(profile: Profile): Term {
+/*
+ * The last term on the record. A new student has none: the term before the one they
+ * start (Fall 2026 before Spring 2027, Summer 2027 before Fall 2027, as the board counts),
+ * or the spring before the next fall when no start is known.
+ */
+export function lastRecordTerm(profile: Profile, start: string | null = null): Term {
   const terms = profile.record.terms
     .map((t) => parseTerm(t.term))
     .filter((t): t is Term => t !== null)
     .sort((a, b) => termIndex(a) - termIndex(b));
+  const first = start ? parseTerm(start) : null;
+  if (!terms.length && first) return first.season === "Fall" ? { season: "Summer", year: first.year } : previousRegularTerm(first);
   return terms.at(-1) ?? previousRegularTerm(nextFall(new Date()));
 }
 
-function firstRegularTerm(profile: Profile): Term {
+/* The first fall or spring term on the record, else the new student's start, else the next fall. */
+function firstRegularTerm(profile: Profile, start: string | null): Term {
   for (const t of profile.record.terms) {
     const term = parseTerm(t.term);
     if (term && term.season !== "Summer") return term;
   }
-  return nextFall(new Date());
+  return (start && parseTerm(start)) || nextFall(new Date());
 }
 
 export type GraduationOption = { term: string; termsTotal: number; isDefault: boolean };
 
 /* One term earlier than the default, the default, and two later; never one already on the record. */
-export function graduationOptions(profile: Profile, defaultTerm: string): GraduationOption[] {
+export function graduationOptions(profile: Profile, defaultTerm: string, start: string | null = null): GraduationOption[] {
   const base = parseTerm(defaultTerm);
   if (!base) return [];
-  const first = firstRegularTerm(profile);
-  const last = lastRecordTerm(profile);
+  const first = firstRegularTerm(profile, start);
+  const last = lastRecordTerm(profile, start);
   return [-1, 0, 1, 2]
     .map((offset) => shiftRegularTerm(base, offset))
     .filter((term) => termIndex(term) > termIndex(last))
@@ -155,9 +163,10 @@ export function paceCheck(
   graduationTerm: string,
   creditsPerTerm: number,
   summers: boolean,
+  start: string | null = null,
 ): PaceCheck {
   const target = parseTerm(graduationTerm);
-  const after = lastRecordTerm(profile);
+  const after = lastRecordTerm(profile, start);
   const toGo = totals?.toGo ?? 0;
   if (!target) return { tone: "warning", text: "Pick a graduation term." };
   if (totals && toGo === 0) {

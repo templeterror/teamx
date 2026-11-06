@@ -3,17 +3,19 @@
  * belongs to. Pure, no React, so the finder model, the plan seed and the server pages
  * all read the same thing.
  *
- * Two profiles: Rafiat (Computer Science BS, her real DARS audit) and Allegra
- * (Management Information Systems BBA, her real DARS audit). Sign-in
- * picks one and the top bar switches between them; the choice is kept in a cookie
- * (see profile-cookie.ts).
+ * Three profiles: Rafiat (Computer Science BS, her real DARS audit), Allegra
+ * (Management Information Systems BBA, her real DARS audit), and a new student with no
+ * record yet, whose program is their own choice (CS or MIS). Sign-in picks one and the
+ * top bar switches between them; the choice is kept in cookies (see profile-cookie.ts).
  *
- * One profile per program for now, so state that belongs to a program (the shortlist,
- * the four-year board, the finder model) stays keyed by program and existing saved
- * state survives. A second student in one program would need those keyed by profile.
+ * A profile's `key` names its saved state. Rafiat's and Allegra's are their ids, so the
+ * state they saved before the new student existed survives. The new student's carries
+ * the program too ("new:BU-MIS-BBA"): two programs are two students, so switching major
+ * starts that major clean, and neither ever reads Rafiat's or Allegra's state.
  */
 import {
   DEFAULT_PROGRAM,
+  bulletinYear,
   misStudentRecord,
   programs,
   studentRecord,
@@ -21,10 +23,17 @@ import {
   type StudentRecord,
 } from "@/data";
 
-export type ProfileId = "rafiat" | "allegra";
+/* What the profile cookie holds: who, not which program. */
+export type ProfileId = "rafiat" | "allegra" | "new";
+
+/* One per record: Rafiat's, Allegra's, and the new student's in each program. Names saved state. */
+export type ProfileKey = "rafiat" | "allegra" | `new:${ProgramCode}`;
 
 export type Profile = {
   id: ProfileId;
+  key: ProfileKey;
+  /* No record yet: no terms, no audit, a program of their own choosing. */
+  isNew: boolean;
   /* The top bar's name line. Only what the person gave us: Allegra has no last name on file. */
   name: string;
   /* The mock sign-in's email. Null where none is on file; none is invented. */
@@ -41,31 +50,77 @@ function programLabel(code: ProgramCode) {
   return `${programs[code].degree.program.name} · ${letters}`;
 }
 
-function profile(id: ProfileId, name: string, email: string | null, record: StudentRecord): Profile {
-  return { id, name, email, program: record.program, programLabel: programLabel(record.program), record };
+function profile(id: "rafiat" | "allegra", name: string, email: string | null, record: StudentRecord): Profile {
+  return { id, key: id, isNew: false, name, email, program: record.program, programLabel: programLabel(record.program), record };
 }
 
-/* Every profile, default first: the sign-in choice and the top bar's menu list them in this order. */
+/* The people with a record, default first: sign-in and the top bar's menu list them in this order, then the new student. */
 export const PROFILES: readonly Profile[] = [
   profile("rafiat", "Rafiat Amir", "rafiat@temple.edu", studentRecord),
   profile("allegra", "Allegra", null, misStudentRecord),
 ];
 
+export const NEW_STUDENT_NAME = "New student";
+
+/* The programs a new student can choose: the two the catalog has data for, CS first (the default). */
+export const NEW_STUDENT_PROGRAMS: readonly ProgramCode[] = ["ST-CSCI-BS", "BU-MIS-BBA"];
+
+/*
+ * A new student's record, built here rather than read from a file: the chosen program,
+ * the catalog year of the bulletin the data comes from (2026-2027, so Fall 2026, in the
+ * records' "Fall 2025" form), and nothing else. No terms, no audit, no exceptions, no minor.
+ */
+function newStudentRecord(program: ProgramCode): StudentRecord {
+  return {
+    source: `No degree audit yet: a new student in the ${bulletinYear} bulletin, before their first term.`,
+    student: null,
+    program,
+    catalogYear: `Fall ${bulletinYear.slice(0, 4)}`,
+    minor: null,
+    terms: [],
+    satisfiedByException: [],
+  };
+}
+
+const NEW_STUDENTS = new Map<ProgramCode, Profile>(
+  NEW_STUDENT_PROGRAMS.map((program) => [
+    program,
+    {
+      id: "new",
+      key: `new:${program}`,
+      isNew: true,
+      name: NEW_STUDENT_NAME,
+      email: null,
+      program,
+      programLabel: programLabel(program),
+      record: newStudentRecord(program),
+    },
+  ]),
+);
+
 /* Rafiat's. Sign-in starts on it, and anything outside a chosen profile falls back to it. */
-export const DEFAULT_PROFILE: ProfileId = "rafiat";
+export const DEFAULT_PROFILE = "rafiat" satisfies ProfileId & ProfileKey;
 
 export function isProfileId(value: unknown): value is ProfileId {
-  return PROFILES.some((p) => p.id === value);
+  return value === "new" || PROFILES.some((p) => p.id === value);
 }
 
-export function profileFor(id: ProfileId = DEFAULT_PROFILE): Profile {
-  return PROFILES.find((p) => p.id === id) ?? PROFILES[0];
+export function isNewStudentProgram(value: unknown): value is ProgramCode {
+  return NEW_STUDENT_PROGRAMS.some((code) => code === value);
 }
 
-/* The profile whose record a program's state is built from (one per program, see above). */
-export function profileForProgram(code: ProgramCode = DEFAULT_PROGRAM): Profile {
-  return PROFILES.find((p) => p.program === code) ?? PROFILES[0];
+/* The key for a profile id; the new student's needs its program (CS when none was chosen). */
+export function profileKey(id: ProfileId, program: ProgramCode = DEFAULT_PROGRAM): ProfileKey {
+  return id === "new" ? `new:${isNewStudentProgram(program) ? program : DEFAULT_PROGRAM}` : id;
 }
+
+export function profileFor(key: ProfileKey = DEFAULT_PROFILE): Profile {
+  if (key.startsWith("new:")) return NEW_STUDENTS.get(key.slice(4) as ProgramCode) ?? NEW_STUDENTS.get(DEFAULT_PROGRAM)!;
+  return PROFILES.find((p) => p.key === key) ?? PROFILES[0];
+}
+
+/* Every key, for anything that walks all saved state (the term pages' static params). */
+export const PROFILE_KEYS: readonly ProfileKey[] = [...PROFILES.map((p) => p.key), ...[...NEW_STUDENTS.values()].map((p) => p.key)];
 
 /*
  * Top-level requirement nodes whose named courses read "Required" in the finder. A fact
