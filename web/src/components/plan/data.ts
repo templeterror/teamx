@@ -1,5 +1,5 @@
 import { courses, programs, sections, type ProgramCode } from "@/data";
-import { studentFor } from "@/components/student/student";
+import { profileForProgram } from "@/components/student/student";
 
 export type Day = "Mon" | "Tue" | "Wed" | "Thu" | "Fri";
 
@@ -149,7 +149,7 @@ function seed(program: ProgramCode): StartSlot[] {
 
 /* Whether the student opens on their own registration (the plan above) rather than a seed. */
 export function opensOnRegistration(program: ProgramCode) {
-  return studentFor(program).record.terms.some((t) => t.status === "registered");
+  return profileForProgram(program).record.terms.some((t) => t.status === "registered");
 }
 
 const SEEDS = new Map<ProgramCode, StartSlot[]>();

@@ -1,6 +1,6 @@
 {
-  "source": "No degree audit. A new Management Information Systems BBA student with nothing completed, in progress or registered. Written by hand, not by the build script; the student has no name, terms or audit numbers on purpose.",
-  "student": null,
+  "source": "No degree audit. Allegra, a new Management Information Systems BBA student with nothing completed, in progress or registered. Written by hand, not by the build script; she has no last name, terms or audit numbers on file, and none are made up.",
+  "student": "Allegra",
   "program": "BU-MIS-BBA",
   "catalogYear": null,
   "minor": null,

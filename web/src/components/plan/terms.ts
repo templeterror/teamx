@@ -1,5 +1,5 @@
 import { studentRecord, type ProgramCode } from "@/data";
-import { studentFor } from "@/components/student/student";
+import { profileForProgram } from "@/components/student/student";
 
 /*
  * The term being planned: the one Rafiat's degree audit shows as registered (Spring 2027).
@@ -34,7 +34,7 @@ const CLOSED = new Map<ProgramCode, ClosedTerm[]>();
 export function closedTerms(program: ProgramCode): ClosedTerm[] {
   let terms = CLOSED.get(program);
   if (!terms) {
-    terms = studentFor(program)
+    terms = profileForProgram(program)
       .record.terms.flatMap(({ term, status, courses }) =>
         status === "registered"
           ? []

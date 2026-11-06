@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { WeekPlan } from "@/components/plan/week-plan";
 import { CURRENT_TERM, closedTermByName } from "@/components/plan/terms";
-import { currentProgram } from "@/components/student/program-cookie";
+import { currentProgram } from "@/components/student/profile-cookie";
 
 export const metadata: Metadata = {
   title: "Your plan · Course Planner",

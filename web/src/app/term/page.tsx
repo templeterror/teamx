@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { closedTerms } from "@/components/plan/terms";
-import { currentProgram } from "@/components/student/program-cookie";
+import { currentProgram } from "@/components/student/profile-cookie";
 import { TermPicker } from "./term-picker";
 
 export const metadata: Metadata = {

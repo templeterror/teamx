@@ -55,5 +55,5 @@ export type StudentRecord = {
 /* The demo student's DARS audit: completed, in-progress and registered terms. */
 export const studentRecord = record as StudentRecord;
 
-/* A new Management Information Systems BBA student: nothing taken, nothing registered. */
+/* Allegra, a new Management Information Systems BBA student: nothing taken, nothing registered. */
 export const misStudentRecord = misRecord as StudentRecord;

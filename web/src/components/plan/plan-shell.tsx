@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createContext, useContext, type ReactNode } from "react";
-import type { ProgramCode } from "@/data";
 import { StudentProvider } from "@/components/student/student-context";
-import { studentFor } from "@/components/student/student";
-import { usePlan } from "./use-plan";
+import { ProfileSwitcher } from "@/components/student/profile-switcher";
+import { profileFor, type ProfileId } from "@/components/student/student";
+import { parkPlan, usePlan } from "./use-plan";
 import { useShortlist, type Shortlist } from "./use-shortlist";
 import { CURRENT_TERM } from "./terms";
 import "./plan.css";
@@ -30,15 +30,19 @@ const STEPS = [
   { href: "/four-year", label: "Four-year plan" },
 ] as const;
 
-/* `program` is the signed-in student's, from the sign-in cookie (see the workspace layout). */
-export function PlanShell({ program, children }: { program: ProgramCode; children: ReactNode }) {
-  const plan = usePlan(program);
-  const shortlist = useShortlist(program);
+/*
+ * `profile` is the signed-in person's, from the profile cookie (see the workspace layout).
+ * The plan and shortlist stay keyed by program: one profile per program for now, and the
+ * keys saved before profiles existed keep working.
+ */
+export function PlanShell({ profile, children }: { profile: ProfileId; children: ReactNode }) {
+  const student = profileFor(profile);
+  const plan = usePlan(student.program);
+  const shortlist = useShortlist(student.program);
   const pathname = usePathname();
-  const student = studentFor(program);
 
   return (
-    <StudentProvider program={program}>
+    <StudentProvider profile={profile}>
       <PlanContext.Provider value={{ ...plan, shortlist }}>
         <div className="plan workspace">
           {/* The sidebar laid flat across the top, so the week below gets the full width. */}
@@ -83,10 +87,7 @@ export function PlanShell({ program, children }: { program: ProgramCode; childre
                 );
               })}
             </nav>
-            <p className="plan-topbar-student">
-              {student.name}
-              <small>{student.programLabel}</small>
-            </p>
+            <ProfileSwitcher current={student} onBeforeSwitch={() => parkPlan(student.program, plan.snapshot())} />
           </header>
           <main className="workspace-main">{children}</main>
         </div>
