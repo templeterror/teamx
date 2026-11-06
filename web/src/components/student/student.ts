@@ -4,7 +4,7 @@
  * all read the same thing.
  *
  * Two profiles: Rafiat (Computer Science BS, her real DARS audit) and Allegra
- * (Management Information Systems BBA, a new student with an empty record). Sign-in
+ * (Management Information Systems BBA, her real DARS audit). Sign-in
  * picks one and the top bar switches between them; the choice is kept in a cookie
  * (see profile-cookie.ts).
  *

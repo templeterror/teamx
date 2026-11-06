@@ -12,11 +12,14 @@ async function remember(id: ProfileId) {
   jar.delete(LEGACY_PROGRAM_COOKIE);
 }
 
-/* Sign-in's Continue: keep the chosen profile, then pick a term. */
+/*
+ * Sign-in's Continue: keep the chosen profile, then plan setup (/onboarding), which
+ * confirms what the record says, asks the rest, and ends on the four-year plan.
+ */
 export async function chooseProfile(form: FormData) {
   const value = form.get("profile");
   await remember(isProfileId(value) ? value : DEFAULT_PROFILE);
-  redirect("/term");
+  redirect("/onboarding");
 }
 
 /*

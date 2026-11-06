@@ -61,6 +61,28 @@
         "ENG 0834"
       ]
     },
+    "AAAS 0857": {
+      "code": "AAAS 0857",
+      "subject": "AAAS",
+      "number": "0857",
+      "title": "Sport & Leisure in American Society",
+      "credits": {
+        "value": 3
+      },
+      "description": "Explore the complexity and diversity of American society through the study of sport and leisure. To what extent does the way we play or spectate sports, the way we plan or experience leisure time, reflect American values? As we trace a brief history of the United States through the lens of sport and leisure, we will observe how concepts of freedom, democracy and equality are tested through time. Issues of race, ethnicity, gender, age, disability, and socio-economic class will be prominent as we observe American ideals both upheld and contradicted in the context of the way Americans recreate. NOTE: This course fulfills the U.S. Society (GU) requirement for students under GenEd and American Culture (AC) for students under Core. Students cannot receive credit for this course if they have successfully completed AAS 0857, STHM 0857, SOC 0857 or REL 0957",
+      "typicallyOffered": null,
+      "attributes": [
+        "GU"
+      ],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": null,
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=AAAS%200857"
+    },
     "ACCT 2101": {
       "code": "ACCT 2101",
       "subject": "ACCT",
@@ -415,6 +437,28 @@
       ],
       "bulletinYear": "2026-2027",
       "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=ADV%200953"
+    },
+    "ADV 1196": {
+      "code": "ADV 1196",
+      "subject": "ADV",
+      "number": "1196",
+      "title": "Persuasive Writing",
+      "credits": {
+        "value": 3
+      },
+      "description": "Students learn the rhetoric of writing intended to affect behavior. The basic crafts of grammar and composition are reviewed. Students explore consumer motivation as the focus of powerful, exciting advertising and written argument",
+      "typicallyOffered": null,
+      "attributes": [
+        "WI"
+      ],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": null,
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=ADV%201196"
     },
     "AMST 0801": {
       "code": "AMST 0801",
@@ -1866,6 +1910,29 @@
         "RUS 0871"
       ]
     },
+    "BA 1001": {
+      "code": "BA 1001",
+      "subject": "BA",
+      "number": "1001",
+      "title": "Business Seminar I",
+      "credits": {
+        "value": 1
+      },
+      "description": "This course provides students with the foundation necessary for success in college. Students engage in interactive workshops to develop the academic, professional, and life skills required for Fox School of Business students. Topics include: study habits, industry alignment, time management tools, goal setting techniques, financial literacy, embracing/understanding diversity, and university resources. Students work closely with an Academic Advisor to develop an academic plan. NOTE: This course can NOT be taken by juniors or seniors, as the intended audience is new freshman and/or sophomores",
+      "typicallyOffered": null,
+      "attributes": [],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": null,
+      "restrictions": {
+        "Class Restrictions": "May not be enrolled in one of the following Classes: Junior 60 to 89 Credits, Senior 90 to 119 Credits, Senior/Fifth Year 120+ Credits",
+        "College Restrictions": "Must be enrolled in one of the following Colleges: Business & Mngmnt, Fox School, Sport Tourism Hospitality Mgt, University Studies"
+      },
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=BA%201001"
+    },
     "BA 1103": {
       "code": "BA 1103",
       "subject": "BA",
@@ -2278,6 +2345,143 @@
       "genEdAreas": [],
       "bulletinYear": "2026-2027",
       "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=BA%204102"
+    },
+    "BA 4902": {
+      "code": "BA 4902",
+      "subject": "BA",
+      "number": "4902",
+      "title": "Honors Strategic Management",
+      "credits": {
+        "value": 3
+      },
+      "description": "The honors equivalent of BA 4102, Honors Strategic Management (BA 4902) is the last required core class in the Fox undergraduate curriculum, culminating the BBA program learning experience. This course introduces the student to the role of the \"strategic manager,\" who is concerned with an organization's challenges and opportunities, and responsible for its overall long-term success. The primary goal of the course is to provide students with the critical thinking skills necessary to function as a strategic manager. The course uses a \"tying-it-together\" approach providing students with challenges of strategic analysis, formulation, and implementation within the context of the single-business / single-market firm, as well as the multi-business / multi-market firm. While the point of view of the decision-maker is that of the top management team (who must be concerned with more than a single functional area), the skills and knowledge developed in this course are relevant to those who head business units, as well as the staff people and consultants who work with the top managers. Just as top managers must integrate and apply the knowledge and competencies from the functional areas across the organization, so too must students integrate and apply the knowledge accumulated from their functional major courses, such as marketing, human resource management, operations, accounting and finance. Whatever your position in an organization, you are likely to be more effective if you understand your organization's strategy and your place in it",
+      "typicallyOffered": null,
+      "attributes": [
+        "HO"
+      ],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": {
+        "raw": "Minimum grade of C- in (FIN 3101, FIN 3901, or AS 2503), (BA 1103, BA 1903, LGLS 1101, or LGLS 1901), (MSOM 3101 or MSOM 3901), (BA 2196 or BA 2996), and (RMI 2101 or RMI 2901)",
+        "minGrade": "C-",
+        "expression": {
+          "op": "all",
+          "of": [
+            {
+              "op": "any",
+              "of": [
+                {
+                  "kind": "course",
+                  "code": "FIN 3101",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "FIN 3901",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "AS 2503",
+                  "minGrade": "C-",
+                  "concurrent": false
+                }
+              ]
+            },
+            {
+              "op": "any",
+              "of": [
+                {
+                  "kind": "course",
+                  "code": "BA 1103",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "BA 1903",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "LGLS 1101",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "LGLS 1901",
+                  "minGrade": "C-",
+                  "concurrent": false
+                }
+              ]
+            },
+            {
+              "op": "any",
+              "of": [
+                {
+                  "kind": "course",
+                  "code": "MSOM 3101",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "MSOM 3901",
+                  "minGrade": "C-",
+                  "concurrent": false
+                }
+              ]
+            },
+            {
+              "op": "any",
+              "of": [
+                {
+                  "kind": "course",
+                  "code": "BA 2196",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "BA 2996",
+                  "minGrade": "C-",
+                  "concurrent": false
+                }
+              ]
+            },
+            {
+              "op": "any",
+              "of": [
+                {
+                  "kind": "course",
+                  "code": "RMI 2101",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "RMI 2901",
+                  "minGrade": "C-",
+                  "concurrent": false
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "restrictions": {
+        "Class Restrictions": "Must be enrolled in one of the following Classes: Senior 90 to 119 Credits, Senior/Fifth Year 120+ Credits",
+        "College Restrictions": "Must be enrolled in one of the following Colleges: Business & Mngmnt, Fox School",
+        "Cohort Restrictions": "Must be enrolled in one of the following Cohorts: SCHONORS, UHONORS, UHONORSTR"
+      },
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=BA%204902"
     },
     "BIOE 0844": {
       "code": "BIOE 0844",
@@ -14064,6 +14268,96 @@
       "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=ITAL%200968",
       "sameAs": "ARBC 0968"
     },
+    "ITAL 1001": {
+      "code": "ITAL 1001",
+      "subject": "ITAL",
+      "number": "1001",
+      "title": "Italian Language I",
+      "credits": {
+        "value": 4
+      },
+      "description": "Introduction to the use of Italian as a spoken language. Fundamentals of grammar, basic patterns of oral communication, writing and reading, introduction to Italian culture",
+      "typicallyOffered": null,
+      "attributes": [
+        "LA"
+      ],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": null,
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=ITAL%201001"
+    },
+    "ITAL 1002": {
+      "code": "ITAL 1002",
+      "subject": "ITAL",
+      "number": "1002",
+      "title": "Italian Language II",
+      "credits": {
+        "value": 4
+      },
+      "description": "A continuation of the activities of Italian 1001. The basics already learned are practiced, and new patterns of oral communication, reading, and writing are introduced. Additional fundamentals of grammar",
+      "typicallyOffered": null,
+      "attributes": [
+        "LA"
+      ],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": {
+        "raw": "Minimum grade of C- in (ITAL 1001, ITAL 1901, 'C1002' in LCIT, 'B1002' in LCIT, 'C1003' in LCIT, 'B1003' in LCIT, or 'EXMPT' in LCIT)",
+        "minGrade": "C-",
+        "expression": {
+          "op": "any",
+          "of": [
+            {
+              "kind": "course",
+              "code": "ITAL 1001",
+              "minGrade": "C-",
+              "concurrent": false
+            },
+            {
+              "kind": "course",
+              "code": "ITAL 1901",
+              "minGrade": "C-",
+              "concurrent": false
+            }
+          ]
+        }
+      },
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=ITAL%201002"
+    },
+    "ITAL 1901": {
+      "code": "ITAL 1901",
+      "subject": "ITAL",
+      "number": "1901",
+      "title": "Honors Italian Language I",
+      "credits": {
+        "value": 4
+      },
+      "description": "Introduction to the use of Italian as a spoken language. Fundamentals of grammar, basic patterns of oral communication, writing and reading, introduction to Italian culture",
+      "typicallyOffered": null,
+      "attributes": [
+        "HO"
+      ],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": null,
+      "restrictions": {
+        "Field of Study Restrictions": "Must be enrolled in one of the following Fields of study: Italian",
+        "Class Restrictions": "May not be enrolled in one of the following Classes: Freshman 0 to 29 Credits",
+        "Cohort Restrictions": "Must be enrolled in one of the following Cohorts: SCHONORS, UHONORS, UHONORSTR"
+      },
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=ITAL%201901"
+    },
     "JPNS 0868": {
       "code": "JPNS 0868",
       "subject": "JPNS",
@@ -14088,6 +14382,28 @@
       "bulletinYear": "2026-2027",
       "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=JPNS%200868",
       "sameAs": "ARBC 0868"
+    },
+    "JRN 1196": {
+      "code": "JRN 1196",
+      "subject": "JRN",
+      "number": "1196",
+      "title": "Writing and Reporting",
+      "credits": {
+        "value": 3
+      },
+      "description": "Introduction to and practice in writing stories for various mass media. Effective writing, journalistic style, and language skills are emphasized. NOTE: Departmental core course. This course is the prerequisite for all department writing courses. A grade of C- or higher is required in order to take upper level journalism courses",
+      "typicallyOffered": null,
+      "attributes": [
+        "WI"
+      ],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": null,
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=JRN%201196"
     },
     "JST 0802": {
       "code": "JST 0802",
@@ -18245,6 +18561,700 @@
       "bulletinYear": "2026-2027",
       "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=MKTG%202101"
     },
+    "MKTG 2901": {
+      "code": "MKTG 2901",
+      "subject": "MKTG",
+      "number": "2901",
+      "title": "Honors Marketing Management",
+      "credits": {
+        "value": 3
+      },
+      "description": "Introduction to the discipline of marketing. The nature of marketing activities in contemporary society and the firm. Study of marketing mix variables and decision processes involved in corporations and public agencies. Concepts from economics, behavioral sciences, and modern systems theory are incorporated. NOTE: Open only to business designated honors students or with special permission. May be used to meet the marketing requirement of the Fox School of Business and Management. A Marketing Major or Minor must earn a C in the course",
+      "typicallyOffered": null,
+      "attributes": [
+        "HO"
+      ],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": {
+        "raw": "Minimum grade of C- in (ECON 1101, ECON 1901, ECON 1102, or ECON 1902)",
+        "minGrade": "C-",
+        "expression": {
+          "op": "any",
+          "of": [
+            {
+              "kind": "course",
+              "code": "ECON 1101",
+              "minGrade": "C-",
+              "concurrent": false
+            },
+            {
+              "kind": "course",
+              "code": "ECON 1901",
+              "minGrade": "C-",
+              "concurrent": false
+            },
+            {
+              "kind": "course",
+              "code": "ECON 1102",
+              "minGrade": "C-",
+              "concurrent": false
+            },
+            {
+              "kind": "course",
+              "code": "ECON 1902",
+              "minGrade": "C-",
+              "concurrent": false
+            }
+          ]
+        }
+      },
+      "restrictions": {
+        "Cohort Restrictions": "Must be enrolled in one of the following Cohorts: SCHONORS, UHONORS, UHONORSTR"
+      },
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=MKTG%202901"
+    },
+    "MKTG 3501": {
+      "code": "MKTG 3501",
+      "subject": "MKTG",
+      "number": "3501",
+      "title": "Integrated Marketing Communications",
+      "credits": {
+        "value": 3
+      },
+      "description": "Marketing 3501 is an intermediate level undergraduate marketing course which introduces students to the field of advertising by taking an integrated marketing communications (IMC) perspective. While advertising is the major focus of the course, IMC also plays a critical role as the course develops perspectives on the process of advertising, promotions, and media working together as a part of the overall marketing strategy. Topics include setting advertising objectives and budgets, client-agency-media relations, demand stimulation, media selection and evaluation, and the social responsibilities and regulation of advertising at the level of the firm and of the industry. NOTE: Prior to Spring 2009, this course was titled \"Advertising.\"",
+      "typicallyOffered": null,
+      "attributes": [],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": {
+        "raw": "Minimum grade of C- in (MKTG 2101 or MKTG 2901)",
+        "minGrade": "C-",
+        "expression": {
+          "op": "any",
+          "of": [
+            {
+              "kind": "course",
+              "code": "MKTG 2101",
+              "minGrade": "C-",
+              "concurrent": false
+            },
+            {
+              "kind": "course",
+              "code": "MKTG 2901",
+              "minGrade": "C-",
+              "concurrent": false
+            }
+          ]
+        }
+      },
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=MKTG%203501"
+    },
+    "MKTG 3504": {
+      "code": "MKTG 3504",
+      "subject": "MKTG",
+      "number": "3504",
+      "title": "Professional Selling and Sales Management",
+      "credits": {
+        "value": 3
+      },
+      "description": "This course provides an introduction to the behavioral aspects of personal selling and introduces frameworks for sales management. Course topics include: recruitment, selection, training, motivation, compensation, control and the strategy of matching the sales effort to the sales task. This course not only reflects a more analytical and scientific approach but also presents current and future challenges, opportunities, and proposed solutions to critical sales and sales management issues. Sales and sales management principles learned here can be applied to any industry that employs sales forces of any size. NOTE: Prior to Fall 2023, this course was titled \"Sales and Sales Management\"",
+      "typicallyOffered": null,
+      "attributes": [],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": {
+        "raw": "Minimum grade of C- in (MKTG 2101 or MKTG 2901)",
+        "minGrade": "C-",
+        "expression": {
+          "op": "any",
+          "of": [
+            {
+              "kind": "course",
+              "code": "MKTG 2101",
+              "minGrade": "C-",
+              "concurrent": false
+            },
+            {
+              "kind": "course",
+              "code": "MKTG 2901",
+              "minGrade": "C-",
+              "concurrent": false
+            }
+          ]
+        }
+      },
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=MKTG%203504"
+    },
+    "MKTG 3506": {
+      "code": "MKTG 3506",
+      "subject": "MKTG",
+      "number": "3506",
+      "title": "Retail Management",
+      "credits": {
+        "value": 3
+      },
+      "description": "The course involves a study of retailing as a marketing institution from the standpoint of management. Topics covered include the store location, layout and facilities, policy formulation in the areas of procurement and outsourcing, merchandising, warehousing, pricing, inventory planning and controlling, transportation, sales promotion, customer service, and general management problems. Retail Management covers the role of intermediaries and strategies, as well as how firms use the Internet and other digital platforms to expand markets, service customers, and increase sales. NOTE: Prior to Fall 2023, the course title was \"Value Delivery Networks in Marketing.\"",
+      "typicallyOffered": null,
+      "attributes": [],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": {
+        "raw": "Minimum grade of C in (MKTG 2101, MKTG 2901, 'Y' in CRMK01, or 'Y' in CRMK02)",
+        "minGrade": "C",
+        "expression": {
+          "op": "any",
+          "of": [
+            {
+              "kind": "course",
+              "code": "MKTG 2101",
+              "minGrade": "C",
+              "concurrent": false
+            },
+            {
+              "kind": "course",
+              "code": "MKTG 2901",
+              "minGrade": "C",
+              "concurrent": false
+            },
+            {
+              "kind": "placement",
+              "code": "CRMK01"
+            },
+            {
+              "kind": "placement",
+              "code": "CRMK02"
+            }
+          ]
+        }
+      },
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=MKTG%203506"
+    },
+    "MKTG 3508": {
+      "code": "MKTG 3508",
+      "subject": "MKTG",
+      "number": "3508",
+      "title": "Digital Marketing",
+      "credits": {
+        "value": 3
+      },
+      "description": "Digital technologies are an integral component of daily life for firms and consumers. Although digital marketing is an important part of business strategy, the dynamic nature of technology and consumer culture raises many strategic and societal challenges. This course examines the theories and concepts underlying the use of information and communication technology by firms and consumers, and challenges students to critique and utilize digital tools, including social media platforms, online reviews, inbound marketing and blogs, paid search, digital and programmatic advertising, search engine optimization, email marketing, mobile marketing and online promotions. The identification of critical success factors and best practices are central to the course, as are digital analytics and other methods for analyzing market effectiveness. The course examines the theory and realities of digital marketing in both business-to-consumer (B2C) and business-to-business (B2B) markets",
+      "typicallyOffered": null,
+      "attributes": [],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": {
+        "raw": "Minimum grade of C- in (MKTG 2101 or MKTG 2901)",
+        "minGrade": "C-",
+        "expression": {
+          "op": "any",
+          "of": [
+            {
+              "kind": "course",
+              "code": "MKTG 2101",
+              "minGrade": "C-",
+              "concurrent": false
+            },
+            {
+              "kind": "course",
+              "code": "MKTG 2901",
+              "minGrade": "C-",
+              "concurrent": false
+            }
+          ]
+        }
+      },
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=MKTG%203508"
+    },
+    "MKTG 3509": {
+      "code": "MKTG 3509",
+      "subject": "MKTG",
+      "number": "3509",
+      "title": "Customer Data Analytics",
+      "credits": {
+        "value": 3
+      },
+      "description": "This course teaches students how to model customer data to more profitably target the organization's marketing efforts. Includes the collection, analysis, and utilization of data for the development of marketing strategies. The course includes the study of customer lifetime value and customer relationship management. Particular attention is paid to the interpretation and modeling of quantitative data (e.g., RFM models, decision trees and logistic regression). Students build and develop skills in IBM's SPSS platform. Note: Marketing majors must earn a grade of C or better for this course to count towards the major requirement",
+      "typicallyOffered": null,
+      "attributes": [],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": {
+        "raw": "Minimum grade of C- (except where noted) in (MKTG 2101 (C or higher), MKTG 2901 (C or higher), 'Y' in MK01, 'Y' in CRMK01, or 'Y' in CRMK02) and (STAT 2103, STAT 2903, STAT 2104, (STAT 2101 and STAT 2102), (STAT 2901 and STAT 2902), STAT 2512, or MATH 3031)",
+        "minGrade": "C-",
+        "expression": {
+          "op": "all",
+          "of": [
+            {
+              "op": "any",
+              "of": [
+                {
+                  "kind": "course",
+                  "code": "MKTG 2101",
+                  "minGrade": "C",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "MKTG 2901",
+                  "minGrade": "C",
+                  "concurrent": false
+                },
+                {
+                  "kind": "placement",
+                  "code": "MK01"
+                },
+                {
+                  "kind": "placement",
+                  "code": "CRMK01"
+                },
+                {
+                  "kind": "placement",
+                  "code": "CRMK02"
+                }
+              ]
+            },
+            {
+              "op": "any",
+              "of": [
+                {
+                  "kind": "course",
+                  "code": "STAT 2103",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "STAT 2903",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "STAT 2104",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "op": "all",
+                  "of": [
+                    {
+                      "kind": "course",
+                      "code": "STAT 2101",
+                      "minGrade": "C-",
+                      "concurrent": false
+                    },
+                    {
+                      "kind": "course",
+                      "code": "STAT 2102",
+                      "minGrade": "C-",
+                      "concurrent": false
+                    }
+                  ]
+                },
+                {
+                  "op": "all",
+                  "of": [
+                    {
+                      "kind": "course",
+                      "code": "STAT 2901",
+                      "minGrade": "C-",
+                      "concurrent": false
+                    },
+                    {
+                      "kind": "course",
+                      "code": "STAT 2902",
+                      "minGrade": "C-",
+                      "concurrent": false
+                    }
+                  ]
+                },
+                {
+                  "kind": "course",
+                  "code": "STAT 2512",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "MATH 3031",
+                  "minGrade": "C-",
+                  "concurrent": false
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=MKTG%203509"
+    },
+    "MKTG 3511": {
+      "code": "MKTG 3511",
+      "subject": "MKTG",
+      "number": "3511",
+      "title": "Marketing Research",
+      "credits": {
+        "value": 3
+      },
+      "description": "This course covers methods for collecting, analyzing and interpreting data relevant to the marketing decision-making process. The course focuses on structuring marketing problems in terms of specific research questions, understanding primary and secondary sources of marketing research data (including issues in data collection), using specific techniques (including Qualtrics and SPSS) for analyzing marketing research data, and using analyses to make better marketing management decisions. Note: Marketing majors must earn a grade of C or better for this course to be eligible to take the capstone Marketing course 4501",
+      "typicallyOffered": null,
+      "attributes": [],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": {
+        "raw": "Minimum grade of C- (except where noted) in (MKTG 2101 (C or higher), MKTG 2901 (C or higher), 'Y' in MK01, 'Y' in CRMK01, or 'Y' in CRMK02) and (STAT 2103, STAT 2903, STAT 2104, (STAT 2101 and STAT 2102), (STAT 2901 and STAT 2902), STAT 2512, or MATH 3031)",
+        "minGrade": "C-",
+        "expression": {
+          "op": "all",
+          "of": [
+            {
+              "op": "any",
+              "of": [
+                {
+                  "kind": "course",
+                  "code": "MKTG 2101",
+                  "minGrade": "C",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "MKTG 2901",
+                  "minGrade": "C",
+                  "concurrent": false
+                },
+                {
+                  "kind": "placement",
+                  "code": "MK01"
+                },
+                {
+                  "kind": "placement",
+                  "code": "CRMK01"
+                },
+                {
+                  "kind": "placement",
+                  "code": "CRMK02"
+                }
+              ]
+            },
+            {
+              "op": "any",
+              "of": [
+                {
+                  "kind": "course",
+                  "code": "STAT 2103",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "STAT 2903",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "STAT 2104",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "op": "all",
+                  "of": [
+                    {
+                      "kind": "course",
+                      "code": "STAT 2101",
+                      "minGrade": "C-",
+                      "concurrent": false
+                    },
+                    {
+                      "kind": "course",
+                      "code": "STAT 2102",
+                      "minGrade": "C-",
+                      "concurrent": false
+                    }
+                  ]
+                },
+                {
+                  "op": "all",
+                  "of": [
+                    {
+                      "kind": "course",
+                      "code": "STAT 2901",
+                      "minGrade": "C-",
+                      "concurrent": false
+                    },
+                    {
+                      "kind": "course",
+                      "code": "STAT 2902",
+                      "minGrade": "C-",
+                      "concurrent": false
+                    }
+                  ]
+                },
+                {
+                  "kind": "course",
+                  "code": "STAT 2512",
+                  "minGrade": "C-",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "MATH 3031",
+                  "minGrade": "C-",
+                  "concurrent": false
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=MKTG%203511"
+    },
+    "MKTG 3513": {
+      "code": "MKTG 3513",
+      "subject": "MKTG",
+      "number": "3513",
+      "title": "Service Marketing",
+      "credits": {
+        "value": 3
+      },
+      "description": "In this Services Marketing course, you will learn about key differences between the marketing of products and services as well as unique challenges and opportunities facing service organizations. Case studies and classroom discussions will be bolstered by a hands-on project with local service providers to provide a real-world understanding of how service organizations design and execute their marketing strategies. The course will build upon the marketing principles covered in other courses (MKTG 2101/2901). Every company and organization provides its customers with service, and those that excel in marketing their services create sustainable competitive advantages. Whether or not you plan to pursue a career in the services economy, this course will reveal the keys to effectively marketing the service side of an organization",
+      "typicallyOffered": null,
+      "attributes": [
+        "CEC"
+      ],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": {
+        "raw": "Minimum grade of C in (MKTG 2101 or MKTG 2901)",
+        "minGrade": "C",
+        "expression": {
+          "op": "any",
+          "of": [
+            {
+              "kind": "course",
+              "code": "MKTG 2101",
+              "minGrade": "C",
+              "concurrent": false
+            },
+            {
+              "kind": "course",
+              "code": "MKTG 2901",
+              "minGrade": "C",
+              "concurrent": false
+            }
+          ]
+        }
+      },
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=MKTG%203513"
+    },
+    "MKTG 3514": {
+      "code": "MKTG 3514",
+      "subject": "MKTG",
+      "number": "3514",
+      "title": "Sustainable Consumer Centric Innovation",
+      "credits": {
+        "value": 3
+      },
+      "description": "Sustainable marketing is at the forefront of management in organizations throughout the world and extends the boundaries of traditional marketing with an increased focus on a firm's responsibilities, its impact on society and the environment. This course evaluates the role of marketing in sustainability by examining how firms create value, reduce risk, and build sustainable thinking and processes into marketing activities and strategies. Marketing plays a key role in how an organization responds to opportunities and threats that arise from social, economic and environmental change. In addition to reviewing marketing activities designed to address environmental impact, the course considers the role of marketing in addressing corporate social responsibility (including ethical considerations) and social marketing priorities (such as health and community issues). Note: Students cannot receive credit for both MKTG 3514 and the previously offered MKTG 2511",
+      "typicallyOffered": null,
+      "attributes": [
+        "SF"
+      ],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": {
+        "raw": "Minimum grade of C in (MKTG 2101 or MKTG 2901)",
+        "minGrade": "C",
+        "expression": {
+          "op": "any",
+          "of": [
+            {
+              "kind": "course",
+              "code": "MKTG 2101",
+              "minGrade": "C",
+              "concurrent": false
+            },
+            {
+              "kind": "course",
+              "code": "MKTG 2901",
+              "minGrade": "C",
+              "concurrent": false
+            }
+          ]
+        }
+      },
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=MKTG%203514"
+    },
+    "MKTG 3580": {
+      "code": "MKTG 3580",
+      "subject": "MKTG",
+      "number": "3580",
+      "title": "Special Topics - Marketing",
+      "credits": {
+        "value": 3
+      },
+      "description": "Special topics in current developments in the field of marketing",
+      "typicallyOffered": null,
+      "attributes": [],
+      "repeatable": true,
+      "repeatability": "This course may be repeated for additional credit",
+      "prerequisites": {
+        "raw": "Minimum grade of C- in (MKTG 2101 or MKTG 2901)",
+        "minGrade": "C-",
+        "expression": {
+          "op": "any",
+          "of": [
+            {
+              "kind": "course",
+              "code": "MKTG 2101",
+              "minGrade": "C-",
+              "concurrent": false
+            },
+            {
+              "kind": "course",
+              "code": "MKTG 2901",
+              "minGrade": "C-",
+              "concurrent": false
+            }
+          ]
+        }
+      },
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=MKTG%203580"
+    },
+    "MKTG 3596": {
+      "code": "MKTG 3596",
+      "subject": "MKTG",
+      "number": "3596",
+      "title": "Consumer and Buyer Behavior",
+      "credits": {
+        "value": 3
+      },
+      "description": "This course provides a survey and integration of concepts, theories, and frameworks that help explain the behavior of consumers. Topics include: perception, product knowledge and involvement, decision making, learning, conditioning, and social influences such as culture, micro-culture, and social class. The course emphasizes the use of these concepts in developing marketing strategies. NOTE: Marketing Majors must earn a grade of C or better in this course to be eligible to take the capstone Marketing course 4501. Students must earn a grade of C in this course if they are using it to fill the writing intensive course requirement for their degree",
+      "typicallyOffered": null,
+      "attributes": [
+        "WI"
+      ],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": {
+        "raw": "Minimum grade of C- (except where noted) in (MKTG 2101 (C or higher), MKTG 2901 (C or higher), 'Y' in MK01, 'Y' in CRMK01, or 'Y' in CRMK02) and (BA 2196 (may be taken concurrently), BA 2996 (may be taken concurrently), ADV 1196 (may be taken concurrently), JRN 1196 (may be taken concurrently), or PR 1496 (may be taken concurrently))",
+        "minGrade": "C-",
+        "expression": {
+          "op": "all",
+          "of": [
+            {
+              "op": "any",
+              "of": [
+                {
+                  "kind": "course",
+                  "code": "MKTG 2101",
+                  "minGrade": "C",
+                  "concurrent": false
+                },
+                {
+                  "kind": "course",
+                  "code": "MKTG 2901",
+                  "minGrade": "C",
+                  "concurrent": false
+                },
+                {
+                  "kind": "placement",
+                  "code": "MK01"
+                },
+                {
+                  "kind": "placement",
+                  "code": "CRMK01"
+                },
+                {
+                  "kind": "placement",
+                  "code": "CRMK02"
+                }
+              ]
+            },
+            {
+              "op": "any",
+              "of": [
+                {
+                  "kind": "course",
+                  "code": "BA 2196",
+                  "minGrade": "C-",
+                  "concurrent": true
+                },
+                {
+                  "kind": "course",
+                  "code": "BA 2996",
+                  "minGrade": "C-",
+                  "concurrent": true
+                },
+                {
+                  "kind": "course",
+                  "code": "ADV 1196",
+                  "minGrade": "C-",
+                  "concurrent": true
+                },
+                {
+                  "kind": "course",
+                  "code": "JRN 1196",
+                  "minGrade": "C-",
+                  "concurrent": true
+                },
+                {
+                  "kind": "course",
+                  "code": "PR 1496",
+                  "minGrade": "C-",
+                  "concurrent": true
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=MKTG%203596"
+    },
     "MSOM 3101": {
       "code": "MSOM 3101",
       "subject": "MSOM",
@@ -20430,6 +21440,28 @@
       ],
       "bulletinYear": "2026-2027",
       "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=POLS%200978"
+    },
+    "PR 1496": {
+      "code": "PR 1496",
+      "subject": "PR",
+      "number": "1496",
+      "title": "News Writing and Media Relations",
+      "credits": {
+        "value": 3
+      },
+      "description": "This writing-intensive course focuses on the fundamentals of writing for various forms of news media, including print and electronic. Use of AP Style is taught and required. NOTE: Required course for all students in the Public Relations major. A grade of C or higher is required in order to take upper-level PR courses. WI designated",
+      "typicallyOffered": null,
+      "attributes": [
+        "WI"
+      ],
+      "repeatable": false,
+      "repeatability": "This course may not be repeated for additional credits",
+      "prerequisites": null,
+      "restrictions": {},
+      "requiresLaboratorySection": false,
+      "genEdAreas": [],
+      "bulletinYear": "2026-2027",
+      "source": "https://bulletin.temple.edu/ribbit/index.cgi?page=getcourse.rjs&code=PR%201496"
     },
     "PSY 0816": {
       "code": "PSY 0816",

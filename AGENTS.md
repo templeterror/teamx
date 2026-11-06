@@ -45,7 +45,7 @@ Import `web/src/data`. Do not copy course lists into components. Source is the 2
 - `mis-program.json` — MIS BBA requirement tree; `needsReview` lists bulletin contradictions left unresolved on purpose
 - `mis-academic-plan.json` — MIS BBA eight-semester plan
 - `student-record.json` — the demo student's real DARS audit (no ID, grades or GPA; the repo is public)
-- `mis-student-record.json` — Allegra, the MIS BBA profile: a new student with an empty record (no last name, courses or history on file)
+- `mis-student-record.json` — Allegra, the MIS BBA profile: her real DARS audit (Marketing minor; no ID, grades, GPA or last name; the repo is public)
 - `sections.json` — placeholder meetings, Monday/Wednesday/Friday or Tuesday/Thursday
 - `web/scripts/build_mock_data.py` — rebuilds the JSON
 

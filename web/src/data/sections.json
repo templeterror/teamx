@@ -31,6 +31,21 @@
       "source": "placeholder"
     },
     {
+      "id": "AAAS0857-001",
+      "course": "AAAS 0857",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Riley Okonkwo",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
       "id": "ACCT2101-001",
       "course": "ACCT 2101",
       "section": "001",
@@ -127,6 +142,21 @@
       "start": "16:00",
       "end": "16:50",
       "instructor": "Samir Shah",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ADV1196-001",
+      "course": "ADV 1196",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Harper Diaz",
       "campus": "Main",
       "source": "placeholder"
     },
@@ -736,6 +766,20 @@
       "source": "placeholder"
     },
     {
+      "id": "BA1001-001",
+      "course": "BA 1001",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:15",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
       "id": "BA1103-001",
       "course": "BA 1103",
       "section": "001",
@@ -848,6 +892,21 @@
       "start": "15:00",
       "end": "15:50",
       "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "BA4902-001",
+      "course": "BA 4902",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "14:00",
+      "end": "14:50",
+      "instructor": "Riley Okonkwo",
       "campus": "Main",
       "source": "placeholder"
     },
@@ -4672,6 +4731,49 @@
       "source": "placeholder"
     },
     {
+      "id": "ITAL1001-001",
+      "course": "ITAL 1001",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "11:05",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ITAL1002-001",
+      "course": "ITAL 1002",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:40",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "ITAL1901-001",
+      "course": "ITAL 1901",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "10:00",
+      "end": "11:40",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
       "id": "JPNS0868-001",
       "course": "JPNS 0868",
       "section": "001",
@@ -4682,6 +4784,20 @@
       "start": "12:00",
       "end": "13:15",
       "instructor": "Drew Okada",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "JRN1196-001",
+      "course": "JRN 1196",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "16:00",
+      "end": "17:15",
+      "instructor": "Logan Iyer",
       "campus": "Main",
       "source": "placeholder"
     },
@@ -5843,6 +5959,164 @@
       "source": "placeholder"
     },
     {
+      "id": "MKTG2901-001",
+      "course": "MKTG 2901",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Reese Kapoor",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MKTG3501-001",
+      "course": "MKTG 3501",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "08:00",
+      "end": "08:50",
+      "instructor": "Skyler Brooks",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MKTG3504-001",
+      "course": "MKTG 3504",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Devon Cho",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MKTG3506-001",
+      "course": "MKTG 3506",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "13:00",
+      "end": "14:15",
+      "instructor": "Ari Mendel",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MKTG3508-001",
+      "course": "MKTG 3508",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Cameron Ortiz",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MKTG3509-001",
+      "course": "MKTG 3509",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "16:00",
+      "end": "16:50",
+      "instructor": "Finley Grant",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MKTG3511-001",
+      "course": "MKTG 3511",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "09:00",
+      "end": "10:15",
+      "instructor": "Hayden Cole",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MKTG3513-001",
+      "course": "MKTG 3513",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "11:00",
+      "end": "12:15",
+      "instructor": "Jules Navarro",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MKTG3514-001",
+      "course": "MKTG 3514",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "12:00",
+      "end": "12:50",
+      "instructor": "Kendall Frost",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MKTG3580-001",
+      "course": "MKTG 3580",
+      "section": "001",
+      "days": [
+        "Tuesday",
+        "Thursday"
+      ],
+      "start": "15:00",
+      "end": "16:15",
+      "instructor": "Logan Iyer",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "MKTG3596-001",
+      "course": "MKTG 3596",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "13:00",
+      "end": "13:50",
+      "instructor": "Avery Lang",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
       "id": "MSOM3101-001",
       "course": "MSOM 3101",
       "section": "001",
@@ -6686,6 +6960,21 @@
       "start": "14:00",
       "end": "14:50",
       "instructor": "Morgan Ellis",
+      "campus": "Main",
+      "source": "placeholder"
+    },
+    {
+      "id": "PR1496-001",
+      "course": "PR 1496",
+      "section": "001",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "start": "10:00",
+      "end": "10:50",
+      "instructor": "Skyler Brooks",
       "campus": "Main",
       "source": "placeholder"
     },

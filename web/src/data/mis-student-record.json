@@ -1,9 +1,134 @@
 {
-  "source": "No degree audit. Allegra, a new Management Information Systems BBA student with nothing completed, in progress or registered. Written by hand, not by the build script; she has no last name, terms or audit numbers on file, and none are made up.",
+  "source": "Temple DARS degree audit, prepared 5 November 2026 (program BU-MIS-BBA, catalog year Fall 2025, Marketing minor). Course codes, titles, credits and terms only. The student ID, grades and GPA are left out on purpose because this repository is public. Titles are the 2026-2027 bulletin's where the course has a card; MIS 2101 has no 2026-2027 card and keeps the audit's title. The audit counts every completed course toward a requirement, so grade minimums are treated as met. BA 2101, a Fall 2026 course already graded, carries \"status\": \"completed\" inside the in-progress term, so earned credits match the audit's 64. Each open item names its mis-program.json node in \"requirement\"; the Marketing minor is not part of the MIS BBA, so its items are marked by \"track\" instead. \"applied\" lists the courses the audit used for each section it shows as met or in progress.",
   "student": "Allegra",
   "program": "BU-MIS-BBA",
-  "catalogYear": null,
-  "minor": null,
-  "terms": [],
-  "satisfiedByException": []
+  "catalogYear": "Fall 2025",
+  "minor": "Marketing",
+  "terms": [
+    {
+      "term": "Fall 2024",
+      "status": "completed",
+      "courses": [
+        { "code": "BA 1001", "title": "Business Seminar I", "credits": 1 },
+        { "code": "BA 1103", "title": "Legal and Ethical Reasoning in Business", "credits": 3 },
+        { "code": "ENG 0802", "title": "Analytical Reading and Writing", "credits": 4 },
+        { "code": "HRM 1101", "title": "Leadership and Organizational Management", "credits": 3 },
+        { "code": "MIS 2101", "title": "Digital Systems", "credits": 3 },
+        { "code": "SCTC 1021", "title": "Journey of the Algorithm", "credits": 3 }
+      ]
+    },
+    {
+      "term": "Spring 2025",
+      "status": "completed",
+      "courses": [
+        { "code": "ECON 1101", "title": "Macroeconomic Principles", "credits": 3 },
+        { "code": "IH 0851", "title": "Intellectual Heritage I: The Good Life", "credits": 3 },
+        { "code": "SPSY 0828", "title": "The Meaning of Madness", "credits": 3 },
+        { "code": "STAT 1001", "title": "Quantitative Methods for Business I", "credits": 3 },
+        { "code": "STHM 0857", "title": "Sport & Leisure in American Society", "credits": 3 }
+      ]
+    },
+    {
+      "term": "Fall 2025",
+      "status": "completed",
+      "courses": [
+        { "code": "ECE 0832", "title": "Digital World and Everyday Life", "credits": 3 },
+        { "code": "ECON 1102", "title": "Microeconomic Principles", "credits": 3 },
+        { "code": "MIS 2502", "title": "Data and Analytics", "credits": 3 },
+        { "code": "MKTG 2101", "title": "Marketing Management", "credits": 3 },
+        { "code": "STAT 1102", "title": "Quantitative Methods for Business II", "credits": 4 }
+      ]
+    },
+    {
+      "term": "Spring 2026",
+      "status": "completed",
+      "courses": [
+        { "code": "ARTH 0813", "title": "The History of Art in Rome", "credits": 4 },
+        { "code": "FIN 0822", "title": "Investing for the Future", "credits": 4 },
+        { "code": "GUS 0842", "title": "Sustainable Environments", "credits": 3 },
+        { "code": "ITAL 1001", "title": "Italian Language I", "credits": 4 }
+      ]
+    },
+    {
+      "term": "Fall 2026",
+      "status": "in-progress",
+      "courses": [
+        { "code": "BA 2101", "title": "Professional Development Strategies", "credits": 1, "status": "completed" },
+        { "code": "BA 2196", "title": "Business Communications", "credits": 3 },
+        { "code": "IH 0852", "title": "Intellectual Heritage II: The Common Good", "credits": 3 },
+        { "code": "MIS 2402", "title": "Web Application Development", "credits": 3 },
+        { "code": "RMI 2101", "title": "Introduction to Risk Management", "credits": 3 },
+        { "code": "STAT 2103", "title": "Statistical Business Analytics", "credits": 4 }
+      ]
+    },
+    {
+      "term": "Spring 2027",
+      "status": "registered",
+      "courses": [
+        { "code": "ACCT 2903", "title": "Honors Financial and Managerial Accounting for Decision Making", "credits": 4 },
+        { "code": "BA 2501", "title": "Turning Numbers into Knowledge: Visualizing Data", "credits": 3 },
+        { "code": "EDUC 0823", "title": "Kids in Crisis: When Schools Don't Work", "credits": 3 },
+        { "code": "MIS 3406", "title": "Cloud Architecture", "credits": 3 },
+        { "code": "MIS 3506", "title": "User Experience Design", "credits": 3 }
+      ]
+    }
+  ],
+  "satisfiedByException": [
+    { "requirement": "fox.lower-foundation", "code": "MIS 2101", "satisfies": "MIS 1101", "note": "The audit lists MIS 2101 as \"Satisfies: MIS 1101\". MIS 2101 has no 2026-2027 card; MIS 1101 now carries the title Digital Systems." },
+    { "requirement": "fox.lower-foundation.acct-2103", "code": "ACCT 2903", "satisfies": "ACCT 2103", "note": "The audit applies ACCT 2903 (Honors) to the lower-division foundation. The BBA table names only ACCT 2103 (see needsReview honors-alternates)." },
+    { "requirement": "major.core", "code": "MIS 3406", "satisfies": "MIS 2501", "note": "The audit's Fox residency count lists MIS 3406 as \"Satisfies: MIS 2501\". MIS 2501 has no 2026-2027 card; MIS 3406 is itself a major course in the tree." },
+    { "requirement": "gened.gq", "code": "STAT 2103", "note": "STAT 2103 waives GenEd Quantitative Literacy; the audit lists it under GENED-GQ (in progress Fall 2026)." },
+    { "requirement": "gened.gs", "code": "GUS 0842", "satisfies": "ENST 0842", "note": "The audit lists GUS 0842 as \"Satisfies: ENST 0842\" for the second Science and Technology course." },
+    { "requirement": "gened.gu", "code": "STHM 0857", "satisfies": "AAAS 0857", "note": "The audit lists STHM 0857 as \"Satisfies: AAAS 0857\" for U.S. Society." }
+  ],
+  "audit": {
+    "credits": { "required": 124, "earned": 64, "inProgress": 32, "needed": 28 },
+    "open": [
+      {
+        "requirement": "gened.gg",
+        "label": "World Society",
+        "needs": "1 course",
+        "courses": 1,
+        "credits": 3,
+        "from": ["JST 0825", "LAS 0825", "SPAN 0825", "ADV 0853", "ANTH 0856", "CRIT 0857", "ENG 0857", "ADV 0953", "ANTH 0867", "GUS 0867", "SOC 0867", "ARBC 0868", "ASST 0868", "CHI 0868", "ENG 0868", "FREN 0868", "GER 0868", "HEBR 0868", "ITAL 0868", "JPNS 0868", "JST 0868", "KRN 0868", "LAS 0868", "POLS 0868", "RUS 0868", "SPAN 0868", "ASST 0863", "CRIT 0863", "PHIL 0863", "REL 0863", "MSP 0823", "ARBC 0968", "CHI 0968", "ENG 0968", "FREN 0968", "GER 0968", "ITAL 0968", "JPNS 0968", "LAS 0968", "POLS 0968", "RUS 0968", "SPAN 0968", "DANC 0827", "FMA 0869", "FMA 0969", "GUS 0831", "ASST 0862", "GUS 0862", "HIST 0862", "POLS 0862", "SOC 0862", "GUS 0866", "HIST 0866", "POLS 0866", "GSWS 0824", "HIST 0824", "HIST 0861", "HIST 0864", "POLS 0864", "HIST 0865", "HIST 0871", "HIST 0872", "HIST 0874", "HIST 0964", "LAS 0854", "POLS 0962", "SOC 0962", "POLS 0966", "THTR 0852", "THTR 0952", "URBE 0855", "GSWS 0801", "LAWU 0801", "LAWU 0875", "REL 0963", "ENG 0973", "THE 0877", "THM 0877"],
+        "note": "Or a Temple-approved study abroad program of three or more credits (see advisor). The list is the audit's (Fall 2025 catalog); 19 of its codes are not on the 2026-2027 World Society list."
+      },
+      { "requirement": "fox.upper-foundation", "label": "Financial management", "needs": "1 course", "courses": 1, "credits": 3, "from": ["FIN 3101", "FIN 3901"] },
+      { "requirement": "fox.upper-foundation", "label": "Operations management", "needs": "1 course", "courses": 1, "credits": 3, "from": ["MSOM 3101", "MSOM 3901"] },
+      { "requirement": "fox.upper-foundation", "label": "Strategic management", "needs": "1 course", "courses": 1, "credits": 3, "from": ["BA 4102", "BA 4902"] },
+      {
+        "requirement": "fox.upper-foundation.business-electives",
+        "label": "Business electives",
+        "needs": "9 credits, 3 courses",
+        "courses": 3,
+        "credits": 9,
+        "pool": ["ACCT 2***", "ACCT 3***", "AS 2***", "AS 3***", "BA 3***", "ECON 2***", "ECON 3***", "FIN 2***", "FIN 3***", "HCM 3***", "HRM 2***", "HRM 3***", "IB 2***", "IB 3***", "LGLS 3***", "MIS 3***", "MKTG 2***", "MKTG 3***", "RE 3***", "RMI 2***", "RMI 3***", "STAT 2***", "STAT 3***", "SCM 3***", "SGM 2***", "SGM 3***"],
+        "note": "Fox courses at the 2000-3999 level not required for the primary major."
+      },
+      { "requirement": "major.core", "label": "Web service programming", "needs": "1 course", "courses": 1, "credits": 3, "from": ["MIS 3502"] },
+      { "requirement": "major.capstone", "label": "Managing enterprise cybersecurity", "needs": "1 course", "courses": 1, "credits": 3, "from": ["MIS 4596"], "note": "Writing intensive requirement for the major. Recommended in the final semester." },
+      { "requirement": "free-electives", "label": "Free electives", "needs": "2 credits", "credits": 2, "note": "12 credits earned." },
+      { "track": "minor", "label": "Marketing minor: Marketing Research", "needs": "1 course", "courses": 1, "credits": 3, "from": ["MKTG 3511"], "note": "The minor needs 12 credits in 3 groups. Its prerequisites (ECON 1101, ECON 1102, MKTG 2101, BA 2196, STAT 2103) are complete or in progress. Non-prerequisite courses must be taken at Temple." },
+      { "track": "minor", "label": "Marketing minor: Consumer and Buyer Behavior", "needs": "1 course", "courses": 1, "credits": 3, "from": ["MKTG 3596"] },
+      { "track": "minor", "label": "Marketing minor electives", "needs": "2 courses", "courses": 2, "credits": 6, "from": ["MKTG 3501", "MKTG 3504", "MKTG 3506", "MKTG 3508", "MKTG 3509", "MKTG 3513", "MKTG 3514", "MKTG 3580"] }
+    ],
+    "applied": [
+      { "requirement": "gened.gw", "codes": ["ENG 0802"] },
+      { "requirement": "gened.gy", "codes": ["IH 0851"] },
+      { "requirement": "gened.gz", "codes": ["IH 0852"] },
+      { "requirement": "gened.gq", "codes": ["STAT 2103"] },
+      { "requirement": "gened.ga", "codes": ["ARTH 0813"] },
+      { "requirement": "gened.gb", "codes": ["SPSY 0828"] },
+      { "requirement": "gened.gd", "codes": ["EDUC 0823"] },
+      { "requirement": "gened.gs", "codes": ["ECE 0832", "GUS 0842"] },
+      { "requirement": "gened.gu", "codes": ["STHM 0857"] },
+      { "requirement": "fox.lower-foundation", "codes": ["ECON 1101", "ECON 1102", "HRM 1101", "BA 1103", "STAT 1001", "STAT 1102", "STAT 2103", "ACCT 2903", "BA 2501", "MIS 2101", "MKTG 2101", "BA 2101", "BA 2196", "RMI 2101"] },
+      { "requirement": "major.core", "codes": ["MIS 2402", "MIS 2502", "MIS 3406", "MIS 3506"] },
+      { "requirement": "free-electives", "codes": ["BA 1001", "SCTC 1021", "FIN 0822", "ITAL 1001"] }
+    ],
+    "notes": [
+      "The audit does not list MIS 1001, 2001, 3001 or 4001 (professional development in MIS, major.professional-development in the 2026-2027 tree) as required or open. Its catalog year is Fall 2025; see needsReview audit-catalog-year-differences.",
+      "The audit lists no Fox Forward points requirement (fox.forward)."
+    ]
+  }
 }

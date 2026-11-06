@@ -1,5 +1,4 @@
-import { courses, programs, sections, type ProgramCode } from "@/data";
-import { profileForProgram } from "@/components/student/student";
+import { courses, programs, sections, studentRecord, type ProgramCode } from "@/data";
 
 export type Day = "Mon" | "Tue" | "Wed" | "Thu" | "Fri";
 
@@ -147,9 +146,13 @@ function seed(program: ProgramCode): StartSlot[] {
   });
 }
 
-/* Whether the student opens on their own registration (the plan above) rather than a seed. */
+/*
+ * Whether the student opens on the registration above rather than a seed. Only Rafiat's
+ * Spring 2027 registration is encoded here; Allegra's record has a registered Spring 2027
+ * too, but it is not built into the week yet, so she still opens on her program's seed.
+ */
 export function opensOnRegistration(program: ProgramCode) {
-  return profileForProgram(program).record.terms.some((t) => t.status === "registered");
+  return program === studentRecord.program;
 }
 
 const SEEDS = new Map<ProgramCode, StartSlot[]>();
