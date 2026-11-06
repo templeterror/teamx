@@ -617,7 +617,7 @@ export type Board = {
   optional: Set<string>;
   /* Open terms on the board, in order: autoPlace's, the goal, and any a move reached. */
   openTerms: string[];
-  /* The term a drag or "Move to" may add after the last open one. */
+  /* The term a drag onto "add a term" creates after the last open one. */
   nextTerm: string;
   goal: string;
   placed: PlacedCourse[];

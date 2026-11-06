@@ -92,6 +92,8 @@ export function FourYearPlan() {
 
   const [drag, setDrag] = useState<DragState | null>(null);
   const [highlight, setHighlight] = useState<string | null>(null);
+  /* Terms ahead read as compact rows; "Edit" opens one into draggable cards. UI only, not saved. */
+  const [editing, setEditing] = useState<ReadonlySet<string>>(() => new Set());
   const [announcement, setAnnouncement] = useState("");
   const press = useRef<Press | null>(null);
   const ghost = useRef<HTMLDivElement>(null);
@@ -107,6 +109,14 @@ export function FourYearPlan() {
     if (!card || board.placement[id] === term) return;
     move(id, term);
     setAnnouncement(`${card.code ?? card.fills} moved to ${term === TRAY ? "Still to place" : term}.`);
+  }
+
+  function chooseCourse(card: Card, code: string) {
+    const term = termOf(card);
+    choose(card.id, code, term === TRAY ? undefined : term);
+    setAnnouncement(`${code} chosen for ${card.fills}.`);
+    /* The picker goes away with the choice; keep keyboard focus on the card it was in. */
+    requestAnimationFrame(() => document.getElementById(cardDomId(card.id))?.focus({ preventScroll: true }));
   }
 
   /* ---------- Pointer drag ---------- */
@@ -257,7 +267,7 @@ export function FourYearPlan() {
   /* Every year shares the same columns, Fall | Spring (| Summer), so a term lines up with the years above and below. */
   const hasSummer = columns.some((column) => isSummer(nameOf(column)));
 
-  const moveTargets = [...board.openTerms, board.nextTerm];
+  /* Courses already on the board count once, so an open slot's picker leaves them out. */
   const chosenElsewhere = (card: Card) =>
     new Set(board.cards.filter((other) => other.id !== card.id && other.code).map((other) => other.code!));
   const trayCards = board.cards.filter((card) => termOf(card) === TRAY);
@@ -275,10 +285,10 @@ export function FourYearPlan() {
 
   function renderCard(card: Card) {
     const issue = board.issues.get(card.id);
-    const term = termOf(card);
-    const taken = chosenElsewhere(card);
-    const swaps = card.options.filter((option) => option !== card.code && !taken.has(option));
     const name = card.code ?? card.fills;
+    /* Only an open slot picks its course here; a card with a course keeps it (it moves by dragging). */
+    const taken = card.code ? null : chosenElsewhere(card);
+    const picks = taken ? card.options.filter((option) => !taken.has(option)) : [];
     return (
       <article
         key={card.id}
@@ -289,7 +299,7 @@ export function FourYearPlan() {
         data-placeholder={card.code ? undefined : ""}
         data-dragging={drag?.id === card.id || undefined}
         data-highlight={highlight === card.slot.requirement || undefined}
-        aria-label={`${name}, ${card.title}, ${card.credits} credits`}
+        aria-label={`${name}, ${card.title}, ${card.credits} ${card.credits === 1 ? "credit" : "credits"}${card.code ? `, counts toward ${card.fills}` : ""}`}
         onPointerDown={(event) => onPointerDown(event, card)}
         onPointerMove={onPointerMove}
         onPointerUp={() => endDrag(true)}
@@ -297,41 +307,58 @@ export function FourYearPlan() {
         onLostPointerCapture={() => press.current?.active && endDrag(false)}
       >
         <div className="fy-card-top">
-          <span className="fy-card-code">{card.code ?? "Open slot"}</span>
-          <span className="fy-card-credits">{card.credits} cr</span>
+          <CardEyebrow card={card} />
           <span className="fy-grip" data-grip="" aria-hidden="true"><GripIcon /></span>
         </div>
         <p className="fy-card-title">{card.title}</p>
         <p className="fy-card-fills">{card.fills}</p>
         {issue && <IssueLine issue={issue} />}
-        <div className="fy-card-actions">
-          {swaps.length > 0 && (
-            <label className="fy-select">
-              <span className="fy-sr">Swap {name} for another course</span>
-              <select value="" onChange={(event) => event.target.value && choose(card.id, event.target.value)}>
-                <option value="" disabled>{swaps.length === 1 ? "1 other course" : `${swaps.length} other courses`}</option>
-                {swaps.map((code) => (
-                  <option key={code} value={code}>{code} · {courseTitle(code) ?? ""}</option>
-                ))}
-              </select>
-              <ChevronIcon />
-            </label>
-          )}
-          <label className="fy-select fy-select-move">
-            <span className="fy-sr">Move {name}</span>
-            <select value="" onChange={(event) => event.target.value && moveCard(card.id, event.target.value)}>
-              <option value="" disabled>Move to…</option>
-              {moveTargets.filter((target) => target !== term).map((target) => (
-                <option key={target} value={target}>
-                  {target}{target === board.nextTerm ? " (new term)" : ""}
-                </option>
+        {picks.length > 0 && (
+          <label className="fy-pick">
+            <span className="fy-sr">Choose a course for {card.fills}</span>
+            <select value="" onChange={(event) => event.target.value && chooseCourse(card, event.target.value)}>
+              <option value="" disabled>{picks.length === 1 ? "Pick the 1 course that fits" : `Pick from ${picks.length} courses`}</option>
+              {picks.map((code) => (
+                <option key={code} value={code}>{code} · {courseTitle(code) ?? "Title not in the bulletin data"}</option>
               ))}
-              {term !== TRAY && <option value={TRAY}>Still to place</option>}
             </select>
             <ChevronIcon />
           </label>
-        </div>
+        )}
       </article>
+    );
+  }
+
+  function toggleEditing(term: string) {
+    setEditing((previous) => {
+      const next = new Set(previous);
+      if (next.has(term)) next.delete(term);
+      else next.add(term);
+      return next;
+    });
+  }
+
+  /* A planned card as a record row: the same markup, so terms ahead read like the ones behind. */
+  function renderPlannedRow(card: Card) {
+    const issue = board.issues.get(card.id);
+    const title = card.code ? card.title : card.fills;
+    return (
+      <li key={card.id} id={cardDomId(card.id)} tabIndex={-1} className="fy-row" data-kind={card.kind}
+        data-placeholder={card.code ? undefined : ""}
+        data-highlight={highlight === card.slot.requirement || undefined}
+        title={issue ? issue.detail : card.code ? `Counts toward ${card.fills}` : undefined}>
+        <span className="fy-row-code">{card.code ?? "Open slot"}</span>
+        <span className="fy-row-title">
+          {issue && (
+            <span className="fy-row-issue" data-state={issue.state}>
+              {issue.state === "missing" ? <AlertIcon /> : <InfoIcon />}
+              <span className="fy-sr">{issue.text}. </span>
+            </span>
+          )}
+          {title}
+        </span>
+        <span className="fy-row-credits">{card.credits}</span>
+      </li>
     );
   }
 
@@ -351,12 +378,13 @@ export function FourYearPlan() {
     return null;
   }
 
-  function termHeader(name: string, credits: number, chip: ReactNode) {
+  function termHeader(name: string, credits: number, chip: ReactNode, action?: ReactNode) {
     const tone = creditTone(credits, name);
     return (
       <header className="fy-term-head">
         <h3>{name}</h3>
         {chip}
+        {action}
         <span className="fy-term-credits" data-tone={tone?.tone}>
           {credits} cr{tone && <span className="fy-term-credits-note"> · {tone.note}</span>}
         </span>
@@ -389,6 +417,8 @@ export function FourYearPlan() {
     const cards = board.cards.filter((card) => termOf(card) === term);
     const credits = cards.reduce((sum, card) => sum + card.credits, 0);
     const pastGoal = termOrder(term) > termOrder(board.goal);
+    const isEditing = editing.has(term);
+    const bodyId = `fy-term-body-${term.replace(/\W+/g, "-")}`;
     return (
       <section key={term} className="fy-term" data-state="open" data-season={seasonOf(term)} data-drop={term}
         data-over={drag?.over === term || undefined} aria-label={`${term}, planned`}>
@@ -396,10 +426,16 @@ export function FourYearPlan() {
           ? <span className="fy-chip" data-state="goal">Graduation goal</span>
           : pastGoal && cards.length
             ? <span className="fy-chip" data-state="late">Past your goal</span>
-            : <span className="fy-chip" data-state="open">Planned</span>)}
-        {cards.length
-          ? <div className="fy-cards">{cards.map(renderCard)}</div>
-          : <p className="fy-empty fy-drop-hint">Drag a course here, or use Move to… on a card</p>}
+            : <span className="fy-chip" data-state="open">Planned</span>,
+        <button type="button" className="btn empty fy-term-edit" aria-expanded={isEditing} aria-controls={bodyId}
+          onClick={() => toggleEditing(term)}>
+          {isEditing ? "Done" : "Edit"}<span className="fy-sr"> {term}</span>
+        </button>)}
+        {!cards.length
+          ? <p id={bodyId} className="fy-empty fy-drop-hint">Drag a course here</p>
+          : isEditing
+            ? <div id={bodyId} className="fy-cards">{cards.map(renderCard)}</div>
+            : <ul id={bodyId} className="fy-rows">{cards.map(renderPlannedRow)}</ul>}
       </section>
     );
   }
@@ -504,8 +540,7 @@ export function FourYearPlan() {
         <div ref={ghost} className="fy-ghost" data-kind={draggedCard.kind} data-locked={drag.locked || undefined}
           style={{ width: drag.width }} aria-hidden="true">
           <div className="fy-card-top">
-            <span className="fy-card-code">{draggedCard.code ?? "Open slot"}</span>
-            <span className="fy-card-credits">{draggedCard.credits} cr</span>
+            <CardEyebrow card={draggedCard} />
           </div>
           <p className="fy-card-title">{draggedCard.title}</p>
         </div>
@@ -527,6 +562,15 @@ function listOf(items: string[]) {
 
 export function cardDomId(id: string) {
   return `fy-card-${id.replace(/[^a-z0-9]+/gi, "-")}`;
+}
+
+/* The plan page's eyebrow: "PHYS 2922 · 4 credits", in the kind's ink. */
+function CardEyebrow({ card }: { card: Card }) {
+  return (
+    <span className="fy-card-code">
+      {card.code ?? "Open slot"} · {card.credits} {card.credits === 1 ? "credit" : "credits"}
+    </span>
+  );
 }
 
 function IssueLine({ issue }: { issue: Issue }) {
