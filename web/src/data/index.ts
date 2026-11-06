@@ -6,6 +6,9 @@ import misRecord from "./mis-student-record.json";
 import program from "./program.json";
 import sectionCatalog from "./sections.json";
 import record from "./student-record.json";
+import type { DarsAudit } from "./dars";
+
+export type { DarsAudit, DarsCourse, DarsPart, DarsRequirement, DarsSection, DarsStatus } from "./dars";
 
 export const bulletinYear = "2026-2027" as const;
 export const courses = courseCatalog.courses;
@@ -86,6 +89,8 @@ export type StudentRecord = {
   terms: RecordTerm[];
   satisfiedByException: SatisfiedByException[];
   audit?: StudentAudit;
+  /* The DARS audit requirement by requirement (see dars.ts). A new student has none. */
+  dars?: DarsAudit;
 };
 
 /* Rafiat's DARS audit (Computer Science BS): completed, in-progress and registered terms. */

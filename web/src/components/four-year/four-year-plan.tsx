@@ -494,6 +494,7 @@ export function FourYearPlan() {
             progress={progress}
             goal={board.goal}
             board={board}
+            dars={profile.dars}
             onShowRequirement={showRequirement}
             onShowCard={focusCard}
           />

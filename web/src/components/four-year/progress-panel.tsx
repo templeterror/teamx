@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { programs, type ProgramCode } from "@/data";
+import { programs, type DarsAudit, type ProgramCode } from "@/data";
 import type { GraduationProgress, RequirementProgress } from "@/components/progress/progress";
+import { DarsAuditView } from "./dars-audit";
 import { CREDIT_MAX, PLACEHOLDER, TRAY, type Board, type Card } from "./board";
 import { AlertIcon, ChevronIcon, InfoIcon } from "./icons";
 
@@ -13,6 +14,8 @@ type Props = {
   /* The student's graduation goal from setup: "Spring 2028". */
   goal: string;
   board: Board;
+  /* The student's DARS audit; null (the new student) hides the Plan / Degree audit switch. */
+  dars: DarsAudit | null;
   onShowRequirement: (requirement: string) => void;
   onShowCard: (cardId: string) => void;
 };
@@ -132,7 +135,8 @@ function toggleIn(set: (update: (previous: Set<string>) => Set<string>) => void,
   });
 }
 
-export function ProgressPanel({ program, minor, progress, goal, board, onShowRequirement, onShowCard }: Props) {
+export function ProgressPanel({ program, minor, progress, goal, board, dars, onShowRequirement, onShowCard }: Props) {
+  const [view, setView] = useState<"plan" | "audit">("plan");
   const [open, setOpen] = useState<Set<string>>(() => new Set());
   const [shownGroups, setShownGroups] = useState<Set<string>>(() => new Set());
   const { totalCredits: total, requirements } = progress;
@@ -289,61 +293,74 @@ export function ProgressPanel({ program, minor, progress, goal, board, onShowReq
         </ul>
       </div>
 
-      {(outOfOrder.length > 0 || overloaded.length > 0 || toCheck.length > 0) && (
-        <div className="fy-checks">
-          {outOfOrder.length > 0 && (
-            <p data-tone="warning">
-              <AlertIcon />
-              <span>
-                {outOfOrder.length === 1 ? "1 course is" : `${outOfOrder.length} courses are`} out of order:{" "}
-                {codeLinks(outOfOrder)}
-              </span>
-            </p>
-          )}
-          {overloaded.map(({ term, credits }) => (
-            <p key={term} data-tone="warning">
-              <AlertIcon />
-              <span>{term} is {credits} credits — over {CREDIT_MAX} needs approval</span>
-            </p>
+      {dars && (
+        <div className="fy-view-switch" role="group" aria-label="Requirements view">
+          {([["plan", "Plan"], ["audit", "Degree audit"]] as const).map(([id, label]) => (
+            <button key={id} type="button" aria-pressed={view === id} onClick={() => setView(id)}>{label}</button>
           ))}
-          {toCheck.length > 0 && (
-            <p>
-              <InfoIcon />
-              <span>
-                Check with your advisor:{" "}
-                {codeLinks(toCheck)}
-              </span>
-            </p>
-          )}
         </div>
       )}
 
-      <div className="fy-groups">
-        {groups.map(({ group, rows }) => {
-          const title = groupTitle(group, rows, program, minor);
-          /* "Free electives" holding one "Free electives" row: the row is its own heading. */
-          const solo = rows.length === 1 && rows[0].label.toLowerCase() === title.toLowerCase();
-          const expanded = solo || shownGroups.has(group);
-          const pending = rows.filter((row) => row.status === "missing" || row.status === "planned");
-          const visible = expanded ? rows : pending;
-          const hidden = rows.length - pending.length;
-          return (
-            <section key={group} className="fy-group"
-              {...(solo ? { "aria-label": title } : { "aria-labelledby": `fy-group-${group}` })}>
-              {!solo && <h3 id={`fy-group-${group}`} className="fy-group-head">{title}</h3>}
-              <ul className="fy-reqs">
-                {visible.map(renderRow)}
-              </ul>
-              {!solo && hidden > 0 && (
-                <button type="button" className="fy-group-more" aria-expanded={expanded}
-                  onClick={() => toggleIn(setShownGroups, group)}>
-                  {expanded ? "Show only what’s left" : `${hidden} more met or in progress`}
-                  <ChevronIcon />
-                </button>
-              )}
-            </section>
-          );
-        })}
+      {/* Both views stay mounted, so each keeps what was opened in it. */}
+      {dars && <div className="fy-view" hidden={view !== "audit"}><DarsAuditView dars={dars} /></div>}
+
+      <div className="fy-view" hidden={Boolean(dars) && view !== "plan"}>
+        {(outOfOrder.length > 0 || overloaded.length > 0 || toCheck.length > 0) && (
+          <div className="fy-checks">
+            {outOfOrder.length > 0 && (
+              <p data-tone="warning">
+                <AlertIcon />
+                <span>
+                  {outOfOrder.length === 1 ? "1 course is" : `${outOfOrder.length} courses are`} out of order:{" "}
+                  {codeLinks(outOfOrder)}
+                </span>
+              </p>
+            )}
+            {overloaded.map(({ term, credits }) => (
+              <p key={term} data-tone="warning">
+                <AlertIcon />
+                <span>{term} is {credits} credits — over {CREDIT_MAX} needs approval</span>
+              </p>
+            ))}
+            {toCheck.length > 0 && (
+              <p>
+                <InfoIcon />
+                <span>
+                  Check with your advisor:{" "}
+                  {codeLinks(toCheck)}
+                </span>
+              </p>
+            )}
+          </div>
+        )}
+
+        <div className="fy-groups">
+          {groups.map(({ group, rows }) => {
+            const title = groupTitle(group, rows, program, minor);
+            /* "Free electives" holding one "Free electives" row: the row is its own heading. */
+            const solo = rows.length === 1 && rows[0].label.toLowerCase() === title.toLowerCase();
+            const expanded = solo || shownGroups.has(group);
+            const pending = rows.filter((row) => row.status === "missing" || row.status === "planned");
+            const visible = expanded ? rows : pending;
+            const hidden = rows.length - pending.length;
+            return (
+              <section key={group} className="fy-group"
+                {...(solo ? { "aria-label": title } : { "aria-labelledby": `fy-group-${group}` })}>
+                {!solo && <h3 id={`fy-group-${group}`} className="fy-group-head">{title}</h3>}
+                <ul className="fy-reqs">
+                  {visible.map(renderRow)}
+                </ul>
+                {!solo && hidden > 0 && (
+                  <button type="button" className="fy-group-more" aria-expanded={expanded}
+                    onClick={() => toggleIn(setShownGroups, group)}>
+                    {expanded ? "Show only what’s left" : `${hidden} more met or in progress`}
+                    <ChevronIcon />
+                  </button>
+                )}
+              </section>
+            );
+          })}
+        </div>
       </div>
 
       <p className="fy-advisor">Confirm the plan with your advisor before you register.</p>

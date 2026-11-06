@@ -130,5 +130,555 @@
       "The audit does not list MIS 1001, 2001, 3001 or 4001 (professional development in MIS, major.professional-development in the 2026-2027 tree) as required or open. Its catalog year is Fall 2025; see needsReview audit-catalog-year-differences.",
       "The audit lists no Fox Forward points requirement (fox.forward)."
     ]
+  },
+  "dars": {
+    "prepared": "2026-11-05",
+    "catalog": "Fall 2025",
+    "program": "Management Information Systems BBA",
+    "sections": [
+      {
+        "title": "General Education",
+        "requirements": [
+          {
+            "id": "GENED-GW",
+            "title": "Analytic Reading and Writing",
+            "status": "met",
+            "courses": [
+              {
+                "term": "FL24",
+                "code": "ENG 0802",
+                "credits": 4,
+                "title": "Analytical Reading & Writing"
+              }
+            ]
+          },
+          {
+            "id": "GENED-GYZ",
+            "title": "Intellectual Heritage",
+            "status": "in-progress",
+            "courses": [
+              {
+                "term": "SP25",
+                "code": "IH 0851",
+                "credits": 3,
+                "title": "IH I: The Good Life"
+              },
+              {
+                "term": "FL26",
+                "code": "IH 0852",
+                "credits": 3,
+                "title": "IH II: The Common Good",
+                "inProgress": true
+              }
+            ]
+          },
+          {
+            "id": "GENED-GQ",
+            "title": "Quantitative Literacy",
+            "status": "in-progress",
+            "courses": [
+              {
+                "term": "FL26",
+                "code": "STAT 2103",
+                "credits": 4,
+                "title": "Statistical Business Analytics",
+                "inProgress": true
+              }
+            ]
+          },
+          {
+            "id": "GENED-GA",
+            "title": "Arts",
+            "status": "met",
+            "courses": [
+              {
+                "term": "SP26",
+                "code": "ARTH 0813",
+                "credits": 4,
+                "title": "The History of Art in Rome"
+              }
+            ]
+          },
+          {
+            "id": "GENED-GB",
+            "title": "Human Behavior",
+            "status": "met",
+            "courses": [
+              {
+                "term": "SP25",
+                "code": "SPSY 0828",
+                "credits": 3,
+                "title": "The Meaning of Madness"
+              }
+            ]
+          },
+          {
+            "id": "GENED-GD",
+            "title": "Race and Diversity",
+            "status": "in-progress",
+            "courses": [
+              {
+                "term": "SP27",
+                "code": "EDUC 0823",
+                "credits": 3,
+                "title": "Kids in Crisis",
+                "inProgress": true
+              }
+            ]
+          },
+          {
+            "id": "GENED-GG",
+            "title": "Global/World Society",
+            "status": "needs",
+            "needs": "1 course",
+            "selectFrom": "JST/LAS/SPAN 0825, ANTH 0856, HIST 0824/0861/0864, POLS 0962, THTR 0852 and other World Society courses, or Temple study abroad (3+ credits)"
+          },
+          {
+            "id": "GENED-GS",
+            "title": "Science and Technology I",
+            "status": "met",
+            "courses": [
+              {
+                "term": "FL25",
+                "code": "ECE 0832",
+                "credits": 3,
+                "title": "Digital World & Everyday Life"
+              }
+            ]
+          },
+          {
+            "id": "GENED-GS2",
+            "title": "Science and Technology II",
+            "status": "met",
+            "courses": [
+              {
+                "term": "SP26",
+                "code": "GUS 0842",
+                "credits": 3,
+                "title": "Sustainable Environments",
+                "satisfies": "ENST 0842"
+              }
+            ]
+          },
+          {
+            "id": "GENED-GU",
+            "title": "U.S. Society",
+            "status": "met",
+            "courses": [
+              {
+                "term": "SP25",
+                "code": "STHM 0857",
+                "credits": 3,
+                "title": "Sport & Leisure in Amer",
+                "satisfies": "AAAS 0857"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Fox School of Business",
+        "requirements": [
+          {
+            "id": "FOXLOWM1",
+            "title": "Lower-division foundation",
+            "status": "in-progress",
+            "courses": [
+              {
+                "term": "SP25",
+                "code": "ECON 1101",
+                "credits": 3,
+                "title": "Macroeconomic Principles"
+              },
+              {
+                "term": "FL25",
+                "code": "ECON 1102",
+                "credits": 3,
+                "title": "Microeconomic Principles"
+              },
+              {
+                "term": "FL24",
+                "code": "HRM 1101",
+                "credits": 3,
+                "title": "Leadership & Organ Management"
+              },
+              {
+                "term": "FL24",
+                "code": "BA 1103",
+                "credits": 3,
+                "title": "Legal and Ethical Reasoning"
+              },
+              {
+                "term": "SP25",
+                "code": "STAT 1001",
+                "credits": 3,
+                "title": "Quant Methods for Business I"
+              },
+              {
+                "term": "FL25",
+                "code": "STAT 1102",
+                "credits": 4,
+                "title": "Quant Methods for Business II"
+              },
+              {
+                "term": "FL26",
+                "code": "STAT 2103",
+                "credits": 4,
+                "title": "Statistical Business Analytics",
+                "inProgress": true
+              },
+              {
+                "term": "SP27",
+                "code": "ACCT 2903",
+                "credits": 4,
+                "title": "Honors Fin and Managerial Acc",
+                "inProgress": true
+              },
+              {
+                "term": "SP27",
+                "code": "BA 2501",
+                "credits": 3,
+                "title": "Visualizing Data",
+                "inProgress": true
+              },
+              {
+                "term": "FL24",
+                "code": "MIS 2101",
+                "credits": 3,
+                "title": "Digital Systems"
+              },
+              {
+                "term": "FL25",
+                "code": "MKTG 2101",
+                "credits": 3,
+                "title": "Marketing Management"
+              },
+              {
+                "term": "FL26",
+                "code": "BA 2101",
+                "credits": 1,
+                "title": "Prof Develop Strategies"
+              },
+              {
+                "term": "FL26",
+                "code": "BA 2196",
+                "credits": 3,
+                "title": "Business Communications",
+                "inProgress": true
+              },
+              {
+                "term": "FL26",
+                "code": "RMI 2101",
+                "credits": 3,
+                "title": "Intro to Risk Management",
+                "inProgress": true
+              }
+            ]
+          },
+          {
+            "id": "FOXUPP11",
+            "title": "Upper-division foundation",
+            "status": "needs",
+            "parts": [
+              {
+                "label": "Financial management",
+                "status": "needs",
+                "needs": "1 course",
+                "selectFrom": "FIN 3101 or 3901"
+              },
+              {
+                "label": "Operations management",
+                "status": "needs",
+                "needs": "1 course",
+                "selectFrom": "MSOM 3101 or 3901"
+              },
+              {
+                "label": "Strategic management",
+                "status": "needs",
+                "needs": "1 course",
+                "selectFrom": "BA 4102 or 4902"
+              },
+              {
+                "label": "Business electives",
+                "status": "needs",
+                "needs": "3 courses (9 credits)",
+                "selectFrom": "Fox courses at 2000–3999 not required for the major (ACCT, BA, ECON, FIN, HRM, IB, MIS 3xxx, MKTG, RMI, STAT, SCM, …)"
+              }
+            ]
+          },
+          {
+            "id": "RES-FOX",
+            "title": "Half of business courses at Temple",
+            "status": "in-progress",
+            "summary": {
+              "earned": 9,
+              "inProgress": 8,
+              "unit": "courses"
+            }
+          }
+        ]
+      },
+      {
+        "title": "MIS major",
+        "requirements": [
+          {
+            "id": "MIS-SBM2",
+            "title": "Major requirements",
+            "status": "needs",
+            "parts": [
+              {
+                "label": "Web application development",
+                "status": "in-progress",
+                "courses": [
+                  {
+                    "term": "FL26",
+                    "code": "MIS 2402",
+                    "credits": 3,
+                    "title": "Web Application Development",
+                    "inProgress": true
+                  }
+                ]
+              },
+              {
+                "label": "Data and analytics",
+                "status": "met",
+                "courses": [
+                  {
+                    "term": "FL25",
+                    "code": "MIS 2502",
+                    "credits": 3,
+                    "title": "Data and Analytics"
+                  }
+                ]
+              },
+              {
+                "label": "Cloud architecture",
+                "status": "in-progress",
+                "courses": [
+                  {
+                    "term": "SP27",
+                    "code": "MIS 3406",
+                    "credits": 3,
+                    "title": "Cloud Architecture",
+                    "inProgress": true,
+                    "satisfies": "MIS 2501"
+                  }
+                ]
+              },
+              {
+                "label": "User experience design",
+                "status": "in-progress",
+                "courses": [
+                  {
+                    "term": "SP27",
+                    "code": "MIS 3506",
+                    "credits": 3,
+                    "title": "User Experience Design",
+                    "inProgress": true
+                  }
+                ]
+              },
+              {
+                "label": "Web service programming",
+                "status": "needs",
+                "needs": "1 course",
+                "selectFrom": "MIS 3502"
+              },
+              {
+                "label": "Managing enterprise cybersecurity (writing intensive)",
+                "status": "needs",
+                "needs": "1 course",
+                "selectFrom": "MIS 4596",
+                "note": "Recommended in the final semester."
+              }
+            ]
+          },
+          {
+            "id": "MIS-RES1",
+            "title": "12 MIS credits at Temple",
+            "status": "in-progress",
+            "summary": {
+              "earned": 3,
+              "inProgress": 9,
+              "unit": "credits"
+            },
+            "courses": [
+              {
+                "term": "FL25",
+                "code": "MIS 2502",
+                "credits": 3,
+                "title": "Data and Analytics"
+              },
+              {
+                "term": "FL26",
+                "code": "MIS 2402",
+                "credits": 3,
+                "title": "Web Application Development",
+                "inProgress": true
+              },
+              {
+                "term": "SP27",
+                "code": "MIS 3406",
+                "credits": 3,
+                "title": "Cloud Architecture",
+                "inProgress": true
+              },
+              {
+                "term": "SP27",
+                "code": "MIS 3506",
+                "credits": 3,
+                "title": "User Experience Design",
+                "inProgress": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Free electives",
+        "requirements": [
+          {
+            "id": "FREEMIS",
+            "title": "Free electives",
+            "status": "needs",
+            "summary": {
+              "earned": 12,
+              "needs": 2,
+              "unit": "credits"
+            },
+            "needs": "2 credits",
+            "courses": [
+              {
+                "term": "FL24",
+                "code": "BA 1001",
+                "credits": 1,
+                "title": "Business Seminar I"
+              },
+              {
+                "term": "FL24",
+                "code": "SCTC 1021",
+                "credits": 3,
+                "title": "Journey of the Algorithm"
+              },
+              {
+                "term": "SP26",
+                "code": "FIN 0822",
+                "credits": 4,
+                "title": "Investing for the Future"
+              },
+              {
+                "term": "SP26",
+                "code": "ITAL 1001",
+                "credits": 4,
+                "title": "Italian Language I"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Marketing minor",
+        "requirements": [
+          {
+            "id": "MKTG-NR1",
+            "title": "Minor prerequisites",
+            "status": "in-progress",
+            "summary": {
+              "earned": 9,
+              "inProgress": 7,
+              "unit": "credits"
+            },
+            "courses": [
+              {
+                "term": "SP25",
+                "code": "ECON 1101",
+                "credits": 3,
+                "title": "Macroeconomic Principles"
+              },
+              {
+                "term": "FL25",
+                "code": "ECON 1102",
+                "credits": 3,
+                "title": "Microeconomic Principles"
+              },
+              {
+                "term": "FL25",
+                "code": "MKTG 2101",
+                "credits": 3,
+                "title": "Marketing Management"
+              },
+              {
+                "term": "FL26",
+                "code": "BA 2196",
+                "credits": 3,
+                "title": "Business Communications",
+                "inProgress": true
+              },
+              {
+                "term": "FL26",
+                "code": "STAT 2103",
+                "credits": 4,
+                "title": "Statistical Business Analytics",
+                "inProgress": true
+              }
+            ]
+          },
+          {
+            "id": "MKTG-NR2",
+            "title": "Minor requirements",
+            "status": "needs",
+            "needs": "12 credits",
+            "note": "All non-prerequisite courses must be taken at Temple.",
+            "parts": [
+              {
+                "label": "Marketing course",
+                "status": "needs",
+                "needs": "1 course",
+                "selectFrom": "MKTG 3511"
+              },
+              {
+                "label": "Marketing course",
+                "status": "needs",
+                "needs": "1 course",
+                "selectFrom": "MKTG 3596"
+              },
+              {
+                "label": "Marketing electives",
+                "status": "needs",
+                "needs": "2 courses",
+                "selectFrom": "MKTG 3501, 3504, 3506, 3508, 3509, 3513, 3514, 3580"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Total hours",
+        "requirements": [
+          {
+            "id": "FOXCUM",
+            "title": "Credits that count toward the BBA (124)",
+            "status": "needs",
+            "summary": {
+              "earned": 64,
+              "inProgress": 32,
+              "needs": 28,
+              "unit": "credits"
+            },
+            "needs": "28 credits"
+          },
+          {
+            "id": "RESIDE45",
+            "title": "45 of the last 60 credits at Temple",
+            "status": "in-progress",
+            "summary": {
+              "earned": 32,
+              "inProgress": 32,
+              "unit": "credits"
+            }
+          }
+        ]
+      }
+    ]
   }
 }
