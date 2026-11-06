@@ -1084,6 +1084,180 @@
   line-height: 1.5;
 }
 
+/* ---------- Plan / Degree audit ---------- */
+
+/* Setup's segmented control, at the panel's size: a muted track, the chosen view raised in surface. */
+.fy-view-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3px;
+  margin-top: -8px;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--muted);
+}
+
+.fy-view-switch button {
+  position: relative;
+  min-height: 38px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 7px;
+  background: none;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: var(--text-caption);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease-out, color 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+/* 44px to the touch: the track's padding counts toward each segment's target. */
+.fy-view-switch button::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+}
+
+.fy-view-switch button[aria-pressed="true"] {
+  background: var(--surface);
+  box-shadow: 0 0 0 1.5px var(--ink);
+  color: var(--ink);
+}
+
+.fy-view-switch button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .fy-view-switch button[aria-pressed="false"]:hover {
+    background: var(--surface);
+    color: var(--ink);
+  }
+}
+
+.fy-view {
+  display: grid;
+  gap: 20px;
+}
+
+.fy-view[hidden] {
+  display: none;
+}
+
+.fy-dars {
+  display: grid;
+  gap: 16px;
+}
+
+.fy-dars-source {
+  margin: 0;
+  color: var(--ink-tertiary);
+  font-size: var(--text-label);
+  line-height: 1.5;
+}
+
+/* What is left, in Temple red; in progress carries the legend's swatch; met stays quiet. */
+.fy-dars-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.fy-dars-status > i {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.fy-dars-req[data-status="needs"] > .fy-req-head .fy-req-status,
+.fy-dars-part[data-status="needs"] > .fy-dars-part-head .fy-dars-status {
+  color: var(--fy-done-ink);
+  font-weight: 500;
+}
+
+.fy-dars-part[data-status="met"] .fy-dars-status,
+.fy-dars-part[data-status="in-progress"] .fy-dars-status {
+  color: var(--ink-tertiary);
+}
+
+/* A row without anything to open: same row, no chevron, no hover. */
+.fy-req-head[data-static] {
+  cursor: default;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .fy-req-head[data-static]:hover {
+    background: none;
+  }
+}
+
+.fy-dars-summary {
+  display: block;
+  margin-top: 2px;
+  color: var(--ink-tertiary);
+  font-size: var(--text-label);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.fy-dars-parts {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fy-dars-part {
+  display: grid;
+  gap: 4px;
+}
+
+.fy-dars-part + .fy-dars-part {
+  padding-top: 10px;
+  border-top: var(--hairline) solid var(--line);
+}
+
+.fy-dars-part-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.fy-dars-part-label {
+  min-width: 0;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* Term · code · title, credits flush right; the swatch says done or in progress. */
+.fy-dars-courses li {
+  align-items: baseline;
+}
+
+.fy-dars-courses i {
+  align-self: center;
+}
+
+.fy-dars-course {
+  display: grid;
+  min-width: 0;
+}
+
+.fy-dars-course .fy-req-code {
+  font-weight: 500;
+}
+
+.fy-dars-sub {
+  color: var(--ink-tertiary);
+}
+
 /* ---------- Motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1096,7 +1270,8 @@
   .fy-inline-link,
   .fy-req-head,
   .fy-req-head > .fy-chevron,
-  .fy-group-more {
+  .fy-group-more,
+  .fy-view-switch button {
     transition: none;
   }
 

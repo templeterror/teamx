@@ -19,6 +19,7 @@ import {
   misStudentRecord,
   programs,
   studentRecord,
+  type DarsAudit,
   type ProgramCode,
   type StudentRecord,
 } from "@/data";
@@ -42,6 +43,8 @@ export type Profile = {
   /* "Computer Science · BS" */
   programLabel: string;
   record: StudentRecord;
+  /* The record's DARS audit, requirement by requirement; null for the new student. */
+  dars: DarsAudit | null;
 };
 
 /* "Computer Science · BS": the program's name and the degree letters its code ends with. */
@@ -51,7 +54,7 @@ function programLabel(code: ProgramCode) {
 }
 
 function profile(id: "rafiat" | "allegra", name: string, email: string | null, record: StudentRecord): Profile {
-  return { id, key: id, isNew: false, name, email, program: record.program, programLabel: programLabel(record.program), record };
+  return { id, key: id, isNew: false, name, email, program: record.program, programLabel: programLabel(record.program), record, dars: record.dars ?? null };
 }
 
 /* The people with a record, default first: sign-in and the top bar's menu list them in this order, then the new student. */
@@ -94,6 +97,7 @@ const NEW_STUDENTS = new Map<ProgramCode, Profile>(
       program,
       programLabel: programLabel(program),
       record: newStudentRecord(program),
+      dars: null,
     },
   ]),
 );

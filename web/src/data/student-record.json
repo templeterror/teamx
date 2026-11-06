@@ -87,5 +87,728 @@
       { "track": "honors", "label": "University Honors", "needs": "IH 0951 and 3 more Honors courses at 2000 or above" },
       { "track": "minor", "label": "UX/UI Design minor", "needs": "DES 2002, DES 2522, DES 3301 and 6 elective credits", "note": "15 credits left; 6 must be taken at Temple." }
     ]
+  },
+  "dars": {
+    "prepared": "2026-10-31",
+    "catalog": "Fall 2025",
+    "program": "Computer Science BS",
+    "sections": [
+      {
+        "title": "General Education",
+        "requirements": [
+          {
+            "id": "GENED-GW",
+            "title": "Analytic Reading and Writing",
+            "status": "met",
+            "courses": [
+              {
+                "term": "FL25",
+                "code": "ENG 0902",
+                "credits": 4,
+                "title": "Hon Analytical Reading/Writing",
+                "satisfies": "ENG 0802"
+              }
+            ]
+          },
+          {
+            "id": "GENED-GYZ",
+            "title": "Intellectual Heritage",
+            "status": "needs",
+            "parts": [
+              {
+                "label": "Intellectual Heritage I (GY)",
+                "status": "needs",
+                "needs": "1 course",
+                "selectFrom": "IH 0851 or 0951"
+              },
+              {
+                "label": "Intellectual Heritage II (GZ)",
+                "status": "met",
+                "courses": [
+                  {
+                    "term": "SP26",
+                    "code": "IH 0952",
+                    "credits": 3,
+                    "title": "Honors IH II: The Common Good",
+                    "satisfies": "IH 0852"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "GENED-GQ",
+            "title": "Quantitative Literacy",
+            "status": "met",
+            "courses": [
+              {
+                "term": "FL24",
+                "code": "MATH 1041",
+                "credits": 4,
+                "title": "Calculus I"
+              }
+            ]
+          },
+          {
+            "id": "GENED-GA",
+            "title": "Arts",
+            "status": "in-progress",
+            "courses": [
+              {
+                "term": "SP27",
+                "code": "PHIL 0847",
+                "credits": 3,
+                "title": "The Meaning of the Arts",
+                "inProgress": true
+              }
+            ]
+          },
+          {
+            "id": "GENED-GB",
+            "title": "Human Behavior",
+            "status": "met",
+            "courses": [
+              {
+                "term": "FL24",
+                "code": "ANTH 0915",
+                "credits": 3,
+                "title": "Honors Language in Society",
+                "satisfies": "ANTH 0815"
+              }
+            ]
+          },
+          {
+            "id": "GENED-GD",
+            "title": "Race and Diversity",
+            "status": "in-progress",
+            "courses": [
+              {
+                "term": "FL26",
+                "code": "AAAS 0829",
+                "credits": 3,
+                "title": "Hist Signif Race in Amer",
+                "inProgress": true
+              }
+            ]
+          },
+          {
+            "id": "GENED-GG",
+            "title": "Global/World Society",
+            "status": "met",
+            "byException": true,
+            "note": "Met by a DARS exception."
+          },
+          {
+            "id": "GENED-GS",
+            "title": "Science and Technology I",
+            "status": "needs",
+            "needs": "1 course",
+            "selectFrom": "A GS course, or the first course of an approved science sequence (e.g. PHYS 1061, 2021, 2921)",
+            "note": "Waived by the major's lab science sequence."
+          },
+          {
+            "id": "GENED-GS2",
+            "title": "Science and Technology II",
+            "status": "needs",
+            "needs": "1 course",
+            "selectFrom": "A GS course, or the second course of an approved science sequence (e.g. PHYS 1062, 2022, 2922)",
+            "note": "Waived by the major's lab science sequence."
+          },
+          {
+            "id": "GENED-GU",
+            "title": "U.S. Society",
+            "status": "in-progress",
+            "courses": [
+              {
+                "term": "SP27",
+                "code": "AMST 0855",
+                "credits": 3,
+                "title": "Why care about College?",
+                "inProgress": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "University Honors",
+        "requirements": [
+          {
+            "id": "CORE-HOF",
+            "title": "University Honors curriculum",
+            "status": "needs",
+            "parts": [
+              {
+                "label": "Honors Analytical Reading & Writing",
+                "status": "met",
+                "courses": [
+                  {
+                    "term": "FL25",
+                    "code": "ENG 0902",
+                    "credits": 4,
+                    "title": "Hon Analytical Reading/Writing"
+                  }
+                ]
+              },
+              {
+                "label": "Honors Intellectual Heritage I & II",
+                "status": "needs",
+                "needs": "1 course",
+                "courses": [
+                  {
+                    "term": "SP26",
+                    "code": "IH 0952",
+                    "credits": 3,
+                    "title": "Honors IH II: The Common Good"
+                  }
+                ],
+                "selectFrom": "IH 0951"
+              },
+              {
+                "label": "Four Honors courses (2000 or above)",
+                "status": "needs",
+                "needs": "3 courses",
+                "courses": [
+                  {
+                    "term": "SP25",
+                    "code": "BA 3980",
+                    "credits": 3,
+                    "title": "Honors Special Topics"
+                  }
+                ]
+              },
+              {
+                "label": "Three Honors courses (any level)",
+                "status": "met",
+                "courses": [
+                  {
+                    "term": "FL24",
+                    "code": "ANTH 0915",
+                    "credits": 3,
+                    "title": "Honors Language in Society"
+                  },
+                  {
+                    "term": "FL24",
+                    "code": "CIS 1966",
+                    "credits": 4,
+                    "title": "Honors Math Concepts in CS I"
+                  },
+                  {
+                    "term": "FL24",
+                    "code": "HNRS 1901",
+                    "credits": 1,
+                    "title": "Honors First Year Seminar I"
+                  },
+                  {
+                    "term": "SP25",
+                    "code": "ECON 1902",
+                    "credits": 3,
+                    "title": "Honors Microecon. Principles"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "College of Science and Technology",
+        "requirements": [
+          {
+            "id": "CSTPROFDV",
+            "title": "First-year seminar",
+            "status": "met",
+            "courses": [
+              {
+                "term": "FL24",
+                "code": "HNRS 1901",
+                "credits": 1,
+                "title": "Honors First Year Seminar I"
+              }
+            ]
+          },
+          {
+            "id": "CAS-ULS",
+            "title": "45 upper-level credits in CLA, CST or ENGR",
+            "status": "needs",
+            "summary": {
+              "earned": 15,
+              "inProgress": 22,
+              "needs": 8,
+              "unit": "credits"
+            },
+            "needs": "8 credits",
+            "courses": [
+              {
+                "term": "FL25",
+                "code": "CIS 2107",
+                "credits": 4,
+                "title": "Comp Sys & Low-Level Program"
+              },
+              {
+                "term": "FL25",
+                "code": "CIS 2168",
+                "credits": 4,
+                "title": "Data Structures"
+              },
+              {
+                "term": "SP26",
+                "code": "CIS 3207",
+                "credits": 4,
+                "title": "Intro Systems Prog & Oper Sys"
+              },
+              {
+                "term": "SP26",
+                "code": "CIS 3603",
+                "credits": 3,
+                "title": "User Experience Design"
+              },
+              {
+                "term": "FL26",
+                "code": "CIS 2033",
+                "credits": 3,
+                "title": "Computational Prob & Stat",
+                "inProgress": true
+              },
+              {
+                "term": "FL26",
+                "code": "CIS 2166",
+                "credits": 4,
+                "title": "Math Concepts in Computing II",
+                "inProgress": true
+              },
+              {
+                "term": "FL26",
+                "code": "CIS 3100",
+                "credits": 2,
+                "title": "Special Topics in CIS",
+                "inProgress": true
+              },
+              {
+                "term": "FL26",
+                "code": "CIS 4345",
+                "credits": 3,
+                "title": "Intro to Cloud Computing",
+                "inProgress": true
+              },
+              {
+                "term": "SP27",
+                "code": "CIS 3296",
+                "credits": 4,
+                "title": "Software Design",
+                "inProgress": true
+              },
+              {
+                "term": "SP27",
+                "code": "CIS 4360",
+                "credits": 3,
+                "title": "Seminar Topics in Comp Sci",
+                "inProgress": true
+              },
+              {
+                "term": "SP27",
+                "code": "CIS 4526",
+                "credits": 3,
+                "title": "Fndtns of Machine Learning",
+                "inProgress": true
+              }
+            ],
+            "selectFrom": "CLA, CST or ENGR 2000–4999"
+          }
+        ]
+      },
+      {
+        "title": "Computer Science major",
+        "requirements": [
+          {
+            "id": "CISS.TBS",
+            "title": "Major requirements",
+            "status": "needs",
+            "parts": [
+              {
+                "label": "Intro to Academics in Computer Science",
+                "status": "met",
+                "courses": [
+                  {
+                    "term": "SP26",
+                    "code": "CIS 1001",
+                    "credits": 1,
+                    "title": "Intro to Academics in Comp Sc"
+                  }
+                ]
+              },
+              {
+                "label": "Programming",
+                "status": "met",
+                "note": "Met by a DARS exception."
+              },
+              {
+                "label": "Program Design and Abstraction",
+                "status": "met",
+                "courses": [
+                  {
+                    "term": "SP25",
+                    "code": "CIS 1068",
+                    "credits": 4,
+                    "title": "Program Design & Abstraction"
+                  }
+                ]
+              },
+              {
+                "label": "Math Concepts in Computing I",
+                "status": "met",
+                "courses": [
+                  {
+                    "term": "FL24",
+                    "code": "CIS 1966",
+                    "credits": 4,
+                    "title": "Honors Math Concepts in CS I",
+                    "satisfies": "CIS 1166"
+                  }
+                ]
+              },
+              {
+                "label": "Computational Probability and Statistics",
+                "status": "in-progress",
+                "courses": [
+                  {
+                    "term": "FL26",
+                    "code": "CIS 2033",
+                    "credits": 3,
+                    "title": "Computational Prob & Stat",
+                    "inProgress": true
+                  }
+                ]
+              },
+              {
+                "label": "Computer Systems",
+                "status": "met",
+                "courses": [
+                  {
+                    "term": "FL25",
+                    "code": "CIS 2107",
+                    "credits": 4,
+                    "title": "Comp Sys & Low-Level Program"
+                  }
+                ]
+              },
+              {
+                "label": "Math Concepts in Computing II",
+                "status": "in-progress",
+                "courses": [
+                  {
+                    "term": "FL26",
+                    "code": "CIS 2166",
+                    "credits": 4,
+                    "title": "Math Concepts in Computing II",
+                    "inProgress": true
+                  }
+                ]
+              },
+              {
+                "label": "Data Structures",
+                "status": "met",
+                "courses": [
+                  {
+                    "term": "FL25",
+                    "code": "CIS 2168",
+                    "credits": 4,
+                    "title": "Data Structures"
+                  }
+                ]
+              },
+              {
+                "label": "Systems Programming",
+                "status": "met",
+                "courses": [
+                  {
+                    "term": "SP26",
+                    "code": "CIS 3207",
+                    "credits": 4,
+                    "title": "Intro Systems Prog & Oper Sys"
+                  }
+                ]
+              },
+              {
+                "label": "Data Structures and Algorithms",
+                "status": "needs",
+                "needs": "1 course",
+                "selectFrom": "CIS 3223"
+              },
+              {
+                "label": "Software Design (writing intensive)",
+                "status": "in-progress",
+                "courses": [
+                  {
+                    "term": "SP27",
+                    "code": "CIS 3296",
+                    "credits": 4,
+                    "title": "Software Design",
+                    "inProgress": true
+                  }
+                ]
+              },
+              {
+                "label": "Capstone (writing intensive)",
+                "status": "needs",
+                "needs": "1 course",
+                "selectFrom": "CIS 4397 or 4398"
+              },
+              {
+                "label": "Four to five CIS electives (15–16 credits)",
+                "status": "needs",
+                "needs": "1 credit",
+                "courses": [
+                  {
+                    "term": "SP26",
+                    "code": "CIS 3603",
+                    "credits": 3,
+                    "title": "User Experience Design"
+                  },
+                  {
+                    "term": "FL26",
+                    "code": "CIS 3100",
+                    "credits": 2,
+                    "title": "Special Topics in CIS",
+                    "inProgress": true
+                  },
+                  {
+                    "term": "FL26",
+                    "code": "CIS 4345",
+                    "credits": 3,
+                    "title": "Intro to Cloud Computing",
+                    "inProgress": true
+                  },
+                  {
+                    "term": "SP27",
+                    "code": "CIS 4360",
+                    "credits": 3,
+                    "title": "Seminar Topics in Comp Sci",
+                    "inProgress": true
+                  },
+                  {
+                    "term": "SP27",
+                    "code": "CIS 4526",
+                    "credits": 3,
+                    "title": "Fndtns of Machine Learning",
+                    "inProgress": true
+                  }
+                ],
+                "selectFrom": "CIS 3000–4000 electives, or one of MATH 2043, 2101, 2103, 2943",
+                "note": "3 credits earned, 11 in progress."
+              },
+              {
+                "label": "Calculus I",
+                "status": "met",
+                "courses": [
+                  {
+                    "term": "FL24",
+                    "code": "MATH 1041",
+                    "credits": 4,
+                    "title": "Calculus I"
+                  }
+                ]
+              },
+              {
+                "label": "Calculus II",
+                "status": "met",
+                "courses": [
+                  {
+                    "term": "SP26",
+                    "code": "MATH 1042",
+                    "credits": 4,
+                    "title": "Calculus II"
+                  }
+                ]
+              },
+              {
+                "label": "Two sequenced lab science courses",
+                "status": "needs",
+                "needs": "1 sequence",
+                "selectFrom": "BIOL 1011/1111/1911 + 1012/1112/1912; CHEM 1031 + 1033 and 1032 + 1034; PHYS 1061/2021/2921 + 1062/2022/2922; or EES 2001 + 2011/2021/2061/3051"
+              }
+            ]
+          },
+          {
+            "id": "CIS.BS",
+            "title": "Major residency",
+            "status": "met",
+            "parts": [
+              {
+                "label": "At least 9 major courses at Temple",
+                "status": "met",
+                "note": "9 courses."
+              },
+              {
+                "label": "At least 7 CIS courses at Temple",
+                "status": "met",
+                "note": "7 courses."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "UX/UI Design minor",
+        "requirements": [
+          {
+            "id": "UXUI-NR",
+            "title": "Minor requirements",
+            "status": "needs",
+            "summary": {
+              "earned": 3,
+              "needs": 15,
+              "unit": "credits"
+            },
+            "parts": [
+              {
+                "label": "Foundation course",
+                "status": "met",
+                "courses": [
+                  {
+                    "term": "SP26",
+                    "code": "ART 1012",
+                    "credits": 3,
+                    "title": "Intro to Vis Lang-Design"
+                  }
+                ]
+              },
+              {
+                "label": "Digital tools course",
+                "status": "needs",
+                "needs": "1 course",
+                "selectFrom": "DES 2002"
+              },
+              {
+                "label": "Beginner UI/UX course",
+                "status": "needs",
+                "needs": "1 course",
+                "selectFrom": "DES 2522"
+              },
+              {
+                "label": "UI/UX course",
+                "status": "needs",
+                "needs": "1 course",
+                "selectFrom": "DES 3301"
+              },
+              {
+                "label": "Elective courses",
+                "status": "needs",
+                "needs": "6 credits",
+                "selectFrom": "DES 3000-level studios, ADV 2002/3013/3031, ARCH, MIS 3506 and others"
+              }
+            ]
+          },
+          {
+            "id": "UXUI-NRES",
+            "title": "Minor residency",
+            "status": "needs",
+            "summary": {
+              "earned": 3,
+              "needs": 6,
+              "unit": "credits"
+            },
+            "needs": "6 credits at Temple",
+            "courses": [
+              {
+                "term": "SP26",
+                "code": "ART 1012",
+                "credits": 3,
+                "title": "Intro to Vis Lang-Design"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Free electives",
+        "requirements": [
+          {
+            "id": "FREECSBS",
+            "title": "Free electives",
+            "status": "needs",
+            "summary": {
+              "earned": 13,
+              "inProgress": 2,
+              "needs": 9,
+              "unit": "credits"
+            },
+            "needs": "9 credits",
+            "courses": [
+              {
+                "term": "SP25",
+                "code": "BA 3980",
+                "credits": 3,
+                "title": "Honors Special Topics"
+              },
+              {
+                "term": "SP25",
+                "code": "ECON 1902",
+                "credits": 3,
+                "title": "Honors Microecon. Principles"
+              },
+              {
+                "term": "SP25",
+                "code": "FMA 1141",
+                "credits": 4,
+                "title": "Film & Video Foundations I"
+              },
+              {
+                "term": "SP26",
+                "code": "ART 1012",
+                "credits": 3,
+                "title": "Intro to Vis Lang-Design"
+              },
+              {
+                "term": "FL26",
+                "code": "ACTV 1042",
+                "credits": 2,
+                "title": "Beginning Tennis",
+                "inProgress": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Total hours",
+        "requirements": [
+          {
+            "id": "ASCREAA",
+            "title": "Credits that count toward the degree (123)",
+            "status": "needs",
+            "summary": {
+              "earned": 56,
+              "inProgress": 33,
+              "needs": 34,
+              "unit": "credits"
+            },
+            "needs": "34 credits",
+            "parts": [
+              {
+                "label": "90 credits in CLA, CST or ENGR",
+                "status": "in-progress",
+                "note": "45 earned, 31 in progress."
+              },
+              {
+                "label": "Courses outside CLA, CST or ENGR",
+                "status": "met",
+                "note": "11 earned, 2 in progress."
+              }
+            ]
+          },
+          {
+            "id": "RESIDE45",
+            "title": "45 of the last 60 credits at Temple",
+            "status": "in-progress",
+            "summary": {
+              "earned": 30,
+              "inProgress": 33,
+              "unit": "credits"
+            }
+          }
+        ]
+      }
+    ]
   }
 }
